@@ -1,0 +1,18 @@
+@mixin light-theme {
+    --color-content:#282d3e;
+    --color-primary:#fe8e25;
+    --color-background:#ffffff;
+}
+
+@mixin dark-theme {
+    --color-content:#ffffff;
+    --color-primary:#fe8e25;
+    --color-background:#282d3e;
+}
+:root{
+    @include light-theme;
+
+}
+[data-theme="dark"]{
+    @include dark-theme;
+}
