@@ -1,7 +1,5 @@
 <template>
-    <v-app-bar>
-        test
-    </v-app-bar>
+    test
 </template>
 
 <script lang="ts">

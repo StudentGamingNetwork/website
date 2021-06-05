@@ -1,11 +1,9 @@
 <template>
-    <v-app>
-        <SHeader />
-        <SPage>
-            test SPAGE
-        </SPage>
-        <SFooter />
-    </v-app>
+    <SHeader />
+    <SPage>
+        test SPAGE
+    </SPage>
+    <SFooter />
 </template>
 
 <script lang="ts">
