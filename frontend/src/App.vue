@@ -1,19 +1,25 @@
 <template>
-    <img
-        alt="Vue logo"
-        src="./assets/logo.png"
-    >
-    <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+    <v-app>
+        <SHeader />
+        <SPage>
+            test SPAGE
+        </SPage>
+        <SFooter />
+    </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import SPage from "@/components/template/Page.vue";
+import SHeader from "@/components/template/Header.vue";
+import SFooter from "@/components/template/Footer.vue";
 
 export default defineComponent({
     name: "App",
     components: {
-        HelloWorld
+        SFooter,
+        SHeader,
+        SPage
     }
 });
 </script>

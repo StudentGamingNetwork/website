@@ -48,7 +48,6 @@ module.exports = {
         "prefer-template": "error",
         "quotes": ["error", "double", { "allowTemplateLiterals": true }],
         "semi": ["error", "always"],
-        "sort-keys-fix/sort-keys-fix": "warn",
         "space-infix-ops": ["error"],
         "template-curly-spacing": ["error", "always"],
         "vue/html-indent": ["error", 4]
