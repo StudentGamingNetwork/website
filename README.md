@@ -22,8 +22,8 @@ Le but est de pouvoir apprendre et s'améliorer en développement web, tout en c
 
 # Organisation
 
-- Le dossier [`backend`](https://github.com/Student-Gaming-Network/website/tree/master/backend) contient le code source du serveur du SGN.
-- Le dossier [`frontend`](https://github.com/Student-Gaming-Network/website/tree/master/frontend) contient le code source du client web.
+- Le dossier [`backend`](https://github.com/StudentGamingNetwork/website/tree/master/backend) contient le code source du serveur du SGN.
+- Le dossier [`frontend`](https://github.com/StudentGamingNetwork/website/tree/master/frontend) contient le code source du client web.
 
 Pour pouvoir les tester chez vous, vous devez avoir [Node.js](https://nodejs.org/en/) et suivre leur README respectif.
 
