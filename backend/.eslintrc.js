@@ -16,11 +16,12 @@ module.exports = {
     },
     plugins: [
         "@typescript-eslint",
-        "sort-keys-fix",
-        "import"
+        "import",
+        "sort-keys-custom-order"
     ],
     root: true,
     rules: {
+        "@typescript-eslint/member-delimiter-style": ["error"],
         "@typescript-eslint/type-annotation-spacing": ["error"],
         "array-bracket-spacing": ["error", "never"],
         "arrow-spacing": ["error"],
@@ -37,7 +38,10 @@ module.exports = {
         "prefer-template": "error",
         "quotes": ["error", "double", { "allowTemplateLiterals": true }],
         "semi": ["error", "always"],
-        "sort-keys-fix/sort-keys-fix": "warn",
+        "sort-keys-custom-order/object-keys": ["error", { "orderedKeys": [
+            "id"
+        ] }],
+        "space-in-parens": ["error", "never"],
         "space-infix-ops": ["error"],
         "template-curly-spacing": ["error", "always"]
     },

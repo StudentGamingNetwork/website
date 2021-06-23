@@ -12,14 +12,6 @@ module.exports = {
         "plugin:import/warnings",
         "plugin:import/typescript"
     ],
-    overrides: [
-        {
-            "files": ["*.js", "*.ts"],
-            "rules": {
-                "sort-keys-fix/sort-keys-fix": "warn"
-            }
-        }
-    ],
     parser: "vue-eslint-parser",
     parserOptions: {
         ecmaVersion: 2020,
@@ -27,7 +19,7 @@ module.exports = {
     },
     plugins: [
         "@typescript-eslint",
-        "sort-keys-fix",
+        "sort-keys-custom-order",
         "import"
     ],
     root: true,
@@ -48,9 +40,28 @@ module.exports = {
         "prefer-template": "error",
         "quotes": ["error", "double", { "allowTemplateLiterals": true }],
         "semi": ["error", "always"],
-        "sort-keys-fix/sort-keys-fix": "warn",
+        "sort-keys-custom-order/object-keys": ["error", { "orderedKeys": [
+            "id",
+            "name",
+            "title",
+            "start",
+            "end",
+            "components",
+            "data",
+            "props",
+            "emits",
+            "computed",
+            "methods"
+        ] }],
+        "sort-keys-custom-order/type-keys": ["error", { "orderedKeys": [
+            "id",
+            "name",
+            "title"
+        ] }],
+        "space-in-parens": ["error", "never"],
         "space-infix-ops": ["error"],
         "template-curly-spacing": ["error", "always"],
+        "vue/attributes-order": ["error", { "alphabetical": true }],
         "vue/html-indent": ["error", 4]
     },
     settings: {
