@@ -1,8 +1,6 @@
 <template>
     <SHeader />
-    <SPage>
-        test SPAGE
-    </SPage>
+    <SPage />
     <SFooter />
 </template>
 
