@@ -25,4 +25,7 @@ export default defineComponent({
 body{
   background: var(--color-background);
 }
+html,body {
+  margin:0
+}
 </style>

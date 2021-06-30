@@ -3,37 +3,41 @@
         <img src="src/static/images/logo.png">
         <ul class="links">
             <li>
-                Fédération
+                <main-link title="Fédération" />
             </li>
             <li>
-                Tournois
+                <main-link title="Tournois" />
             </li>
             <li>
-                Associations
+                <main-link title="Associations" />
             </li>
         </ul>
         <div class="profil">
-            <button>Connexion</button>
-            <button> Inscription</button>
+            <main-button title="Connexion" />
+            <main-button title="Inscription" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { NButton } from "naive-ui";
+import MainButton from "@/components/MainButton.vue";
+import MainLink from "@/components/MainLink.vue";
 
 
 export default defineComponent({
-    name: "SHeader"
+    name: "SHeader",
+    components: { MainLink, MainButton }
 });
 </script>
 
 <style scoped lang="scss">
+
 #header-container{
   display: flex;
   color: #fe8e25;
   justify-content: space-around;
+  background-color: hsl(170,50,95);
 }
 .links{
   display: flex;
@@ -41,6 +45,8 @@ export default defineComponent({
   align-items: center;
   list-style: none;
   padding-left: 0;
+  font-size: 1rem;
+  font-weight: 600;
 
   li{
     padding: 8px 16px;
@@ -59,10 +65,7 @@ export default defineComponent({
 }
 .profil{
   display: flex;
-  gap: 16px;
+  gap: 24px;
   align-items: center;
-  button{
-    height: 32px;
-  }
 }
 </style>
