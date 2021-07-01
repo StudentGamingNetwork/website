@@ -67,11 +67,5 @@ ul{
   align-items: center;
   width: 15vw;
   justify-content: space-around;
-  &:nth-child(3){
-    white-space: normal;
-  }
-  img{
-    filter: invert(50%);
-  }
 }
 </style>
