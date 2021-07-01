@@ -1,19 +1,17 @@
 <template>
     <div class="container-footer">
-        <div class="reseau">
-            Nos réseaux
+        <img
+            src="src/static/images/SGN_Uni.png"
+        >
+        <div>
             <ul>
-                <li><fa :icon="['fab','facebook',]" /> </li>
-                <li><fa :icon="['fab','linkedin']" /></li>
-                <li><fa :icon="['fab','steam']" /></li>
-                <li><fa :icon="['fab','instagram']" /></li>
-                <li><fa :icon="['fab','discord']" /></li>
-                <li><fa :icon="['fab','twitch']" /></li>
-                <li><fa :icon="['fab','twitter']" /></li>
+                <li>FAQ</li>
+                <li>Contact</li>
+                <li>Recrutement</li>
+                <li>Galeries</li>
             </ul>
         </div>
         <div>
-            Nos Partenaires
             <ul>
                 <li>Shadow </li>
                 <li>Starxium</li>
@@ -21,14 +19,15 @@
                 <li>En Voiture Simone</li>
             </ul>
         </div>
-        <div>
-            A propos
-            <ul>
-                <li>FAQ</li>
-                <li>Contact</li>
-                <li>Recrutement</li>
-                <li>Galeries</li>
-            </ul>
+
+        <div class="network">
+            <fa :icon="['fab','facebook']" />
+            <fa :icon="['fab','linkedin']" />
+            <fa :icon="['fab','steam']" />
+            <fa :icon="['fab','instagram']" />
+            <fa :icon="['fab','discord']" />
+            <fa :icon="['fab','twitch']" />
+            <fa :icon="['fab','twitter']" />
         </div>
     </div>
 </template>
@@ -46,13 +45,33 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+fa{
+  font-size: 20px;
+}
+ul{
+  list-style: none;
+}
 .container-footer{
+  background-color: var(--color-content);
+  color: white;
   bottom: 0;
   position: absolute;
   display: flex;
   justify-content: space-around;
   width: 100%;
+  align-items: center;
 }
-.reseau{
+.network{
+  display: flex;
+  font-size: 2.5rem;
+  align-items: center;
+  width: 15vw;
+  justify-content: space-around;
+  &:nth-child(3){
+    white-space: normal;
+  }
+  img{
+    filter: invert(50%);
+  }
 }
 </style>
