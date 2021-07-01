@@ -37,7 +37,7 @@ export default defineComponent({
   display: flex;
   color: #fe8e25;
   justify-content: space-around;
-  background-color: hsl(170,50,95);
+  background-color: hsl(170,50%,95%);
 }
 .links{
   display: flex;
