@@ -1,7 +1,7 @@
 <template>
     <div class="container-footer">
         <img
-            src="src/static/images/SGN_Uni.png"
+            src="src/static/images/logo_sgn_white.svg"
         >
         <div>
             <ul>
@@ -67,5 +67,14 @@ ul{
   align-items: center;
   width: 15vw;
   justify-content: space-around;
+}
+img{
+  width: 10%;
+}
+li{
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
 }
 </style>

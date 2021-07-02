@@ -1,6 +1,6 @@
 <template>
     <div id="header-container">
-        <img src="src/static/images/logo.png">
+        <img src="src/static/images/logo_sgn_color.svg">
         <ul class="links">
             <li>
                 <main-link title="Fédération" />
@@ -67,5 +67,8 @@ export default defineComponent({
   display: flex;
   gap: 24px;
   align-items: center;
+}
+img{
+  width: 10%;
 }
 </style>

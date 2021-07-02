@@ -10,6 +10,7 @@ export default {
 </script>
 <style>
 button{
+  color: white!important;
   padding: 8px 24px;
   font-size: 1rem;
   font-weight: 600;
