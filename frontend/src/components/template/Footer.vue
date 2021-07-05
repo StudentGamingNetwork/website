@@ -65,7 +65,7 @@ ul{
   display: flex;
   font-size: 2.5rem;
   align-items: center;
-  width: 15vw;
+  width: 24vw;
   justify-content: space-around;
 }
 img{
@@ -75,6 +75,39 @@ li{
   cursor: pointer;
   &:hover{
     text-decoration: underline;
+  }
+}
+/* tablette paysage */
+@media screen and (max-width: 1280px) {
+  .container {
+
+  }
+}
+
+/* smartphone paysage */
+@media screen and (max-width: 960px) {
+  .container {
+
+  }
+}
+/* smartphone portrait */
+@media screen and (max-width: 480px) {
+.container-footer{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+  .network{
+    width: 80%;
+  }
+  img{
+    width: 20%;
+  }
+  li{
+    padding: 0px;
+  }
+  ul{
+    padding: 0px;
   }
 }
 </style>
