@@ -71,4 +71,16 @@ export default defineComponent({
 img{
   width: 10%;
 }
+@media screen and (max-width: 480px) {
+ #header-container{
+   display: flex;
+   flex-direction: column;
+ }
+  .profil{
+    justify-content: center;
+  }
+  img{
+    width: 20%;
+  }
+}
 </style>
