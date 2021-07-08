@@ -27,7 +27,7 @@ import MainLink from "@/components/MainLink.vue";
 
 export default defineComponent({
     name: "SHeader",
-    components: { MainLink, MainButton }
+    components: { MainButton, MainLink }
 });
 </script>
 
