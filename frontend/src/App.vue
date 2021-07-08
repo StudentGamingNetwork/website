@@ -1,30 +1,30 @@
 <template>
-    <img
-        alt="Vue logo"
-        src="./assets/logo.png"
-    >
-    <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+    <SHeader />
+    <SPage>
+        test SPAGE
+    </SPage>
+    <SFooter />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import SPage from "@/components/template/Page.vue";
+import SHeader from "@/components/template/Header.vue";
+import SFooter from "@/components/template/Footer.vue";
 
 export default defineComponent({
     name: "App",
     components: {
-        HelloWorld
+        SFooter,
+        SHeader,
+        SPage
     }
 });
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+@import "style";
+body{
+  background: var(--color-background);
 }
 </style>
