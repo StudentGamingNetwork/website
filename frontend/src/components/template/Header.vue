@@ -1,86 +1,67 @@
 <template>
-    <div id="header-container">
-        <img src="src/static/images/logo_sgn_color.svg">
-        <ul class="links">
-            <li>
-                <main-link title="Fédération" />
-            </li>
-            <li>
-                <main-link title="Tournois" />
-            </li>
-            <li>
-                <main-link title="Associations" />
-            </li>
-        </ul>
-        <div class="profil">
-            <main-button title="Connexion" />
-            <main-button title="Inscription" />
+    <header>
+        <div class="logo">
+            <SLogo />
         </div>
-    </div>
+        <SNavbar
+            class="navbar"
+            :elements="navLinks"
+        />
+        <div class="profil">
+            <SButton primary>
+                Inscription
+            </SButton>
+            <SButton outlined>
+                Connexion
+            </SButton>
+        </div>
+    </header>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MainButton from "@/components/MainButton.vue";
-import MainLink from "@/components/MainLink.vue";
+import SLogo from "@/components/template/Logo.vue";
+import SNavbar from "@/components/template/Navbar.vue";
+import SButton from "@/components/design/Button.vue";
 
 
 export default defineComponent({
     name: "SHeader",
-    components: { MainButton, MainLink }
+    components: { SButton, SLogo, SNavbar },
+    setup() {
+        return {
+            navLinks: {
+                associations: { title: "Association" },
+                federation: { title: "Fédération" },
+                tournament: { title: "Tournois" }
+            }
+        };
+    }
 });
 </script>
 
 <style scoped lang="scss">
 
-#header-container{
-  display: flex;
-  color: #fe8e25;
-  justify-content: space-around;
-  background-color: hsl(170,50%,95%);
-}
-.links{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  list-style: none;
-  padding-left: 0;
-  font-size: 1rem;
-  font-weight: 600;
+header {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-background-1);
 
-  li{
-    padding: 8px 16px;
-    cursor: pointer;
-    &:hover{
-      text-decoration: underline;
+    .logo {
+        width: 256px;
+        margin-left: var(--length-margin-l);
+        display: flex;
     }
-  }
+
+    .profil {
+        display: flex;
+        gap: var(--length-gap-l);
+        width: 256px;
+        margin-right: var(--length-margin-l);
+    }
 }
-.nom{
-  padding-left: 10vw;
-  font-size: large;
-}
-.nom:hover{
-  text-decoration: underline;
-}
-.profil{
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
-img{
-  width: 10%;
-}
-@media screen and (max-width: 480px) {
- #header-container{
-   display: flex;
-   flex-direction: column;
- }
-  .profil{
-    justify-content: center;
-  }
-  img{
-    width: 20%;
-  }
-}
+
+
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="container-footer">
         <img
-            src="src/static/images/logo_sgn_white.svg"
+            src="../../assets/images/sgn/logo.svg"
         >
         <div>
             <ul>
@@ -31,7 +31,7 @@
         </div>
     </div>
 </template>
- 
+
 <script lang="ts">
 import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

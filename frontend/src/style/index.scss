@@ -1,3 +1,18 @@
 @import "colors";
 @import "fonts";
 @import "lengths";
+
+:root {
+    --duration-fast: 0.2s ease-in-out;
+}
+
+* {
+    transition: color var(--duration-fast),
+    border-color var(--duration-fast),
+    border var(--duration-fast),
+    background-color var(--duration-fast),
+    background var(--duration-fast),
+    transform var(--duration-fast),
+    opacity var(--duration-fast),
+    box-shadow var(--duration-fast);
+}

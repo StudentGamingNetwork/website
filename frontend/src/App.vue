@@ -22,10 +22,13 @@ export default defineComponent({
 
 <style lang="scss">
 @import "style";
-body{
-  background: var(--color-background);
+
+body {
+    background: var(--color-background);
 }
-html,body {
-  margin:0
+
+html, body {
+    margin: 0;
+    background: var(--color-background-0);
 }
 </style>
