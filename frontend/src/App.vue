@@ -1,8 +1,6 @@
 <template>
     <SHeader />
-    <SPage>
-        test SPAGE
-    </SPage>
+    <SPage />
     <SFooter />
 </template>
 
@@ -26,5 +24,8 @@ export default defineComponent({
 @import "style";
 body{
   background: var(--color-background);
+}
+html,body {
+  margin:0
 }
 </style>

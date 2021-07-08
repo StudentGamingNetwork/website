@@ -7,6 +7,10 @@
         "serve": "vite preview"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.35",
+        "@fortawesome/free-brands-svg-icons": "^5.15.3",
+        "@fortawesome/free-solid-svg-icons": "^5.15.3",
+        "@fortawesome/vue-fontawesome": "^3.0.0-4",
         "lodash": "^4.17.21",
         "pinia": "^2.0.0-beta.2",
         "sass": "^1.34.1",
