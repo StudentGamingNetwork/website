@@ -52,42 +52,44 @@ export default defineComponent({
     padding: 128px;
     background-size: cover;
     background-position: 50% 50%;
-    height: calc(100vw / 3);
+    height: 640px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: var(--length-gap-l);
+    gap: var(--length-gap-xl);
 
     .text-wrapper {
         position: relative;
+        height: 4rem;
 
         .hero-text {
-
             font-weight: 800;
             text-transform: uppercase;
             font-size: 4rem;
             color: var(--color-background-0);
+            padding: 0 var(--length-padding-xxs);
 
-            background: linear-gradient(20deg, #ea7c11 0%, #f5cc3f 50%, #ffffff 100%);
+            background: linear-gradient(20deg, #ec7400 0%, #f5cc3f 50%, #ffffff 100%);
             display: inline-block;
             -webkit-background-clip: text;
             -webkit-text-stroke: 3px transparent;
 
             &:nth-child(1) {
                 position: absolute;
-                left: -8px;
-                top: -8px;
+                left: -16px;
+                top: -16px;
                 opacity: 0.3;
             }
 
             &:nth-child(2) {
+                position: absolute;
+                left: -8px;
+                top: -8px;
                 opacity: 0.6;
             }
 
             &:nth-child(3) {
                 position: absolute;
-                left: 8px;
-                top: 8px;
             }
         }
     }
@@ -95,7 +97,7 @@ export default defineComponent({
     .description {
         font-size: 1.2rem;
         opacity: 0.75;
-        width: 800px;
+        max-width: 800px;
         text-shadow: 0 4px 4px var(--color-background-0);
 
         strong {

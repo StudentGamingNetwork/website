@@ -41,7 +41,7 @@ nav {
         padding: 0;
 
         li {
-            font-weight: 700;
+            font-weight: 600;
             color: var(--color-content-softer);
             cursor: pointer;
             padding: var(--length-padding-m);

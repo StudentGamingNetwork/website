@@ -8,12 +8,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import SVGLogo from "@/assets/images/sgn/logo.svg";
+import SVGLogoWhite from "@/assets/images/sgn/logo_white.svg";
 
 export default defineComponent({
     name: "SLogo",
-    setup() {
+    props: {
+        white: {
+            default: false,
+            type: Boolean
+        }
+    },
+    setup(props) {
         return {
-            logo: SVGLogo
+            logo: props.white ? SVGLogoWhite : SVGLogo
         };
     }
 });
