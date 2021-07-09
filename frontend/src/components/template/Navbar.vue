@@ -2,8 +2,8 @@
     <nav class="navbar">
         <ul>
             <li
-                v-for="(element, key) of elements"
-                :key="key"
+                v-for="element of elements"
+                :key="element.key"
             >
                 {{ element.title }}
             </li>
@@ -15,7 +15,8 @@
 import { defineComponent, PropType } from "vue";
 
 export type NavbarElement = {
-    title: string
+    title: string,
+    key: string
 }
 
 export default defineComponent({
@@ -23,7 +24,7 @@ export default defineComponent({
     props: {
         elements: {
             required: true,
-            type: Object as PropType<Record<string, NavbarElement>>
+            type: Object as PropType<Array<NavbarElement>>
         }
     }
 });

@@ -1,5 +1,6 @@
 <template>
     <SHeader />
+    <SHeroPage />
     <SPage />
     <SFooter />
 </template>
@@ -9,12 +10,14 @@ import { defineComponent } from "vue";
 import SPage from "@/components/template/Page.vue";
 import SHeader from "@/components/template/Header.vue";
 import SFooter from "@/components/template/Footer.vue";
+import SHeroPage from "@/components/template/HeroPage.vue";
 
 export default defineComponent({
     name: "App",
     components: {
         SFooter,
         SHeader,
+        SHeroPage,
         SPage
     }
 });

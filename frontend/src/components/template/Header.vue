@@ -30,11 +30,12 @@ export default defineComponent({
     components: { SButton, SLogo, SNavbar },
     setup() {
         return {
-            navLinks: {
-                associations: { title: "Association" },
-                federation: { title: "Fédération" },
-                tournament: { title: "Tournois" }
-            }
+            navLinks: [
+                { title: "Fédération", key: "federation" },
+                { title: "Tournois", key: "tournament" },
+                { title: "Recrutement", key: "recruitment" },
+                { title: "À propos", key: "about" }
+            ]
         };
     }
 });
