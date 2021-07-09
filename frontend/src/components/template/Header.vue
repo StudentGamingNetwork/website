@@ -1,12 +1,16 @@
 <template>
     <header>
         <div class="logo">
-            <SLogo />
+            <router-link
+                v-slot="{ href }"
+                to="/"
+            >
+                <a :href="href">
+                    <SLogo />
+                </a>
+            </router-link>
         </div>
-        <SNavbar
-            class="navbar"
-            :elements="navLinks"
-        />
+        <SNavbar class="navbar" />
         <div class="profil">
             <SButton primary>
                 Inscription
@@ -27,17 +31,7 @@ import SButton from "@/components/design/Button.vue";
 
 export default defineComponent({
     name: "SHeader",
-    components: { SButton, SLogo, SNavbar },
-    setup() {
-        return {
-            navLinks: [
-                { title: "Fédération", key: "federation" },
-                { title: "Tournois", key: "tournament" },
-                { title: "Partenaires", key: "partners" },
-                { title: "À propos", key: "about" }
-            ]
-        };
-    }
+    components: { SButton, SLogo, SNavbar }
 });
 </script>
 

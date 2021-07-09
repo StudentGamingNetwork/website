@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import heroBackground from "@/assets/images/hero-background.png";
+import heroBackground from "@/assets/images/backgrounds/hero.png";
 import SButton from "@/components/design/Button.vue";
 
 export default defineComponent({

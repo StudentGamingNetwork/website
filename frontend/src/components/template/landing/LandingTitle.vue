@@ -21,7 +21,6 @@ h2 {
     text-transform: uppercase;
     font-size: 2.5rem;
     -webkit-background-clip: text;
-    //-webkit-text-stroke: 2px transparent;
     margin: 0;
     line-height: 2rem;
     text-shadow: 0 0 16px var(--color-primary-lite);
