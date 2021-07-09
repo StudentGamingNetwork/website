@@ -12,19 +12,23 @@
             <div class="links">
                 <h2>Le SGN</h2>
                 <ul>
-                    <li>FAQ</li>
-                    <li>Contact</li>
-                    <li>Recrutement</li>
-                    <li>Galeries</li>
+                    <li
+                        v-for="link of links"
+                        :key="link.key"
+                    >
+                        {{ link.title }}
+                    </li>
                 </ul>
             </div>
             <div class="links">
                 <h2>Partenaires</h2>
                 <ul>
-                    <li>Shadow</li>
-                    <li>Starxium</li>
-                    <li>GameWaves</li>
-                    <li>En Voiture Simone</li>
+                    <li
+                        v-for="partner of partners"
+                        :key="partner.key"
+                    >
+                        {{ partner.title }}
+                    </li>
                 </ul>
             </div>
             <ul class="networks">
@@ -53,6 +57,12 @@ export default defineComponent({
     setup() {
         return {
             currentYear: new Date().getFullYear(),
+            links: [
+                { title: "FAQ", key: "faq" },
+                { title: "Contact", key: "contact" },
+                { title: "Recrutement", key: "recruitment" },
+                { title: "Galerie", key: "gallery" }
+            ],
             networks: [
                 { icon: "facebook", key: "facebook" },
                 { icon: "twitter", key: "twitter" },
@@ -61,6 +71,12 @@ export default defineComponent({
                 { icon: "twitch", key: "twitch" },
                 { icon: "linkedin", key: "linkedin" },
                 { icon: "steam", key: "steam" }
+            ],
+            partners: [
+                { title: "Shadow", key: "shadow" },
+                { title: "Starxium", key: "starxium" },
+                { title: "GameWave", key: "gamewave" },
+                { title: "En Voiture Simone", key: "envoituresimone" }
             ]
         };
     }
@@ -109,17 +125,15 @@ footer {
                 opacity: 0.3;
             }
         }
-
-
     }
 
     .networks {
         list-style: none;
         margin: 0;
         padding: 0;
-        display: flex;
+        display: grid;
         font-size: 1.8rem;
-        flex-wrap: wrap;
+        grid-template-columns: repeat(auto-fill, 64px);
         width: 256px;
 
         li {

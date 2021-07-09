@@ -1,6 +1,7 @@
 <template>
     <SHeader />
-    <SHeroPage />
+    <SHeroSection />
+    <STrustSection />
     <SFooter />
 </template>
 
@@ -8,14 +9,16 @@
 import { defineComponent } from "vue";
 import SHeader from "@/components/template/Header.vue";
 import SFooter from "@/components/template/Footer.vue";
-import SHeroPage from "@/components/template/HeroPage.vue";
+import SHeroSection from "@/components/template/landing/HeroSection.vue";
+import STrustSection from "@/components/template/landing/TrustSection.vue";
 
 export default defineComponent({
     name: "App",
     components: {
         SFooter,
         SHeader,
-        SHeroPage
+        SHeroSection,
+        STrustSection
     }
 });
 </script>

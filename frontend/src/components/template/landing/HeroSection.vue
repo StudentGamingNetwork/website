@@ -1,6 +1,6 @@
 <template>
-    <div
-        class="hero-page"
+    <section
+        class="hero-section"
         :style="headerStyle"
     >
         <div class="text-wrapper">
@@ -26,7 +26,7 @@
                 Contactez-nous
             </SButton>
         </div>
-    </div>
+    </section>
 </template>
 
 <script lang="ts">
@@ -35,7 +35,7 @@ import heroBackground from "@/assets/images/hero-background.png";
 import SButton from "@/components/design/Button.vue";
 
 export default defineComponent({
-    name: "SHeroPage",
+    name: "SHeroSection",
     components: { SButton },
     setup() {
         return {
@@ -48,7 +48,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.hero-page {
+.hero-section {
     padding: 128px;
     background-size: cover;
     background-position: 50% 50%;
@@ -69,7 +69,7 @@ export default defineComponent({
             color: var(--color-background-0);
             padding: 0 var(--length-padding-xxs);
 
-            background: linear-gradient(20deg, #ec7400 0%, #f5cc3f 50%, #ffffff 100%);
+            background: var(--gradient);
             display: inline-block;
             -webkit-background-clip: text;
             -webkit-text-stroke: 3px transparent;
@@ -79,6 +79,7 @@ export default defineComponent({
                 left: -16px;
                 top: -16px;
                 opacity: 0.3;
+                user-select: none;
             }
 
             &:nth-child(2) {
@@ -86,10 +87,12 @@ export default defineComponent({
                 left: -8px;
                 top: -8px;
                 opacity: 0.6;
+                user-select: none;
             }
 
             &:nth-child(3) {
                 position: absolute;
+                text-shadow: 0 0 32px var(--color-primary-liter);
             }
         }
     }

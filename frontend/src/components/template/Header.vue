@@ -33,7 +33,7 @@ export default defineComponent({
             navLinks: [
                 { title: "Fédération", key: "federation" },
                 { title: "Tournois", key: "tournament" },
-                { title: "Recrutement", key: "recruitment" },
+                { title: "Partenaires", key: "partners" },
                 { title: "À propos", key: "about" }
             ]
         };
