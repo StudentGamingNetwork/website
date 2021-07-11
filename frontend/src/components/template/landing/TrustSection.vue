@@ -1,8 +1,8 @@
 <template>
     <section class="trust-section">
-        <SLandingTitle class="title">
+        <SSectionTitle class="title">
             Ils nous ont fait confiance
-        </SLandingTitle>
+        </SSectionTitle>
         <div class="description">
             Nous avons travaillé avec de nombreux acteurs du secteur vidéo-ludique<br>
             qui continuent à nous faire confiance année après année.
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SLandingTitle from "@/components/template/landing/LandingTitle.vue";
+import SSectionTitle from "@/components/design/SectionTitle.vue";
 
 import PNGLogoEsportParis from "@/assets/images/trust/esport-paris.png";
 import PNGLogoGamersOrigin from "@/assets/images/trust/gamers-origin.png";
@@ -36,7 +36,7 @@ import PNGLogoUbisoft from "@/assets/images/trust/ubisoft.png";
 
 export default defineComponent({
     name: "STrustSection",
-    components: { SLandingTitle },
+    components: { SSectionTitle },
     setup() {
         return {
             trusts: [
@@ -74,7 +74,7 @@ export default defineComponent({
         padding: 0;
         list-style: none;
         grid-template-columns: repeat(4, 192px);
-        grid-gap: var(--length-gap-m) var(--length-gap-xl);
+        gap: var(--length-gap-m) var(--length-gap-xl);
 
         li {
             img {

@@ -6,6 +6,7 @@
         >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
         </SPageHead>
+        <SFederationLayout />
     </div>
 </template>
 
@@ -13,10 +14,11 @@
 import { defineComponent } from "vue";
 import SPageHead from "@/components/template/PageHead.vue";
 import BackgroundFederation from "@/assets/images/backgrounds/federation.png";
+import SFederationLayout from "@/components/pages/federation/Layout.vue";
 
 export default defineComponent({
     name: "Federation",
-    components: { SPageHead },
+    components: { SFederationLayout, SPageHead },
     setup() {
         return {
             BackgroundFederation

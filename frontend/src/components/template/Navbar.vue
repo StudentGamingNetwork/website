@@ -1,26 +1,23 @@
 <template>
     <nav class="navbar">
         <ul>
-            <li
+            <router-link
                 v-for="link of navLinks"
                 :key="link.key"
-                :class="{current: link.to === route.name}"
+                v-slot="{ href, isActive }"
+                class="link"
+                :to="link.to"
             >
-                <router-link
-                    v-slot="{ href }"
-                    class="link"
-                    :to="link.to"
-                >
+                <li :class="{active: isActive}">
                     <a :href="href">{{ link.title }}</a>
-                </router-link>
-            </li>
+                </li>
+            </router-link>
         </ul>
     </nav>
 </template>
 
 <script lang="ts">
 import { defineComponent, watch } from "vue";
-import { useRoute } from "vue-router";
 
 export type NavbarElement = {
     title: string,
@@ -30,16 +27,13 @@ export type NavbarElement = {
 export default defineComponent({
     name: "SNavbar",
     setup() {
-        const route = useRoute();
-
         return {
             navLinks: [
                 { title: "Fédération", key: "federation", to: "federation" },
                 { title: "Tournois", key: "tournaments", to: "tournaments" },
                 { title: "Partenaires", key: "partners", to: "partners" },
                 { title: "À propos", key: "about", to: "about" }
-            ],
-            route
+            ]
         };
     }
 });
@@ -72,15 +66,15 @@ nav {
                 position: absolute;
                 background: var(--color-primary-background);
                 height: 6px;
-                width: 32px;
+                width: 16px;
                 bottom: 0;
                 border-radius: 4px;
-                left: calc(50% - 16px);
+                left: calc(50% - 8px);
                 opacity: 0;
                 transition: var(--duration-fast);
             }
 
-            &.current {
+            &.active {
                 opacity: 1;
 
                 &::after {
