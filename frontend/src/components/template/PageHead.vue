@@ -6,19 +6,20 @@
         <SPageTitle class="title">
             {{ title }}
         </SPageTitle>
-        <div class="description">
+        <SPageDescription>
             <slot />
-        </div>
+        </SPageDescription>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import SPageTitle from "@/components/template/PageTitle.vue";
+import SPageDescription from "@/components/template/PageDescription.vue";
 
 export default defineComponent({
     name: "SPageHead",
-    components: { SPageTitle },
+    components: { SPageDescription, SPageTitle },
     props: {
         title: {
             required: true,
@@ -47,16 +48,5 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     gap: var(--length-gap-xl);
-}
-
-.description {
-    font-size: 1.2rem;
-    opacity: 0.75;
-    max-width: 800px;
-    text-shadow: 0 4px 4px var(--color-background-0);
-
-    strong {
-        font-weight: 600;
-    }
 }
 </style>
