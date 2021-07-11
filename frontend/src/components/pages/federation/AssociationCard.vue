@@ -4,7 +4,9 @@
             alt="association logo"
             :src="logo"
         >
-        <h2>{{ title }}</h2>
+        <div class="title">
+            <h2>{{ title }}</h2>
+        </div>
         <div class="region">
             {{ region }}
         </div>
