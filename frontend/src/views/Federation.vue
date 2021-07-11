@@ -1,29 +1,14 @@
 <template>
-    <div class="federation">
-        <SPageHead
-            :background="BackgroundFederation"
-            title="Fédération"
-        >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
-        </SPageHead>
-        <SFederationLayout />
-    </div>
+    <SFederationLayout />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SPageHead from "@/components/template/PageHead.vue";
-import BackgroundFederation from "@/assets/images/backgrounds/federation.png";
 import SFederationLayout from "@/components/pages/federation/Layout.vue";
 
 export default defineComponent({
     name: "Federation",
-    components: { SFederationLayout, SPageHead },
-    setup() {
-        return {
-            BackgroundFederation
-        };
-    }
+    components: { SFederationLayout }
 });
 </script>
 

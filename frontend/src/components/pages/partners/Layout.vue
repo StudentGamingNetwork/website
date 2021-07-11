@@ -1,4 +1,10 @@
 <template>
+    <SPageHead
+        :background="BackgroundPartners"
+        title="Partenaires"
+    >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
+    </SPageHead>
     <div class="partners-layout">
         <div class="partners-list">
             <SPartner
@@ -35,16 +41,19 @@
 import { defineComponent } from "vue";
 import SPartner from "@/components/pages/partners/Partner.vue";
 
+import BackgroundPartners from "@/assets/images/backgrounds/partners.png";
 import LogoHyperX from "@/assets/images/partners/hyperx.svg";
 import LogoESpotParis from "@/assets/images/partners/espot.png";
 import LogoMaxnomic from "@/assets/images/partners/maxnomic.png";
 import LogoGamesAndRules from "@/assets/images/partners/gamesandrules.png";
+import SPageHead from "@/components/template/PageHead.vue";
 
 export default defineComponent({
     name: "SPartnersLayout",
-    components: { SPartner },
+    components: { SPageHead, SPartner },
     setup() {
         return {
+            BackgroundPartners,
             LogoESpotParis,
             LogoGamesAndRules,
             LogoHyperX,

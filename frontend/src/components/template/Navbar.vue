@@ -4,12 +4,12 @@
             <router-link
                 v-for="link of navLinks"
                 :key="link.key"
-                v-slot="{ href, isActive }"
+                v-slot="{ isActive }"
                 class="link"
                 :to="link.to"
             >
                 <li :class="{active: isActive}">
-                    <a :href="href">{{ link.title }}</a>
+                    {{ link.title }}
                 </li>
             </router-link>
         </ul>
@@ -84,11 +84,6 @@ nav {
 
             &:hover {
                 opacity: 1;
-            }
-
-            a {
-                color: inherit;
-                text-decoration: none;
             }
         }
     }

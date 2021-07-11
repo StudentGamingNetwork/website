@@ -97,7 +97,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .search-layout {
-    padding: 64px 128px;
     display: flex;
     align-items: center;
     justify-content: center;

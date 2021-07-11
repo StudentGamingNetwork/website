@@ -1,5 +1,5 @@
 <template>
-    <div
+    <header
         class="page-head"
         :style="headStyle"
     >
@@ -9,7 +9,7 @@
         <SPageDescription>
             <slot />
         </SPageDescription>
-    </div>
+    </header>
 </template>
 
 <script lang="ts">

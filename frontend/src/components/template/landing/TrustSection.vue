@@ -56,7 +56,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .trust-section {
-    padding: var(--length-padding-xxl);
+    padding: 96px 128px;
     display: flex;
     flex-direction: column;
     align-items: center;

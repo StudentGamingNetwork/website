@@ -24,6 +24,7 @@ module.exports = {
     ],
     root: true,
     rules: {
+        "@typescript-eslint/member-delimiter-style": ["error"],
         "@typescript-eslint/type-annotation-spacing": ["error"],
         "array-bracket-spacing": ["error", "never"],
         "arrow-spacing": ["error"],
