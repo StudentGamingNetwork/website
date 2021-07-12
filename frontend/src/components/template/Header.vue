@@ -19,9 +19,13 @@
                 Inscription
             </SButton>
             <SModalSignUp v-model:active="displaySignUpModal" />
-            <SButton outlined>
+            <SButton
+                outlined
+                @click="displayLogInModal = true"
+            >
                 Connexion
             </SButton>
+            <SModalLogIn v-model:active="displayLogInModal" />
         </div>
     </header>
 </template>
@@ -32,15 +36,18 @@ import SLogo from "@/components/template/Logo.vue";
 import SNavbar from "@/components/template/Navbar.vue";
 import SButton from "@/components/design/Button.vue";
 import SModalSignUp from "@/components/template/ModalSignUp.vue";
+import SModalLogIn from "@/components/template/ModalLogIn.vue";
 
 
 export default defineComponent({
     name: "SHeader",
-    components: { SButton, SLogo, SModalSignUp, SNavbar },
+    components: { SButton, SLogo, SModalLogIn, SModalSignUp, SNavbar },
     setup() {
         const displaySignUpModal = ref(false);
+        const displayLogInModal = ref(false);
 
         return {
+            displayLogInModal,
             displaySignUpModal
         };
     }

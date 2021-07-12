@@ -74,8 +74,8 @@ export default defineComponent({
             top: 0;
             right:0;
             position: absolute;
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             font-size: 1.5rem;
             display: flex;
             align-items: center;
@@ -87,11 +87,6 @@ export default defineComponent({
                 opacity: 1;
             }
         }
-    }
-
-    &.fade-enter-active,
-    &.fade-leave-active {
-        transition: 1;
     }
 
     &.fade-enter-from,

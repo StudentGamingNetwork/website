@@ -4,7 +4,7 @@
         @update:active="$emit('update:active', $event)"
     >
         <div class="modal-content">
-            <SSectionTitle>Inscription</SSectionTitle>
+            <SSectionTitle>Connexion</SSectionTitle>
             <div class="signup">
                 <div class="remote">
                     <SButton class="button google">
@@ -13,21 +13,21 @@
                             class="google-logo icon"
                             :src="LogoGoogleSignIn"
                         >
-                        Inscription avec Google
+                        Connexion avec Google
                     </SButton>
                     <SButton class="button facebook">
                         <FontAwesomeIcon
                             class="icon"
                             :icon="['fab', 'facebook']"
                         />
-                        Inscription avec Facebook
+                        Connexion avec Facebook
                     </SButton>
                     <SButton class="button twitter">
                         <FontAwesomeIcon
                             class="icon"
                             :icon="['fab', 'twitter']"
                         />
-                        Inscription avec Twitter
+                        Connexion avec Twitter
                     </SButton>
                 </div>
                 <div class="separator">
@@ -50,12 +50,12 @@
                         class="button"
                         primary
                     >
-                        S'inscrire
+                        Connexion
                     </SButton>
                 </div>
             </div>
             <div class="link">
-                Déjà inscrit ?
+                Pas encore de compte ?
             </div>
         </div>
     </SModal>
@@ -71,7 +71,7 @@ import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
 import SInput from "@/components/design/Input.vue";
 
 export default defineComponent({
-    name: "SModalSignUp",
+    name: "SModalLogIn",
     components: { FontAwesomeIcon, SButton, SInput, SModal, SSectionTitle },
     props: {
         active: {
