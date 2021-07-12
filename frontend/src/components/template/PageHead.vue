@@ -47,10 +47,10 @@ export default defineComponent({
     }
 
     height: 320px;
-    padding: 64px 128px;
+    padding: 48px 128px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: var(--length-gap-xl);
+    gap: var(--length-gap-l);
 }
 </style>

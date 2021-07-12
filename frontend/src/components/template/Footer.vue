@@ -16,7 +16,9 @@
                         v-for="link of links"
                         :key="link.key"
                     >
-                        {{ link.title }}
+                        <router-link :to="link.link">
+                            {{ link.title }}
+                        </router-link>
                     </li>
                 </ul>
             </div>
@@ -27,7 +29,12 @@
                         v-for="partner of partners"
                         :key="partner.key"
                     >
-                        {{ partner.title }}
+                        <a
+                            :href="partner.link"
+                            target="_blank"
+                        >
+                            {{ partner.title }}
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -36,7 +43,12 @@
                     v-for="network of networks"
                     :key="network.key"
                 >
-                    <FontAwesomeIcon :icon="['fab',network.icon]" />
+                    <a
+                        :href="network.link"
+                        target="_blank"
+                    >
+                        <FontAwesomeIcon :icon="['fab',network.icon]" />
+                    </a>
                 </li>
             </ul>
         </div>
@@ -58,25 +70,25 @@ export default defineComponent({
         return {
             currentYear: new Date().getFullYear(),
             links: [
-                { title: "FAQ", key: "faq" },
-                { title: "Contact", key: "contact" },
-                { title: "Recrutement", key: "recruitment" },
-                { title: "Galerie", key: "gallery" }
+                { title: "FAQ", key: "faq", link: "#" },
+                { title: "Contact", key: "contact", link: "#" },
+                { title: "Recrutement", key: "recruitment", link: "#" },
+                { title: "Galerie", key: "gallery", link: "#" }
             ],
             networks: [
-                { icon: "facebook", key: "facebook" },
-                { icon: "twitter", key: "twitter" },
-                { icon: "discord", key: "discord" },
-                { icon: "instagram", key: "instagram" },
-                { icon: "twitch", key: "twitch" },
-                { icon: "linkedin", key: "linkedin" },
-                { icon: "steam", key: "steam" }
+                { icon: "facebook", key: "facebook", link: "https://www.facebook.com/StudentGN/" },
+                { icon: "twitter", key: "twitter", link: "https://twitter.com/Student_GN" },
+                { icon: "discord", key: "discord", link: "https://discord.gg/sgnw" },
+                { icon: "instagram", key: "instagram", link: "https://www.instagram.com/student_gaming_network/" },
+                { icon: "twitch", key: "twitch", link: "https://www.twitch.tv/studentgn/" },
+                { icon: "linkedin", key: "linkedin", link: "https://www.linkedin.com/company/10125720" },
+                { icon: "steam", key: "steam", link: "https://steamcommunity.com/groups/sgnw" }
             ],
             partners: [
-                { title: "Shadow", key: "shadow" },
-                { title: "Starxium", key: "starxium" },
-                { title: "GameWave", key: "gamewave" },
-                { title: "En Voiture Simone", key: "envoituresimone" }
+                { title: "ESpot Paris", key: "espot-paris", link: "https://espot.fr/" },
+                { title: "Maxnomic", key: "maxnomic", link: "https://www.needforseat.fr/" },
+                { title: "HyperX", key: "hyperx", link: "https://www.hyperxgaming.com/france/fr" },
+                { title: "GameAndRules", key: "games-and-rules", link: "https://gameandrules.com/" }
             ]
         };
     }
@@ -130,7 +142,15 @@ footer {
             gap: var(--length-gap-m);
 
             li {
-                opacity: 0.3;
+                a {
+                    opacity: 0.3;
+                    color: inherit;
+                    text-decoration: none;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
             }
         }
     }
@@ -144,8 +164,16 @@ footer {
         grid-template-columns: repeat(auto-fill, 64px);
 
         li {
-            opacity: 0.3;
             padding: var(--length-padding-xxs) var(--length-padding-m);
+
+            a {
+                opacity: 0.3;
+                color: inherit;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
         }
     }
 }

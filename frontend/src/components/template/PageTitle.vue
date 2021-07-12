@@ -38,6 +38,7 @@ export default defineComponent({
         opacity: 0;
         pointer-events: none;
         user-select: none;
+        display: inline-block;
     }
 
     .text {
@@ -48,9 +49,6 @@ export default defineComponent({
         display: inline-block;
         -webkit-background-clip: text;
         -webkit-text-stroke: 3px transparent;
-
-        width: 100%;
-        height: 100%;
 
         &:nth-child(1) {
             position: absolute;
