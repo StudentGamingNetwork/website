@@ -42,6 +42,8 @@ export default defineComponent({
     border-radius: var(--lenght-radius-base);
     border: 2px solid var(--color-content-softer);
     position: relative;
+    display: flex;
+    align-items: center;
 
     input {
         font-size: 0.9rem;

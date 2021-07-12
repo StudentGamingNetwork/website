@@ -31,11 +31,11 @@ Le but est de pouvoir apprendre et s'améliorer en développement web, tout en c
 Pour pouvoir développer et tester la plateforme chez vous, vous devez avoir [Node.js](https://nodejs.org/en/).
 
 - Pour le frontend
-  - Naviguer dans le dossier `frontend` (ex: `cd frontend`)-
+  - Naviguer dans le dossier `frontend` (ex: `cd frontend`)
   - Installer les dépendances avec `npm install`
   - Lancer le serveur de test avec `npm run dev` pour avoir le hot-reload
 - Pour le backend
-  - Naviguer dans le dossier `backend` (ex: `cd backend`)-
+  - Naviguer dans le dossier `backend` (ex: `cd backend`)
   - Installer les dépendances avec `npm install`
   - Lancer le serveur de test avec `npm run dev` pour avoir le hot-reload
 

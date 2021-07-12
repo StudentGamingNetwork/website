@@ -12,9 +12,13 @@
         </div>
         <SNavbar class="navbar" />
         <div class="profil">
-            <SButton primary>
+            <SButton
+                primary
+                @click="displaySignUpModal = true"
+            >
                 Inscription
             </SButton>
+            <SModalSignUp v-model:active="displaySignUpModal" />
             <SButton outlined>
                 Connexion
             </SButton>
@@ -23,15 +27,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import SLogo from "@/components/template/Logo.vue";
 import SNavbar from "@/components/template/Navbar.vue";
 import SButton from "@/components/design/Button.vue";
+import SModalSignUp from "@/components/template/ModalSignUp.vue";
 
 
 export default defineComponent({
     name: "SHeader",
-    components: { SButton, SLogo, SNavbar }
+    components: { SButton, SLogo, SModalSignUp, SNavbar },
+    setup() {
+        const displaySignUpModal = ref(false);
+
+        return {
+            displaySignUpModal
+        };
+    }
 });
 </script>
 
