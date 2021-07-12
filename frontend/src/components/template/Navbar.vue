@@ -55,6 +55,10 @@ nav {
         padding: 0;
         justify-content: center;
 
+        .link {
+            text-decoration: none;
+        }
+
         li {
             position: relative;
             font-weight: 600;
@@ -62,10 +66,6 @@ nav {
             opacity: 0.3;
             cursor: pointer;
             padding: var(--length-padding-m);
-
-            .link {
-                padding: var(--length-padding-m);
-            }
 
             &::after {
                 content:"";

@@ -94,6 +94,11 @@ export default defineComponent({
 
         .network {
             opacity: 0.5;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 1;
+            }
         }
     }
 }

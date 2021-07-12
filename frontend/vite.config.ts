@@ -19,6 +19,20 @@ export default defineConfig(({ command }) => {
 
     if (command === "build") {
         config.base = "/static/";
+        config.build = {
+            rollupOptions: {
+                output: {
+                    manualChunks: {
+                        fontAwesome: [
+                            "@fortawesome/vue-fontawesome",
+                            "@fortawesome/fontawesome-svg-core",
+                            "@fortawesome/free-brands-svg-icons",
+                            "@fortawesome/free-solid-svg-icons"
+                        ]
+                    }
+                }
+            }
+        };
     }
 
     return config;

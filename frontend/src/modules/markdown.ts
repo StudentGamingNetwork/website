@@ -1,4 +1,4 @@
-import { escapeRegExp } from "lodash";
+import escapeRegExp from "lodash/escapeRegExp";
 
 type MarkdownRule = {
     tag: { end: string; start: string };

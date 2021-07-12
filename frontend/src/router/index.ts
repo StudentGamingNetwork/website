@@ -1,14 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Landing from "@/views/Landing.vue";
-import Federation from "@/views/Federation.vue";
-import Tournaments from "@/views/Tournaments.vue";
-import Partners from "@/views/Partners.vue";
-import About from "@/views/About.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
         name: "landing",
-        component: Landing,
+        component: () => import(/* webpackChunkName: "landing" */ "@/views/Landing.vue"),
         meta: {
             title: "Student Gaming Network",
             guest: true
@@ -17,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "federation",
-        component: Federation,
+        component: () => import(/* webpackChunkName: "federation" */ "@/views/Federation.vue"),
         meta: {
             title: "Fédération",
             guest: true
@@ -26,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "tournaments",
-        component: Tournaments,
+        component: () => import(/* webpackChunkName: "tournaments" */ "@/views/Tournaments.vue"),
         meta: {
             title: "Tournois",
             guest: true
@@ -35,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "partners",
-        component: Partners,
+        component: () => import(/* webpackChunkName: "partners" */ "@/views/Partners.vue"),
         meta: {
             title: "Partenaires",
             guest: true
@@ -44,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "about",
-        component: About,
+        component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue"),
         meta: {
             title: "À propos",
             guest: true

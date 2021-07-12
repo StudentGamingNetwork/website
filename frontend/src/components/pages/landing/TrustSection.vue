@@ -94,6 +94,11 @@ export default defineComponent({
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
+                cursor: pointer;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
             }
         }
     }
