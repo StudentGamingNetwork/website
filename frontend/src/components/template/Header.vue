@@ -43,10 +43,18 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: var(--color-background-1);
+    padding: 0 var(--length-margin-l);
+
+
+    @media (max-width: 1099px) {
+        padding: 0 var(--length-margin-s);
+    }
 
     .logo {
-        width: 256px;
-        margin-left: var(--length-margin-l);
+        @media (min-width: 1400px) {
+            width: 256px;
+        }
+
         display: flex;
     }
 
@@ -54,7 +62,7 @@ header {
         display: flex;
         gap: var(--length-gap-l);
         width: 256px;
-        margin-right: var(--length-margin-l);
+        justify-content: flex-end;
     }
 }
 

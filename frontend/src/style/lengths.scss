@@ -20,4 +20,13 @@
     --length-gap-l: 32px;
     --length-gap-xl: 48px;
     --length-gap-xxl: 64px;
+
+    @media (max-width: 1099px) {
+        --length-gap-xs: 4px;
+        --length-gap-s: 4px;
+        --length-gap-m: 8px;
+        --length-gap-l: 16px;
+        --length-gap-xl: 32px;
+        --length-gap-xxl: 48px;
+    }
 }

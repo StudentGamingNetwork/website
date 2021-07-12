@@ -42,6 +42,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .page-head {
+    @media (max-width: 1099px) {
+        padding: 48px;
+    }
+
     height: 320px;
     padding: 64px 128px;
     box-sizing: border-box;

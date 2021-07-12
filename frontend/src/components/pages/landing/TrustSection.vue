@@ -56,12 +56,14 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .trust-section {
-    padding: 96px 128px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--length-gap-l);
-    background: radial-gradient(circle at center, var(--color-background-1) 0%, var(--color-background-0) 100%);
+
+    .title {
+        text-align: center;
+    }
 
     .description {
         text-align: center;
@@ -70,13 +72,24 @@ export default defineComponent({
 
     .trust {
         margin: var(--length-margin-m) 0 0;
-        display: grid;
+        display: flex;
+        flex-wrap: wrap;
         padding: 0;
         list-style: none;
-        grid-template-columns: repeat(4, 192px);
-        gap: var(--length-gap-m) var(--length-gap-xl);
+        width: 100%;
+        max-width: 1000px;
+        justify-content: center;
+        gap: var(--length-gap-m);
 
         li {
+            width: 192px;
+            padding: 0 var(--length-padding-m);
+
+
+            @media (max-width: 1099px) {
+                width: 96px;
+            }
+
             img {
                 width: 100%;
                 height: 100%;

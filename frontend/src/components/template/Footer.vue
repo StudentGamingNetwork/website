@@ -20,7 +20,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="links">
+            <div class="partners">
                 <h2>Partenaires</h2>
                 <ul>
                     <li
@@ -89,24 +89,32 @@ footer {
     padding: var(--length-margin-l);
 
     .footer-wrapper {
-        display: flex;
-        align-items: flex-start;
+        display: grid;
+        align-items: start;
         justify-content: center;
-        gap:var(--length-gap-xl);
+        gap: var(--length-gap-xl);
+        grid-template-columns: repeat(auto-fit, 256px);
+
+        @media (max-width: 1399px) {
+            gap: var(--length-gap-m);
+            grid-template-columns: repeat(auto-fit, 192px);
+        }
+
+        @media (max-width: 1099px) {
+            row-gap: var(--length-gap-xl);
+            grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+        }
     }
 
     .logo {
         opacity: 0.3;
-        width: 256px;
 
         .copyright {
             font-size: 0.8rem;
         }
     }
 
-    .links {
-        width: 256px;
-
+    .links, .partners {
         h2 {
             font-size: 1.25rem;
             font-weight: 600;
@@ -134,7 +142,6 @@ footer {
         display: grid;
         font-size: 1.8rem;
         grid-template-columns: repeat(auto-fill, 64px);
-        width: 256px;
 
         li {
             opacity: 0.3;

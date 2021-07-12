@@ -77,7 +77,6 @@ export default defineComponent({
         height: 128px;
         object-fit: contain;
         filter: grayscale(50%);
-        opacity: 0.5;
     }
 
     h2 {

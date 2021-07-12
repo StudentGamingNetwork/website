@@ -62,14 +62,29 @@ export default defineComponent({
     display: flex;
     gap: 96px;
 
+    @media (max-width: 1099px) {
+        flex-direction: column;
+        gap: var(--length-gap-xl);
+        align-items: center;
+    }
+
     &.mirrored {
         flex-direction: row-reverse;
+
+        @media (max-width: 1099px) {
+            flex-direction: column;
+        }
     }
 
     img {
         height: 128px;
         width: 256px;
         object-fit: contain;
+
+        @media (max-width: 1099px) {
+            height: 64px;
+            width: 128px;
+        }
     }
 
     .networks {

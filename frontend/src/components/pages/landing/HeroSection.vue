@@ -44,9 +44,14 @@ export default defineComponent({
 <style scoped lang="scss">
 .hero-section {
     padding: 128px;
+
+    @media (max-width: 1099px) {
+        padding: 48px;
+    }
+
     background-size: cover;
     background-position: 50% 50%;
-    height: 640px;
+    min-height: 640px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;

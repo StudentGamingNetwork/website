@@ -17,12 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from "vue";
-
-export type NavbarElement = {
-    title: string,
-    key: string
-}
+import { defineComponent } from "vue";
 
 export default defineComponent({
     name: "SNavbar",
@@ -41,6 +36,16 @@ export default defineComponent({
 
 <style scoped lang="scss">
 nav {
+    @media (max-width: 1099px) {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--color-background-1);
+        box-shadow: 0 0 16px rgba(0,0,0,0.5);
+        z-index: 100;
+    }
+
     font-size: .9rem;
     ul {
         display: flex;
@@ -48,6 +53,7 @@ nav {
         gap: var(--length-gap-l);
         margin: 0;
         padding: 0;
+        justify-content: center;
 
         li {
             position: relative;

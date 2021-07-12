@@ -16,3 +16,9 @@
     opacity var(--duration-fast),
     box-shadow var(--duration-fast);
 }
+
+html {
+    @media (max-width: 1099px) {
+        font-size: 80%;
+    }
+}

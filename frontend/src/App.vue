@@ -23,6 +23,7 @@ export default defineComponent({
 
 body {
     background: var(--color-background);
+    transform-origin: 0 0;
 }
 
 html, body {

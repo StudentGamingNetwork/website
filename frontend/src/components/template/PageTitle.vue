@@ -9,6 +9,9 @@
         <div class="text">
             <slot />
         </div>
+        <div class="spacer">
+            <slot />
+        </div>
     </div>
 </template>
 
@@ -23,12 +26,21 @@ export default defineComponent({
 <style scoped lang="scss">
 .page-title {
     position: relative;
-    height: 4rem;
+    font-size: 4rem;
+    text-transform: uppercase;
+    font-weight: 800;
+
+    @media (max-width: 1099px) {
+        font-size: 3rem;
+    }
+
+    .spacer {
+        opacity: 0;
+        pointer-events: none;
+        user-select: none;
+    }
 
     .text {
-        font-weight: 800;
-        text-transform: uppercase;
-        font-size: 4rem;
         color: var(--color-background-0);
         padding: 0 var(--length-padding-xxs);
 
@@ -36,6 +48,9 @@ export default defineComponent({
         display: inline-block;
         -webkit-background-clip: text;
         -webkit-text-stroke: 3px transparent;
+
+        width: 100%;
+        height: 100%;
 
         &:nth-child(1) {
             position: absolute;

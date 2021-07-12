@@ -75,7 +75,6 @@ export default defineComponent({
     .logo {
         inset: 0;
         object-fit: contain;
-        opacity: 0.5;
         height: 128px;
         width: 192px;
     }

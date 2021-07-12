@@ -1,13 +1,12 @@
 <template>
     <div class="search-layout">
-        <SInput
-            class="search-input"
-            placeholder="Chercher une association..."
-        >
-            <template #suffix>
-                <FontAwesomeIcon :icon="['fas','search']" />
-            </template>
-        </SInput>
+        <div class="search-input-wrapper">
+            <SInput placeholder="Chercher une association...">
+                <template #suffix>
+                    <FontAwesomeIcon :icon="['fas','search']" />
+                </template>
+            </SInput>
+        </div>
         <div class="search-result">
             <SAssociationCard
                 :logo="Logo2Rivals"
@@ -103,8 +102,9 @@ export default defineComponent({
     flex-direction: column;
     gap: 64px;
 
-    .search-input {
-        width: 512px;
+    .search-input-wrapper {
+        max-width: 512px;
+        width: 100%;
     }
 
     .search-result {

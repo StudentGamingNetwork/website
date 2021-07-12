@@ -5,17 +5,19 @@
     >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
     </SPageHead>
-    <div class="layout-tournaments">
-        <SSelector
-            class="selector"
-            :options="tournamentsTypes"
-        />
-        <STournament
-            v-for="tournament of tournaments"
-            :key="tournament.id"
-            :tournament="tournament"
-        />
-    </div>
+    <SBaseLayout>
+        <div class="layout-tournaments">
+            <SSelector
+                class="selector"
+                :options="tournamentsTypes"
+            />
+            <STournament
+                v-for="tournament of tournaments"
+                :key="tournament.id"
+                :tournament="tournament"
+            />
+        </div>
+    </SBaseLayout>
 </template>
 
 <script lang="ts">
@@ -28,10 +30,11 @@ import LogoCSGO from "@/assets/images/games/csgo.png";
 import LogoTM from "@/assets/images/games/trackmania.png";
 import LogoRL from "@/assets/images/games/rocket-league.png";
 import { Tournament } from "@/modules";
+import SBaseLayout from "@/components/pages/BaseLayout.vue";
 
 export default defineComponent({
     name: "STournamentsLayout",
-    components: { SPageHead, SSelector, STournament },
+    components: { SBaseLayout, SPageHead, SSelector, STournament },
     setup() {
         const csgoTournament: Tournament.TTournament = {
             id: "a",
@@ -114,7 +117,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .layout-tournaments {
-    padding: 96px 128px;
     display: flex;
     align-items: center;
     flex-direction: column;
