@@ -6,9 +6,9 @@
         <div class="text">
             <slot />
         </div>
-        <div class="text">
+        <h1 class="text">
             <slot />
-        </div>
+        </h1>
         <div class="spacer">
             <slot />
         </div>
@@ -49,6 +49,8 @@ export default defineComponent({
         display: inline-block;
         -webkit-background-clip: text;
         -webkit-text-stroke: 3px transparent;
+        font-size: inherit;
+        margin: 0;
 
         &:nth-child(1) {
             position: absolute;
