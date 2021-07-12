@@ -1,8 +1,5 @@
 <template>
-    <SModal
-        :active="active"
-        @update:active="$emit('update:active', $event)"
-    >
+    <SModal v-model:active="stateStore.modals.logIn">
         <div class="modal-content">
             <SSectionTitle>Connexion</SSectionTitle>
             <div class="signup">
@@ -54,7 +51,10 @@
                     </SButton>
                 </div>
             </div>
-            <div class="link">
+            <div
+                class="link"
+                @click="stateStore.modalSignUpOpen"
+            >
                 Pas encore de compte ?
             </div>
         </div>
@@ -69,20 +69,17 @@ import SSectionTitle from "@/components/design/SectionTitle.vue";
 import SButton from "@/components/design/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
 import SInput from "@/components/design/Input.vue";
+import { State } from "@/modules";
 
 export default defineComponent({
     name: "SModalLogIn",
     components: { FontAwesomeIcon, SButton, SInput, SModal, SSectionTitle },
-    props: {
-        active: {
-            default: false,
-            type: Boolean
-        }
-    },
-    emits: ["update:active"],
     setup() {
+        const stateStore = State.useStore();
+
         return {
-            LogoGoogleSignIn
+            LogoGoogleSignIn,
+            stateStore
         };
     }
 });

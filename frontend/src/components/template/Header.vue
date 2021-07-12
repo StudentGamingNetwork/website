@@ -14,41 +14,39 @@
         <div class="profil">
             <SButton
                 primary
-                @click="displaySignUpModal = true"
+                @click="stateStore.modalSignUpOpen"
             >
                 Inscription
             </SButton>
-            <SModalSignUp v-model:active="displaySignUpModal" />
+            <SModalSignUp />
             <SButton
                 outlined
-                @click="displayLogInModal = true"
+                @click="stateStore.modalLogInOpen"
             >
                 Connexion
             </SButton>
-            <SModalLogIn v-model:active="displayLogInModal" />
+            <SModalLogIn />
         </div>
     </header>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import SLogo from "@/components/template/Logo.vue";
 import SNavbar from "@/components/template/Navbar.vue";
 import SButton from "@/components/design/Button.vue";
 import SModalSignUp from "@/components/template/ModalSignUp.vue";
 import SModalLogIn from "@/components/template/ModalLogIn.vue";
-
+import { State } from "@/modules";
 
 export default defineComponent({
     name: "SHeader",
     components: { SButton, SLogo, SModalLogIn, SModalSignUp, SNavbar },
     setup() {
-        const displaySignUpModal = ref(false);
-        const displayLogInModal = ref(false);
+        const stateStore = State.useStore();
 
         return {
-            displayLogInModal,
-            displaySignUpModal
+            stateStore
         };
     }
 });
