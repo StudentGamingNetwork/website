@@ -1,20 +1,20 @@
 import * as Bcrypt from "bcryptjs";
 import UserModel, { IUserDocument } from "../model";
 
-export async function login(login: string, password: string): Promise<IUserDocument> {
+export async function login(mail: string, password: string): Promise<IUserDocument> {
 
     const userModel = await UserModel.findOne({
-        login
+        mail
     });
 
     if (!userModel) {
-        throw new Error("[userModule][login] - User not found");
+        throw new Error("User not found");
     }
 
     const isPasswordCorrect = Bcrypt.compareSync(password, userModel.password);
 
     if (!isPasswordCorrect) {
-        throw new Error("[userModule][login] - password don't match");
+        throw new Error("Invalid password");
     }
 
     return userModel;

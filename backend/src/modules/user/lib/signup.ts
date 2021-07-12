@@ -1,26 +1,31 @@
 import * as Bcrypt from "bcryptjs";
 import UserModel from "../model";
+import UserConfig from "@/modules/user/config";
 
-const SALT_ROUND = 12;
-const PASSWORD_MIN_LENGTH = 8;
-
-export async function signup(login: string, mail: string, password: string): Promise<void> {
+export async function signup(mail: string, password: string): Promise<void> {
     if (!isPasswordStrong(password)) {
         throw new Error("Weak password");
     }
 
-    const passwordSalt = Bcrypt.genSaltSync(SALT_ROUND);
+    if (!isMailValid(mail)) {
+        throw new Error("Invalid email format");
+    }
+
+    if (await isMailAlreadyRegistered(mail)) {
+        throw new Error("Mail already registered");
+    }
+
+    const passwordSalt = Bcrypt.genSaltSync(UserConfig.login.saltRound);
     const passwordHash = Bcrypt.hashSync(password, passwordSalt);
 
     await UserModel.create({
-        login,
         mail,
         password: passwordHash
     });
 }
 
 export function isPasswordStrong(password: string): boolean {
-    if (password.length < PASSWORD_MIN_LENGTH) {
+    if (password.length < UserConfig.login.passwordMinLength) {
         return false;
     }
 
@@ -38,22 +43,19 @@ export function isPasswordStrong(password: string): boolean {
     if (!doesContainLowercaseLetter) {
         return false;
     }
+
     return true;
 }
 
-export function isMailAlreadyRegistered(email: string): boolean {
-    return true;
+export async function isMailAlreadyRegistered(mail: string): Promise<boolean> {
+    const userModel = await UserModel.findOne({
+        mail
+    });
+
+    return !!userModel;
 }
 
-export function isLoginAlreadyRegistered(login: string): boolean {
-    return true;
-}
-
-export function isMailValid(email: string): boolean {
-    return true;
-}
-
-export function isLoginValid(login: string): boolean {
-    return true;
+export function isMailValid(mail: string): boolean {
+    return /\S+@\S+\.\S+/.test(mail);
 }
 
