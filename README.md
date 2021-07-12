@@ -17,7 +17,7 @@ associations étudiantes de nouvelles technologies et de jeux vidéo, le SGN, as
 # La plateforme
 
 La plateforme du SGN est open source, de sorte que n'importe quel étudiant peut voir son code source et y contribuer.
-Le but est de pouvoir apprendre et s'améliorer en développement web, tout en contribuant à un projet moderne et fun!
+Le but est de pouvoir apprendre et s'améliorer en développement web, tout en contribuant à un projet moderne et fun !
 
 
 # Organisation
@@ -25,10 +25,22 @@ Le but est de pouvoir apprendre et s'améliorer en développement web, tout en c
 - Le dossier [`backend`](https://github.com/StudentGamingNetwork/website/tree/master/backend) contient le code source du serveur du SGN.
 - Le dossier [`frontend`](https://github.com/StudentGamingNetwork/website/tree/master/frontend) contient le code source du client web.
 
-Pour pouvoir les tester chez vous, vous devez avoir [Node.js](https://nodejs.org/en/) et suivre leur README respectif.
+
+## Développement
+
+Pour pouvoir développer et tester la plateforme chez vous, vous devez avoir [Node.js](https://nodejs.org/en/).
+
+- Pour le frontend
+  - Naviguer dans le dossier `frontend` (ex: `cd frontend`)-
+  - Installer les dépendances avec `npm install`
+  - Lancer le serveur de test avec `npm run dev` pour avoir le hot-reload
+- Pour le backend
+  - Naviguer dans le dossier `backend` (ex: `cd backend`)-
+  - Installer les dépendances avec `npm install`
+  - Lancer le serveur de test avec `npm run dev` pour avoir le hot-reload
 
 
-# Contribution
+## Contribution
 
 Pour pouvoir contribuer au développement, vous devez faire partie de l'équipe technique du SGN.
 
