@@ -43,7 +43,7 @@ export default defineComponent({
     display: flex;
     background: var(--color-background-2);
     border-radius: var(--lenght-radius-base);
-    height: 38px;
+    min-height: 38px;
     box-sizing: border-box;
     width: 100%;
     gap: var(--length-gap-m);
@@ -58,6 +58,8 @@ export default defineComponent({
         cursor: pointer;
         margin: 2px;
         border-radius: calc(var(--lenght-radius-base) - 2px);
+        text-align: center;
+        padding: var(--length-padding-xxs);
 
         &.selected {
             opacity: 1;

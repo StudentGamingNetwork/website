@@ -121,9 +121,7 @@ export default defineComponent({
     align-items: center;
     flex-direction: column;
     gap: var(--length-gap-xl);
-
-    .selector {
-        width: 960px;
-    }
+    max-width: 960px;
+    margin: auto;
 }
 </style>

@@ -64,13 +64,17 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .tournament {
-    width: 960px;
+    width: 100%;
     position: relative;
     padding: var(--length-padding-m);
     box-sizing: border-box;
     display: flex;
     gap: var(--length-gap-l);
     align-items: center;
+
+    @media (max-width: 899px) {
+        flex-direction: column;
+    }
 
     .logo {
         inset: 0;
@@ -88,6 +92,20 @@ export default defineComponent({
         "title       title"
         "game        game"
         "description dates";
+
+        @media (max-width: 899px) {
+            width: 100%;
+        }
+
+        @media (max-width: 699px) {
+            width: 100%;
+            grid-template-columns: 1fr;
+            grid-template:
+            "title"
+            "game"
+            "description"
+            "dates";
+        }
 
         h2 {
             grid-area: title;
@@ -126,6 +144,10 @@ export default defineComponent({
         .description {
             color: var(--color-content-softer);
             grid-area: description;
+
+            @media (max-width: 1099px) {
+                margin-bottom: var(--length-margin-s);
+            }
 
             &::v-deep(strong) {
                 font-weight: 600;
