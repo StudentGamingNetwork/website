@@ -39,7 +39,16 @@ module.exports = {
         "quotes": ["error", "double", { "allowTemplateLiterals": true }],
         "semi": ["error", "always"],
         "sort-keys-custom-order/object-keys": ["error", { "orderedKeys": [
-            "id"
+            "id",
+            "name",
+            "title",
+            "start",
+            "end"
+        ] }],
+        "sort-keys-custom-order/type-keys": ["error", { "orderedKeys": [
+            "id",
+            "name",
+            "title"
         ] }],
         "space-in-parens": ["error", "never"],
         "space-infix-ops": ["error"],

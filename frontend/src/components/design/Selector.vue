@@ -26,7 +26,7 @@ export default defineComponent({
     setup() {
         const selectedIndex = ref(0);
 
-        function selectIndex(index) {
+        function selectIndex(index: number) {
             selectedIndex.value = index;
         }
 

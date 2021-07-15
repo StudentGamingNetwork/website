@@ -84,7 +84,8 @@ describe("user/lib/signup", () => {
         });
         test("it should be true when mail is already registered", async () => {
             const mail = "hello@sgnw.fr";
-            await Fake.generate(UserModel, { mail });
+            const a = await Fake.generate(UserModel, { mail });
+            console.log(a);
 
             const isMailAlreadyRegistered = await UserLib.isMailAlreadyRegistered(mail);
 

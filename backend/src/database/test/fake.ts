@@ -29,7 +29,7 @@ function makeJsonSchema(model: Mongo.Schema): any {
     const properties = {};
 
     model.eachPath((path, schemaType) => {
-        if (!(schemaType as any).isRequired) {
+        if (!(schemaType as any).isRequired && !(schemaType as any).options.faker) {
             return;
         }
         const options = (schemaType as any).options;

@@ -1,14 +1,17 @@
 import "@/database/test";
 import * as Fake from "@/database/test/fake";
-import ProductModel from "@/modules/product/model";
+import UserModel from "@/modules/user/model";
 
 describe("database/test/fake", () => {
     test("it should generate a fake product", async () => {
-        const product = await Fake.generate(ProductModel);
+        const user = await Fake.generate(UserModel);
 
-        const foundProduct = await ProductModel.findOne();
+        const foundUser = await UserModel.findOne();
 
-        expect(product._id).toStrictEqual(foundProduct._id);
-        expect(product.title).toBe(foundProduct.title);
+        if (!foundUser) {
+            throw "User should be defined";
+        }
+        expect(user._id).toStrictEqual(foundUser._id);
+        expect(user.mail).toBe(foundUser.mail);
     });
 });

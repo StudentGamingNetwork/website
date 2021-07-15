@@ -45,16 +45,16 @@ export default defineComponent({
                 playDays: "Les mardis à 19h30",
                 subscriptionClose: "13 Mai 2021"
             },
-            description: {
-                prizes: "*2000€* de cashprize",
-                registeredTeams: 27,
-                rulesUrl: "https://google.com",
-                team: "*5 joueurs* par équipe + *2 remplaçants*"
-            },
             game: {
                 id: "",
                 title: "Counter Strike: Global Offensive",
                 logoUrl: LogoCSGO
+            },
+            informations: {
+                prizes: "*2000€* de cashprize",
+                registeredTeams: 27,
+                rulesUrl: "https://google.com",
+                team: "*5 joueurs* par équipe + *2 remplaçants*"
             }
         };
         const rlTournament: Tournament.TTournament = {
@@ -66,16 +66,16 @@ export default defineComponent({
                 playDays: "Les mardis à 19h30",
                 subscriptionClose: "13 Mai 2021"
             },
-            description: {
-                prizes: "*2000€* de cashprize",
-                registeredTeams: 27,
-                rulesUrl: "https://google.com",
-                team: "*5 joueurs* par équipe + *2 remplaçants*"
-            },
             game: {
                 id: "",
                 title: "Rocket League",
                 logoUrl: LogoRL
+            },
+            informations: {
+                prizes: "*2000€* de cashprize",
+                registeredTeams: 27,
+                rulesUrl: "https://google.com",
+                team: "*5 joueurs* par équipe + *2 remplaçants*"
             }
         };
         const tmTournament: Tournament.TTournament = {
@@ -87,16 +87,16 @@ export default defineComponent({
                 playDays: "Les mardis à 19h30",
                 subscriptionClose: "13 Mai 2021"
             },
-            description: {
-                prizes: "*2000€* de cashprize",
-                registeredTeams: 27,
-                rulesUrl: "https://google.com",
-                team: "*5 joueurs* par équipe + *2 remplaçants*"
-            },
             game: {
                 id: "",
                 title: "Trackmania",
                 logoUrl: LogoTM
+            },
+            informations: {
+                prizes: "*2000€* de cashprize",
+                registeredTeams: 27,
+                rulesUrl: "https://google.com",
+                team: "*5 joueurs* par équipe + *2 remplaçants*"
             }
         };
 

@@ -9,11 +9,11 @@ export type TTournament = {
         start: string;
         subscriptionClose: string;
     };
-    description: {
+    game: Game.TGame;
+    informations: {
         prizes: string;
         registeredTeams: number;
         rulesUrl: string;
         team: string;
     };
-    game: Game.TGame;
 }
