@@ -1,11 +1,13 @@
 <template>
     <div
         class="input"
-        :class="{ 'has-content': !!searchValue }"
+        :class="{ 'has-content': !!modelValue }"
     >
         <input
-            v-model="searchValue"
             :type="inputType"
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+            @keydown="processKeyDown"
         >
         <div class="placeholder">
             {{ placeholder }}
@@ -17,11 +19,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
     name: "SInput",
     props: {
+        modelValue: {
+            default: "",
+            type: String
+        },
         password: {
             default: false,
             type: Boolean
@@ -30,10 +36,10 @@ export default defineComponent({
             default: "",
             type: String
         }
-    },
-    setup(props) {
-        const searchValue = ref("");
 
+    },
+    emits: ["update:modelValue", "enter"],
+    setup(props, context) {
         const inputType = computed(() => {
             if (props.password) {
                 return "password";
@@ -41,9 +47,15 @@ export default defineComponent({
             return "text";
         });
 
+        function processKeyDown(event: KeyboardEvent) {
+            if (event.key === "Enter") {
+                context.emit("enter");
+            }
+        }
+
         return {
             inputType,
-            searchValue
+            processKeyDown
         };
     }
 });

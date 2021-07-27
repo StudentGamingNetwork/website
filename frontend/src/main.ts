@@ -5,6 +5,9 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { createPinia } from "pinia";
 import router from "./router";
 import App from "./App.vue";
+import ApiService from "@/services/api";
+
+ApiService.init(import.meta.env.VITE_BACKEND_HOST as string);
 
 const pinia = createPinia();
 

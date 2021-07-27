@@ -4,7 +4,11 @@
             <SSectionTitle>Connexion</SSectionTitle>
             <div class="signup">
                 <div class="remote">
-                    <SButton class="button google">
+                    <SButton
+                        class="button google"
+                        disabled
+                        primary
+                    >
                         <img
                             alt="Google Logo"
                             class="google-logo icon"
@@ -12,14 +16,22 @@
                         >
                         Connexion avec Google
                     </SButton>
-                    <SButton class="button facebook">
+                    <SButton
+                        class="button facebook"
+                        disabled
+                        primary
+                    >
                         <FontAwesomeIcon
                             class="icon"
                             :icon="['fab', 'facebook']"
                         />
                         Connexion avec Facebook
                     </SButton>
-                    <SButton class="button twitter">
+                    <SButton
+                        class="button twitter"
+                        disabled
+                        primary
+                    >
                         <FontAwesomeIcon
                             class="icon"
                             :icon="['fab', 'twitter']"
@@ -36,17 +48,23 @@
                 </div>
                 <div class="local">
                     <SInput
+                        v-model="mail"
                         class="input"
                         placeholder="Mail"
+                        @enter="login"
                     />
                     <SInput
+                        v-model="password"
                         class="input"
                         password
                         placeholder="Mot de passe"
+                        @enter="login"
                     />
                     <SButton
                         class="button"
                         primary
+                        :spinning="waitingForResponse"
+                        @click="login"
                     >
                         Connexion
                     </SButton>
@@ -63,7 +81,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SModal from "@/components/design/Modal.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
@@ -71,6 +89,7 @@ import SButton from "@/components/design/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
 import SInput from "@/components/design/Input.vue";
 import { State } from "@/modules";
+import * as UserService from "@/services/user";
 
 export default defineComponent({
     name: "SModalLogIn",
@@ -78,9 +97,23 @@ export default defineComponent({
     setup() {
         const stateStore = State.useStore();
 
+        const mail = ref("");
+        const password = ref("");
+        const waitingForResponse = ref(false);
+
+        async function login() {
+            waitingForResponse.value = true;
+            await UserService.login({ mail: mail.value, password: password.value });
+            waitingForResponse.value = false;
+        }
+
         return {
+            login,
             LogoGoogleSignIn,
-            stateStore
+            mail,
+            password,
+            stateStore,
+            waitingForResponse
         };
     }
 });
@@ -139,8 +172,7 @@ export default defineComponent({
                 box-shadow: 0 4px 0px -8px transparent;
                 background: var(--color-button);
 
-                &:hover {
-                    transform: translateY(-4px);
+                &:hover:not(.disabled) {
                     box-shadow: 0 4px 16px -8px var(--color-button);
                 }
             }

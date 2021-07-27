@@ -4,7 +4,11 @@
             <SSectionTitle>Inscription</SSectionTitle>
             <div class="signup">
                 <div class="remote">
-                    <SButton class="button google">
+                    <SButton
+                        class="button google"
+                        disabled
+                        primary
+                    >
                         <img
                             alt="Google Logo"
                             class="google-logo icon"
@@ -12,14 +16,22 @@
                         >
                         Inscription avec Google
                     </SButton>
-                    <SButton class="button facebook">
+                    <SButton
+                        class="button facebook"
+                        disabled
+                        primary
+                    >
                         <FontAwesomeIcon
                             class="icon"
                             :icon="['fab', 'facebook']"
                         />
                         Inscription avec Facebook
                     </SButton>
-                    <SButton class="button twitter">
+                    <SButton
+                        class="button twitter"
+                        disabled
+                        primary
+                    >
                         <FontAwesomeIcon
                             class="icon"
                             :icon="['fab', 'twitter']"
@@ -139,8 +151,7 @@ export default defineComponent({
                 box-shadow: 0 4px 0px -8px transparent;
                 background: var(--color-button);
 
-                &:hover {
-                    transform: translateY(-4px);
+                &:hover:not(.disabled) {
                     box-shadow: 0 4px 16px -8px var(--color-button);
                 }
             }

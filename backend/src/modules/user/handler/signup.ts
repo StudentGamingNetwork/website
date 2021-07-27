@@ -17,7 +17,7 @@ const schema = {
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.get<{ Body: TUserSignup; Response: TUserSignup }>(
+    server.post<{ Body: TUserSignup; Response: TUserSignup }>(
         "/signup",
         { schema },
         async (request) => {

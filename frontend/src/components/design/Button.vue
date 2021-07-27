@@ -1,20 +1,36 @@
 <template>
-    <button :class="{ outlined, primary }">
-        <slot />
+    <button :class="{ outlined, primary, disabled }">
+        <FontAwesomeIcon
+            v-if="spinning"
+            class="spinner"
+            :icon="['fas','spinner']"
+            spin
+        />
+        <slot v-else />
     </button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 export default defineComponent({
     name: "SButton",
+    components: { FontAwesomeIcon },
     props: {
+        disabled: {
+            default: false,
+            type: Boolean
+        },
         outlined: {
             default: false,
             type: Boolean
         },
         primary: {
+            default: false,
+            type: Boolean
+        },
+        spinning: {
             default: false,
             type: Boolean
         }
@@ -32,11 +48,24 @@ button {
     padding: var(--length-padding-xs) var(--length-padding-m);
     background: none;
 
+    .spinner {
+        font-size: 1.5rem;
+    }
+
+    &.disabled {
+        opacity: 0.75;
+        filter: grayscale(0.75);
+
+        &:hover {
+            cursor: not-allowed;
+        }
+    }
+
     &.primary {
         background: var(--color-primary-background);
         box-shadow: 0 4px 0px -8px transparent;
 
-        &:hover {
+        &:hover:not(.disabled) {
             transform: translateY(-4px);
             box-shadow: 0 4px 16px -8px var(--color-primary-background);
         }
@@ -46,7 +75,7 @@ button {
         border: 2px solid var(--color-content-softer);
         padding: calc(var(--length-padding-xs) - 2px) calc(var(--length-padding-m) - 2px);
 
-        &:hover {
+        &:hover:not(.disabled) {
             border-color: var(--color-content);
         }
     }
