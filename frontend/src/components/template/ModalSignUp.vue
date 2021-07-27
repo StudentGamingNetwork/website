@@ -41,6 +41,7 @@
                     />
                     <SInput
                         class="input"
+                        password
                         placeholder="Mot de passe"
                     />
                     <SButton

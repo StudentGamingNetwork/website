@@ -5,7 +5,7 @@
     >
         <input
             v-model="searchValue"
-            type="text"
+            :type="inputType"
         >
         <div class="placeholder">
             {{ placeholder }}
@@ -17,20 +17,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 export default defineComponent({
     name: "SInput",
     props: {
+        password: {
+            default: false,
+            type: Boolean
+        },
         placeholder: {
             default: "",
             type: String
         }
     },
-    setup() {
+    setup(props) {
         const searchValue = ref("");
 
+        const inputType = computed(() => {
+            if (props.password) {
+                return "password";
+            }
+            return "text";
+        });
+
         return {
+            inputType,
             searchValue
         };
     }

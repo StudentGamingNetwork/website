@@ -12,7 +12,6 @@ export interface IUser {
 }
 
 export interface IUserDocument extends IUser, Mongo.Document {
-
 }
 
 const userSchema: Mongo.Schema = new Mongo.Schema({

@@ -13,9 +13,9 @@
                 {{ tournament.game.title }}
             </div>
             <ul class="description">
-                <li v-html="markdownProcess(tournament.description.prizes)" />
-                <li v-html="markdownProcess(tournament.description.team)" />
-                <li><strong>{{ tournament.description.registeredTeams }} équipes</strong> inscrites</li>
+                <li v-html="markdownProcess(tournament.informations.prizes)" />
+                <li v-html="markdownProcess(tournament.informations.team)" />
+                <li><strong>{{ tournament.informations.registeredTeams }} équipes</strong> inscrites</li>
                 <li><a href="#">Afficher le règlement</a></li>
             </ul>
             <ul class="dates">
