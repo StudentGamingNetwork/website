@@ -6,6 +6,7 @@
                     v-for="toast in toastStore.toasts"
                     :key="toast.id"
                     :type="toast.type"
+                    @close="toast.close"
                 >
                     <h2>{{ toast.title }}</h2>
                     {{ toast.message }}

@@ -13,6 +13,7 @@ export enum EToastType {
 export type TToast = {
     id: string;
     title: string;
+    close: () => void;
     message: string;
     type: EToastType;
 }
@@ -25,6 +26,9 @@ export const useStore = defineStore({
             this.toasts[id] = {
                 id,
                 title,
+                close: () => {
+                    delete this.toasts[id]
+                },
                 message,
                 type
             };
