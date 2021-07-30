@@ -1,7 +1,4 @@
 module.exports = {
-    preset: "ts-jest",
-    testEnvironment: "node",
-    testRegex: ".*\\.spec\\.[jt]s$",
     globals: {
         "ts-jest": {
             diagnostics: false
@@ -9,5 +6,8 @@ module.exports = {
     },
     moduleNameMapper: {
         "@/(.*)": "<rootDir>/src/$1"
-    }
+    },
+    preset: "ts-jest",
+    testEnvironment: "node",
+    testRegex: ".*\\.spec\\.[jt]s$"
 };

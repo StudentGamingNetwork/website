@@ -3,7 +3,6 @@ import * as Fastify from "fastify";
 import cors from "cors";
 import Middie from "middie";
 import { connectDatabase } from "@/database";
-
 import APIHandler from "@/api";
 
 async function init() {
@@ -26,6 +25,10 @@ async function init() {
 
 init().then((server) => {
     server.listen(Number(process.env.BACKEND_PORT), (error: Error) => {
+        server.ready(() => {
+            console.log(server.printRoutes());
+        });
+
         if (error) {
             server.log.error({ error });
             process.exit(1);

@@ -48,17 +48,24 @@
                 </div>
                 <div class="local">
                     <SInput
+                        v-model="mail"
                         class="input"
                         placeholder="Mail"
+                        @enter="signup"
                     />
                     <SInput
+                        v-model="password"
                         class="input"
                         password
                         placeholder="Mot de passe"
+                        @enter="signup"
                     />
                     <SButton
                         class="button"
+                        :disabled="!(mail && password)"
                         primary
+                        :spinning="waitingForResponse"
+                        @click="signup"
                     >
                         S'inscrire
                     </SButton>
@@ -75,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SModal from "@/components/design/Modal.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
@@ -83,6 +90,8 @@ import SButton from "@/components/design/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
 import SInput from "@/components/design/Input.vue";
 import { State } from "@/modules";
+import * as UserService from "@/services/user";
+import * as ToastModule from "@/modules/toast";
 
 export default defineComponent({
     name: "SModalSignUp",
@@ -90,9 +99,25 @@ export default defineComponent({
     setup() {
         const stateStore = State.useStore();
 
+        const mail = ref("");
+        const password = ref("");
+        const waitingForResponse = ref(false);
+
+        async function signup() {
+            waitingForResponse.value = true;
+            await ToastModule.testRequest(async () => {
+                return UserService.signup({ mail: mail.value, password: password.value });
+            });
+            waitingForResponse.value = false;
+        }
+
         return {
             LogoGoogleSignIn,
-            stateStore
+            mail,
+            password,
+            signup,
+            stateStore,
+            waitingForResponse
         };
     }
 });

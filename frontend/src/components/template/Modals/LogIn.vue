@@ -62,6 +62,7 @@
                     />
                     <SButton
                         class="button"
+                        :disabled="!(mail && password)"
                         primary
                         :spinning="waitingForResponse"
                         @click="login"
@@ -90,6 +91,7 @@ import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
 import SInput from "@/components/design/Input.vue";
 import { State } from "@/modules";
 import * as UserService from "@/services/user";
+import * as ToastModule from "@/modules/toast";
 
 export default defineComponent({
     name: "SModalLogIn",
@@ -103,7 +105,9 @@ export default defineComponent({
 
         async function login() {
             waitingForResponse.value = true;
-            await UserService.login({ mail: mail.value, password: password.value });
+            await ToastModule.testRequest(async () => {
+                return await UserService.login({ mail: mail.value, password: password.value });
+            });
             waitingForResponse.value = false;
         }
 

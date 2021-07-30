@@ -13,8 +13,9 @@ const pinia = createPinia();
 
 library.add(fas, fab);
 
-createApp(App)
-    .use(router)
+const app = createApp(App);
+
+app.use(router)
     .use(pinia)
     .mount("#app");
 

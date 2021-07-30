@@ -22,6 +22,6 @@ describe("user/lib/login", () => {
 
         const userResultPromise = UserLib.login(user.mail, badPassword);
 
-        await expect(userResultPromise).rejects.toThrow("[userModule][login] - password don't match");
+        await expect(userResultPromise).rejects.toThrow("Mot de passe incorrect");
     });
 });

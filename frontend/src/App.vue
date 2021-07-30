@@ -2,18 +2,21 @@
     <SHeader />
     <router-view />
     <SFooter />
+    <SToasts />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import SHeader from "@/components/template/Header.vue";
 import SFooter from "@/components/template/Footer.vue";
+import SToasts from "@/components/template/Toasts/Toasts.vue";
 
 export default defineComponent({
     name: "App",
     components: {
         SFooter,
-        SHeader
+        SHeader,
+        SToasts
     }
 });
 </script>

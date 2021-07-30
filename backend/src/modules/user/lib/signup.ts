@@ -1,18 +1,19 @@
 import * as Bcrypt from "bcryptjs";
+import httpErrors from "http-errors";
 import UserModel from "../model";
 import UserConfig from "@/modules/user/config";
 
 export async function signup(mail: string, password: string): Promise<void> {
     if (!isPasswordStrong(password)) {
-        throw new Error("Weak password");
+        throw new httpErrors.BadRequest("Le mot de passe n'est pas assez solide.");
     }
 
     if (!isMailValid(mail)) {
-        throw new Error("Invalid email format");
+        throw new Error("L'adresse mail n'a pas un bon format.");
     }
 
     if (await isMailAlreadyRegistered(mail)) {
-        throw new Error("Mail already registered");
+        throw new Error("Cette adresse mail est déjà utilisée");
     }
 
     const passwordSalt = Bcrypt.genSaltSync(UserConfig.login.saltRound);

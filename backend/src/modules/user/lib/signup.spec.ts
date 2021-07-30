@@ -11,7 +11,7 @@ describe("user/lib/signup", () => {
 
             const loginPromise = UserLib.signup("hello@sgnw.fr", weakPassword);
 
-            await expect(loginPromise).rejects.toThrow("Weak password");
+            await expect(loginPromise).rejects.toThrow("Le mot de passe n'est pas assez solide.");
         });
     });
 
@@ -84,8 +84,7 @@ describe("user/lib/signup", () => {
         });
         test("it should be true when mail is already registered", async () => {
             const mail = "hello@sgnw.fr";
-            const a = await Fake.generate(UserModel, { mail });
-            console.log(a);
+            await Fake.generate(UserModel, { mail });
 
             const isMailAlreadyRegistered = await UserLib.isMailAlreadyRegistered(mail);
 

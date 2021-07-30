@@ -10,6 +10,10 @@
     --color-content-softer: hsl(0, 0%, 50%);
     --color-content-softest: hsl(0, 0%, 30%);
 
+    --color-content-lite: hsla(0, 0%, 100%, 80%);
+    --color-content-liter: hsla(0, 0%, 100%, 50%);
+    --color-content-litest: hsla(0, 0%, 100%, 30%);
+
     --color-primary: hsl(29, 100%, 57%);
     --color-primary-lite: hsla(29, 100%, 57%, 80%);
     --color-primary-liter: hsla(29, 100%, 57%, 50%);
@@ -21,6 +25,18 @@
     --color-background-2: hsl(226, 24%, 23%);
 
     --gradient: linear-gradient(20deg, #ec7400 0%, #f5cc3f 50%, #ffffff 100%);
+
+    --color-success: hsl(96, 60%, 38%);
+    --color-success-background: hsl(96, 20%, 20%);
+
+    --color-error: hsl(0, 60%, 38%);
+    --color-error-background: hsl(0, 20%, 20%);
+
+    --color-warning: hsl(55, 69%, 47%);
+    --color-warning-background: hsl(55, 50%, 20%);
+
+    --color-info: hsl(200, 60%, 38%);
+    --color-info-background: hsl(200, 20%, 20%);
 }
 
 :root {
