@@ -14,3 +14,8 @@ export async function ping(): Promise<any> {
     const result = await ApiService.get("/user/ping");
     return result.data;
 }
+
+export async function disconnect(): Promise<any> {
+    const result = await ApiService.get("/user/disconnect");
+    return result.data;
+}

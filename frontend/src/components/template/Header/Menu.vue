@@ -1,0 +1,64 @@
+<template>
+    <div class="menu">
+        <SButton class="button">
+            <FontAwesomeIcon :icon="['fas', 'user-cog']" />
+            <span>Profil</span>
+        </SButton>
+        <SButton class="button">
+            <FontAwesomeIcon :icon="['fas', 'cog']" />
+            <span>Paramètres</span>
+        </SButton>
+        <SButton
+            class="button"
+            @click="userStore.disconnect"
+        >
+            <FontAwesomeIcon :icon="['fas', 'power-off']" />
+            <span>Déconnexion</span>
+        </SButton>
+    </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import SButton from "@/components/design/Forms/Button.vue";
+import { User } from "@/modules";
+
+export default defineComponent({
+    name: "SMenu",
+    components: { FontAwesomeIcon, SButton },
+    setup() {
+        const userStore = User.useStore();
+
+        return {
+            userStore
+        };
+    }
+});
+</script>
+
+<style scoped lang="scss">
+.menu {
+    position: absolute;
+    z-index: 10;
+    top: 66px;
+    right: -48px;
+    background: var(--color-background-0);
+    border: 2px solid var(--color-background-1);
+    width: 196px;
+    box-sizing: border-box;
+    padding: var(--length-padding-s);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--length-gap-s);
+    border-radius: var(--lenght-radius-base);
+
+    .button {
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: var(--length-gap-s);
+    }
+}
+</style>

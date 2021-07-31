@@ -71,6 +71,14 @@ button {
         }
     }
 
+    &:not(.outlined):not(.primary) {
+        opacity: 0.5;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
     &.outlined {
         border: 2px solid var(--color-content-softer);
         padding: calc(var(--length-padding-xs) - 2px) calc(var(--length-padding-m) - 2px);

@@ -89,8 +89,9 @@ import SSectionTitle from "@/components/design/SectionTitle.vue";
 import SButton from "@/components/design/Forms/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
 import SInput from "@/components/design/Forms/Input.vue";
-import { State, Toast } from "@/modules";
+import { State, Toast , User as UserModule } from "@/modules";
 import * as UserService from "@/services/user";
+
 
 export default defineComponent({
     name: "SModalLogIn",
@@ -113,6 +114,9 @@ export default defineComponent({
                 password.value = "";
                 mail.value = "";
                 stateStore.modalLogInClose();
+
+                const userStore = UserModule.useStore();
+                await userStore.init();
             }
         }
 

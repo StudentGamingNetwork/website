@@ -108,13 +108,12 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { isMailValid } from "../../../../../backend/src/modules/user/lib";
 import SModal from "@/components/design/Modal.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
 import SButton from "@/components/design/Forms/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
 import SInput from "@/components/design/Forms/Input.vue";
-import { State, Toast } from "@/modules";
+import { State, Toast, User as UserModule } from "@/modules";
 import * as UserService from "@/services/user";
 import SValidator from "@/components/design/Forms/Validator.vue";
 import { Form } from "@/utils";
@@ -142,6 +141,9 @@ export default defineComponent({
                 password.value = "";
                 mail.value = "";
                 stateStore.modalSignUpClose();
+
+                const userStore = UserModule.useStore();
+                await userStore.init();
             }
         }
 

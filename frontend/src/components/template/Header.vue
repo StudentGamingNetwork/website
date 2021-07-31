@@ -12,41 +12,33 @@
         </div>
         <SNavbar class="navbar" />
         <div class="profil">
-            <SButton
-                primary
-                @click="stateStore.modalSignUpOpen"
-            >
-                Inscription
-            </SButton>
-            <SModalSignUp />
-            <SButton
-                outlined
-                @click="stateStore.modalLogInOpen"
-            >
-                Connexion
-            </SButton>
-            <SModalLogIn />
+            <SHeaderProfil v-if="isConnected" />
+            <SHeaderButtons v-else />
         </div>
     </header>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import SLogo from "@/components/template/Logo.vue";
 import SNavbar from "@/components/template/Navbar.vue";
-import SButton from "@/components/design/Forms/Button.vue";
-import SModalSignUp from "@/components/template/Modals/SignUp.vue";
-import SModalLogIn from "@/components/template/Modals/LogIn.vue";
-import { State } from "@/modules";
+import { User } from "@/modules";
+import SHeaderButtons from "@/components/template/Header/Buttons.vue";
+import SHeaderProfil from "@/components/template/Header/Profil.vue";
 
 export default defineComponent({
     name: "SHeader",
-    components: { SButton, SLogo, SModalLogIn, SModalSignUp, SNavbar },
+    components: { SHeaderButtons, SHeaderProfil, SLogo, SNavbar },
     setup() {
-        const stateStore = State.useStore();
+        const userStore = User.useStore();
+
+        const isConnected = computed(() => {
+            return !! userStore.username;
+        });
 
         return {
-            stateStore
+            isConnected,
+            userStore
         };
     }
 });
@@ -76,12 +68,7 @@ header {
     }
 
     .profil {
-        display: flex;
-        gap: var(--length-gap-l);
         width: 256px;
-        justify-content: flex-end;
     }
 }
-
-
 </style>
