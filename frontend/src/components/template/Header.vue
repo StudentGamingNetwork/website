@@ -34,7 +34,7 @@
 import { defineComponent } from "vue";
 import SLogo from "@/components/template/Logo.vue";
 import SNavbar from "@/components/template/Navbar.vue";
-import SButton from "@/components/design/Button.vue";
+import SButton from "@/components/design/Forms/Button.vue";
 import SModalSignUp from "@/components/template/Modals/SignUp.vue";
 import SModalLogIn from "@/components/template/Modals/LogIn.vue";
 import { State } from "@/modules";

@@ -63,7 +63,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SInput from "@/components/design/Input.vue";
+import SInput from "@/components/design/Forms/Input.vue";
 import SAssociationCard from "@/components/pages/federation/AssociationCard.vue";
 
 

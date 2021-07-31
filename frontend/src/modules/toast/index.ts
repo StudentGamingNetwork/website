@@ -1,16 +1,16 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { EToastType, useStore } from "./store";
 
 export { useStore };
 
-export async function testRequest(request: () => Promise<void>): Promise<any> {
+export async function testRequest(request: () => Promise<any>): Promise<any> {
     const toastStore = useStore();
 
     try {
         const response = await request();
         toastStore.add({
             title: "Success",
-            message: "Success",
+            message: response.message,
             type: EToastType.Success
         });
         return response;

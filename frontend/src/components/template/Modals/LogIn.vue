@@ -86,12 +86,11 @@ import { defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SModal from "@/components/design/Modal.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
-import SButton from "@/components/design/Button.vue";
+import SButton from "@/components/design/Forms/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
-import SInput from "@/components/design/Input.vue";
-import { State } from "@/modules";
+import SInput from "@/components/design/Forms/Input.vue";
+import { State, Toast } from "@/modules";
 import * as UserService from "@/services/user";
-import * as ToastModule from "@/modules/toast";
 
 export default defineComponent({
     name: "SModalLogIn",
@@ -105,10 +104,11 @@ export default defineComponent({
 
         async function login() {
             waitingForResponse.value = true;
-            await ToastModule.testRequest(async () => {
+            const response = await Toast.testRequest(async () => {
                 return await UserService.login({ mail: mail.value, password: password.value });
             });
             waitingForResponse.value = false;
+            console.log(response);
         }
 
         return {
