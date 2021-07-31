@@ -7,7 +7,7 @@
             />
             {{ userStore.username }}
         </div>
-        <SMenu />
+        <SMenu class="menu" />
     </div>
 </template>
 
@@ -37,6 +37,7 @@ export default defineComponent({
     gap: var(--length-gap-s);
     justify-content: end;
     position: relative;
+    height: 48px;
 
     .profil {
         opacity: 0.5;
@@ -50,6 +51,16 @@ export default defineComponent({
     .icon {
         width: 16px;
         height: 16px;
+    }
+
+    .menu {
+        display: none;
+    }
+
+    &:hover {
+        .menu {
+            display: block;
+        }
     }
 }
 </style>

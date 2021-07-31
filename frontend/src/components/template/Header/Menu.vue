@@ -1,20 +1,22 @@
 <template>
     <div class="menu">
-        <SButton class="button">
-            <FontAwesomeIcon :icon="['fas', 'user-cog']" />
-            <span>Profil</span>
-        </SButton>
-        <SButton class="button">
-            <FontAwesomeIcon :icon="['fas', 'cog']" />
-            <span>Paramètres</span>
-        </SButton>
-        <SButton
-            class="button"
-            @click="userStore.disconnect"
-        >
-            <FontAwesomeIcon :icon="['fas', 'power-off']" />
-            <span>Déconnexion</span>
-        </SButton>
+        <div class="list">
+            <SButton class="button">
+                <FontAwesomeIcon :icon="['fas', 'user-cog']" />
+                <span>Profil</span>
+            </SButton>
+            <SButton class="button">
+                <FontAwesomeIcon :icon="['fas', 'cog']" />
+                <span>Paramètres</span>
+            </SButton>
+            <SButton
+                class="button"
+                @click="userStore.disconnect"
+            >
+                <FontAwesomeIcon :icon="['fas', 'power-off']" />
+                <span>Déconnexion</span>
+            </SButton>
+        </div>
     </div>
 </template>
 
@@ -41,18 +43,22 @@ export default defineComponent({
 .menu {
     position: absolute;
     z-index: 10;
-    top: 66px;
+    top: 48px;
     right: -48px;
-    background: var(--color-background-0);
-    border: 2px solid var(--color-background-1);
-    width: 196px;
-    box-sizing: border-box;
-    padding: var(--length-padding-s);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: var(--length-gap-s);
-    border-radius: var(--lenght-radius-base);
+
+    .list {
+        margin-top: 32px;
+        background: var(--color-background-0);
+        border: 2px solid var(--color-background-1);
+        width: 196px;
+        box-sizing: border-box;
+        padding: var(--length-padding-s);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--length-gap-s);
+        border-radius: var(--lenght-radius-base);
+    }
 
     .button {
         text-align: left;
