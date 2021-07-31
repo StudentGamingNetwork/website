@@ -2,8 +2,10 @@ import * as Bcrypt from "bcryptjs";
 import httpErrors from "http-errors";
 import UserModel from "../model";
 import UserConfig from "@/modules/user/config";
+import * as SessionLib from "@/modules/session/lib";
+import { ISessionDocument } from "@/modules/session/model";
 
-export async function signup(mail: string, password: string): Promise<void> {
+export async function signup(mail: string, password: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
     if (!isPasswordStrong(password)) {
         throw new httpErrors.BadRequest("Le mot de passe n'est pas assez solide.");
     }
@@ -19,10 +21,12 @@ export async function signup(mail: string, password: string): Promise<void> {
     const passwordSalt = Bcrypt.genSaltSync(UserConfig.login.saltRound);
     const passwordHash = Bcrypt.hashSync(password, passwordSalt);
 
-    await UserModel.create({
+    const user = await UserModel.create({
         mail,
         password: passwordHash
     });
+
+    return await SessionLib.generate(user, machine);
 }
 
 export function isPasswordStrong(password: string): boolean {

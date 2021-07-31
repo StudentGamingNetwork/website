@@ -1,22 +1,24 @@
 import * as Bcrypt from "bcryptjs";
 import httpErrors from "http-errors";
-import UserModel, { IUserDocument } from "../model";
+import UserModel from "../model";
+import { ISessionDocument } from "@/modules/session/model";
+import * as SessionLib from "@/modules/session/lib";
 
-export async function login(mail: string, password: string): Promise<IUserDocument> {
+export async function login(mail: string, password: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
 
-    const userModel = await UserModel.findOne({
+    const user = await UserModel.findOne({
         mail
     });
 
-    if (!userModel) {
+    if (!user) {
         throw new httpErrors.NotFound("Aucun utilisateur trouvé avec cette adresse mail");
     }
 
-    const isPasswordCorrect = Bcrypt.compareSync(password, userModel.password);
+    const isPasswordCorrect = Bcrypt.compareSync(password, user.password);
 
     if (!isPasswordCorrect) {
         throw new httpErrors.Unauthorized("Mot de passe incorrect");
     }
 
-    return userModel;
+    return await SessionLib.generate(user, machine);
 }

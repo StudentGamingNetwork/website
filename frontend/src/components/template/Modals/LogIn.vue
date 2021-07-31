@@ -108,7 +108,12 @@ export default defineComponent({
                 return await UserService.login({ mail: mail.value, password: password.value });
             });
             waitingForResponse.value = false;
-            console.log(response);
+
+            if (response?.success) {
+                password.value = "";
+                mail.value = "";
+                stateStore.modalLogInClose();
+            }
         }
 
         return {

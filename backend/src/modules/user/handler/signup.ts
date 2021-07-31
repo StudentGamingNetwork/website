@@ -25,10 +25,24 @@ export async function register(server: FastifyInstance): Promise<void> {
     server.post<{ Body: TUserSignup; Response: TUserSignup }>(
         "/signup",
         { schema },
-        async (request) => {
+        async (request, reply) => {
             const { body: user } = request;
-            await UserLib.signup(user.mail, user.password);
-            return { message: "Votre inscription a bien été prise en compte", success: true };
+            const machine = {
+                host: request.headers.host || "unknown",
+                userAgent: request.headers["user-agent"] || "unknown"
+            };
+
+            const session = await UserLib.signup(user.mail, user.password, machine);
+
+            reply.headers({
+                "Set-Cookie": [
+                    `user=${ session.user };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`,
+                    `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`
+                ]
+            }).send({
+                message: "Votre inscription a bien été prise en compte",
+                success: true
+            });
         }
     );
 }

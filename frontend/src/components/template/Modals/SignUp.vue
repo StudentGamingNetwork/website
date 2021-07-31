@@ -137,7 +137,7 @@ export default defineComponent({
             });
             waitingForResponse.value = false;
 
-            if (response.success) {
+            if (response?.success) {
                 password.value = "";
                 mail.value = "";
                 stateStore.modalSignUpClose();
