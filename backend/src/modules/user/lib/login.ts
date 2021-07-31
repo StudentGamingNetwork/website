@@ -20,5 +20,5 @@ export async function login(mail: string, password: string, machine: {host: stri
         throw new httpErrors.Unauthorized("Mot de passe incorrect");
     }
 
-    return await SessionLib.generate(user, machine);
+    return await SessionLib.generate(user.id, machine);
 }

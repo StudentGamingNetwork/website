@@ -1,8 +1,8 @@
 import Crypto from "crypto";
-import { IUserDocument } from "@/modules/user/model";
+import httpErrors from "http-errors";
 import SessionModel, { ISessionDocument } from "@/modules/session/model";
 
-export async function generate(user: IUserDocument, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
+export async function generate(userId: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
     const token = Crypto.randomBytes(32).toString("hex");
 
     const creationDate = new Date();
@@ -16,14 +16,14 @@ export async function generate(user: IUserDocument, machine: {host: string; user
         },
         machine,
         token,
-        user: user.id
+        userId
     });
 }
 
-export async function checkValidity(user: IUserDocument, token: string): Promise<boolean> {
+export async function checkValidity(userId: string, token: string): Promise<boolean> {
     const session = await SessionModel.findOne({
         token,
-        user: user.id
+        userId
     }).exec();
 
     if (!session) {
@@ -36,4 +36,12 @@ export async function checkValidity(user: IUserDocument, token: string): Promise
     }
 
     return true;
+}
+
+export async function assertValidity(userId: string, token: string): Promise<void> {
+    const validity = await checkValidity(userId, token);
+
+    if (!validity) {
+        throw new httpErrors.Unauthorized("Token de connexion non valide");
+    }
 }

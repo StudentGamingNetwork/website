@@ -23,10 +23,11 @@ export async function signup(mail: string, password: string, machine: {host: str
 
     const user = await UserModel.create({
         mail,
-        password: passwordHash
+        password: passwordHash,
+        username: mail.split("@")[0]
     });
 
-    return await SessionLib.generate(user, machine);
+    return await SessionLib.generate(user.id, machine);
 }
 
 export function isPasswordStrong(password: string): boolean {
@@ -61,6 +62,6 @@ export async function isMailAlreadyRegistered(mail: string): Promise<boolean> {
 }
 
 export function isMailValid(mail: string): boolean {
-    return /\S+@\S+\.\S+/.test(mail);
+    const mailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    return mailRegex.test(mail);
 }
-

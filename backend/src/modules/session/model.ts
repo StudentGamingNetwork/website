@@ -1,7 +1,7 @@
 import Mongo from "@/database";
 
 export interface ISession {
-    user: string;
+    userId: string;
     token: string;
     machine: {
         host: string;
@@ -41,7 +41,7 @@ const sessionSchema: Mongo.Schema = new Mongo.Schema({
         required: true,
         type: String
     },
-    user: {
+    userId: {
         required: true,
         type: String
     }

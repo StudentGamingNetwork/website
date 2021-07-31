@@ -1,5 +1,7 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
+Axios.defaults.withCredentials = true;
+
 export default {
     baseUrl: "",
     async delete (route: string, config?: AxiosRequestConfig): Promise<AxiosResponse<any>> {

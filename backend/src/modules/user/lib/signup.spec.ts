@@ -9,7 +9,7 @@ describe("user/lib/signup", () => {
         test("it should throw an error when password is weak", async () => {
             const weakPassword = "ded58z";
 
-            const loginPromise = UserLib.signup("hello@sgnw.fr", weakPassword);
+            const loginPromise = UserLib.signup("hello@sgnw.fr", weakPassword, { host: "host", userAgent: "userAgent" });
 
             await expect(loginPromise).rejects.toThrow("Le mot de passe n'est pas assez solide.");
         });

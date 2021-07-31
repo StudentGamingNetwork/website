@@ -108,6 +108,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { isMailValid } from "../../../../../backend/src/modules/user/lib";
 import SModal from "@/components/design/Modal.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
 import SButton from "@/components/design/Forms/Button.vue";
@@ -145,7 +146,7 @@ export default defineComponent({
         }
 
         const isMailValid = computed(() => {
-            return Form.isValidMail(mail.value);
+            return Form.isMailValid(mail.value);
         });
 
         const isPasswordLongEnough = computed(() => {

@@ -6,10 +6,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import SHeader from "@/components/template/Header.vue";
 import SFooter from "@/components/template/Footer.vue";
 import SToasts from "@/components/template/Toasts/Toasts.vue";
+import { User as UserModule } from "@/modules";
 
 export default defineComponent({
     name: "App",
@@ -17,6 +18,12 @@ export default defineComponent({
         SFooter,
         SHeader,
         SToasts
+    },
+    setup() {
+        onMounted(async () => {
+            const userStore = UserModule.useStore();
+            await userStore.init();
+        });
     }
 });
 </script>

@@ -7,12 +7,14 @@ const UserLogin = Type.Object({
     password: Type.String()
 });
 
+type TUserLogin = Static<typeof UserLogin>;
+
 const UserLoginResponse = Type.Object({
     message: Type.String(),
     success: Type.Boolean()
 });
 
-type TUserLogin = Static<typeof UserLogin>;
+type TUserLoginResponse = Static<typeof UserLoginResponse>;
 
 const schema = {
     body: UserLogin,
@@ -22,7 +24,7 @@ const schema = {
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.post<{ Body: TUserLogin; Response: TUserLogin }>(
+    server.post<{ Body: TUserLogin; Response: TUserLoginResponse }>(
         "/login",
         { schema },
         async (request, reply) => {
@@ -36,7 +38,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             reply.headers({
                 "Set-Cookie": [
-                    `user=${ session.user };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`,
+                    `userId=${ session.userId };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`,
                     `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`
                 ]
             }).send({
