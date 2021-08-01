@@ -1,8 +1,10 @@
 <template>
-    <SHeader />
-    <router-view />
-    <SFooter />
-    <SToasts />
+    <div class="app">
+        <SHeader />
+        <router-view />
+        <SFooter />
+        <SToasts />
+    </div>
 </template>
 
 <script lang="ts">
@@ -39,5 +41,10 @@ body {
 html, body {
     margin: 0;
     background: var(--color-background-0);
+}
+
+.app {
+    height: 100vh;
+    overflow: hidden;
 }
 </style>

@@ -2,13 +2,10 @@
     <div class="menu">
         <div class="list">
             <SButton class="button">
-                <FontAwesomeIcon :icon="['fas', 'user-cog']" />
-                <span>Profil</span>
-            </SButton>
-            <SButton class="button">
                 <FontAwesomeIcon :icon="['fas', 'cog']" />
                 <span>Paramètres</span>
             </SButton>
+            <SModalSettings />
             <SButton
                 class="button"
                 @click="userStore.disconnect"
@@ -25,10 +22,11 @@ import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SButton from "@/components/design/Forms/Button.vue";
 import { User } from "@/modules";
+import SModalSettings from "@/components/template/Modals/Settings.vue";
 
 export default defineComponent({
     name: "SMenu",
-    components: { FontAwesomeIcon, SButton },
+    components: { FontAwesomeIcon, SButton, SModalSettings },
     setup() {
         const userStore = User.useStore();
 

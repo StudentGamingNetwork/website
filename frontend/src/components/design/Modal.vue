@@ -40,7 +40,7 @@ export default defineComponent({
     emits: ["update:active"],
     setup(props, context) {
 
-        function close(){
+        function close() {
             context.emit("update:active", false);
         }
 
@@ -61,7 +61,7 @@ export default defineComponent({
     position: fixed;
     z-index: 10;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
@@ -72,7 +72,7 @@ export default defineComponent({
 
         .close {
             top: 0;
-            right:0;
+            right: 0;
             position: absolute;
             width: 40px;
             height: 40px;
