@@ -6,6 +6,7 @@ import { Cookie } from "@/utils";
 
 const UserPingResponse = Type.Object({
     id: Type.String(),
+    mail: Type.String(),
     username: Type.String()
 });
 
@@ -32,6 +33,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             reply.send({
                 id: user._id,
+                mail: user.mail,
                 username: user.username
             });
         }

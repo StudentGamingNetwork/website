@@ -4,8 +4,8 @@
             <li
                 v-for="option of options"
                 :key="option.id"
-                :class="{ selected: option.id === selectedId }"
-                @click="selectedId = option.id"
+                :class="{ selected: option.id === modelValue.id }"
+                @click="$emit('update:modelValue', option)"
             >
                 <FontAwesomeIcon
                     class="icon"
@@ -18,29 +18,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { Component, defineComponent, PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 export type TMenuOption = {
     id: string;
     name: string;
     icon: string;
+    module: Component;
 }
 
 export default defineComponent({
     name: "SModalMenu",
     components: { FontAwesomeIcon },
     props: {
+        modelValue: {
+            required: true,
+            type: Object as PropType<TMenuOption>
+        },
         options: {
             required: true,
             type: Array as PropType<Array<TMenuOption>>
         }
     },
-    setup(props) {
-        const selectedId = ref(props.options[0].id);
-
-        return { selectedId };
-    }
+    emits: ["update:modelValue"]
 });
 </script>
 

@@ -4,7 +4,7 @@
             <div
                 v-if="active"
                 class="modal-background"
-                @click="close"
+                @click="$emit('close')"
             >
                 <SCard
                     class="card"
@@ -13,7 +13,7 @@
                     <slot />
                     <div
                         class="close"
-                        @click="close"
+                        @click="$emit('close')"
                     >
                         <FontAwesomeIcon :icon="['fas','times']" />
                     </div>
@@ -37,22 +37,7 @@ export default defineComponent({
             type: Boolean
         }
     },
-    emits: ["update:active"],
-    setup(props, context) {
-
-        function close() {
-            context.emit("update:active", false);
-        }
-
-        function open() {
-            context.emit("update:active", true);
-        }
-
-        return {
-            close,
-            open
-        };
-    }
+    emits: ["close"]
 });
 </script>
 

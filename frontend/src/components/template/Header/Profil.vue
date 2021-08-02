@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { User } from "@/modules";
+import { User, State } from "@/modules";
 import SMenu from "@/components/template/Header/Menu.vue";
 
 export default defineComponent({

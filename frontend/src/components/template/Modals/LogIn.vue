@@ -1,5 +1,8 @@
 <template>
-    <SModal v-model:active="stateStore.modals.logIn">
+    <SModal
+        :active="stateStore.modal === 'login'"
+        @close="stateStore.modalClose()"
+    >
         <div class="modal-content">
             <SSectionTitle>Connexion</SSectionTitle>
             <div class="signup">
@@ -73,7 +76,7 @@
             </div>
             <div
                 class="link"
-                @click="stateStore.modalSignUpOpen"
+                @click="stateStore.modalOpen('signup')"
             >
                 Pas encore de compte ?
             </div>
@@ -113,7 +116,7 @@ export default defineComponent({
             if (response?.success) {
                 password.value = "";
                 mail.value = "";
-                stateStore.modalLogInClose();
+                stateStore.modalClose();
 
                 const userStore = UserModule.useStore();
                 await userStore.init();
@@ -216,6 +219,7 @@ export default defineComponent({
             .button, .input {
                 box-sizing: border-box;
                 height: 48px;
+                margin-top: 0;
             }
         }
     }

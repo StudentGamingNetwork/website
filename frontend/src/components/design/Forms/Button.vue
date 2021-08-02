@@ -1,5 +1,5 @@
 <template>
-    <button :class="{ outlined, primary, disabled }">
+    <button :class="{ outlined, primary, disabled, danger }">
         <FontAwesomeIcon
             v-if="spinning"
             class="spinner"
@@ -18,6 +18,10 @@ export default defineComponent({
     name: "SButton",
     components: { FontAwesomeIcon },
     props: {
+        danger: {
+            default: false,
+            type: Boolean
+        },
         disabled: {
             default: false,
             type: Boolean
@@ -40,6 +44,9 @@ export default defineComponent({
 
 <style scoped lang="scss">
 button {
+    --color-button-content : var(--color-content);
+    --color-button-border : var(--color-content-softer);
+
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
@@ -47,6 +54,12 @@ button {
     border: none;
     padding: var(--length-padding-xs) var(--length-padding-m);
     background: none;
+    color: var(--color-button-content);
+
+    &.danger {
+        --color-button-content : var(--color-error-content);
+        --color-button-border : var(--color-error-liter);
+    }
 
     .spinner {
         font-size: 1.5rem;
@@ -80,11 +93,11 @@ button {
     }
 
     &.outlined {
-        border: 2px solid var(--color-content-softer);
+        border: 2px solid var(--color-button-border);
         padding: calc(var(--length-padding-xs) - 2px) calc(var(--length-padding-m) - 2px);
 
         &:hover:not(.disabled) {
-            border-color: var(--color-content);
+            border-color: var(--color-button-content);
         }
     }
 }

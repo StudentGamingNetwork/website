@@ -1,9 +1,10 @@
 <template>
     <div
         class="input"
-        :class="{ 'has-content': !!modelValue }"
+        :class="{ 'has-content': hasContent, disabled }"
     >
         <input
+            :disabled="disabled"
             :type="inputType"
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
@@ -24,6 +25,10 @@ import { computed, defineComponent } from "vue";
 export default defineComponent({
     name: "SInput",
     props: {
+        disabled: {
+            default: false,
+            type: Boolean
+        },
         modelValue: {
             default: "",
             type: String
@@ -36,7 +41,6 @@ export default defineComponent({
             default: "",
             type: String
         }
-
     },
     emits: ["update:modelValue", "enter"],
     setup(props, context) {
@@ -47,6 +51,10 @@ export default defineComponent({
             return "text";
         });
 
+        const hasContent = computed(() => {
+            return !!props.modelValue && props.modelValue !== "";
+        });
+
         function processKeyDown(event: KeyboardEvent) {
             if (event.key === "Enter") {
                 context.emit("enter");
@@ -54,6 +62,7 @@ export default defineComponent({
         }
 
         return {
+            hasContent,
             inputType,
             processKeyDown
         };
@@ -68,6 +77,7 @@ export default defineComponent({
     position: relative;
     display: flex;
     align-items: center;
+    margin-top: 0;
 
     input {
         font-size: 0.9rem;
@@ -116,10 +126,23 @@ export default defineComponent({
     }
 
     &:focus-within, &.has-content {
+        margin-top: 22px;
+
         .placeholder {
             top: -34px;
             left: 0;
             font-size: 0.8rem;
+        }
+    }
+
+    &.disabled {
+        &:hover {
+            border-color: var(--color-content-softer);
+        }
+
+        input {
+            cursor: not-allowed;
+            opacity: 0.5;
         }
     }
 

@@ -2,14 +2,14 @@
     <div class="header-buttons">
         <SButton
             primary
-            @click="stateStore.modalSignUpOpen"
+            @click="stateStore.modalOpen('signup')"
         >
             Inscription
         </SButton>
         <SModalSignUp />
         <SButton
             outlined
-            @click="stateStore.modalLogInOpen"
+            @click="stateStore.modalOpen('login')"
         >
             Connexion
         </SButton>

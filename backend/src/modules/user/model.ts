@@ -9,6 +9,7 @@ export interface IUser {
     password: string;
     username: string;
     roles: Array<ERoles>;
+    platforms: Record<string, string>;
 }
 
 export interface IUserDocument extends IUser, Mongo.Document {
@@ -23,6 +24,10 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
     password: {
         required: true,
         type: String
+    },
+    platforms: {
+        of: String,
+        type: Map
     },
     roles: [{
         enum: Object.values(ERoles),

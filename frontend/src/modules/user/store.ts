@@ -13,12 +13,14 @@ export const useStore = defineStore({
 
             this.id = "";
             this.username = "";
+            this.mail = "";
         },
         async init() {
             try {
                 const userData = await UserService.ping();
                 this.id = userData.id;
                 this.username = userData.username;
+                this.mail = userData.mail;
             }
             catch (error) {
                 if (!axios.isAxiosError(error)) {
@@ -29,6 +31,7 @@ export const useStore = defineStore({
     },
     state: () => ({
         id: "",
+        mail: "",
         roles: [] as Array<string>,
         username: ""
     })

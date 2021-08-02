@@ -1,7 +1,10 @@
 <template>
     <div class="menu">
         <div class="list">
-            <SButton class="button">
+            <SButton
+                class="button"
+                @click="stateStore.modalOpen('settings')"
+            >
                 <FontAwesomeIcon :icon="['fas', 'cog']" />
                 <span>Paramètres</span>
             </SButton>
@@ -21,16 +24,18 @@
 import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SButton from "@/components/design/Forms/Button.vue";
-import { User } from "@/modules";
+import { User, State } from "@/modules";
 import SModalSettings from "@/components/template/Modals/Settings.vue";
 
 export default defineComponent({
     name: "SMenu",
     components: { FontAwesomeIcon, SButton, SModalSettings },
     setup() {
+        const stateStore = State.useStore();
         const userStore = User.useStore();
 
         return {
+            stateStore,
             userStore
         };
     }
