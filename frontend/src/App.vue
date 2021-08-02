@@ -1,5 +1,5 @@
 <template>
-    <div class="app">
+    <div id="app">
         <SHeader />
         <router-view />
         <SFooter />
@@ -12,7 +12,7 @@ import { defineComponent, onMounted } from "vue";
 import SHeader from "@/components/template/Header.vue";
 import SFooter from "@/components/template/Footer.vue";
 import SToasts from "@/components/template/Toasts/Toasts.vue";
-import { User as UserModule } from "@/modules";
+import { User } from "@/modules";
 
 export default defineComponent({
     name: "App",
@@ -23,7 +23,7 @@ export default defineComponent({
     },
     setup() {
         onMounted(async () => {
-            const userStore = UserModule.useStore();
+            const userStore = User.useStore();
             await userStore.init();
         });
     }
@@ -41,9 +41,5 @@ body {
 html, body {
     margin: 0;
     background: var(--color-background-0);
-}
-
-.app {
-    height: 100vh;
 }
 </style>

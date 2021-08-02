@@ -5,12 +5,16 @@ export const useStore = defineStore({
     actions: {
         modalClose() {
             this.modal = "";
+            document.body.style.overflow = "auto";
         },
         modalOpen(name: string) {
             this.modal = name;
+            this.savedScroll = window.scrollY;
+            document.body.style.overflow = "hidden";
         }
     },
     state: () => ({
-        modal: ""
+        modal: "",
+        savedScroll: 0
     })
 });

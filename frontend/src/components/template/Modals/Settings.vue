@@ -60,7 +60,8 @@ export default defineComponent({
 <style scoped lang="scss">
 .profil {
     width: 720px;
-    height: 380px;
+    min-height: 380px;
+    height: 75vh;
     display: flex;
 
     .menu {
