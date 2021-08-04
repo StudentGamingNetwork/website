@@ -1,3 +1,3 @@
 export * from "./login";
 export * from "./signup";
-export * from "./ping";
+export * from "./connection";

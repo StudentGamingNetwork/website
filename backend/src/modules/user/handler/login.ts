@@ -42,7 +42,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`
                 ]
             }).send({
-                message: "Vous êtes maintenant connecté",
+                message: "Vous êtes maintenant connecté.",
                 success: true
             });
         }

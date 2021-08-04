@@ -42,7 +42,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`
                 ]
             }).send({
-                message: "Votre inscription a bien été prise en compte",
+                message: "Votre inscription a bien été prise en compte.",
                 success: true
             });
         }

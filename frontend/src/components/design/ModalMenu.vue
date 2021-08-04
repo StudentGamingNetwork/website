@@ -24,8 +24,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 export type TMenuOption = {
     id: string;
     name: string;
+    component: Component;
     icon: string;
-    module: Component;
 }
 
 export default defineComponent({

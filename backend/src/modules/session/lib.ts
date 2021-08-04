@@ -42,6 +42,6 @@ export async function assertValidity(userId: string, token: string): Promise<voi
     const validity = await checkValidity(userId, token);
 
     if (!validity) {
-        throw new httpErrors.Unauthorized("Token de connexion non valide");
+        throw new httpErrors.Unauthorized("Token de connexion non valide ou expiré");
     }
 }

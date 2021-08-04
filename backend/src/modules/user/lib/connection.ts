@@ -1,10 +1,16 @@
+import { FastifyRequest } from "fastify";
 import httpErrors from "http-errors";
+import { Cookie } from "@/utils";
 import * as SessionLib from "@/modules/session/lib";
 import UserModel, { IUserDocument } from "@/modules/user/model";
 
-export async function ping(cookies: {token: string; userId: string}): Promise<IUserDocument> {
+export async function getUser(request: FastifyRequest): Promise<IUserDocument> {
+    if (!request.headers.cookie) {
+        throw new httpErrors.Unauthorized("Vous n'êtes pas connecté");
+    }
 
-    console.log(cookies);
+    const cookies = Cookie.decode(request.headers.cookie);
+
     await SessionLib.assertValidity(cookies.userId, cookies.token);
 
     const user = await UserModel.findOne({

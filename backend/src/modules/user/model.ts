@@ -1,7 +1,12 @@
 import Mongo from "@/database";
 
 export enum ERoles {
-    Admin = "admin"
+    Admin = "admin",
+    Office = "office", // Bureau
+    Council = "council", // Conseil/Respos
+    Member = "member", // SGN
+    Tournament = "tournament",
+    Federation = "federation"
 }
 
 export interface IUser {
@@ -10,12 +15,17 @@ export interface IUser {
     username: string;
     roles: Array<ERoles>;
     platforms: Record<string, string>;
+    name: string;
 }
 
 export interface IUserDocument extends IUser, Mongo.Document {
 }
 
 const userSchema: Mongo.Schema = new Mongo.Schema({
+    name: {
+        faker: "name.firstName",
+        type: String
+    },
     mail: {
         faker: "internet.email",
         required: true,

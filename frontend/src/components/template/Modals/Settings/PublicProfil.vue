@@ -27,6 +27,7 @@
                 placeholder="Prénom et nom"
             />
             <SInput
+                disabled
                 placeholder="Certificat étudiant"
             />
             <div class="status">
@@ -112,14 +113,18 @@ export default defineComponent({
     }
 
     .section-title {
-        margin-top: var(--length-margin-s);
+        margin-top: var(--length-margin-m);
+        margin-bottom: var(--length-margin-s);
+        padding-top: var(--length-padding-xs);
         color: var(--color-content-softer);
         font-size: 0.8rem;
         border-top: 1px solid var(--color-content-litest);
         width: 100%;
+        text-transform: uppercase;
     }
 
     hr {
+        margin: var(--length-margin-m) 0 0;
         width: 100%;
         border:none;
         border-top: 1px solid var(--color-content-litest);

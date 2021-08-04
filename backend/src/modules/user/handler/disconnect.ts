@@ -28,7 +28,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     `token=deleted;path=/;expires=${ yesterday.toUTCString() }`
                 ]
             }).send({
-                message: "Vous êtes maintenant déconnecté",
+                message: "Vous êtes maintenant déconnecté.",
                 success: true
             });
         }

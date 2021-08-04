@@ -136,13 +136,14 @@ export default defineComponent({
     }
 
     &.disabled {
+        opacity: 0.5;
+
         &:hover {
             border-color: var(--color-content-softer);
         }
 
         input {
             cursor: not-allowed;
-            opacity: 0.5;
         }
     }
 
