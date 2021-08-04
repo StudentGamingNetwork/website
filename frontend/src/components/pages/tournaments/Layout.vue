@@ -16,6 +16,12 @@
                 :key="tournament.id"
                 :tournament="tournament"
             />
+            <SButton
+                v-if="userStore.hasTournamentRight"
+                outlined
+            >
+                Ajouter un nouveau tournoi
+            </SButton>
         </div>
     </SBaseLayout>
 </template>
@@ -29,13 +35,17 @@ import SSelector from "@/components/design/Selector.vue";
 import LogoCSGO from "@/assets/images/games/csgo.png";
 import LogoTM from "@/assets/images/games/trackmania.png";
 import LogoRL from "@/assets/images/games/rocket-league.png";
-import { Tournament } from "@/modules";
+import { Tournament, User } from "@/modules";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
+import SButton from "@/components/design/Forms/Button.vue";
+
 
 export default defineComponent({
     name: "STournamentsLayout",
-    components: { SBaseLayout, SPageHead, SSelector, STournament },
+    components: { SBaseLayout, SButton, SPageHead, SSelector, STournament },
     setup() {
+        const userStore = User.useStore();
+
         const csgoTournament: Tournament.TTournament = {
             id: "a",
             title: "Student Gaming League 2021 : CSGO",
@@ -57,6 +67,7 @@ export default defineComponent({
                 team: "*5 joueurs* par équipe + *2 remplaçants*"
             }
         };
+
         const rlTournament: Tournament.TTournament = {
             id: "b",
             title: "Student Gaming League 2021 : Rocket League",
@@ -78,6 +89,7 @@ export default defineComponent({
                 team: "*5 joueurs* par équipe + *2 remplaçants*"
             }
         };
+
         const tmTournament: Tournament.TTournament = {
             id: "c",
             title: "Student Gaming League 2021 : Trackmania",
@@ -109,7 +121,8 @@ export default defineComponent({
         return {
             BackgroundTournaments,
             tournaments: [csgoTournament, rlTournament, tmTournament],
-            tournamentsTypes
+            tournamentsTypes,
+            userStore
         };
     }
 });

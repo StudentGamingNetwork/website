@@ -14,6 +14,7 @@ export const useStore = defineStore({
             this.id = "";
             this.username = "";
             this.mail = "";
+            this.roles = [];
         },
         async init() {
             try {
@@ -21,12 +22,36 @@ export const useStore = defineStore({
                 this.id = userData.id;
                 this.username = userData.username;
                 this.mail = userData.mail;
+                this.roles = userData.roles;
             }
             catch (error) {
                 if (!axios.isAxiosError(error)) {
                     throw error;
                 }
             }
+        }
+    },
+    getters: {
+        hasFederationRight(): boolean {
+            if (this.isAdmin) {
+                return true;
+            }
+            return this.roles.includes("member") && this.roles.includes("federation");
+        },
+        hasPartnersRight(): boolean {
+            if (this.isAdmin) {
+                return true;
+            }
+            return this.roles.includes("member") && this.roles.includes("partnership");
+        },
+        hasTournamentRight(): boolean {
+            if (this.isAdmin) {
+                return true;
+            }
+            return this.roles.includes("member") && this.roles.includes("tournament");
+        },
+        isAdmin(): boolean {
+            return this.roles.includes("admin");
         }
     },
     state: () => ({

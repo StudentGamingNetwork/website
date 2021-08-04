@@ -71,6 +71,13 @@ export default defineComponent({
     width: 256px;
     box-sizing: border-box;
     padding: var(--length-padding-m);
+    cursor: pointer;
+    box-shadow: 0 0 0 hsla(0,0%,0%,0);
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px hsla(0,0%,0%,0.25);
+    }
 
     img {
         width: 100%;
@@ -113,6 +120,11 @@ export default defineComponent({
 
         .network {
             opacity: 0.3;
+
+            &:hover {
+                color: var(--color-primary);
+                opacity: 1;
+            }
         }
     }
 }

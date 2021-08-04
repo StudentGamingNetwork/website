@@ -7,17 +7,17 @@ export enum ESchoolType {
 }
 
 /*
-Ile-de-France
-Normandie / Bretagne / Pays-de-la-Loire
-Nouvelle-Aquitaine / Centre-Val-de-Loire
-Hauts-de-France
-Occitanie / PACA / Corse
-Grand Est / Bourgogne-Franche-Comté
-Auvergne-Rhone-Alpes
+idf : Ile-de-France
+nbp : Normandie / Bretagne / Pays-de-la-Loire
+nac : Nouvelle-Aquitaine / Centre-Val-de-Loire
+hdf : Hauts-de-France
+opc : Occitanie / PACA / Corse
+geb : Grand Est / Bourgogne-Franche-Comté
+ara : Auvergne-Rhone-Alpes
 */
 
 export interface IAssociation {
-    title: string;
+    name: string;
     tag: string;
     users: {
         admin: Mongo.Schema.Types.ObjectId;
@@ -46,7 +46,7 @@ export interface IAssociationDocument extends IAssociation, Mongo.Document {
 }
 
 const associationSchema: Mongo.Schema = new Mongo.Schema({
-    title: {
+    name: {
         faker: "company.companyName",
         required: true,
         type: String

@@ -4,9 +4,10 @@ export enum ERoles {
     Admin = "admin",
     Office = "office", // Bureau
     Council = "council", // Conseil/Respos
-    Member = "member", // SGN
+    Member = "member", // Membres SGN
     Tournament = "tournament",
-    Federation = "federation"
+    Federation = "federation",
+    Partnership = "partnership"
 }
 
 export interface IUser {

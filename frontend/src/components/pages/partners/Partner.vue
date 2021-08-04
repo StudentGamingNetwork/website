@@ -8,9 +8,23 @@
             :src="logo"
         >
         <div class="description">
-            <SSectionTitle>
-                {{ title }}
-            </SSectionTitle>
+            <div class="title">
+                <SSectionTitle>
+                    {{ title }}
+                </SSectionTitle>
+                <FontAwesomeIcon
+                    v-if="userStore.hasPartnersRight"
+                    class="edit"
+                    :icon="['fas', 'edit']"
+                    title="Modifier"
+                />
+                <FontAwesomeIcon
+                    v-if="userStore.hasPartnersRight"
+                    class="edit"
+                    :icon="['fas', 'times']"
+                    title="Supprimer"
+                />
+            </div>
             <p>
                 <slot />
             </p>
@@ -18,14 +32,17 @@
                 <FontAwesomeIcon
                     class="network"
                     :icon="['fas','globe']"
+                    title="Site internet"
                 />
                 <FontAwesomeIcon
                     class="network"
                     :icon="['fab','facebook']"
+                    title="Facebook"
                 />
                 <FontAwesomeIcon
                     class="network"
                     :icon="['fab','twitter']"
+                    title="Twitter"
                 />
             </div>
         </div>
@@ -36,6 +53,7 @@
 import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
+import { User } from "@/modules";
 
 export default defineComponent({
     name: "SPartner",
@@ -53,6 +71,13 @@ export default defineComponent({
             default: false,
             type: Boolean
         }
+    },
+    setup() {
+        const userStore = User.useStore();
+
+        return {
+            userStore
+        };
     }
 });
 </script>
@@ -84,6 +109,31 @@ export default defineComponent({
         @media (max-width: 1099px) {
             height: 64px;
             width: 128px;
+        }
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        gap: var(--length-gap-s);
+
+
+
+        .edit {
+            opacity: 0;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    &:hover {
+        .edit {
+            opacity: 0.5;
         }
     }
 

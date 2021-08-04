@@ -35,6 +35,12 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
                 </SPartner>
             </div>
+            <SButton
+                v-if="userStore.hasPartnersRight"
+                outlined
+            >
+                Ajouter un nouveau partenaire
+            </SButton>
         </div>
     </SBaseLayout>
 </template>
@@ -42,7 +48,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import SPartner from "@/components/pages/partners/Partner.vue";
-
 import BackgroundPartners from "@/assets/images/backgrounds/partners.png";
 import LogoHyperX from "@/assets/images/partners/hyperx.svg";
 import LogoESpotParis from "@/assets/images/partners/espot.png";
@@ -50,17 +55,22 @@ import LogoMaxnomic from "@/assets/images/partners/maxnomic.png";
 import LogoGamesAndRules from "@/assets/images/partners/gamesandrules.png";
 import SPageHead from "@/components/template/PageHead.vue";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
+import SButton from "@/components/design/Forms/Button.vue";
+import { User } from "@/modules";
 
 export default defineComponent({
     name: "SPartnersLayout",
-    components: { SBaseLayout, SPageHead, SPartner },
+    components: { SBaseLayout, SButton, SPageHead, SPartner },
     setup() {
+        const userStore = User.useStore();
+
         return {
             BackgroundPartners,
             LogoESpotParis,
             LogoGamesAndRules,
             LogoHyperX,
-            LogoMaxnomic
+            LogoMaxnomic,
+            userStore
         };
     }
 });
@@ -76,6 +86,9 @@ export default defineComponent({
 
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: var(--length-gap-xxl);
 
     .partners-list {
         width: 1024px;

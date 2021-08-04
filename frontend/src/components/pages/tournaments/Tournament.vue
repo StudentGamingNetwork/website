@@ -71,6 +71,13 @@ export default defineComponent({
     display: flex;
     gap: var(--length-gap-l);
     align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 0 hsla(0,0%,0%,0);
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px hsla(0,0%,0%,0.25);
+    }
 
     @media (max-width: 899px) {
         flex-direction: column;

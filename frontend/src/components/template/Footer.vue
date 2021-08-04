@@ -47,7 +47,10 @@
                         :href="network.link"
                         target="_blank"
                     >
-                        <FontAwesomeIcon :icon="['fab',network.icon]" />
+                        <FontAwesomeIcon
+                            :icon="['fab',network.icon]"
+                            :title="network.title"
+                        />
                     </a>
                 </li>
             </ul>
@@ -76,13 +79,13 @@ export default defineComponent({
                 { title: "Galerie", key: "gallery", link: "#" }
             ],
             networks: [
-                { icon: "facebook", key: "facebook", link: "https://www.facebook.com/StudentGN/" },
-                { icon: "twitter", key: "twitter", link: "https://twitter.com/Student_GN" },
-                { icon: "discord", key: "discord", link: "https://discord.gg/sgnw" },
-                { icon: "instagram", key: "instagram", link: "https://www.instagram.com/student_gaming_network/" },
-                { icon: "twitch", key: "twitch", link: "https://www.twitch.tv/studentgn/" },
-                { icon: "linkedin", key: "linkedin", link: "https://www.linkedin.com/company/10125720" },
-                { icon: "steam", key: "steam", link: "https://steamcommunity.com/groups/sgnw" }
+                { title: "Facebook", icon: "facebook", key: "facebook", link: "https://www.facebook.com/StudentGN/" },
+                { title: "Twitter", icon: "twitter", key: "twitter", link: "https://twitter.com/Student_GN" },
+                { title: "Discord", icon: "discord", key: "discord", link: "https://discord.gg/sgnw" },
+                { title: "Instagram", icon: "instagram", key: "instagram", link: "https://www.instagram.com/student_gaming_network/" },
+                { title: "Twitch", icon: "twitch", key: "twitch", link: "https://www.twitch.tv/studentgn/" },
+                { title: "LinkedIn", icon: "linkedin", key: "linkedin", link: "https://www.linkedin.com/company/10125720" },
+                { title: "Steam", icon: "steam", key: "steam", link: "https://steamcommunity.com/groups/sgnw" }
             ],
             partners: [
                 { title: "ESpot Paris", key: "espot-paris", link: "https://espot.fr/" },
