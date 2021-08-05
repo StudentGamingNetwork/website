@@ -22,7 +22,7 @@ export async function disconnect(): Promise<any> {
 }
 
 
-export async function uploadAvatar({ file }: {file: File}): Promise<any> {
+export async function uploadAvatar({ file }: { file: File }): Promise<any> {
     const formData = new FormData();
     formData.append("file", file);
 
@@ -34,6 +34,15 @@ export async function uploadAvatar({ file }: {file: File}): Promise<any> {
     return result.data;
 }
 
-export function getAvatarUrl(user: {id: string; avatar: string}): string {
+export async function update({ password, username, name }: { name: string; password: { new: string; old: string }; username: string }): Promise<any> {
+    const result = await ApiService.post("/user/update", {
+        name,
+        password,
+        username
+    });
+    return result.data;
+}
+
+export function getAvatarUrl(user: { id: string; avatar: string }): string {
     return `${ Config.backendUrl }/upload/user/${ user.id }/${ user.avatar }`;
 }

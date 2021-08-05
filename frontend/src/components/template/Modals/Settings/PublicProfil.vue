@@ -1,11 +1,16 @@
 <template>
     <div class="public-profil">
+        <div class="section-title">
+            Profil
+        </div>
         <div class="section">
             <SAvatarPicker />
             <div>
                 <SInput
                     v-model="username"
+                    :modified="username !== userStore.username"
                     placeholder="Pseudo"
+                    @enter="sendUpdate"
                 />
                 <template v-if="!username">
                     <SValidator :valid="false">
@@ -24,17 +29,24 @@
         </div>
         <div class="section">
             <SInput
+                v-model="name"
+                :modified="name !== userStore.name"
                 placeholder="Prénom et nom"
+                @enter="sendUpdate"
             />
-            <SInput
+            <SButton
+                class="certificate-input"
                 disabled
-                placeholder="Certificat étudiant"
-            />
+                outlined
+            >
+                Certificat étudiant
+            </SButton>
             <div class="status">
                 <span class="soft">État:</span> Aucun certificat fourni
             </div>
             <div class="description">
-                Vous devez fournir une preuve de votre statut étudiant (<u>certificat étudiant</u> ou <u>carte étudiante</u>) pour participer aux tournois.
+                Pour participer aux tournois, vous devez fournir une preuve de votre statut étudiant (<u>certificat
+                    étudiant</u> ou <u>carte étudiante</u>).
                 Les collégiens et lycéens <strong>ne sont pas</strong> considérés comme "étudiants".
             </div>
         </div>
@@ -43,16 +55,21 @@
         </div>
         <div class="section">
             <SInput
+                v-model="password.old"
+                password
                 placeholder="Ancien mot de passe"
             />
             <SInput
+                v-model="password.new"
+                password
                 placeholder="Nouveau mot de passe"
             />
         </div>
         <hr>
         <SButton
-            disabled
+            :disabled="!hasUpdate"
             primary
+            @click="sendUpdate"
         >
             Sauvegarder le profil
         </SButton>
@@ -60,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, reactive, ref } from "vue";
 import SInput from "@/components/design/Forms/Input.vue";
 import { User } from "@/modules";
 import SValidator from "@/components/design/Forms/Validator.vue";
@@ -74,8 +91,38 @@ export default defineComponent({
         const userStore = User.useStore();
 
         const username = ref(userStore.username);
+        const name = ref(userStore.name);
+        const password = reactive({
+            new: ref(""),
+            old: ref("")
+        });
+
+        const hasUpdate = computed(() => {
+            return username.value !== userStore.username
+            || name.value !== userStore.name
+            || (password.old && password.new);
+        });
+
+        const sendUpdate = async () => {
+            if (!hasUpdate.value) {
+                return;
+            }
+
+            await userStore.update({
+                name: name.value,
+                password: {
+                    new: password.new,
+                    old: password.old
+                },
+                username: username.value
+            });
+        };
 
         return {
+            name,
+            hasUpdate,
+            password,
+            sendUpdate,
             username,
             userStore
         };
@@ -112,6 +159,11 @@ export default defineComponent({
         }
     }
 
+    .certificate-input {
+        width: 320px;
+        text-align: left;
+    }
+
     .section-title {
         margin-top: var(--length-margin-m);
         margin-bottom: var(--length-margin-s);
@@ -126,7 +178,7 @@ export default defineComponent({
     hr {
         margin: var(--length-margin-m) 0 0;
         width: 100%;
-        border:none;
+        border: none;
         border-top: 1px solid var(--color-content-litest);
     }
 }

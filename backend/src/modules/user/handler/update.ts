@@ -11,7 +11,7 @@ const UserUpdate = Type.Object({
     name: Type.String(),
     password: Type.Object({
         new: Type.String(),
-        previous: Type.String()
+        old: Type.String()
     }),
     username: Type.String()
 });
@@ -49,12 +49,12 @@ export async function register(server: FastifyInstance): Promise<void> {
 }
 
 async function update(user: IUserDocument, update: TUserUpdate) {
-    if (update.password.previous) {
+    if (update.password.old) {
         if (!isPasswordStrong(update.password.new)) {
             throw new httpErrors.BadRequest("Le nouveau mot de passe n'est pas assez solide.");
         }
 
-        const isPasswordCorrect = Bcrypt.compareSync(update.password.previous, user.password);
+        const isPasswordCorrect = Bcrypt.compareSync(update.password.old, user.password);
         if (!isPasswordCorrect) {
             throw new httpErrors.Unauthorized("Le précédent mot de passe n'est pas correct.");
         }

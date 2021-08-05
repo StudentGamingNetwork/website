@@ -66,8 +66,9 @@ button {
     }
 
     &.disabled {
-        opacity: 0.75;
+        opacity: 0.5;
         filter: grayscale(0.75);
+        color: var(--color-content-liter);
 
         &:hover {
             cursor: not-allowed;

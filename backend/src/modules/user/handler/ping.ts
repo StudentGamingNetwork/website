@@ -4,6 +4,7 @@ import * as UserLib from "../lib";
 
 const UserPingResponse = Type.Object({
     id: Type.String(),
+    name: Type.String(),
     avatar: Type.String(),
     mail: Type.String(),
     roles: Type.Array(Type.String()),

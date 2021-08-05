@@ -4,6 +4,7 @@
         :class="{ 'has-content': hasContent, disabled }"
     >
         <input
+            :class="{ modified }"
             :disabled="disabled"
             :type="inputType"
             :value="modelValue"
@@ -32,6 +33,10 @@ export default defineComponent({
         modelValue: {
             default: "",
             type: String
+        },
+        modified: {
+            default: false,
+            type: Boolean
         },
         password: {
             default: false,
@@ -78,6 +83,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     margin-top: 0;
+    width: 320px;
 
     input {
         font-size: 0.9rem;
@@ -89,9 +95,14 @@ export default defineComponent({
         box-sizing: border-box;
         border: none;
         width: 100%;
+        border-radius: calc(var(--lenght-radius-base) - 2px);
 
         &:focus {
             outline: none;
+        }
+
+        &.modified {
+            background: var(--color-primary-litest);
         }
     }
 

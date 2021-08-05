@@ -3,6 +3,7 @@
         <div class="search-input-wrapper">
             <SInput
                 v-model="searchInput"
+                class="input"
                 placeholder="Chercher une association..."
             >
                 <template #suffix>
@@ -111,6 +112,10 @@ export default defineComponent({
     .search-input-wrapper {
         max-width: 512px;
         width: 100%;
+
+        .input {
+            width: 100%;
+        }
     }
 
     .search-result {

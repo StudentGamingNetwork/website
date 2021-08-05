@@ -21,6 +21,7 @@ export const useStore = defineStore({
                 this.mail = userData.mail;
                 this.roles = userData.roles;
                 this.avatar = userData.avatar;
+                this.name = userData.name;
             }
             catch (error) {
                 if (!axios.isAxiosError(error)) {
@@ -28,12 +29,24 @@ export const useStore = defineStore({
                 }
             }
         },
+        async update({ password, username, name }: { name: string; password: { new: string; old: string }; username: string }) {
+            const response = await Toast.testRequest(async () => {
+                return await UserService.update({ password, username, name });
+            });
+
+            if (response?.success) {
+                this.username = username;
+                this.name = name;
+            }
+        },
         async uploadAvatar(file: File) {
             const response = await Toast.testRequest(async () => {
                 return await UserService.uploadAvatar({ file });
             });
 
-            this.avatar = response.avatar;
+            if (response?.success) {
+                this.avatar = response.avatar;
+            }
         }
     },
     getters: {
@@ -64,6 +77,7 @@ export const useStore = defineStore({
     },
     state: () => ({
         id: "",
+        name: "",
         avatar: "",
         mail: "",
         roles: [] as Array<string>,

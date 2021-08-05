@@ -1,7 +1,7 @@
 <template>
     <div class="avatar-picker">
         <div class="title">
-            Image de profil
+            Avatar
         </div>
         <div
             class="picker"

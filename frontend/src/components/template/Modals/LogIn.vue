@@ -220,6 +220,7 @@ export default defineComponent({
                 box-sizing: border-box;
                 height: 48px;
                 margin-top: 0;
+                width: 100%;
             }
         }
     }

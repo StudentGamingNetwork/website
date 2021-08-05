@@ -10,14 +10,27 @@ export enum ERoles {
     Partnership = "partnership"
 }
 
+export enum EStudentStatus {
+    None = "none",
+    Processing = "processing",
+    Validated = "validated",
+    Rejected = "rejected",
+    Outdated = "outdated"
+}
+
 export interface IUser {
-    mail: string;
-    password: string;
-    username: string;
-    roles: Array<ERoles>;
-    platforms: Record<string, string>;
     name: string;
     avatar: string;
+    mail: string;
+    password: string;
+    platforms: Record<string, string>;
+    roles: Array<ERoles>;
+    student: {
+        lastModifier: Mongo.Schema.Types.ObjectId;
+        message: string;
+        status: EStudentStatus;
+    };
+    username: string;
 }
 
 export interface IUserDocument extends IUser, Mongo.Document {
@@ -48,6 +61,18 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         enum: Object.values(ERoles),
         type: String
     }],
+    student: {
+        lastModifier: {
+            ref: "user",
+            required: true,
+            type: Mongo.Schema.Types.ObjectId
+        },
+        message: String,
+        status: {
+            enum: Object.values(EStudentStatus),
+            type: String
+        }
+    },
     username: {
         faker: "internet.userName",
         type: String
