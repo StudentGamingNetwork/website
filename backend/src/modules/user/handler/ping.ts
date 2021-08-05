@@ -4,6 +4,7 @@ import * as UserLib from "../lib";
 
 const UserPingResponse = Type.Object({
     id: Type.String(),
+    avatar: Type.String(),
     mail: Type.String(),
     roles: Type.Array(Type.String()),
     username: Type.String()
@@ -23,13 +24,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
-
-            reply.send({
-                id: user._id,
-                mail: user.mail,
-                roles: user.roles,
-                username: user.username
-            });
+            reply.send({ id: user._id, ...user.toJSON() });
         }
     );
 }

@@ -1,7 +1,10 @@
 <template>
     <div class="search-layout">
         <div class="search-input-wrapper">
-            <SInput placeholder="Chercher une association...">
+            <SInput
+                v-model="searchInput"
+                placeholder="Chercher une association..."
+            >
                 <template #suffix>
                     <FontAwesomeIcon :icon="['fas','search']" />
                 </template>
@@ -61,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SInput from "@/components/design/Forms/Input.vue";
 import SAssociationCard from "@/components/pages/federation/AssociationCard.vue";
@@ -80,6 +83,8 @@ export default defineComponent({
     name: "SFederationSearch",
     components: { FontAwesomeIcon, SAssociationCard, SInput },
     setup() {
+        const searchInput = ref("");
+
         return {
             Logo2Rivals,
             Logo4esport,
@@ -88,7 +93,8 @@ export default defineComponent({
             LogoAUEC,
             LogoBDSKM,
             LogoESME,
-            LogoLanUTC
+            LogoLanUTC,
+            searchInput
         };
     }
 });

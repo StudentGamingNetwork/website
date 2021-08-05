@@ -23,6 +23,7 @@
                     class="edit"
                     :icon="['fas', 'times']"
                     title="Supprimer"
+                    @click="deletePartner"
                 />
             </div>
             <p>
@@ -72,10 +73,17 @@ export default defineComponent({
             type: Boolean
         }
     },
-    setup() {
+    setup(props) {
         const userStore = User.useStore();
 
+        const deletePartner = () => {
+            if (confirm(`Voulez-vous vraiment supprimer le partenaire "${ props.title }" ?`)) {
+
+            }
+        };
+
         return {
+            deletePartner,
             userStore
         };
     }

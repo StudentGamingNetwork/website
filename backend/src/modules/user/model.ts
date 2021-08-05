@@ -17,6 +17,7 @@ export interface IUser {
     roles: Array<ERoles>;
     platforms: Record<string, string>;
     name: string;
+    avatar: string;
 }
 
 export interface IUserDocument extends IUser, Mongo.Document {
@@ -25,6 +26,9 @@ export interface IUserDocument extends IUser, Mongo.Document {
 const userSchema: Mongo.Schema = new Mongo.Schema({
     name: {
         faker: "name.firstName",
+        type: String
+    },
+    avatar: {
         type: String
     },
     mail: {

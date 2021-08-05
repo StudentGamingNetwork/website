@@ -11,10 +11,7 @@ export const useStore = defineStore({
                 return await UserService.disconnect();
             });
 
-            this.id = "";
-            this.username = "";
-            this.mail = "";
-            this.roles = [];
+            this.$reset();
         },
         async init() {
             try {
@@ -23,15 +20,26 @@ export const useStore = defineStore({
                 this.username = userData.username;
                 this.mail = userData.mail;
                 this.roles = userData.roles;
+                this.avatar = userData.avatar;
             }
             catch (error) {
                 if (!axios.isAxiosError(error)) {
                     throw error;
                 }
             }
+        },
+        async uploadAvatar(file: File) {
+            const response = await Toast.testRequest(async () => {
+                return await UserService.uploadAvatar({ file });
+            });
+
+            this.avatar = response.avatar;
         }
     },
     getters: {
+        getAvatarUrl(): string{
+            return UserService.getAvatarUrl({ id: this.id, avatar: this.avatar });
+        },
         hasFederationRight(): boolean {
             if (this.isAdmin) {
                 return true;
@@ -56,6 +64,7 @@ export const useStore = defineStore({
     },
     state: () => ({
         id: "",
+        avatar: "",
         mail: "",
         roles: [] as Array<string>,
         username: ""

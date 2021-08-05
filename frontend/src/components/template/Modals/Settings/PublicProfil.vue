@@ -1,7 +1,7 @@
 <template>
     <div class="public-profil">
         <div class="section">
-            <SProfilPicker />
+            <SAvatarPicker />
             <div>
                 <SInput
                     v-model="username"
@@ -64,12 +64,12 @@ import { defineComponent, ref } from "vue";
 import SInput from "@/components/design/Forms/Input.vue";
 import { User } from "@/modules";
 import SValidator from "@/components/design/Forms/Validator.vue";
-import SProfilPicker from "@/components/design/Forms/ProfilPicker.vue";
+import SAvatarPicker from "@/components/design/Forms/AvatarPicker.vue";
 import SButton from "@/components/design/Forms/Button.vue";
 
 export default defineComponent({
     name: "SPublicProfil",
-    components: { SButton, SInput, SProfilPicker, SValidator },
+    components: { SAvatarPicker, SButton, SInput, SValidator },
     setup() {
         const userStore = User.useStore();
 

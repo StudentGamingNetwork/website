@@ -1,9 +1,10 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import Config from "./config";
 
 Axios.defaults.withCredentials = true;
 
 export default {
-    baseUrl: "",
+    baseUrl: `${ Config.backendUrl }/api`,
     async delete (route: string, config?: AxiosRequestConfig): Promise<AxiosResponse<any>> {
         const url = this.baseUrl + route;
         return await Axios.delete(url, config);
@@ -11,9 +12,6 @@ export default {
     async get (route: string, config?: AxiosRequestConfig): Promise<AxiosResponse<any>> {
         const url = this.baseUrl + route;
         return await Axios.get(url, config);
-    },
-    init (baseUrl: string): void {
-        this.baseUrl = baseUrl;
     },
     async post (route: string, data: any, config?: AxiosRequestConfig): Promise<AxiosResponse<any>> {
         const url = this.baseUrl + route;
