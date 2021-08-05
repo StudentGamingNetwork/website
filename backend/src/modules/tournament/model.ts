@@ -2,16 +2,15 @@ import Mongo from "@/database";
 
 export interface ITournament {
     title: string;
-    gameId: Mongo.Schema.Types.ObjectId;
-    public: boolean;
     archived: boolean;
-    description: string;
     dates: {
         final: string;
         playDays: string;
         start: string;
         subscriptionClose: Date;
     };
+    description: string;
+    gameId: Mongo.Schema.Types.ObjectId;
     informations: {
         prizes: string;
         registeredTeams: number;
@@ -21,6 +20,7 @@ export interface ITournament {
             substitutesNumber: number;
         };
     };
+    public: boolean;
 }
 
 export interface ITournamentDocument extends ITournament, Mongo.Document {

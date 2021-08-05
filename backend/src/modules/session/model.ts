@@ -1,16 +1,16 @@
 import Mongo from "@/database";
 
 export interface ISession {
-    userId: string;
-    token: string;
-    machine: {
-        host: string;
-        userAgent: string;
-    };
     dates: {
         creation: Date;
         expiration: Date;
     };
+    machine: {
+        host: string;
+        userAgent: string;
+    };
+    token: string;
+    userId: string;
 }
 
 export interface ISessionDocument extends ISession, Mongo.Document {

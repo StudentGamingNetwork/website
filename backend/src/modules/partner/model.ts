@@ -2,13 +2,13 @@ import Mongo from "@/database";
 
 export interface IPartner {
     name: string;
-    logo: Mongo.Schema.Types.ObjectId;
+    description: string;
     links: {
         facebook: string;
         twitter: string;
         website: string;
     };
-    description: string;
+    logo: Mongo.Schema.Types.ObjectId;
 }
 
 export interface IPartnerDocument extends IPartner, Mongo.Document {

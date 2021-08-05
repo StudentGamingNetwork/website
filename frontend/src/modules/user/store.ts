@@ -29,9 +29,9 @@ export const useStore = defineStore({
                 }
             }
         },
-        async update({ password, username, name }: { name: string; password: { new: string; old: string }; username: string }) {
+        async update({ name, password, username }: { name: string; password: { new: string; old: string }; username: string }) {
             const response = await Toast.testRequest(async () => {
-                return await UserService.update({ password, username, name });
+                return await UserService.update({ name, password, username });
             });
 
             if (response?.success) {
