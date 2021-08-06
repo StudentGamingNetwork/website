@@ -19,6 +19,7 @@
                 <SInput
                     v-model="association.mail"
                     :modified="association.mail !== associationStore.mail"
+                    required
                     title="Mail"
                     type="email"
                 />
@@ -36,6 +37,7 @@
                 <SInput
                     v-model="association.school.name"
                     :modified="association.school.name !== associationStore.school.name"
+                    required
                     title="Nom de l'école"
                 />
                 <SInput
@@ -140,7 +142,7 @@ import SModalSection from "@/components/design/modal/Section.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SButton from "@/components/design/forms/Button.vue";
-import * as InputValidators from "@/components/design/forms/validators";
+import * as InputValidators from "@/utils/validators";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 
 export default defineComponent({

@@ -15,8 +15,8 @@ export function NotEmpty(): InputValidator {
 export function OnlyLettersAndNumbers(): InputValidator {
     return {
         execute(value: string) {
-            const regexLetters = /^[A-Za-z0-9]+$/;
-            return regexLetters.test(value);
+            const charRegex = /^[A-Za-z0-9]+$/;
+            return charRegex.test(value);
         },
         message: "Seulement des lettres ou des chiffres"
     };
@@ -28,5 +28,15 @@ export function Length({ max, min }: {max: number; min: number}): InputValidator
             return value.length >= min && value.length <= max;
         },
         message: `Entre ${ max } et ${ min } caractères`
+    };
+}
+
+export function Mail(): InputValidator {
+    return {
+        execute(value: string) {
+            const mailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+            return mailRegex.test(value);
+        },
+        message: `Adresse mail valide`
     };
 }

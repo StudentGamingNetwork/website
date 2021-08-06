@@ -115,6 +115,10 @@ export default defineComponent({
 
         .input {
             width: 100%;
+
+            &::v-deep(.input) {
+                width: 100%;
+            }
         }
     }
 

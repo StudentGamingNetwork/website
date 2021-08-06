@@ -85,7 +85,7 @@ import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
 import SModalSection from "@/components/design/modal/Section.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SModalContent from "@/components/design/modal/Content.vue";
-import * as InputValidators from "@/components/design/forms/validators";
+import * as InputValidators from "@/utils/validators";
 
 export default defineComponent({
     name: "SPublicProfil",

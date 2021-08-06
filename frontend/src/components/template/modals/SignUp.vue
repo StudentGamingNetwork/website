@@ -56,14 +56,9 @@
                             class="input"
                             title="Mail"
                             type="email"
+                            :validators="[Validators.Mail()]"
                             @enter="signup"
                         />
-                        <SValidator
-                            v-if="mail"
-                            :valid="isMailValid"
-                        >
-                            Adresse mail valide
-                        </SValidator>
                     </div>
                     <div>
                         <SInput
@@ -121,6 +116,7 @@ import { State, Toast, User as UserModule } from "@/modules";
 import * as UserService from "@/services/user";
 import SValidator from "@/components/design/forms/Validator.vue";
 import { Form } from "@/utils";
+import * as Validators from "@/utils/validators";
 
 const PASSWORD_MIN_LENGTH = 8;
 
@@ -150,11 +146,6 @@ export default defineComponent({
                 await userStore.init();
             }
         }
-
-        const isMailValid = computed(() => {
-            return Form.isMailValid(mail.value);
-        });
-
         const isPasswordLongEnough = computed(() => {
             return password.value.length >= PASSWORD_MIN_LENGTH;
         });
@@ -172,7 +163,7 @@ export default defineComponent({
         });
 
         const isFormValid = computed(() => {
-            return isMailValid.value
+            return Validators.Mail().execute(mail.value)
                 && isPasswordLongEnough.value
                 && doesPasswordContainNumber.value
                 && doesPasswordContainUppercaseLetter.value
@@ -184,7 +175,6 @@ export default defineComponent({
             doesPasswordContainNumber,
             doesPasswordContainUppercaseLetter,
             isFormValid,
-            isMailValid,
             isPasswordLongEnough,
             LogoGoogleSignIn,
             mail,
@@ -192,6 +182,7 @@ export default defineComponent({
             PASSWORD_MIN_LENGTH,
             signup,
             stateStore,
+            Validators,
             waitingForResponse
         };
     }
@@ -235,9 +226,14 @@ export default defineComponent({
         .remote, .local {
             flex-grow: 1;
             flex-basis: 1px;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             gap: var(--length-gap-l);
+
+            &::v-deep(input) {
+                height: 44px;
+            }
         }
 
         .remote {

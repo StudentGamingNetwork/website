@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { ComponentPublicInstance, computed, defineComponent, onMounted, PropType, ref } from "vue";
-import { InputValidator } from "@/components/design/forms/validators";
+import { InputValidator } from "@/utils/validators";
 import SValidator from "@/components/design/forms/Validator.vue";
 
 export default defineComponent({

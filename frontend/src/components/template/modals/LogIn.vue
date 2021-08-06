@@ -173,9 +173,14 @@ export default defineComponent({
         .remote, .local {
             flex-grow: 1;
             flex-basis: 1px;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             gap: var(--length-gap-l);
+
+            &::v-deep(input) {
+                height: 44px;
+            }
         }
 
         .remote {
