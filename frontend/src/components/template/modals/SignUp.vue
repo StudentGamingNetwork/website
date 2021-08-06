@@ -55,6 +55,7 @@
                             v-model="mail"
                             class="input"
                             title="Mail"
+                            type="email"
                             @enter="signup"
                         />
                         <SValidator
@@ -68,8 +69,8 @@
                         <SInput
                             v-model="password"
                             class="input"
-                            password
                             title="Mot de passe"
+                            type="password"
                             @enter="signup"
                         />
                         <div v-if="password">
@@ -111,14 +112,14 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SModal from "@/components/design/Modal/Modal.vue";
+import SModal from "@/components/design/modal/Modal.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
-import SButton from "@/components/design/Forms/Button.vue";
+import SButton from "@/components/design/forms/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
-import SInput from "@/components/design/Forms/Input.vue";
+import SInput from "@/components/design/forms/Input.vue";
 import { State, Toast, User as UserModule } from "@/modules";
 import * as UserService from "@/services/user";
-import SValidator from "@/components/design/Forms/Validator.vue";
+import SValidator from "@/components/design/forms/Validator.vue";
 import { Form } from "@/utils";
 
 const PASSWORD_MIN_LENGTH = 8;
@@ -201,6 +202,7 @@ export default defineComponent({
 .modal-content {
     padding: var(--length-padding-xl);
     width: 720px;
+    max-width: 100vw;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;

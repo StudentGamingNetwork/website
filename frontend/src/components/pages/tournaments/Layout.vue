@@ -37,7 +37,7 @@ import LogoTM from "@/assets/images/games/trackmania.png";
 import LogoRL from "@/assets/images/games/rocket-league.png";
 import { Tournament, User } from "@/modules";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
-import SButton from "@/components/design/Forms/Button.vue";
+import SButton from "@/components/design/forms/Button.vue";
 
 
 export default defineComponent({

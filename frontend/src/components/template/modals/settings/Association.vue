@@ -1,32 +1,76 @@
 <template>
     <SModalContent class="association">
         <template
-            v-if="userStore.association"
+            v-if="associationStore._id"
             class="details"
         >
             <SModalSectionTitle>
                 Profil de l'association
             </SModalSectionTitle>
             <SModalSection>
-                <SInput title="Nom" />
-                <SInput title="Mail" />
-                <SInput title="TAG" />
+                <SAvatarPicker title="Logo" />
+                <SInput
+                    v-model="association.name"
+                    :modified="association.name !== associationStore.name"
+                    required
+                    title="Nom"
+                    :validators="[InputValidators.NotEmpty()]"
+                />
+                <SInput
+                    v-model="association.mail"
+                    :modified="association.mail !== associationStore.mail"
+                    title="Mail"
+                    type="email"
+                />
+                <SInput
+                    v-model="association.tag"
+                    :modified="association.tag !== associationStore.tag"
+                    title="TAG"
+                    :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
+                />
             </SModalSection>
             <SModalSectionTitle>
                 École
             </SModalSectionTitle>
             <SModalSection>
-                <SInput title="Nom de l'école" />
-                <SInput title="Nombre d'étudiant de l'école" />
+                <SInput
+                    v-model="association.school.name"
+                    :modified="association.school.name !== associationStore.school.name"
+                    title="Nom de l'école"
+                />
+                <SInput
+                    title="Nombre d'étudiants de l'école"
+                    type="number"
+                />
             </SModalSection>
             <SModalSectionTitle>
                 Réseaux
             </SModalSectionTitle>
             <SModalSection>
-                <SInput title="Facebook" />
-                <SInput title="Twitter" />
-                <SInput title="Twitch" />
-                <SInput title="Instagram" />
+                <SInput
+                    v-model="association.networks.facebook"
+                    :modified="association.networks.facebook !== associationStore.networks.facebook"
+                    title="Facebook"
+                    type="url"
+                />
+                <SInput
+                    v-model="association.networks.twitter"
+                    :modified="association.networks.twitter !== associationStore.networks.twitter"
+                    title="Twitter"
+                    type="url"
+                />
+                <SInput
+                    v-model="association.networks.twitch"
+                    :modified="association.networks.twitch !== associationStore.networks.twitch"
+                    title="Twitch"
+                    type="url"
+                />
+                <SInput
+                    v-model="association.networks.instagram"
+                    :modified="association.networks.instagram !== associationStore.networks.instagram"
+                    title="Instagram"
+                    type="url"
+                />
             </SModalSection>
             <SModalSeparator />
             <SButton primary>
@@ -88,22 +132,27 @@
 import { computed, defineComponent, reactive, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRouter } from "vue-router";
-import SModalContent from "@/components/design/Modal/Content.vue";
-import SModalSectionTitle from "@/components/design/Modal/SectionTitle.vue";
-import { User, State } from "@/modules";
-import SModalSection from "@/components/design/Modal/Section.vue";
-import SInput from "@/components/design/Forms/Input.vue";
-import SModalSeparator from "@/components/design/Modal/Separator.vue";
-import SButton from "@/components/design/Forms/Button.vue";
+import { cloneDeep } from "lodash";
+import SModalContent from "@/components/design/modal/Content.vue";
+import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
+import { Association, State } from "@/modules";
+import SModalSection from "@/components/design/modal/Section.vue";
+import SInput from "@/components/design/forms/Input.vue";
+import SModalSeparator from "@/components/design/modal/Separator.vue";
+import SButton from "@/components/design/forms/Button.vue";
+import * as InputValidators from "@/components/design/forms/validators";
+import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 
 export default defineComponent({
     name: "SAssociation",
-    components: { FontAwesomeIcon, SButton, SInput, SModalContent, SModalSection, SModalSectionTitle, SModalSeparator },
+    components: { FontAwesomeIcon, SAvatarPicker, SButton, SInput, SModalContent, SModalSection, SModalSectionTitle, SModalSeparator },
     setup() {
-        const userStore = User.useStore();
+        const associationStore = Association.useStore();
         const stateStore = State.useStore();
         const router = useRouter();
         const isCreating = ref(false);
+
+        const association = reactive(cloneDeep(associationStore.$state));
 
         const join = () => {
             router.push("federation");
@@ -125,7 +174,7 @@ export default defineComponent({
         });
 
         const create = async () => {
-            await userStore.createAssociation({
+            await associationStore.create({
                 name: creation.name,
                 mail: creation.mail,
                 school: creation.school
@@ -133,13 +182,15 @@ export default defineComponent({
         };
 
         return {
+            association,
+            associationStore,
             canCreate,
             create,
             creation,
+            InputValidators,
             isCreating,
             join,
-            startCreating,
-            userStore
+            startCreating
         };
     }
 });

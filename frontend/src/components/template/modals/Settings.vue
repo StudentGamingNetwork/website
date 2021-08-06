@@ -20,13 +20,13 @@
 
 <script lang="ts">
 import { defineComponent, shallowRef } from "vue";
-import SModal from "@/components/design/Modal/Modal.vue";
+import SModal from "@/components/design/modal/Modal.vue";
 import SModalMenu, { TMenuOption } from "@/components/design/ModalMenu.vue";
 import { State } from "@/modules";
-import SPublicProfil from "@/components/template/Modals/Settings/PublicProfil.vue";
-import SGameProfil from "@/components/template/Modals/Settings/GameProfil.vue";
-import SAccount from "@/components/template/Modals/Settings/Account.vue";
-import SAssociation from "@/components/template/Modals/Settings/Association.vue";
+import SPublicProfil from "@/components/template/modals/settings/PublicProfil.vue";
+import SGameProfil from "@/components/template/modals/settings/GameProfil.vue";
+import SAccount from "@/components/template/modals/settings/Account.vue";
+import SAssociation from "@/components/template/modals/settings/Association.vue";
 
 export default defineComponent({
     name: "SModalSettings",
@@ -62,6 +62,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .profil {
     width: 720px;
+    max-width: 100vw;
     min-height: 380px;
     height: 75vh;
     display: flex;

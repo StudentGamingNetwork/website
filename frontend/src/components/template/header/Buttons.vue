@@ -19,9 +19,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SButton from "@/components/design/Forms/Button.vue";
-import SModalSignUp from "@/components/template/Modals/SignUp.vue";
-import SModalLogIn from "@/components/template/Modals/LogIn.vue";
+import SButton from "@/components/design/forms/Button.vue";
+import SModalSignUp from "@/components/template/modals/SignUp.vue";
+import SModalLogIn from "@/components/template/modals/LogIn.vue";
 import { State } from "@/modules";
 
 export default defineComponent({

@@ -3,6 +3,7 @@ import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import AssociationModel from "../model";
 import * as UserLib from "@/modules/user/lib";
+import { TypeMemberAssociation } from "@/modules/association/type";
 
 const AssociationCreate = Type.Object({
     name: Type.String({ minLength: 1 }),
@@ -13,7 +14,7 @@ const AssociationCreate = Type.Object({
 type TAssociationCreate = Static<typeof AssociationCreate>;
 
 const AssociationCreateResponse = Type.Object({
-    id: Type.String(),
+    association: TypeMemberAssociation,
     message: Type.String(),
     success: Type.Boolean()
 });
@@ -57,7 +58,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             await user.save();
 
             reply.send({
-                id: association.id,
+                association,
                 message: "L'association a correctement été créée.",
                 success: true
             });

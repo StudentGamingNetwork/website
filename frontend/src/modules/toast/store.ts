@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { v4 as uuidV4 } from "uuid";
 
-const TOAST_TIME = 30 * 1000;
+const TOAST_TIME = 10 * 1000;
 
 export enum EToastType {
     Success = "success",
@@ -27,7 +27,7 @@ export const useStore = defineStore({
                 id,
                 title,
                 close: () => {
-                    delete this.toasts[id]
+                    delete this.toasts[id];
                 },
                 message,
                 type

@@ -1,14 +1,14 @@
 <template>
     <div class="avatar-picker">
         <div class="title">
-            Avatar
+            {{ title }}
         </div>
         <div
             class="picker"
             @click="chooseFile"
         >
             <FontAwesomeIcon
-                v-if="!userStore.avatar"
+                v-if="!url"
                 class="icon"
                 :icon="['fas', 'user']"
             />
@@ -16,7 +16,7 @@
                 v-else
                 alt="avatar"
                 class="avatar-image"
-                :src="userStore.getAvatarUrl"
+                :src="url"
             >
             <input
                 ref="fileInput"
@@ -24,7 +24,7 @@
                 class="avatar-file"
                 name="avatar"
                 type="file"
-                @change="startUpload"
+                @change="changeFile"
             >
         </div>
     </div>
@@ -33,13 +33,22 @@
 <script lang="ts">
 import { ComponentPublicInstance, defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { User } from "@/modules";
 
 export default defineComponent({
     name: "SAvatarPicker",
     components: { FontAwesomeIcon },
-    setup() {
-        const userStore = User.useStore();
+    props: {
+        title: {
+            default: "Avatar",
+            type: String
+        },
+        url: {
+            default: "",
+            type: String
+        }
+    },
+    emits: ["fileChange"],
+    setup(props, context) {
 
         const fileInput = ref<ComponentPublicInstance<HTMLInputElement>>(null);
 
@@ -47,15 +56,14 @@ export default defineComponent({
             fileInput.value.click();
         };
 
-        const startUpload = () => {
-            userStore.uploadAvatar(fileInput.value.files[0]);
+        const changeFile = () => {
+            context.emit("fileChange", fileInput.value.files[0]);
         };
 
         return {
+            changeFile,
             chooseFile,
-            fileInput,
-            startUpload,
-            userStore
+            fileInput
         };
     }
 });

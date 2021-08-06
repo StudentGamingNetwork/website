@@ -1,21 +1,12 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { omit } from "lodash";
 import * as UserService from "@/services/user";
-import * as AssociationService from "@/services/association";
-import { Toast } from "@/modules";
+import { Toast, Association } from "@/modules";
 
 export const useStore = defineStore({
     id: "user",
     actions: {
-        async createAssociation({ name, mail, school }: { name: string; mail: string; school: string }) {
-            const response = await Toast.testRequest(async () => {
-                return await AssociationService.create({ name, mail, school });
-            });
-
-            if (response?.success) {
-                this.association = response.id;
-            }
-        },
         async disconnect() {
             await Toast.testRequest(async () => {
                 return await UserService.disconnect();
@@ -26,13 +17,12 @@ export const useStore = defineStore({
         async init() {
             try {
                 const userData = await UserService.ping();
-                this.id = userData._id;
-                this.username = userData.username;
-                this.mail = userData.mail;
-                this.roles = userData.roles;
-                this.avatar = userData.avatar;
-                this.name = userData.name;
-                this.association = userData.association;
+                this.$patch(omit(userData, "association"));
+
+                if (userData.association) {
+                    const associationStore = Association.useStore();
+                    associationStore.init(userData.association);
+                }
             }
             catch (error) {
                 if (!axios.isAxiosError(error)) {
@@ -62,7 +52,7 @@ export const useStore = defineStore({
     },
     getters: {
         getAvatarUrl(): string{
-            return UserService.getAvatarUrl({ id: this.id, avatar: this.avatar });
+            return UserService.getAvatarUrl({ id: this._id, avatar: this.avatar });
         },
         hasFederationRight(): boolean {
             if (this.isAdmin) {
@@ -93,9 +83,8 @@ export const useStore = defineStore({
         }
     },
     state: () => ({
-        id: "",
+        _id: "",
         name: "",
-        association: "",
         avatar: "",
         mail: "",
         roles: [] as Array<string>,

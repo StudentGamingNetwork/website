@@ -18,5 +18,6 @@ export default defineComponent({
     flex-direction: column;
     gap: var(--length-gap-m);
     align-items: start;
+    max-width: 100%;
 }
 </style>

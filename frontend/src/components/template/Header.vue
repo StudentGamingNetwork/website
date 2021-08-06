@@ -23,8 +23,8 @@ import { computed, defineComponent } from "vue";
 import SLogo from "@/components/template/Logo.vue";
 import SNavbar from "@/components/template/Navbar.vue";
 import { User } from "@/modules";
-import SHeaderButtons from "@/components/template/Header/Buttons.vue";
-import SHeaderProfil from "@/components/template/Header/Profil.vue";
+import SHeaderButtons from "@/components/template/header/Buttons.vue";
+import SHeaderProfil from "@/components/template/header/Profil.vue";
 
 export default defineComponent({
     name: "SHeader",

@@ -31,9 +31,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SButton from "@/components/design/Forms/Button.vue";
+import SButton from "@/components/design/forms/Button.vue";
 import { User, State } from "@/modules";
-import SModalSettings from "@/components/template/Modals/Settings.vue";
+import SModalSettings from "@/components/template/modals/Settings.vue";
 
 export default defineComponent({
     name: "SMenu",

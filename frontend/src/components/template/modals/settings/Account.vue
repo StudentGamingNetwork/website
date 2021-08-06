@@ -20,10 +20,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SButton from "@/components/design/Forms/Button.vue";
-import SModalContent from "@/components/design/Modal/Content.vue";
-import SModalSectionTitle from "@/components/design/Modal/SectionTitle.vue";
-import SModalSection from "@/components/design/Modal/Section.vue";
+import SButton from "@/components/design/forms/Button.vue";
+import SModalContent from "@/components/design/modal/Content.vue";
+import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
+import SModalSection from "@/components/design/modal/Section.vue";
 
 export default defineComponent({
     name: "SAccount",

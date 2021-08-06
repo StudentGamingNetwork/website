@@ -4,20 +4,19 @@
             Profil
         </SModalSectionTitle>
         <SModalSection>
-            <SAvatarPicker />
-            <div>
-                <SInput
-                    v-model="username"
-                    :modified="username !== userStore.username"
-                    title="Pseudo"
-                    @enter="sendUpdate"
-                />
-                <template v-if="!username">
-                    <SValidator :valid="false">
-                        Vous devez entrez un pseudo
-                    </SValidator>
-                </template>
-            </div>
+            <SAvatarPicker
+                title="Photo de profil"
+                :url="avatarUrl"
+                @fileChange="uploadAvatar"
+            />
+            <SInput
+                v-model="username"
+                :modified="username !== userStore.username"
+                required
+                title="Pseudo"
+                :validators="[InputValidators.NotEmpty()]"
+                @enter="sendUpdate"
+            />
             <SInput
                 disabled
                 :model-value="userStore.mail"
@@ -56,13 +55,13 @@
         <SModalSection>
             <SInput
                 v-model="password.old"
-                password
                 title="Ancien mot de passe"
+                type="password"
             />
             <SInput
                 v-model="password.new"
-                password
                 title="Nouveau mot de passe"
+                type="password"
             />
         </SModalSection>
         <SModalSeparator />
@@ -78,15 +77,15 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from "vue";
-import SInput from "@/components/design/Forms/Input.vue";
+import SInput from "@/components/design/forms/Input.vue";
 import { User } from "@/modules";
-import SValidator from "@/components/design/Forms/Validator.vue";
-import SAvatarPicker from "@/components/design/Forms/AvatarPicker.vue";
-import SButton from "@/components/design/Forms/Button.vue";
-import SModalSectionTitle from "@/components/design/Modal/SectionTitle.vue";
-import SModalSection from "@/components/design/Modal/Section.vue";
-import SModalSeparator from "@/components/design/Modal/Separator.vue";
-import SModalContent from "@/components/design/Modal/Content.vue";
+import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
+import SButton from "@/components/design/forms/Button.vue";
+import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
+import SModalSection from "@/components/design/modal/Section.vue";
+import SModalSeparator from "@/components/design/modal/Separator.vue";
+import SModalContent from "@/components/design/modal/Content.vue";
+import * as InputValidators from "@/components/design/forms/validators";
 
 export default defineComponent({
     name: "SPublicProfil",
@@ -97,8 +96,7 @@ export default defineComponent({
         SModalContent,
         SModalSection,
         SModalSectionTitle,
-        SModalSeparator,
-        SValidator
+        SModalSeparator
     },
     setup() {
         const userStore = User.useStore();
@@ -116,6 +114,10 @@ export default defineComponent({
                 || (password.old && password.new);
         });
 
+        const avatarUrl = computed(() => {
+            return userStore.avatar ? userStore.getAvatarUrl : "";
+        });
+
         const sendUpdate = async () => {
             if (!hasUpdate.value) {
                 return;
@@ -131,11 +133,18 @@ export default defineComponent({
             });
         };
 
+        const uploadAvatar = async(file: File) => {
+            await userStore.uploadAvatar(file);
+        };
+
         return {
             name,
+            avatarUrl,
             hasUpdate,
+            InputValidators,
             password,
             sendUpdate,
+            uploadAvatar,
             username,
             userStore
         };
@@ -160,6 +169,7 @@ export default defineComponent({
 
     .certificate-input {
         width: 320px;
+        max-width: 100%;
         text-align: left;
     }
 }

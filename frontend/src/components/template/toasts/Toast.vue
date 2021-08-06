@@ -31,7 +31,7 @@ export default defineComponent({
         type: {
             required: true,
             type: String,
-            validator: (value) => ["success", "error", "info", "warning"].includes(value)
+            validator: (value: string) => ["success", "error", "info", "warning"].includes(value)
         }
     },
     emits: ["close"],

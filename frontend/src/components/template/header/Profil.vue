@@ -15,7 +15,7 @@
 import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { User, State } from "@/modules";
-import SMenu from "@/components/template/Header/Menu.vue";
+import SMenu from "@/components/template/header/Menu.vue";
 
 export default defineComponent({
     name: "SHeaderProfil",

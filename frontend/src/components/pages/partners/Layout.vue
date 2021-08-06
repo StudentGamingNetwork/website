@@ -55,7 +55,7 @@ import LogoMaxnomic from "@/assets/images/partners/maxnomic.png";
 import LogoGamesAndRules from "@/assets/images/partners/gamesandrules.png";
 import SPageHead from "@/components/template/PageHead.vue";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
-import SButton from "@/components/design/Forms/Button.vue";
+import SButton from "@/components/design/forms/Button.vue";
 import { User } from "@/modules";
 
 export default defineComponent({

@@ -11,7 +11,7 @@
 import { defineComponent, onMounted } from "vue";
 import SHeader from "@/components/template/Header.vue";
 import SFooter from "@/components/template/Footer.vue";
-import SToasts from "@/components/template/Toasts/Toasts.vue";
+import SToasts from "@/components/template/toasts/Toasts.vue";
 import { User } from "@/modules";
 
 export default defineComponent({

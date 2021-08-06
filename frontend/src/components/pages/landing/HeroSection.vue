@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import heroBackground from "@/assets/images/backgrounds/hero.png";
-import SButton from "@/components/design/Forms/Button.vue";
+import SButton from "@/components/design/forms/Button.vue";
 import SPageTitle from "@/components/template/PageTitle.vue";
 import SPageDescription from "@/components/template/PageDescription.vue";
 

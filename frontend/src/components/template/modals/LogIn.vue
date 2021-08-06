@@ -54,13 +54,14 @@
                         v-model="mail"
                         class="input"
                         title="Mail"
+                        type="email"
                         @enter="login"
                     />
                     <SInput
                         v-model="password"
                         class="input"
-                        password
                         title="Mot de passe"
+                        type="password"
                         @enter="login"
                     />
                     <SButton
@@ -87,11 +88,11 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SModal from "@/components/design/Modal/Modal.vue";
+import SModal from "@/components/design/modal/Modal.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
-import SButton from "@/components/design/Forms/Button.vue";
+import SButton from "@/components/design/forms/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";
-import SInput from "@/components/design/Forms/Input.vue";
+import SInput from "@/components/design/forms/Input.vue";
 import { State, Toast , User as UserModule } from "@/modules";
 import * as UserService from "@/services/user";
 
@@ -139,7 +140,7 @@ export default defineComponent({
 .modal-content {
     padding: var(--length-padding-xl);
     width: 720px;
-    height: 380px;
+    max-width: 100vw;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -152,7 +153,6 @@ export default defineComponent({
         gap: var(--length-gap-l);
 
         .separator {
-            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
