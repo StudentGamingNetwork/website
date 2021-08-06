@@ -8,7 +8,7 @@ export interface IPartner {
         twitter: string;
         website: string;
     };
-    logo: Mongo.Schema.Types.ObjectId;
+    logo: string;
 }
 
 export interface IPartnerDocument extends IPartner, Mongo.Document {
@@ -35,7 +35,7 @@ const partnerSchema: Mongo.Schema = new Mongo.Schema({
         }
     },
     logo: {
-        type: Mongo.Schema.Types.ObjectId
+        type: String
     }
 });
 

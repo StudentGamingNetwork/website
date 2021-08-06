@@ -87,7 +87,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SModal from "@/components/design/Modal.vue";
+import SModal from "@/components/design/Modal/Modal.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
 import SButton from "@/components/design/Forms/Button.vue";
 import LogoGoogleSignIn from "@/assets/images/brands/google-sign-in.svg";

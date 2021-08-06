@@ -1,9 +1,9 @@
 <template>
-    <div class="public-profil">
-        <div class="section-title">
+    <SModalContent class="public-profil">
+        <SModalSectionTitle>
             Profil
-        </div>
-        <div class="section">
+        </SModalSectionTitle>
+        <SModalSection>
             <SAvatarPicker />
             <div>
                 <SInput
@@ -23,11 +23,11 @@
                 :model-value="userStore.mail"
                 placeholder="Mail"
             />
-        </div>
-        <div class="section-title">
+        </SModalSection>
+        <SModalSectionTitle>
             Statut étudiant
-        </div>
-        <div class="section">
+        </SModalSectionTitle>
+        <SModalSection>
             <SInput
                 v-model="name"
                 :modified="name !== userStore.name"
@@ -49,11 +49,11 @@
                     étudiant</u> ou <u>carte étudiante</u>).
                 Les collégiens et lycéens <strong>ne sont pas</strong> considérés comme "étudiants".
             </div>
-        </div>
-        <div class="section-title">
+        </SModalSection>
+        <SModalSectionTitle>
             Changer de mot de passe
-        </div>
-        <div class="section">
+        </SModalSectionTitle>
+        <SModalSection>
             <SInput
                 v-model="password.old"
                 password
@@ -64,8 +64,8 @@
                 password
                 placeholder="Nouveau mot de passe"
             />
-        </div>
-        <hr>
+        </SModalSection>
+        <SModalSeparator />
         <SButton
             :disabled="!hasUpdate"
             primary
@@ -73,7 +73,7 @@
         >
             Sauvegarder le profil
         </SButton>
-    </div>
+    </SModalContent>
 </template>
 
 <script lang="ts">
@@ -83,10 +83,23 @@ import { User } from "@/modules";
 import SValidator from "@/components/design/Forms/Validator.vue";
 import SAvatarPicker from "@/components/design/Forms/AvatarPicker.vue";
 import SButton from "@/components/design/Forms/Button.vue";
+import SModalSectionTitle from "@/components/design/Modal/SectionTitle.vue";
+import SModalSection from "@/components/design/Modal/Section.vue";
+import SModalSeparator from "@/components/design/Modal/Separator.vue";
+import SModalContent from "@/components/design/Modal/Content.vue";
 
 export default defineComponent({
     name: "SPublicProfil",
-    components: { SAvatarPicker, SButton, SInput, SValidator },
+    components: {
+        SAvatarPicker,
+        SButton,
+        SInput,
+        SModalContent,
+        SModalSection,
+        SModalSectionTitle,
+        SModalSeparator,
+        SValidator
+    },
     setup() {
         const userStore = User.useStore();
 
@@ -99,8 +112,8 @@ export default defineComponent({
 
         const hasUpdate = computed(() => {
             return username.value !== userStore.username
-            || name.value !== userStore.name
-            || (password.old && password.new);
+                || name.value !== userStore.name
+                || (password.old && password.new);
         });
 
         const sendUpdate = async () => {
@@ -132,54 +145,22 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .public-profil {
-    padding: var(--length-padding-m);
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    gap: var(--length-gap-m);
-    align-items: start;
+    .status {
+        font-size: 0.9rem;
+    }
 
-    .section {
-        display: flex;
-        flex-direction: column;
-        gap: var(--length-gap-m);
-        align-items: start;
+    .description {
+        font-size: 0.8rem;
+        color: var(--color-content-softer);
+    }
 
-        .status {
-            font-size: 0.9rem;
-        }
-
-        .description {
-            font-size: 0.8rem;
-            color: var(--color-content-softer);
-        }
-
-        .soft {
-            color: var(--color-content-softer);
-        }
+    .soft {
+        color: var(--color-content-softer);
     }
 
     .certificate-input {
         width: 320px;
         text-align: left;
-    }
-
-    .section-title {
-        margin-top: var(--length-margin-m);
-        margin-bottom: var(--length-margin-s);
-        padding-top: var(--length-padding-xs);
-        color: var(--color-content-softer);
-        font-size: 0.8rem;
-        border-top: 1px solid var(--color-content-litest);
-        width: 100%;
-        text-transform: uppercase;
-    }
-
-    hr {
-        margin: var(--length-margin-m) 0 0;
-        width: 100%;
-        border: none;
-        border-top: 1px solid var(--color-content-litest);
     }
 }
 </style>

@@ -19,13 +19,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, shallowRef } from "vue";
-import SModal from "@/components/design/Modal.vue";
+import { defineComponent, shallowRef } from "vue";
+import SModal from "@/components/design/Modal/Modal.vue";
 import SModalMenu, { TMenuOption } from "@/components/design/ModalMenu.vue";
 import { State } from "@/modules";
 import SPublicProfil from "@/components/template/Modals/Settings/PublicProfil.vue";
 import SGameProfil from "@/components/template/Modals/Settings/GameProfil.vue";
 import SAccount from "@/components/template/Modals/Settings/Account.vue";
+import SAssociation from "@/components/template/Modals/Settings/Association.vue";
 
 export default defineComponent({
     name: "SModalSettings",
@@ -34,6 +35,7 @@ export default defineComponent({
         const menuOptions: Array<TMenuOption> = [
             { id: "public", name: "Profil public", component: SPublicProfil, icon: "user" },
             { id: "game", name: "Profil de jeu", component: SGameProfil, icon: "headset" },
+            { id: "association", name: "Association", component: SAssociation, icon: "users" },
             { id: "account", name: "Compte SGN", component: SAccount, icon: "cog" }
         ];
 

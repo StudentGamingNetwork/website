@@ -25,8 +25,9 @@ export enum EStudentCertificateType {
 }
 
 export interface IUser {
-    name: string;
-    avatar: string;
+    name?: string;
+    association?: Mongo.Schema.Types.ObjectId;
+    avatar?: string;
     mail: string;
     password: string;
     platforms: Record<string, string>;
@@ -47,6 +48,10 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
     name: {
         faker: "name.firstName",
         type: String
+    },
+    association: {
+        ref: "association",
+        type: Mongo.Schema.Types.ObjectId
     },
     avatar: {
         type: String
@@ -75,7 +80,6 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         },
         lastModifier: {
             ref: "user",
-            required: true,
             type: Mongo.Schema.Types.ObjectId
         },
         message: String,
@@ -86,6 +90,7 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
     },
     username: {
         faker: "internet.userName",
+        required: true,
         type: String
     }
 });
