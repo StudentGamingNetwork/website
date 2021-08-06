@@ -4,7 +4,7 @@
             <SInput
                 v-model="searchInput"
                 class="input"
-                placeholder="Chercher une association..."
+                title="Chercher une association..."
             >
                 <template #suffix>
                     <FontAwesomeIcon :icon="['fas','search']" />

@@ -1,11 +1,21 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import * as UserService from "@/services/user";
+import * as AssociationService from "@/services/association";
 import { Toast } from "@/modules";
 
 export const useStore = defineStore({
     id: "user",
     actions: {
+        async createAssociation({ name, mail, school }: { name: string; mail: string; school: string }) {
+            const response = await Toast.testRequest(async () => {
+                return await AssociationService.create({ name, mail, school });
+            });
+
+            if (response?.success) {
+                this.association = response.id;
+            }
+        },
         async disconnect() {
             await Toast.testRequest(async () => {
                 return await UserService.disconnect();
@@ -22,6 +32,7 @@ export const useStore = defineStore({
                 this.roles = userData.roles;
                 this.avatar = userData.avatar;
                 this.name = userData.name;
+                this.association = userData.association;
             }
             catch (error) {
                 if (!axios.isAxiosError(error)) {
@@ -84,6 +95,7 @@ export const useStore = defineStore({
     state: () => ({
         id: "",
         name: "",
+        association: "",
         avatar: "",
         mail: "",
         roles: [] as Array<string>,

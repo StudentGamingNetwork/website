@@ -31,7 +31,7 @@ export function assertRoles(user: IUserDocument, roles: Array<ERoles>): void {
 
     for (const role of roles) {
         if (!user.roles.includes(role)) {
-            throw new httpErrors.Unauthorized("Niveau d'autorisation trop faible.");
+            throw new httpErrors.Forbidden("Niveau d'autorisation trop faible.");
         }
     }
 }

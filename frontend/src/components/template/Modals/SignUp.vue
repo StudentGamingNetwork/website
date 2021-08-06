@@ -54,7 +54,7 @@
                         <SInput
                             v-model="mail"
                             class="input"
-                            placeholder="Mail"
+                            title="Mail"
                             @enter="signup"
                         />
                         <SValidator
@@ -69,7 +69,7 @@
                             v-model="password"
                             class="input"
                             password
-                            placeholder="Mot de passe"
+                            title="Mot de passe"
                             @enter="signup"
                         />
                         <div v-if="password">

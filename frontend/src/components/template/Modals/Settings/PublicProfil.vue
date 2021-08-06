@@ -9,7 +9,7 @@
                 <SInput
                     v-model="username"
                     :modified="username !== userStore.username"
-                    placeholder="Pseudo"
+                    title="Pseudo"
                     @enter="sendUpdate"
                 />
                 <template v-if="!username">
@@ -21,7 +21,7 @@
             <SInput
                 disabled
                 :model-value="userStore.mail"
-                placeholder="Mail"
+                title="Mail"
             />
         </SModalSection>
         <SModalSectionTitle>
@@ -31,7 +31,7 @@
             <SInput
                 v-model="name"
                 :modified="name !== userStore.name"
-                placeholder="Prénom et nom"
+                title="Prénom et nom"
                 @enter="sendUpdate"
             />
             <SButton
@@ -57,12 +57,12 @@
             <SInput
                 v-model="password.old"
                 password
-                placeholder="Ancien mot de passe"
+                title="Ancien mot de passe"
             />
             <SInput
                 v-model="password.new"
                 password
-                placeholder="Nouveau mot de passe"
+                title="Nouveau mot de passe"
             />
         </SModalSection>
         <SModalSeparator />

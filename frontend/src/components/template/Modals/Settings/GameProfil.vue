@@ -4,7 +4,7 @@
             Discord
         </SModalSectionTitle>
         <SModalSection>
-            <SInput placeholder="Identifiant Discord" />
+            <SInput title="Identifiant Discord" />
             <div class="description">
                 Nous avons besoin de votre identifiant Discord pour vous contacter lors de vos matchs.
             </div>

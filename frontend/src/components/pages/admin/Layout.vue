@@ -30,8 +30,8 @@ export default defineComponent({
     setup() {
         const adminPanels = [
             { title: "Utilisateurs", key: "users" },
-            { title: "Membres", key: "members" },
-            { title: "Paramètres", key: "settings" }
+            { title: "Associations", key: "associations" },
+            { title: "Membres", key: "members" }
         ];
 
         const selectedPanel = ref("users");

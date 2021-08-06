@@ -13,7 +13,7 @@ const UserUpdate = Type.Object({
         new: Type.String(),
         old: Type.String()
     }),
-    username: Type.String()
+    username: Type.String({ minLength: 1 })
 });
 
 type TUserUpdate = Static<typeof UserUpdate>;
@@ -56,7 +56,7 @@ async function update(user: IUserDocument, update: TUserUpdate) {
 
         const isPasswordCorrect = Bcrypt.compareSync(update.password.old, user.password);
         if (!isPasswordCorrect) {
-            throw new httpErrors.Unauthorized("Le précédent mot de passe n'est pas correct.");
+            throw new httpErrors.BadRequest("Le précédent mot de passe n'est pas correct.");
         }
 
         const passwordSalt = Bcrypt.genSaltSync(UserConfig.login.saltRound);

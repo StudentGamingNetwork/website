@@ -17,7 +17,7 @@ export async function login(mail: string, password: string, machine: {host: stri
     const isPasswordCorrect = Bcrypt.compareSync(password, user.password);
 
     if (!isPasswordCorrect) {
-        throw new httpErrors.Unauthorized("Mot de passe incorrect");
+        throw new httpErrors.Forbidden("Mot de passe incorrect");
     }
 
     return await SessionLib.generate(user.id, machine);

@@ -53,14 +53,14 @@
                     <SInput
                         v-model="mail"
                         class="input"
-                        placeholder="Mail"
+                        title="Mail"
                         @enter="login"
                     />
                     <SInput
                         v-model="password"
                         class="input"
                         password
-                        placeholder="Mot de passe"
+                        title="Mot de passe"
                         @enter="login"
                     />
                     <SButton

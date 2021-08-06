@@ -11,8 +11,8 @@
             @input="$emit('update:modelValue', $event.target.value)"
             @keydown="processKeyDown"
         >
-        <div class="placeholder">
-            {{ placeholder }}
+        <div class="title">
+            {{ title }}
         </div>
         <div class="suffix">
             <slot name="suffix" />
@@ -26,6 +26,10 @@ import { computed, defineComponent } from "vue";
 export default defineComponent({
     name: "SInput",
     props: {
+        title: {
+            default: "",
+            type: String
+        },
         disabled: {
             default: false,
             type: Boolean
@@ -41,10 +45,6 @@ export default defineComponent({
         password: {
             default: false,
             type: Boolean
-        },
-        placeholder: {
-            default: "",
-            type: String
         }
     },
     emits: ["update:modelValue", "enter"],
@@ -106,7 +106,7 @@ export default defineComponent({
         }
     }
 
-    .placeholder {
+    .title {
         font-size: 0.9rem;
         position: absolute;
         opacity: 0.5;
@@ -131,7 +131,7 @@ export default defineComponent({
     &:focus-within {
         border-color: var(--color-primary);
 
-        .placeholder {
+        .title {
             opacity: 1;
         }
     }
@@ -139,7 +139,7 @@ export default defineComponent({
     &:focus-within, &.has-content {
         margin-top: 22px;
 
-        .placeholder {
+        .title {
             top: -34px;
             left: 0;
             font-size: 0.8rem;
