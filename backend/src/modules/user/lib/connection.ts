@@ -2,11 +2,11 @@ import { FastifyRequest } from "fastify";
 import httpErrors from "http-errors";
 import { Cookie } from "@/utils";
 import * as SessionLib from "@/modules/session/lib";
-import UserModel, { IUserDocument } from "@/modules/user/model";
+import UserModel, { ERoles, IUserDocument } from "@/modules/user/model";
 
 export async function getUser(request: FastifyRequest): Promise<IUserDocument> {
     if (!request.headers.cookie) {
-        throw new httpErrors.Unauthorized("Vous n'êtes pas connecté");
+        throw new httpErrors.Unauthorized("Vous n'êtes pas connecté.");
     }
 
     const cookies = Cookie.decode(request.headers.cookie);
@@ -18,8 +18,20 @@ export async function getUser(request: FastifyRequest): Promise<IUserDocument> {
     });
 
     if (!user) {
-        throw new httpErrors.NotFound("Aucun utilisateur trouvé");
+        throw new httpErrors.NotFound("Aucun utilisateur trouvé.");
     }
 
     return user;
+}
+
+export function assertRoles(user: IUserDocument, roles: Array<ERoles>): void {
+    if (user.roles.includes(ERoles.Admin)) {
+        return;
+    }
+
+    for (const role of roles) {
+        if (!user.roles.includes(role)) {
+            throw new httpErrors.Unauthorized("Niveau d'autorisation trop faible.");
+        }
+    }
 }

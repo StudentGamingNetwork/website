@@ -11,11 +11,17 @@ export enum ERoles {
 }
 
 export enum EStudentStatus {
-    None = "none",
+    Undefined = "undefined",
     Processing = "processing",
     Validated = "validated",
     Rejected = "rejected",
     Outdated = "outdated"
+}
+
+export enum EStudentCertificateType {
+    Undefined = "undefined",
+    Image = "image",
+    Document = "document",
 }
 
 export interface IUser {
@@ -26,6 +32,7 @@ export interface IUser {
     platforms: Record<string, string>;
     roles: Array<ERoles>;
     student: {
+        certificateType: EStudentCertificateType;
         lastModifier: Mongo.Schema.Types.ObjectId;
         message: string;
         status: EStudentStatus;
@@ -62,6 +69,10 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         type: String
     }],
     student: {
+        certificateType: {
+            enum: Object.values(EStudentCertificateType),
+            type: String
+        },
         lastModifier: {
             ref: "user",
             required: true,
@@ -78,5 +89,13 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         type: String
     }
 });
+
+userSchema.index(
+    {
+        name: "text",
+        mail: "text",
+        username: "text"
+    }
+);
 
 export default Mongo.model<IUserDocument>("user", userSchema);

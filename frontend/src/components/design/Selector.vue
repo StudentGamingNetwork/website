@@ -1,11 +1,11 @@
 <template>
     <div class="selector">
         <div
-            v-for="(option, index) of options"
+            v-for="option of options"
             :key="option.key"
             class="choice"
-            :class="{selected: index === selectedIndex}"
-            @click="selectIndex(index)"
+            :class="{selected: option.key === modelValue}"
+            @click="$emit('update:modelValue', option.key)"
         >
             {{ option.title }}
         </div>
@@ -13,28 +13,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
     name: "SSelector",
     props: {
+        modelValue: {
+            default: "",
+            type: String
+        },
         options: {
             required: true,
             type: Array as PropType<Array<{ title: string; key: string }>>
         }
     },
-    setup() {
-        const selectedIndex = ref(0);
-
-        function selectIndex(index: number) {
-            selectedIndex.value = index;
-        }
-
-        return {
-            selectedIndex,
-            selectIndex
-        };
-    }
+    emits: ["update:modelValue"]
 });
 </script>
 

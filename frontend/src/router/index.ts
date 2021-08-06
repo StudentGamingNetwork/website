@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { User } from "@/modules";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -45,6 +46,15 @@ const routes: Array<RouteRecordRaw> = [
             guest: true
         },
         path: "/about"
+    },
+    {
+        name: "admin",
+        component: () => import(/* webpackChunkName: "admin" */ "@/views/Admin.vue"),
+        meta: {
+            title: "Administration",
+            admin: true
+        },
+        path: "/admin"
     }
 ];
 
@@ -55,7 +65,20 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title as string || "Student Gaming Network";
-    next();
+
+    if (to.matched.some(record => record.meta.admin)) {
+        const userStore = User.useStore();
+
+        if (userStore.isMember) {
+            return next();
+        }
+
+        return next({
+            path: "/"
+        });
+    }
+
+    return next();
 });
 
 export default router;

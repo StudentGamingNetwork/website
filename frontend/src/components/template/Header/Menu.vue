@@ -10,6 +10,14 @@
             </SButton>
             <SModalSettings />
             <SButton
+                v-if="userStore.isMember"
+                class="button"
+                @click="$router.push('admin')"
+            >
+                <FontAwesomeIcon :icon="['fas', 'tools']" />
+                <span>Administration</span>
+            </SButton>
+            <SButton
                 class="button"
                 @click="userStore.disconnect"
             >

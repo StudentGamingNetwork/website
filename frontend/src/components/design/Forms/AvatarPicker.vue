@@ -44,7 +44,6 @@ export default defineComponent({
         const fileInput = ref<ComponentPublicInstance<HTMLInputElement>>(null);
 
         const chooseFile = () => {
-            console.log(fileInput);
             fileInput.value.click();
         };
 

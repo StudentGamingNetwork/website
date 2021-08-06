@@ -40,6 +40,7 @@ module.exports = {
         "semi": ["error", "always"],
         "sort-keys-custom-order/object-keys": ["error", { "orderedKeys": [
             "id",
+            "_id",
             "name",
             "title",
             "start",
@@ -47,6 +48,7 @@ module.exports = {
         ] }],
         "sort-keys-custom-order/type-keys": ["error", { "orderedKeys": [
             "id",
+            "_id",
             "name",
             "title"
         ] }],

@@ -77,7 +77,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .about-layout {
-    max-width: 1000px;
+    max-width: 960px;
     margin: auto;
 }
 </style>

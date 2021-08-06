@@ -3,7 +3,7 @@ import { Static, Type } from "@sinclair/typebox";
 import * as UserLib from "../lib";
 
 const UserPingResponse = Type.Object({
-    id: Type.String(),
+    _id: Type.String(),
     name: Type.String(),
     avatar: Type.String(),
     mail: Type.String(),
@@ -25,7 +25,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
-            reply.send({ id: user._id, ...user.toJSON() });
+            reply.send(user);
         }
     );
 }

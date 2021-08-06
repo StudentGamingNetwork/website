@@ -16,7 +16,7 @@ export const useStore = defineStore({
         async init() {
             try {
                 const userData = await UserService.ping();
-                this.id = userData.id;
+                this.id = userData._id;
                 this.username = userData.username;
                 this.mail = userData.mail;
                 this.roles = userData.roles;
@@ -73,6 +73,12 @@ export const useStore = defineStore({
         },
         isAdmin(): boolean {
             return this.roles.includes("admin");
+        },
+        isMember(): boolean {
+            if (this.isAdmin) {
+                return true;
+            }
+            return this.roles.includes("member");
         }
     },
     state: () => ({
