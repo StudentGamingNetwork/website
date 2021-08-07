@@ -1,17 +1,9 @@
 import { FastifyInstance } from "fastify";
-import { Static, Type } from "@sinclair/typebox";
+import { Static } from "@sinclair/typebox";
 import * as UserLib from "../lib";
-import { TypeMemberAssociation } from "@/modules/association/type";
+import { TypeOwnerUser } from "@/modules/user/type";
 
-const UserPingResponse = Type.Object({
-    _id: Type.String(),
-    name: Type.Optional(Type.String()),
-    association: Type.Optional(TypeMemberAssociation),
-    avatar: Type.Optional(Type.String()),
-    mail: Type.String(),
-    roles: Type.Array(Type.String()),
-    username: Type.String()
-});
+const UserPingResponse = TypeOwnerUser;
 
 type TUserPingResponse = Static<typeof UserPingResponse>;
 

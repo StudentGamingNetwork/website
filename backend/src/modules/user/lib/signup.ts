@@ -24,6 +24,7 @@ export async function signup(mail: string, password: string, machine: {host: str
     const user = await UserModel.create({
         mail,
         password: passwordHash,
+        subscriptionDate: new Date(),
         username: mail.split("@")[0]
     });
 

@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UserLib from "../../user/lib";
-import UserModel, { ERoles } from "@/modules/user/model";
+import UserModel, { ERoles, IUserDocument } from "@/modules/user/model";
+import { TypeAdminUser } from "@/modules/user/type";
 
 const UserSearch = Type.Object({
     limit: Type.Number({ default: 20, maximum: 50, minimum: 1 }),
@@ -12,14 +13,7 @@ const UserSearch = Type.Object({
 type TUserSearch = Static<typeof UserSearch>;
 
 const UserSearchResponse = Type.Object({
-    users: Type.Array(Type.Object({
-        _id: Type.String(),
-        name: Type.String(),
-        avatar: Type.String(),
-        mail: Type.String(),
-        roles: Type.Array(Type.String()),
-        username: Type.String()
-    }))
+    users: Type.Array(TypeAdminUser)
 });
 
 type TUserSearchResponse = Static<typeof UserSearchResponse>;
@@ -48,35 +42,23 @@ export async function register(server: FastifyInstance): Promise<void> {
     );
 }
 
-async function userSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }) {
-    const aggregationStages = [];
+async function userSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }): Promise<Array<IUserDocument>> {
+
+    const findParameters = {} as Record<string, any>;
 
     if (search) {
-        aggregationStages.push({
-            $match: { $text: { $search: search } }
-        });
+        findParameters.$or = [
+            { "name": new RegExp(search, "gi") },
+            { "username": new RegExp(search, "gi") },
+            { "mail": new RegExp(search, "gi") }
+        ];
     }
 
+    return UserModel.find(findParameters)
+        .sort({ "_id": -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate("association")
+        .exec();
 
-    if (search) {
-        aggregationStages.push({
-            $sort: { score: { $meta: "textScore" } }
-        });
-    }
-    else {
-        aggregationStages.push({
-            $sort: { "_id": -1 }
-        });
-    }
-
-
-    aggregationStages.push({
-        $skip: skip
-    });
-
-    aggregationStages.push({
-        $limit: limit
-    });
-
-    return await UserModel.aggregate(aggregationStages).exec();
 }

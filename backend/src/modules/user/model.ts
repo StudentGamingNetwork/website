@@ -40,6 +40,7 @@ export interface IUser {
         message: string;
         status: EStudentStatus;
     };
+    subscriptionDate: Date;
     username: string;
 }
 
@@ -89,6 +90,9 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
             enum: Object.values(EStudentStatus),
             type: String
         }
+    },
+    subscriptionDate: {
+        type: Date
     },
     username: {
         faker: "internet.userName",

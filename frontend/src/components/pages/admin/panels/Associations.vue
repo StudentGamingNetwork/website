@@ -1,5 +1,5 @@
 <template>
-    <div class="associations">
+    <div class="admin-associations">
         Assos
     </div>
 </template>
