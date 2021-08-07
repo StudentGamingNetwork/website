@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { Toast } from "@/modules";
 import * as AssociationService from "@/services/association";
+import * as UserService from "@/services/user";
 
 export const useStore = defineStore({
     id: "association",
@@ -16,11 +17,26 @@ export const useStore = defineStore({
         },
         init(associationData: Record<string, any>) {
             this.$patch(associationData);
+        },
+        async uploadLogo(file: File) {
+            const response = await Toast.testRequest(async () => {
+                return await AssociationService.uploadLogo({ file });
+            });
+
+            if (response?.success) {
+                this.logo = response.logo;
+            }
+        }
+    },
+    getters: {
+        getLogoUrl(): string {
+            return AssociationService.getLogoUrl({ id: this._id, logo: this.logo });
         }
     },
     state: () => ({
         _id: "",
         name: "",
+        logo: "",
         mail: "",
         networks: {
             facebook: "",

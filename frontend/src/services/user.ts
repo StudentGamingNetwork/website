@@ -21,7 +21,6 @@ export async function disconnect(): Promise<any> {
     return result.data;
 }
 
-
 export async function uploadAvatar({ file }: { file: File }): Promise<any> {
     const formData = new FormData();
     formData.append("file", file);
@@ -34,7 +33,7 @@ export async function uploadAvatar({ file }: { file: File }): Promise<any> {
     return result.data;
 }
 
-export async function update({ password, username, name }: { name: string; password: { new: string; old: string }; username: string }): Promise<any> {
+export async function update({ name, password, username }: { name: string; password: { new: string; old: string }; username: string }): Promise<any> {
     const result = await ApiService.post("/user/update", {
         name,
         password,

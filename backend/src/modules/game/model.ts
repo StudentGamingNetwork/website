@@ -2,11 +2,10 @@ import Mongo from "@/database";
 
 export interface IGame {
     title: string;
-    logoSrc: string;
+    logo: string;
 }
 
 export interface IGameDocument extends IGame, Mongo.Document {
-
 }
 
 const gameSchema: Mongo.Schema = new Mongo.Schema({
@@ -14,7 +13,7 @@ const gameSchema: Mongo.Schema = new Mongo.Schema({
         faker: "internet.userName",
         type: String
     },
-    logoSrc: {
+    logo: {
         type: String
     }
 });

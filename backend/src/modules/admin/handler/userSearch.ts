@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
-import * as UserLib from "../lib";
+import * as UserLib from "../../user/lib";
 import UserModel, { ERoles } from "@/modules/user/model";
 
 const UserSearch = Type.Object({
@@ -33,13 +33,13 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.get<{ Querystring: TUserSearch; Response: TUserSearchResponse }>(
-        "/search",
+        "/user/search",
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
             UserLib.assertRoles(user, [ERoles.Member]);
 
-            const users = await search(request.query);
+            const users = await userSearch(request.query);
 
             reply.send({
                 users
@@ -48,7 +48,7 @@ export async function register(server: FastifyInstance): Promise<void> {
     );
 }
 
-async function search({ limit, search, skip }: { limit: number; search?: string; skip: number }) {
+async function userSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }) {
     const aggregationStages = [];
 
     if (search) {

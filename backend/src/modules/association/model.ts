@@ -7,6 +7,7 @@ export enum ESchoolType {
 }
 
 export enum ERegion {
+    none = "none",
     IDF = "idf", // Ile-de-France
     NBP = "nbp", // Normandie / Bretagne / Pays-de-la-Loire
     NAC = "nac", // Nouvelle-Aquitaine / Centre-Val-de-Loire
@@ -25,8 +26,12 @@ export enum EAssociationState {
 export interface IAssociation {
     name: string;
     description: string;
+    federation: {
+        region: ERegion;
+        state: EAssociationState;
+    };
     lastOwnerChange: Date;
-    logoSrc: string;
+    logo: string;
     mail: string;
     networks: {
         facebook: string;
@@ -37,11 +42,9 @@ export interface IAssociation {
     school: {
         name: string;
         address: string;
-        region: ERegion;
         studentsNumber: number;
         type: ESchoolType;
     };
-    state: EAssociationState;
     tag: string;
     users: {
         members: Array<Mongo.Schema.Types.ObjectId>;
@@ -51,7 +54,6 @@ export interface IAssociation {
 }
 
 export interface IAssociationDocument extends IAssociation, Mongo.Document {
-
 }
 
 const associationSchema: Mongo.Schema = new Mongo.Schema({
@@ -63,10 +65,22 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
     description: {
         type: String
     },
+    federation: {
+        region: {
+            default: ERegion.none,
+            enum: Object.values(ERegion),
+            type: String
+        },
+        state: {
+            default: EAssociationState.New,
+            enum: Object.values(EAssociationState),
+            type: String
+        }
+    },
     lastOwnerChange: {
         type: Date
     },
-    logoSrc: {
+    logo: {
         type: String
     },
     mail: {
@@ -96,10 +110,6 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
         location: {
             type: String
         },
-        region: {
-            enum: Object.values(ERegion),
-            type: String
-        },
         studentsNumber: {
             type: Number
         },
@@ -107,10 +117,6 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
             enum: Object.values(ESchoolType),
             type: String
         }
-    },
-    state: {
-        enum: Object.values(EAssociationState),
-        type: String
     },
     tag: {
         type: String
@@ -131,5 +137,13 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
         }
     }
 });
+
+associationSchema.index(
+    {
+        name: "text",
+        mail: "text",
+        "school.name": "text"
+    }
+);
 
 export default Mongo.model<IAssociationDocument>("association", associationSchema);

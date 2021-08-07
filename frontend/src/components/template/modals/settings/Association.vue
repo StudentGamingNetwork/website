@@ -8,7 +8,11 @@
                 Profil de l'association
             </SModalSectionTitle>
             <SModalSection>
-                <SAvatarPicker title="Logo" />
+                <SAvatarPicker
+                    title="Logo"
+                    :url="logoUrl"
+                    @fileChange="uploadLogo"
+                />
                 <SInput
                     v-model="association.name"
                     :modified="association.name !== associationStore.name"
@@ -183,6 +187,14 @@ export default defineComponent({
             });
         };
 
+        const uploadLogo = async(file: File) => {
+            await associationStore.uploadLogo(file);
+        };
+
+        const logoUrl = computed(() => {
+            return associationStore.logo ? associationStore.getLogoUrl : "";
+        });
+
         return {
             association,
             associationStore,
@@ -192,7 +204,9 @@ export default defineComponent({
             InputValidators,
             isCreating,
             join,
-            startCreating
+            logoUrl,
+            startCreating,
+            uploadLogo
         };
     }
 });

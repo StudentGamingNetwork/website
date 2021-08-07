@@ -1,4 +1,6 @@
+import { PopulatedDoc } from "mongoose";
 import Mongo from "@/database";
+import { IAssociationDocument } from "@/modules/association/model";
 
 export enum ERoles {
     Admin = "admin",
@@ -26,7 +28,7 @@ export enum EStudentCertificateType {
 
 export interface IUser {
     name?: string;
-    association?: Mongo.Schema.Types.ObjectId;
+    association?: PopulatedDoc<IAssociationDocument>;
     avatar?: string;
     mail: string;
     password: string;

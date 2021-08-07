@@ -12,7 +12,9 @@
                 v-model="selectedPanel"
                 :options="adminPanels"
             />
-            test
+            <SAdminPanelUsers v-if="selectedPanel === 'users'" />
+            <SAdminPanelAssociations v-if="selectedPanel === 'associations'" />
+            <SAdminPanelMembers v-if="selectedPanel === 'members'" />
         </div>
     </SBaseLayout>
 </template>
@@ -23,10 +25,13 @@ import BackgroundAdmin from "@/assets/images/backgrounds/admin.png";
 import SPageHead from "@/components/template/PageHead.vue";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
 import SSelector from "@/components/design/Selector.vue";
+import SAdminPanelUsers from "@/components/pages/admin/panels/Users.vue";
+import SAdminPanelAssociations from "@/components/pages/admin/panels/Associations.vue";
+import SAdminPanelMembers from "@/components/pages/admin/panels/Members.vue";
 
 export default defineComponent({
     name: "SAdminLayout",
-    components: { SBaseLayout, SPageHead, SSelector },
+    components: { SAdminPanelAssociations, SAdminPanelMembers, SAdminPanelUsers, SBaseLayout, SPageHead, SSelector },
     setup() {
         const adminPanels = [
             { title: "Utilisateurs", key: "users" },
