@@ -3,7 +3,8 @@
         :background="BackgroundFederation"
         title="Fédération"
     >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
+        Nous fédérons un réseau de nombreuses associations étudiantes de gaming et d'esport, partout en France.
+        Nous maintenons un contact régulier avec ces dernières pour les accompagner dans leurs projets.
     </SPageHead>
     <SBaseLayout>
         <div class="federation-layout">

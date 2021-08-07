@@ -45,6 +45,8 @@
                     title="Nom de l'école"
                 />
                 <SInput
+                    v-model="association.school.studentsNumber"
+                    :modified="association.school.studentsNumber !== associationStore.school.studentsNumber"
                     title="Nombre d'étudiants de l'école"
                     type="number"
                 />
@@ -58,28 +60,36 @@
                     :modified="association.networks.facebook !== associationStore.networks.facebook"
                     title="Facebook"
                     type="url"
+                    :validators="[InputValidators.Url()]"
                 />
                 <SInput
                     v-model="association.networks.twitter"
                     :modified="association.networks.twitter !== associationStore.networks.twitter"
                     title="Twitter"
                     type="url"
+                    :validators="[InputValidators.Url()]"
                 />
                 <SInput
                     v-model="association.networks.twitch"
                     :modified="association.networks.twitch !== associationStore.networks.twitch"
                     title="Twitch"
                     type="url"
+                    :validators="[InputValidators.Url()]"
                 />
                 <SInput
                     v-model="association.networks.instagram"
                     :modified="association.networks.instagram !== associationStore.networks.instagram"
                     title="Instagram"
                     type="url"
+                    :validators="[InputValidators.Url()]"
                 />
             </SModalSection>
             <SModalSeparator />
-            <SButton primary>
+            <SButton
+                :disabled="!hasChanged"
+                primary
+                @click="sendUpdate"
+            >
                 Sauvegarder
             </SButton>
         </template>
@@ -135,10 +145,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from "vue";
+import { computed, defineComponent, reactive, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRouter } from "vue-router";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isMatch, merge, pick } from "lodash";
 import SModalContent from "@/components/design/modal/Content.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
 import { Association, State } from "@/modules";
@@ -149,16 +159,61 @@ import SButton from "@/components/design/forms/Button.vue";
 import * as InputValidators from "@/utils/validators";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 
+type TAssociation = {
+    _id: string;
+    name: string;
+    federation: {
+        region: string;
+        state: string;
+    };
+    logo: string;
+    mail: string;
+    networks: {
+        facebook: string;
+        instagram: string;
+        twitch: string;
+        twitter: string;
+    };
+    school: {
+        name: string;
+        studentsNumber: number | string;
+    };
+    tag: string;
+}
+
 export default defineComponent({
     name: "SAssociation",
-    components: { FontAwesomeIcon, SAvatarPicker, SButton, SInput, SModalContent, SModalSection, SModalSectionTitle, SModalSeparator },
+    components: {
+        FontAwesomeIcon,
+        SAvatarPicker,
+        SButton,
+        SInput,
+        SModalContent,
+        SModalSection,
+        SModalSectionTitle,
+        SModalSeparator
+    },
     setup() {
         const associationStore = Association.useStore();
         const stateStore = State.useStore();
         const router = useRouter();
         const isCreating = ref(false);
 
-        const association = reactive(cloneDeep(associationStore.$state));
+        const association = reactive(cloneDeep(pick(
+            associationStore.$state,
+            ["_id", "mail", "name", "school", "networks", "tag"]
+        ))) as TAssociation;
+
+        watch(
+            () => associationStore.$state,
+            () => {
+                merge(association, cloneDeep(pick(
+                    associationStore.$state,
+                    ["_id", "mail", "name", "school", "networks", "tag"]
+                )));
+            },
+            { deep: true }
+        );
 
         const join = () => {
             router.push("federation");
@@ -187,7 +242,7 @@ export default defineComponent({
             });
         };
 
-        const uploadLogo = async(file: File) => {
+        const uploadLogo = async (file: File) => {
             await associationStore.uploadLogo(file);
         };
 
@@ -195,16 +250,30 @@ export default defineComponent({
             return associationStore.logo ? associationStore.getLogoUrl : "";
         });
 
+        const hasChanged = computed(() => {
+            return !isMatch(associationStore.$state, association);
+        });
+
+        const sendUpdate = async () => {
+            if (!hasChanged.value) {
+                return;
+            }
+
+            await associationStore.update(association);
+        };
+
         return {
             association,
             associationStore,
             canCreate,
             create,
             creation,
+            hasChanged,
             InputValidators,
             isCreating,
             join,
             logoUrl,
+            sendUpdate,
             startCreating,
             uploadLogo
         };

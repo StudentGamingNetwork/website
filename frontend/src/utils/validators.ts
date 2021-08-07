@@ -40,3 +40,13 @@ export function Mail(): InputValidator {
         message: `Adresse mail valide`
     };
 }
+
+export function Url(): InputValidator {
+    return {
+        execute(value: string) {
+            const urlRegex = /^(https?:\/\/)?.+\..+$/;
+            return urlRegex.test(value);
+        },
+        message: "URL valide"
+    };
+}

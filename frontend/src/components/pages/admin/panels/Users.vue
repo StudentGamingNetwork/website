@@ -21,116 +21,114 @@
                 spin
             />
         </div>
-        <template v-else>
-            <div
-                v-if="users.length === 0"
-                class="empty"
-            >
-                <FontAwesomeIcon
-                    class="icon"
-                    :icon="['fas','frown']"
-                />
-                <div class="description">
-                    Aucun utilisateur trouvé...
-                </div>
+        <div
+            v-else-if="users.length === 0"
+            class="empty"
+        >
+            <FontAwesomeIcon
+                class="icon"
+                :icon="['fas','frown']"
+            />
+            <div class="description">
+                Aucun utilisateur trouvé...
             </div>
-            <transition-group
-                v-else
-                name="user-list"
+        </div>
+        <transition-group
+            v-else
+            name="user-list"
+        >
+            <SCard
+                v-for="user of users"
+                :key="user._id"
+                class="user"
             >
-                <SCard
-                    v-for="user of users"
-                    :key="user._id"
-                    class="user"
-                >
-                    <div class="avatar">
-                        <img
-                            v-if="user.avatar"
-                            alt="avatar"
-                            :src="getUserAvatarUrl({id:user._id, avatar:user.avatar})"
+                <div class="avatar">
+                    <img
+                        v-if="user.avatar"
+                        alt="avatar"
+                        :src="getUserAvatarUrl({id:user._id, avatar:user.avatar})"
+                    >
+                    <FontAwesomeIcon
+                        v-else
+                        class="icon"
+                        :icon="['fas', 'user']"
+                    />
+                </div>
+                <div class="username">
+                    {{ user.username }}
+                    <span
+                        v-if="user.name"
+                        class="name"
+                    >
+                        ({{ user.name }})
+                    </span>
+                </div>
+                <div class="roles">
+                    <ul>
+                        <li
+                            v-for="role in user.roles"
+                            :key="role"
                         >
-                        <FontAwesomeIcon
-                            v-else
-                            class="icon"
-                            :icon="['fas', 'user']"
-                        />
-                    </div>
-                    <div class="username">
-                        {{ user.username }}
-                        <span
-                            v-if="user.name"
-                            class="name"
-                        >
-                            ({{ user.name }})
-                        </span>
-                    </div>
-                    <div class="roles">
-                        <ul>
-                            <li
-                                v-for="role in user.roles"
-                                :key="role"
-                            >
-                                {{ role }}
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="informations">
-                        <ul>
-                            <li>
-                                <FontAwesomeIcon
-                                    class="icon"
-                                    :icon="['fas', 'envelope']"
-                                />
-                                {{ user.mail }}
-                            </li>
-                            <li>
-                                <FontAwesomeIcon
-                                    class="icon"
-                                    :icon="['fab', 'discord']"
-                                />
-                                test#0000
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="association">
-                        <ul v-if="user.association">
-                            <li>
-                                <FontAwesomeIcon
-                                    class="icon"
-                                    :icon="['fas', 'users']"
-                                />
-                                {{ user.association.name }}
-                            </li>
-                            <li>
-                                <FontAwesomeIcon
-                                    class="icon"
-                                    :icon="['fas', 'graduation-cap']"
-                                />
-                                {{ user.association.school.name }}
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="student">
-                        <ul v-if="user.student">
-                            <li>
-                                <FontAwesomeIcon
-                                    class="icon"
-                                    :icon="['fas', 'id-card']"
-                                />
-                                Certificat étudiant
-                            </li>
-                            <li>
-                                <FontAwesomeIcon
-                                    class="icon"
-                                    :icon="['fas', 'user-check']"
-                                />
-                                Non validé
-                            </li>
-                        </ul>
-                    </div>
-                </SCard>
-            </transition-group>
-        </template>
+                            {{ role }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="informations">
+                    <ul>
+                        <li>
+                            <FontAwesomeIcon
+                                class="icon"
+                                :icon="['fas', 'envelope']"
+                            />
+                            {{ user.mail }}
+                        </li>
+                        <li>
+                            <FontAwesomeIcon
+                                class="icon"
+                                :icon="['fab', 'discord']"
+                            />
+                            test#0000
+                        </li>
+                    </ul>
+                </div>
+                <div class="association">
+                    <ul v-if="user.association">
+                        <li>
+                            <FontAwesomeIcon
+                                class="icon"
+                                :icon="['fas', 'users']"
+                            />
+                            {{ user.association.name }}
+                        </li>
+                        <li>
+                            <FontAwesomeIcon
+                                class="icon"
+                                :icon="['fas', 'graduation-cap']"
+                            />
+                            {{ user.association.school.name }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="student">
+                    <ul v-if="user.student">
+                        <li>
+                            <FontAwesomeIcon
+                                class="icon"
+                                :icon="['fas', 'id-card']"
+                            />
+                            Certificat étudiant
+                        </li>
+                        <li>
+                            <FontAwesomeIcon
+                                class="icon"
+                                :icon="['fas', 'user-check']"
+                            />
+                            Non validé
+                        </li>
+                    </ul>
+                </div>
+            </SCard>
+        </transition-group>
     </div>
 </template>
 
@@ -287,11 +285,12 @@ export default defineComponent({
         .username {
             grid-area: username;
             font-size: 1.5rem;
+            font-weight: 600;
 
             .name {
                 font-size: 1rem;
                 text-transform: uppercase;
-                font-weight: 200;
+                font-weight: 400;
                 color: var(--color-content-softer);
             }
         }

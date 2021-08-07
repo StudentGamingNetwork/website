@@ -22,7 +22,7 @@
             />
         </div>
         <div
-            v-if="associations.length === 0"
+            v-else-if="associations.length === 0"
             class="empty"
         >
             <FontAwesomeIcon
@@ -37,10 +37,7 @@
             <SAssociationCard
                 v-for="association in associations"
                 :key="association._id"
-                :logo="association.logo ? getLogoUrl({id: association._id, logo: association.logo}) : ''"
-                :region="getRegionName(association.federation.region)"
-                :school="association.school.name"
-                :title="association.name"
+                :association="association"
             />
         </div>
     </div>
@@ -61,7 +58,7 @@ type TBasicAssociation = {
         region: string;
     };
     logo: string;
-    network: {
+    networks: {
         facebook: string;
         instagram: string;
         twitch: string;
@@ -93,7 +90,7 @@ export default defineComponent({
                 isSearching.value = true;
             }
             const result = await AssociationService.search({
-                limit: 20,
+                limit: 50,
                 search: searchInput.value,
                 skip: 0
             });
@@ -108,8 +105,6 @@ export default defineComponent({
 
         return {
             associations,
-            getLogoUrl: AssociationService.getLogoUrl,
-            getRegionName: AssociationService.getRegionName,
             isSearching,
             searchInput
         };

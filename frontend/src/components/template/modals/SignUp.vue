@@ -115,7 +115,6 @@ import SInput from "@/components/design/forms/Input.vue";
 import { State, Toast, User as UserModule } from "@/modules";
 import * as UserService from "@/services/user";
 import SValidator from "@/components/design/forms/Validator.vue";
-import { Form } from "@/utils";
 import * as Validators from "@/utils/validators";
 
 const PASSWORD_MIN_LENGTH = 8;

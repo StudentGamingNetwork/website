@@ -1,10 +1,10 @@
 <template>
     <SCard class="association-card">
         <img
-            v-if="logo"
+            v-if="association.logo"
             alt="association logo"
             class="logo"
-            :src="logo"
+            :src="logoUrl"
         >
         <div
             v-else
@@ -16,60 +16,112 @@
             />
         </div>
         <div class="title">
-            <h2>{{ title }}</h2>
+            <h2>{{ association.name }}</h2>
         </div>
         <div class="region">
-            {{ region }}
+            {{ regionName }}
         </div>
         <div class="school">
-            {{ school }}
+            {{ association.school.name }}
         </div>
         <div class="networks">
-            <FontAwesomeIcon
-                class="network"
-                :icon="['fab','facebook']"
-            />
-            <FontAwesomeIcon
-                class="network"
-                :icon="['fab','twitter']"
-            />
-            <FontAwesomeIcon
-                class="network"
-                :icon="['fab','twitch']"
-            />
-            <FontAwesomeIcon
-                class="network"
-                :icon="['fab','instagram']"
-            />
+            <a
+                v-if="association.networks?.facebook"
+                :href="association.networks?.facebook"
+                target="_blank"
+                title="Facebook"
+            >
+                <FontAwesomeIcon
+                    class="network"
+                    :icon="['fab','facebook']"
+                />
+            </a>
+
+            <a
+                v-if="association.networks?.twitter"
+                :href="association.networks?.twitter"
+                target="_blank"
+                title="Twitter"
+            >
+                <FontAwesomeIcon
+                    class="network"
+                    :icon="['fab','twitter']"
+                />
+            </a>
+            <a
+                v-if="association.networks?.twitch"
+                :href="association.networks?.twitch"
+                target="_blank"
+                title="Twitch"
+            >
+                <FontAwesomeIcon
+                    class="network"
+                    :icon="['fab','twitch']"
+                />
+            </a>
+
+            <a
+                v-if="association.networks?.instagram"
+                :href="association.networks?.instagram"
+                target="_blank"
+                title="Instagram"
+            >
+                <FontAwesomeIcon
+                    class="network"
+                    :icon="['fab','instagram']"
+                />
+            </a>
         </div>
     </SCard>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
+import * as AssociationService from "@/services/association";
+
+type TAssociation = {
+    _id: string;
+    name: string;
+    federation: {
+        region: string;
+    };
+    logo: string;
+    networks?: {
+        facebook: string;
+        instagram: string;
+        twitch: string;
+        twitter: string;
+    };
+    school: {
+        name: string;
+    };
+    tag: string;
+}
 
 export default defineComponent({
     name: "SAssociationCard",
     components: { FontAwesomeIcon, SCard },
     props: {
-        title: {
+        association: {
             required: true,
-            type: String
-        },
-        logo: {
-            required: true,
-            type: String
-        },
-        region: {
-            required: true,
-            type: String
-        },
-        school: {
-            required: true,
-            type: String
+            type: Object as PropType<TAssociation>
         }
+    },
+    setup(props) {
+        const logoUrl = computed(() => {
+            return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
+        });
+
+        const regionName = computed(() => {
+            return AssociationService.getRegionName(props.association.federation.region);
+        });
+
+        return {
+            logoUrl,
+            regionName
+        };
     }
 });
 </script>

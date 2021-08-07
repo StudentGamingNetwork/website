@@ -1,10 +1,12 @@
 import { FastifyInstance } from "fastify";
 import * as CreateHandler from "./create";
 import * as SearchHandler from "./search";
-import * as UploadLogo from "@/modules/upload/handler/associationLogo";
+import * as UpdateHandler from "./update";
+import * as UploadLogoHandler from "@/modules/upload/handler/associationLogo";
 
 export default async function (server: FastifyInstance): Promise<void> {
     await CreateHandler.register(server);
-    await UploadLogo.register(server);
+    await UploadLogoHandler.register(server);
     await SearchHandler.register(server);
+    await UpdateHandler.register(server);
 }

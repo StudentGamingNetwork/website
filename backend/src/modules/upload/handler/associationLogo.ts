@@ -1,9 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
-import httpErrors from "http-errors";
 import * as UploadLib from "../lib";
-import * as UserLib from "@/modules/user/lib";
-import AssociationModel from "@/modules/association/model";
+import * as AssociationLib from "@/modules/association/lib";
 
 const UserUpdateResponse = Type.Object({
     logo: Type.String(),
@@ -24,21 +22,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         "/upload/logo",
         { schema },
         async (request, reply) => {
-            const user = await UserLib.getUser(request);
-
-            if (!user.association) {
-                throw new httpErrors.Forbidden("Vous n'êtes pas dans une association.");
-            }
-
-            const association = await AssociationModel.findOne({ _id: user.association });
-
-            if (!association) {
-                throw new httpErrors.NotFound("L'association est introuvable.");
-            }
-
-            if (association.users.owner.toString() !== user.id.toString()) {
-                throw new httpErrors.Forbidden("Vous n'êtes pas propriétaire de cette association.");
-            }
+            const association = await AssociationLib.getOwningAssociation(request);
 
             const files = await request.saveRequestFiles({
                 limits: {

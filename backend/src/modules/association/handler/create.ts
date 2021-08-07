@@ -1,20 +1,18 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import AssociationModel from "../model";
+import AssociationModel, { EAssociationState, ERegion } from "../model";
 import * as UserLib from "@/modules/user/lib";
-import { TypeMemberAssociation } from "@/modules/association/type";
 
 const AssociationCreate = Type.Object({
-    name: Type.String({ minLength: 1 }),
+    name: Type.String({ maxLength: 64, minLength: 1 }),
     mail: Type.String({ format: "email" }),
-    school: Type.String({ minLength: 1 })
+    school: Type.String({ maxLength: 64, minLength: 1 })
 });
 
 type TAssociationCreate = Static<typeof AssociationCreate>;
 
 const AssociationCreateResponse = Type.Object({
-    association: TypeMemberAssociation,
     message: Type.String(),
     success: Type.Boolean()
 });
@@ -42,10 +40,15 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const association = await AssociationModel.create({
                 name: request.body.name,
+                federation: {
+                    region: ERegion.none,
+                    state: EAssociationState.New
+                },
                 lastOwnerChange: new Date(),
                 mail: request.body.mail,
                 school: {
-                    name: request.body.school
+                    name: request.body.school,
+                    studentsNumber: 0
                 },
                 users: {
                     members: [user.id],
@@ -58,7 +61,6 @@ export async function register(server: FastifyInstance): Promise<void> {
             await user.save();
 
             reply.send({
-                association,
                 message: "L'association a correctement été créée.",
                 success: true
             });

@@ -2,9 +2,10 @@ import { Type } from "@sinclair/typebox";
 
 const BasicAssociation = {
     _id: Type.String(),
-    name: Type.String(),
+    name: Type.String({ maxLength: 64, minLength: 1 }),
     federation: Type.Optional(Type.Object({
-        region: Type.String()
+        region: Type.String(),
+        state: Type.String()
     })),
     logo: Type.Optional(Type.String()),
     networks: Type.Optional(Type.Object({
@@ -14,7 +15,8 @@ const BasicAssociation = {
         twitter: Type.String()
     })),
     school: Type.Object({
-        name: Type.String()
+        name: Type.String({ maxLength: 64, minLength: 1 }),
+        studentsNumber: Type.Number()
     }),
     tag: Type.Optional(Type.String())
 };
@@ -36,6 +38,11 @@ const Users = {
 };
 
 export const TypeBasicAssociation = Type.Object(BasicAssociation);
+
+export const TypeBasicUpdateAssociation = Type.Object({
+    ...BasicAssociation,
+    ...PrivateFields
+});
 
 export const TypeBasicAdminAssociation = Type.Object({
     ...BasicAssociation,
