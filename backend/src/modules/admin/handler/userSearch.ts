@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
+import { escapeRegExp } from "lodash";
 import * as UserLib from "../../user/lib";
 import UserModel, { ERoles, IUserDocument } from "@/modules/user/model";
 import { TypeAdminUser } from "@/modules/user/type";
@@ -47,10 +48,12 @@ async function userSearch({ limit, search, skip }: { limit: number; search?: str
     const findParameters = {} as Record<string, any>;
 
     if (search) {
+        const searchRegex = new RegExp(escapeRegExp(search), "gi");
+
         findParameters.$or = [
-            { "name": new RegExp(search, "gi") },
-            { "username": new RegExp(search, "gi") },
-            { "mail": new RegExp(search, "gi") }
+            { "name": searchRegex },
+            { "username": searchRegex },
+            { "mail": searchRegex }
         ];
     }
 
@@ -60,5 +63,4 @@ async function userSearch({ limit, search, skip }: { limit: number; search?: str
         .limit(limit)
         .populate("association")
         .exec();
-
 }

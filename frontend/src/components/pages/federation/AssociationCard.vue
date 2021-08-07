@@ -1,9 +1,20 @@
 <template>
     <SCard class="association-card">
         <img
+            v-if="logo"
             alt="association logo"
+            class="logo"
             :src="logo"
         >
+        <div
+            v-else
+            class="empty-logo"
+        >
+            <FontAwesomeIcon
+                class="icon"
+                :icon="['fas', 'users']"
+            />
+        </div>
         <div class="title">
             <h2>{{ title }}</h2>
         </div>
@@ -79,11 +90,25 @@ export default defineComponent({
         box-shadow: 0 0 20px hsla(0,0%,0%,0.25);
     }
 
-    img {
+    .logo {
         width: 100%;
         height: 128px;
         object-fit: contain;
         filter: grayscale(50%);
+    }
+
+    .empty-logo {
+        width: 100%;
+        height: 128px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .icon {
+            color: var(--color-content-litest);
+            width: 96px;
+            height: 96px;
+        }
     }
 
     h2 {

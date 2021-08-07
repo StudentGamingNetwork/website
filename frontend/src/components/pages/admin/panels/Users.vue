@@ -228,7 +228,7 @@ export default defineComponent({
         align-items: center;
         width: 100%;
         gap: var(--length-gap-m);
-        margin-top: var(--length-margin-l);
+        margin: var(--length-margin-l) 0;
 
         .icon {
             width: 64px;

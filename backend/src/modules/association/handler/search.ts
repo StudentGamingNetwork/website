@@ -2,9 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import { escapeRegExp } from "lodash";
 import AssociationModel, { IAssociationDocument } from "@/modules/association/model";
-import { TypeBasicAdminAssociation } from "@/modules/association/type";
-import * as UserLib from "@/modules/user/lib";
-import { ERoles } from "@/modules/user/model";
+import { TypeBasicAssociation } from "@/modules/association/type";
 
 const AssociationSearch = Type.Object({
     limit: Type.Number({ default: 20, maximum: 50, minimum: 1 }),
@@ -16,7 +14,7 @@ type TAssociationSearch = Static<typeof AssociationSearch>;
 
 const AssociationSearchResponse = Type.Object({
     associations: Type.Array(
-        TypeBasicAdminAssociation
+        TypeBasicAssociation
     )
 });
 
@@ -31,12 +29,9 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.get<{ Querystring: TAssociationSearch; Response: TAssociationSearchResponse }>(
-        "/association/search",
+        "/search",
         { schema },
         async (request, reply) => {
-            const user = await UserLib.getUser(request);
-            UserLib.assertRoles(user, [ERoles.Member]);
-
             const associations = await associationSearch(request.query);
 
             reply.send({
