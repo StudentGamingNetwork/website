@@ -6,8 +6,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "landing",
         component: () => import(/* webpackChunkName: "landing" */ "@/views/Landing.vue"),
         meta: {
-            title: "Student Gaming Network",
-            guest: true
+            title: "Student Gaming Network"
         },
         path: "/"
     },
@@ -15,8 +14,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "federation",
         component: () => import(/* webpackChunkName: "federation" */ "@/views/Federation.vue"),
         meta: {
-            title: "Fédération",
-            guest: true
+            title: "Fédération"
         },
         path: "/federation"
     },
@@ -24,8 +22,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "tournaments",
         component: () => import(/* webpackChunkName: "tournaments" */ "@/views/Tournaments.vue"),
         meta: {
-            title: "Tournois",
-            guest: true
+            title: "Tournois"
         },
         path: "/tournaments"
     },
@@ -33,8 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "partners",
         component: () => import(/* webpackChunkName: "partners" */ "@/views/Partners.vue"),
         meta: {
-            title: "Partenaires",
-            guest: true
+            title: "Partenaires"
         },
         path: "/partners"
     },
@@ -42,10 +38,17 @@ const routes: Array<RouteRecordRaw> = [
         name: "about",
         component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue"),
         meta: {
-            title: "À propos",
-            guest: true
+            title: "À propos"
         },
         path: "/about"
+    },
+    {
+        name: "association",
+        component: () => import(/* webpackChunkName: "association" */ "@/views/Association.vue"),
+        meta: {
+            title: "Association"
+        },
+        path: "/association"
     },
     {
         name: "admin",
@@ -54,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
             title: "Administration",
             admin: true
         },
-        path: "/admin"
+        path: "/admin/:page?"
     }
 ];
 
@@ -63,11 +66,15 @@ const router = createRouter({
     routes
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     document.title = to.meta.title as string || "Student Gaming Network";
 
     if (to.matched.some(record => record.meta.admin)) {
         const userStore = User.useStore();
+
+        if (!userStore.isMember) {
+            await userStore.init();
+        }
 
         if (userStore.isMember) {
             return next();

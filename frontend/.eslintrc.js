@@ -53,7 +53,9 @@ module.exports = {
             "props",
             "emits",
             "computed",
-            "methods"
+            "methods",
+            "none",
+            "default"
         ] }],
         "sort-keys-custom-order/type-keys": ["error", { "orderedKeys": [
             "id",

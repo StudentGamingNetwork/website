@@ -9,6 +9,7 @@
                 :modified="platforms.discord !== userStore.platforms.discord"
                 title="Identifiant Discord"
                 :validators="[InputValidators.Discord()]"
+                @enter="sendUpdate"
             />
             <div class="description">
                 Nous avons besoin de votre identifiant Discord pour vous contacter lors de vos matchs.

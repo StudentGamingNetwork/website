@@ -20,7 +20,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 import BackgroundAdmin from "@/assets/images/backgrounds/admin.png";
 import SPageHead from "@/components/template/PageHead.vue";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
@@ -33,6 +34,8 @@ export default defineComponent({
     name: "SAdminLayout",
     components: { SAdminPanelAssociations, SAdminPanelMembers, SAdminPanelUsers, SBaseLayout, SPageHead, SSelector },
     setup() {
+        const router = useRouter();
+
         const adminPanels = [
             { title: "Utilisateurs", key: "users" },
             { title: "Associations", key: "associations" },
@@ -40,6 +43,18 @@ export default defineComponent({
         ];
 
         const selectedPanel = ref("users");
+
+        onMounted(() => {
+            if (["users", "associations", "members"].includes(router.currentRoute.value.params.page)) {
+                selectedPanel.value = router.currentRoute.value.params.page;
+            }
+        });
+
+        watch(
+            () => selectedPanel.value,
+            () => {
+                router.push(`/admin/${ selectedPanel.value }`);
+            });
 
         return {
             adminPanels,

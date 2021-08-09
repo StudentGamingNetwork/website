@@ -233,7 +233,7 @@ export default defineComponent({
         );
 
         const join = () => {
-            router.push("federation");
+            router.push("/federation");
             stateStore.modalClose();
         };
 

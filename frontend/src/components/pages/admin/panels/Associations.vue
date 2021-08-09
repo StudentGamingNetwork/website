@@ -110,7 +110,11 @@
                 </ul>
             </div>
             <div class="region">
-                {{ getRegionName(association.federation.region) }}
+                <SSmallDropdown
+                    :model-value="association.federation.region"
+                    :options="regionNames"
+                    @update:modelValue="updateAssociation({association, region: $event})"
+                />
             </div>
             <div class="owner">
                 {{ association.users.owner.username }}
@@ -205,6 +209,8 @@ import * as AssociationService from "@/services/association";
 import SCard from "@/components/design/Card.vue";
 import SCopier from "@/components/design/forms/Copier.vue";
 import { Toast } from "@/modules";
+import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
+import { regionNames } from "@/services/association";
 
 type TAdminAssociation = {
     _id: string;
@@ -240,7 +246,7 @@ type TAdminAssociation = {
 
 export default defineComponent({
     name: "SAdminPanelAssociations",
-    components: { FontAwesomeIcon, SCard, SCopier, SInput },
+    components: { FontAwesomeIcon, SCard, SCopier, SInput, SSmallDropdown },
     setup() {
         const searchInput = ref("");
         const isSearching = ref(true);
@@ -293,8 +299,8 @@ export default defineComponent({
         return {
             associations,
             getLogoUrl: AssociationService.getLogoUrl,
-            getRegionName: AssociationService.getRegionName,
             isSearching,
+            regionNames: AssociationService.regionNames,
             searchInput,
             updateAssociation
         };
@@ -346,7 +352,7 @@ export default defineComponent({
     .association {
         display: grid;
         column-gap: var(--length-gap-m);
-        grid-template-columns: 112px 1fr 1fr 0.5fr;
+        grid-template-columns: 112px 1fr 1fr minmax(0, 0.75fr);
         grid-template-areas:
         "logo name name status"
         "logo school owner region"
@@ -454,7 +460,6 @@ export default defineComponent({
         }
 
         .region {
-            text-align: right;
             grid-area: region;
             font-size: 0.9rem;
             color: var(--color-content-soft);

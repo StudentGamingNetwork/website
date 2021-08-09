@@ -28,7 +28,7 @@ export default defineComponent({
             await navigator.clipboard.writeText(props.content);
             toastStore.add({
                 title: "Copié",
-                message: `"${ props.content }" a été copié dans votre press-papier.`,
+                message: `"${ props.content }" a été copié dans votre presse-papier.`,
                 type: EToastType.Info
             });
         };

@@ -32,17 +32,18 @@ export async function update(association: Record<string, string>): Promise<any> 
     return result.data;
 }
 
-export function getRegionName(region: string): string {
-    const regionNames = {
-        ara: "Auvergne-Rhone-Alpes",
-        geb: "Grand Est / Bourgogne-Franche-Comté",
-        hdf: "Hauts-de-France",
-        idf: "Ile-de-France",
-        nac: "Nouvelle-Aquitaine / Centre-Val-de-Loire",
-        nbp: "Normandie / Bretagne / Pays-de-la-Loire",
-        none: "Aucune région",
-        opc: "Occitanie / PACA / Corse"
-    } as Record<string, string>;
+export const regionNames = {
+    none: "Aucune région",
+    ara: "Auvergne-Rhone-Alpes",
+    geb: "Grand Est / Bourgogne-Franche-Comté",
+    hdf: "Hauts-de-France",
+    idf: "Île-de-France",
+    nac: "Nouvelle-Aquitaine / Centre-Val-de-Loire",
+    nbp: "Normandie / Bretagne / Pays-de-la-Loire",
+    opc: "Occitanie / PACA / Corse"
+} as Record<string, string>;
 
-    return regionNames[region];
+
+export function getRegionName(region: string): string {
+    return regionNames[region] || "Aucune région";
 }

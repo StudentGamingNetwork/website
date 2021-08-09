@@ -24,10 +24,10 @@ export default defineComponent({
     setup() {
         return {
             navLinks: [
-                { title: "Fédération", key: "federation", to: "federation" },
-                { title: "Tournois", key: "tournaments", to: "tournaments" },
-                { title: "Partenaires", key: "partners", to: "partners" },
-                { title: "À propos", key: "about", to: "about" }
+                { title: "Fédération", key: "federation", to: "/federation" },
+                { title: "Tournois", key: "tournaments", to: "/tournaments" },
+                { title: "Partenaires", key: "partners", to: "/partners" },
+                { title: "À propos", key: "about", to: "/about" }
             ]
         };
     }

@@ -81,7 +81,7 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
     }],
     student: {
         certificateType: {
-            default: "",
+            default: "undefined",
             enum: Object.values(EStudentCertificateType),
             type: String
         },
