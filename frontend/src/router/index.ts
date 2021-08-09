@@ -48,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "Association"
         },
-        path: "/association"
+        path: "/association/:association"
     },
     {
         name: "admin",
@@ -58,6 +58,15 @@ const routes: Array<RouteRecordRaw> = [
             admin: true
         },
         path: "/admin/:page?"
+    },
+    {
+        name: "not-found",
+        component: () => import(/* webpackChunkName: "not-found" */ "@/views/NotFound.vue"),
+        meta: {
+            title: "Vous êtes perdu?",
+            admin: true
+        },
+        path: "/:path(.*)*"
     }
 ];
 

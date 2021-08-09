@@ -1,61 +1,49 @@
 <template>
-    <section
-        class="hero-section"
+    <div
+        class="not-found"
         :style="headerStyle"
     >
         <SPageTitle>
-            Votre match est prêt !
+            Page introuvable
         </SPageTitle>
         <SPageDescription>
-            Le <strong>Student Gaming Network</strong> (SGN) est la fédération des associations étudiantes françaises d'esport.
-            Nous organisons de nombreux tournois à l'échelle nationale et promouvons activement l'esport étudiant.
+            <strong>Vous vous êtes perdu ?</strong> On fait tout ce qu'on peut pour vous localiser !<br>
+            <em><sub>Jean-Mich, t'as toujours pas réparé l'antenne 3 ? On passe pour quoi, là...</sub></em>
         </SPageDescription>
         <div class="cta">
             <SButton
                 primary
-                @click="stateStore.modalOpen('signup')"
+                @click="$router.push('/')"
             >
-                Rejoignez-nous
-            </SButton>
-            <SButton outlined>
-                Contactez-nous
+                Revenir à la page d'acceuil
             </SButton>
         </div>
-    </section>
+    </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import heroBackground from "@/assets/images/backgrounds/hero.png";
-import SButton from "@/components/design/forms/Button.vue";
+import notFoundBackground from "@/assets/images/backgrounds/not-found.png";
 import SPageTitle from "@/components/template/PageTitle.vue";
 import SPageDescription from "@/components/template/PageDescription.vue";
-import { State } from "@/modules";
+import SButton from "@/components/design/forms/Button.vue";
 
 export default defineComponent({
-    name: "SHeroSection",
+    name: "SNotFoundLayout",
     components: { SButton, SPageDescription, SPageTitle },
     setup() {
-        const stateStore = State.useStore();
-
         return {
             headerStyle: {
-                backgroundImage: `url(${ heroBackground })`
-            },
-            stateStore
+                backgroundImage: `url(${ notFoundBackground })`
+            }
         };
     }
 });
 </script>
 
 <style scoped lang="scss">
-.hero-section {
+.not-found {
     padding: 128px;
-
-    @media (max-width: 1099px) {
-        padding: 48px;
-    }
-
     background-size: cover;
     background-position: 50% 50%;
     min-height: 640px;

@@ -5,7 +5,7 @@
     >
         <div class="modal-content">
             <SSectionTitle>Connexion</SSectionTitle>
-            <div class="signup">
+            <div class="login">
                 <div class="remote">
                     <SButton
                         class="button google"
@@ -147,7 +147,7 @@ export default defineComponent({
     align-items: center;
     gap: var(--length-gap-l);
 
-    .signup {
+    .login {
         display: flex;
         width: 100%;
         gap: var(--length-gap-l);
