@@ -1,8 +1,5 @@
 <template>
-    <section
-        class="hero-section"
-        :style="headerStyle"
-    >
+    <section class="hero-section">
         <SPageTitle>
             Votre match est prêt !
         </SPageTitle>
@@ -39,9 +36,7 @@ export default defineComponent({
         const stateStore = State.useStore();
 
         return {
-            headerStyle: {
-                backgroundImage: `url(${ heroBackground })`
-            },
+            backgroundImage: `url(${ heroBackground })`,
             stateStore
         };
     }
@@ -56,6 +51,7 @@ export default defineComponent({
         padding: 48px;
     }
 
+    background-image: v-bind(backgroundImage);
     background-size: cover;
     background-position: 50% 50%;
     min-height: 640px;

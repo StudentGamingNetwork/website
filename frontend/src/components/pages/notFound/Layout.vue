@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="not-found"
-        :style="headerStyle"
-    >
+    <div class="not-found">
         <SPageTitle>
             Page introuvable
         </SPageTitle>
@@ -33,9 +30,7 @@ export default defineComponent({
     components: { SButton, SPageDescription, SPageTitle },
     setup() {
         return {
-            headerStyle: {
-                backgroundImage: `url(${ notFoundBackground })`
-            }
+            backgroundImage: `url(${ notFoundBackground })`
         };
     }
 });
@@ -44,6 +39,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .not-found {
     padding: 128px;
+    background-image: v-bind(backgroundImage);
     background-size: cover;
     background-position: 50% 50%;
     min-height: 640px;

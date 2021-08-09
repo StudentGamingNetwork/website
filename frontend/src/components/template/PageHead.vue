@@ -1,8 +1,5 @@
 <template>
-    <header
-        class="page-head"
-        :style="headStyle"
-    >
+    <header class="page-head">
         <SPageTitle class="title">
             {{ title }}
         </SPageTitle>
@@ -32,9 +29,7 @@ export default defineComponent({
     },
     setup(props) {
         return {
-            headStyle: {
-                backgroundImage: `url(${ props.background })`
-            }
+            backgroundImage: `url(${ props.background })`
         };
     }
 });
@@ -46,6 +41,9 @@ export default defineComponent({
         padding: 48px;
     }
 
+    background-image: v-bind(backgroundImage);
+    background-size: cover;
+    background-position: 50% 50%;
     height: 320px;
     padding: 48px 128px;
     box-sizing: border-box;
