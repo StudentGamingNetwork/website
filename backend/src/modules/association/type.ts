@@ -16,6 +16,7 @@ const BasicAssociation = {
     })),
     school: Type.Object({
         name: Type.String({ maxLength: 64, minLength: 1 }),
+        address: Type.String(),
         studentsNumber: Type.Number()
     }),
     tag: Type.Optional(Type.String())
@@ -26,10 +27,6 @@ const PrivateFields = {
 };
 
 const Users = {
-    federation: Type.Optional(Type.Object({
-        region: Type.String(),
-        state: Type.String()
-    })),
     users: Type.Object({
         members: Type.Array(Type.String()),
         moderators: Type.Array(Type.String()),

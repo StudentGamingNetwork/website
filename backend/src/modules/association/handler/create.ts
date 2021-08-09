@@ -48,6 +48,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 mail: request.body.mail,
                 school: {
                     name: request.body.school,
+                    address: "",
                     studentsNumber: 0
                 },
                 users: {

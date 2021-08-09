@@ -5,6 +5,7 @@ import Middie from "middie";
 import FastifyMultipart from "fastify-multipart";
 import { connectDatabase } from "@/database";
 import APIHandler from "@/api";
+import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
 
 async function init() {
@@ -22,6 +23,7 @@ async function init() {
     }));
 
     await server.register(APIHandler, { prefix: "/api" });
+    await server.register(StaticHandler, { prefix: "/static" });
     await server.register(UploadHandler, { prefix: "/upload" });
 
     return server;

@@ -17,7 +17,6 @@ export default defineComponent({
                 search: "",
                 skip: 0
             });
-            console.log(users);
         });
     }
 });

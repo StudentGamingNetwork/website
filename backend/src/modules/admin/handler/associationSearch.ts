@@ -3,6 +3,7 @@ import { Static, Type } from "@sinclair/typebox";
 import { escapeRegExp } from "lodash";
 import AssociationModel, { IAssociationDocument } from "@/modules/association/model";
 import { TypeBasicAdminAssociation } from "@/modules/association/type";
+import { TypeAdminBasicUser } from "@/modules/user/type";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 
@@ -16,7 +17,14 @@ type TAssociationSearch = Static<typeof AssociationSearch>;
 
 const AssociationSearchResponse = Type.Object({
     associations: Type.Array(
-        TypeBasicAdminAssociation
+        Type.Object(
+            {
+                ...TypeBasicAdminAssociation.properties,
+                users: Type.Object({
+                    owner: TypeAdminBasicUser
+                })
+            }
+        )
     )
 });
 
@@ -63,5 +71,6 @@ async function associationSearch({ limit, search, skip }: { limit: number; searc
         .sort({ "name": 1 })
         .skip(skip)
         .limit(limit)
+        .populate("users.owner")
         .exec();
 }

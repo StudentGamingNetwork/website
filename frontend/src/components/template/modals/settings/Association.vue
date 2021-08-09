@@ -45,6 +45,11 @@
                     title="Nom de l'école"
                 />
                 <SInput
+                    v-model="association.school.address"
+                    :modified="association.school.address !== associationStore.school.address"
+                    title="Adresse de l'école"
+                />
+                <SInput
                     v-model="association.school.studentsNumber"
                     :modified="association.school.studentsNumber !== associationStore.school.studentsNumber"
                     title="Nombre d'étudiants de l'école"
@@ -176,6 +181,7 @@ type TAssociation = {
     };
     school: {
         name: string;
+        address: string;
         studentsNumber: number | string;
     };
     tag: string;

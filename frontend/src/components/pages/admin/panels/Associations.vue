@@ -64,30 +64,66 @@
             </div>
             <div class="school">
                 {{ association.school.name }}
+                <span
+                    v-if="association.school.studentsNumber"
+                    class="students-number"
+                >({{ association.school.studentsNumber }} étudiants)</span>
             </div>
             <div class="region">
                 {{ getRegionName(association.federation.region) }}
             </div>
-            <div class="informations">
-                info
+            <div class="owner">
+                <FontAwesomeIcon :icon="['fas', 'address-book']" /> {{ association.users.owner.username }}
+                <span
+                    v-if="association.users.owner.name"
+                    class="owner-name"
+                >({{ association.users.owner.name }})</span>
             </div>
             <div class="networks">
-                <FontAwesomeIcon
-                    class="icon"
-                    :icon="['fab', 'facebook']"
-                />
-                <FontAwesomeIcon
-                    class="icon"
-                    :icon="['fab', 'twitter']"
-                />
-                <FontAwesomeIcon
-                    class="icon"
-                    :icon="['fab', 'twitch']"
-                />
-                <FontAwesomeIcon
-                    class="icon"
-                    :icon="['fab', 'instagram']"
-                />
+                <a
+                    v-if="association.networks.facebook"
+                    :href="association.networks.facebook"
+                    target="_blank"
+                    title="Facebook"
+                >
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fab', 'facebook']"
+                    />
+                </a>
+                <a
+                    v-if="association.networks.twitter"
+                    :href="association.networks.twitter"
+                    target="_blank"
+                    title="Twitter"
+                >
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fab', 'twitter']"
+                    />
+                </a>
+                <a
+                    v-if="association.networks.twitch"
+                    :href="association.networks.twitch"
+                    target="_blank"
+                    title="Twitch"
+                >
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fab', 'twitch']"
+                    />
+                </a>
+                <a
+                    v-if="association.networks.instagram"
+                    :href="association.networks.instagram"
+                    target="_blank"
+                    title="Instagram"
+                >
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fab', 'instagram']"
+                    />
+                </a>
             </div>
         </SCard>
     </div>
@@ -118,6 +154,13 @@ type TAdminAssociation = {
     };
     school: {
         name: string;
+        studentsNumber: string;
+    };
+    users: {
+        owner: {
+            name: string;
+            username: string;
+        };
     };
 }
 
@@ -213,7 +256,7 @@ export default defineComponent({
         grid-template-areas:
         "logo name status"
         "logo school region"
-        "logo informations networks";
+        "logo owner networks";
         padding-right: var(--length-padding-s);
 
         .logo {
@@ -266,6 +309,10 @@ export default defineComponent({
             text-transform: uppercase;
             font-weight: 400;
             color: var(--color-content-softer);
+
+            .students-number {
+                font-size: 0.8rem;
+            }
         }
 
         .region {
@@ -275,8 +322,10 @@ export default defineComponent({
             color: var(--color-content-soft);
         }
 
-        .informations {
-            grid-area: informations;
+        .owner {
+            grid-area: owner;
+            font-size: 0.9rem;
+            color: var(--color-content-soft);
         }
 
         .networks {
@@ -285,11 +334,15 @@ export default defineComponent({
             display: flex;
             gap: var(--length-gap-s);
             justify-content: right;
+            color: var(--color-content-litest);
+
+            &:hover {
+                color: var(--color-primary-liter);
+            }
 
             .icon {
                 width: 16px;
                 height: 16px;
-                color: var(--color-content-litest);
             }
         }
     }
