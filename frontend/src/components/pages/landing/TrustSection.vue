@@ -12,10 +12,16 @@
                 v-for="trust of trusts"
                 :key="trust.key"
             >
-                <img
-                    :alt="trust.key"
-                    :src="trust.logo"
+                <a
+                    :href="trust.href"
+                    target="_blank"
+                    :title="trust.title"
                 >
+                    <img
+                        :alt="trust.key"
+                        :src="trust.logo"
+                    >
+                </a>
             </li>
         </ul>
     </section>
@@ -25,7 +31,7 @@
 import { defineComponent } from "vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
 
-import PNGLogoEsportParis from "@/assets/images/trust/esport-paris.png";
+import PNGLogoEspotParis from "@/assets/images/trust/espot-paris.png";
 import PNGLogoGamersOrigin from "@/assets/images/trust/gamers-origin.png";
 import PNGLogoMaterielNet from "@/assets/images/trust/materiel-net.png";
 import PNGLogoRiotGames from "@/assets/images/trust/riot-games.png";
@@ -40,14 +46,14 @@ export default defineComponent({
     setup() {
         return {
             trusts: [
-                { key: "twitch", logo: PNGLogoTwitch },
-                { key: "ubisoft", logo: PNGLogoUbisoft },
-                { key: "riot-games", logo: PNGLogoRiotGames },
-                { key: "logo-shadow", logo: PNGLogoShadow },
-                { key: "esport-paris", logo: PNGLogoEsportParis },
-                { key: "materiel-net", logo: PNGLogoMaterielNet },
-                { key: "gamers-origin", logo: PNGLogoGamersOrigin },
-                { key: "societe-generale", logo: PNGLogoSocieteGenerale }
+                { title: "Twitch", href: "https://twitch.tv/", key: "twitch", logo: PNGLogoTwitch },
+                { title: "Ubisoft", href: "https://www.ubisoft.com/fr-fr/", key: "ubisoft", logo: PNGLogoUbisoft },
+                { title: "Riot Games", href: "https://www.riotgames.com/fr", key: "riot-games", logo: PNGLogoRiotGames },
+                { title: "Shadow", href: "https://shadow.tech/fr", key: "shadow", logo: PNGLogoShadow },
+                { title: "Espot Paris", href: "https://espot.fr/", key: "espot-paris", logo: PNGLogoEspotParis },
+                { title: "Materiel.net", href: "https://www.materiel.net/", key: "materiel-net", logo: PNGLogoMaterielNet },
+                { title: "Gamers Origin", href: "https://gamersorigin.com/fr/", key: "gamers-origin", logo: PNGLogoGamersOrigin },
+                { title: "Société Générale", href: "https://www.societegenerale.com/fr/", key: "societe-generale", logo: PNGLogoSocieteGenerale }
             ]
         };
     }

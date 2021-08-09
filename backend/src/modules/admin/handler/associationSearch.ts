@@ -7,13 +7,13 @@ import { TypeAdminBasicUser } from "@/modules/user/type";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 
-const AssociationSearch = Type.Object({
+const SchemaRequest = Type.Object({
     limit: Type.Number({ default: 20, maximum: 50, minimum: 1 }),
     search: Type.Optional(Type.String()),
     skip: Type.Number({ default: 0, minimum: 0 })
 });
 
-type TAssociationSearch = Static<typeof AssociationSearch>;
+type TSchemaRequest = Static<typeof SchemaRequest>;
 
 const AssociationSearchResponse = Type.Object({
     associations: Type.Array(
@@ -31,14 +31,14 @@ const AssociationSearchResponse = Type.Object({
 type TAssociationSearchResponse = Static<typeof AssociationSearchResponse>;
 
 const schema = {
-    querystring: AssociationSearch,
+    querystring: SchemaRequest,
     response: {
         200: AssociationSearchResponse
     }
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.get<{ Querystring: TAssociationSearch; Response: TAssociationSearchResponse }>(
+    server.get<{ Querystring: TSchemaRequest; Response: TAssociationSearchResponse }>(
         "/association/search",
         { schema },
         async (request, reply) => {

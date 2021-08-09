@@ -5,13 +5,13 @@ import * as UserLib from "../../user/lib";
 import UserModel, { ERoles, IUserDocument } from "@/modules/user/model";
 import { TypeAdminUser } from "@/modules/user/type";
 
-const UserSearch = Type.Object({
+const SchemaRequest = Type.Object({
     limit: Type.Number({ default: 20, maximum: 50, minimum: 1 }),
     search: Type.Optional(Type.String()),
     skip: Type.Number({ default: 0, minimum: 0 })
 });
 
-type TUserSearch = Static<typeof UserSearch>;
+type TSchemaRequest = Static<typeof SchemaRequest>;
 
 const UserSearchResponse = Type.Object({
     users: Type.Array(TypeAdminUser)
@@ -20,14 +20,14 @@ const UserSearchResponse = Type.Object({
 type TUserSearchResponse = Static<typeof UserSearchResponse>;
 
 const schema = {
-    querystring: UserSearch,
+    querystring: SchemaRequest,
     response: {
         200: UserSearchResponse
     }
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.get<{ Querystring: TUserSearch; Response: TUserSearchResponse }>(
+    server.get<{ Querystring: TSchemaRequest; Response: TUserSearchResponse }>(
         "/user/search",
         { schema },
         async (request, reply) => {

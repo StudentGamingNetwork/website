@@ -19,6 +19,6 @@ export default defineComponent({
     flex-direction: column;
     overflow-y: scroll;
     gap: var(--length-gap-m);
-    align-items: start;
+    align-items: flex-start;
 }
 </style>

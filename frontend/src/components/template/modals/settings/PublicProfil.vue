@@ -68,11 +68,13 @@
         <SModalSection>
             <SInput
                 v-model="password.old"
+                autocomplete="false"
                 title="Ancien mot de passe"
                 type="password"
             />
             <SInput
                 v-model="password.new"
+                autocomplete="false"
                 title="Nouveau mot de passe"
                 type="password"
             />

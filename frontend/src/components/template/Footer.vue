@@ -105,7 +105,7 @@ footer {
 
     .footer-wrapper {
         display: grid;
-        align-items: start;
+        align-items: flex-start;
         justify-content: center;
         gap: var(--length-gap-xl);
         grid-template-columns: repeat(auto-fit, 256px);

@@ -5,6 +5,7 @@
             :class="{ 'has-content': hasContent, disabled, error: !isValid }"
         >
             <input
+                :autocomplete="autocomplete ? autocomplete : null"
                 :class="{ modified }"
                 :disabled="disabled"
                 :type="type"
@@ -48,6 +49,10 @@ export default defineComponent({
     components: { SValidator },
     props: {
         title: {
+            default: "",
+            type: String
+        },
+        autocomplete: {
             default: "",
             type: String
         },

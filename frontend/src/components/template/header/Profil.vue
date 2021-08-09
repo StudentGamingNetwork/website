@@ -35,7 +35,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     gap: var(--length-gap-s);
-    justify-content: end;
+    justify-content: flex-end;
     position: relative;
     height: 48px;
 

@@ -63,7 +63,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "not-found",
         component: () => import(/* webpackChunkName: "not-found" */ "@/views/NotFound.vue"),
         meta: {
-            title: "Vous êtes perdu?"
+            title: "Page introuvable"
         },
         path: "/:path(.*)*"
     }
