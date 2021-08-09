@@ -82,12 +82,12 @@
                             />
                             {{ user.mail }}
                         </li>
-                        <li>
+                        <li v-if="user.platforms.discord">
                             <FontAwesomeIcon
                                 class="icon"
                                 :icon="['fab', 'discord']"
                             />
-                            test#0000
+                            {{ user.platforms.discord }}
                         </li>
                     </ul>
                 </div>
@@ -116,14 +116,14 @@
                                 class="icon"
                                 :icon="['fas', 'id-card']"
                             />
-                            Certificat étudiant
+                            Aucun certificat
                         </li>
                         <li>
                             <FontAwesomeIcon
                                 class="icon"
                                 :icon="['fas', 'user-check']"
                             />
-                            Non validé
+                            Aucun certificat
                         </li>
                     </ul>
                 </div>
@@ -152,6 +152,9 @@ type TAdminUser = {
     };
     avatar: string;
     mail: string;
+    platforms: {
+        discord: string;
+    };
     roles: Array<string>;
     username: string;
 }
@@ -304,6 +307,7 @@ export default defineComponent({
                 margin: 0;
                 padding: 0;
                 gap: var(--length-gap-s);
+                justify-content:end;
 
                 li {
                     list-style: none;
@@ -312,6 +316,7 @@ export default defineComponent({
                     border: 1px solid var(--color-info);
                     border-radius: var(--lenght-radius-base);
                     padding: 0 var(--length-padding-xxs);
+                    text-transform: capitalize;
                 }
             }
         }
@@ -331,7 +336,7 @@ export default defineComponent({
         .informations, .association, .student {
 
             color: var(--color-content-softer);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
 
             ul {
                 padding: 0;
@@ -343,7 +348,8 @@ export default defineComponent({
             }
 
             .icon {
-                width: 24px;
+                width: 12px;
+                height: 12px;
             }
         }
     }

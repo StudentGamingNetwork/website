@@ -41,7 +41,20 @@
                 Certificat étudiant
             </SButton>
             <div class="status">
-                <span class="soft">État:</span> Aucun certificat fourni
+                <span class="soft">État:</span>
+                <span class="main"><FontAwesomeIcon :icon="['fas', 'times']" /> Aucun certificat fourni</span><br>
+                <span
+                    v-if="false"
+                    class="main"
+                ><FontAwesomeIcon :icon="['fas', 'eye']" /> Vérification en cours</span>
+                <span
+                    v-if="false"
+                    class="main"
+                ><FontAwesomeIcon :icon="['fas', 'check']" /> Certificat validé</span>
+                <span
+                    v-if="false"
+                    class="main"
+                ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté</span>
             </div>
             <div class="description">
                 Pour participer aux tournois, vous devez fournir une preuve de votre statut étudiant (<u>certificat
@@ -77,6 +90,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from "vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SInput from "@/components/design/forms/Input.vue";
 import { User } from "@/modules";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
@@ -90,6 +104,7 @@ import * as InputValidators from "@/utils/validators";
 export default defineComponent({
     name: "SPublicProfil",
     components: {
+        FontAwesomeIcon,
         SAvatarPicker,
         SButton,
         SInput,
@@ -156,14 +171,18 @@ export default defineComponent({
 .public-profil {
     .status {
         font-size: 0.9rem;
+
+        .soft {
+            color: var(--color-content-softer);
+        }
+
+        .main {
+            padding-left: var(--length-padding-xxs);
+        }
     }
 
     .description {
         font-size: 0.8rem;
-        color: var(--color-content-softer);
-    }
-
-    .soft {
         color: var(--color-content-softer);
     }
 

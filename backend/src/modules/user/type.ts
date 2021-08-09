@@ -19,7 +19,14 @@ const AssociationFields = {
 };
 
 const OwnerFields = {
-    mail: Type.String()
+    mail: Type.String(),
+    platforms: Type.Object({
+        discord: Type.String()
+    }),
+    student: Type.Optional(Type.Object({
+        certificateType: Type.String(),
+        status: Type.String()
+    }))
 };
 
 const AdminFields = {

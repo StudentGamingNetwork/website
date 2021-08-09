@@ -50,3 +50,13 @@ export function Url(): InputValidator {
         message: "URL valide"
     };
 }
+
+export function Discord(): InputValidator {
+    return {
+        execute(value: string) {
+            const discordRegex = /^.+#[0-9]{4}$/;
+            return discordRegex.test(value);
+        },
+        message: "Format d'identifiant Discord"
+    };
+}

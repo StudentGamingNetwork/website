@@ -17,18 +17,12 @@ export enum ERegion {
     ARA = "ara", // Auvergne-Rhone-Alpes
 }
 
-export enum EAssociationState {
-    New = "new",
-    Validated = "validated",
-    Rejected = "rejected"
-}
-
 export interface IAssociation {
     name: string;
     description: string;
     federation: {
+        isValidated: boolean;
         region: ERegion;
-        state: EAssociationState;
     };
     lastOwnerChange: Date;
     logo: string;
@@ -66,14 +60,13 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
         type: String
     },
     federation: {
+        isValidated: {
+            default: false,
+            type: Boolean
+        },
         region: {
             default: ERegion.none,
             enum: Object.values(ERegion),
-            type: String
-        },
-        state: {
-            default: EAssociationState.New,
-            enum: Object.values(EAssociationState),
             type: String
         }
     },

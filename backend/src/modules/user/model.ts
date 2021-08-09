@@ -32,12 +32,13 @@ export interface IUser {
     avatar?: string;
     mail: string;
     password: string;
-    platforms: Record<string, string>;
+    platforms: {
+        discord?: string;
+    };
     roles: Array<ERoles>;
     student: {
         certificateType: EStudentCertificateType;
         lastModifier: Mongo.Schema.Types.ObjectId;
-        message: string;
         status: EStudentStatus;
     };
     subscriptionDate: Date;
@@ -69,8 +70,10 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         type: String
     },
     platforms: {
-        of: String,
-        type: Map
+        discord: {
+            default: "",
+            type: String
+        }
     },
     roles: [{
         enum: Object.values(ERoles),
@@ -78,6 +81,7 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
     }],
     student: {
         certificateType: {
+            default: "",
             enum: Object.values(EStudentCertificateType),
             type: String
         },
@@ -85,8 +89,8 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
             ref: "user",
             type: Mongo.Schema.Types.ObjectId
         },
-        message: String,
         status: {
+            default: EStudentStatus.Undefined,
             enum: Object.values(EStudentStatus),
             type: String
         }

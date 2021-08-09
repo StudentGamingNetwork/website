@@ -4,15 +4,21 @@
             Discord
         </SModalSectionTitle>
         <SModalSection>
-            <SInput title="Identifiant Discord" />
+            <SInput
+                v-model="platforms.discord"
+                :modified="platforms.discord !== userStore.platforms.discord"
+                title="Identifiant Discord"
+                :validators="[InputValidators.Discord()]"
+            />
             <div class="description">
                 Nous avons besoin de votre identifiant Discord pour vous contacter lors de vos matchs.
             </div>
         </SModalSection>
         <SModalSeparator />
         <SButton
-            disabled
+            :disabled="!hasUpdate"
             primary
+            @click="sendUpdate"
         >
             Sauvegarder le profil
         </SButton>
@@ -20,17 +26,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent, reactive, ref } from "vue";
+import { cloneDeep, isMatch } from "lodash";
 import SButton from "@/components/design/forms/Button.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SModalContent from "@/components/design/modal/Content.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
 import SModalSection from "@/components/design/modal/Section.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
+import * as InputValidators from "@/utils/validators";
+import { User } from "@/modules";
 
 export default defineComponent({
     name: "SGameProfil",
-    components: { SButton, SInput, SModalContent, SModalSection, SModalSectionTitle, SModalSeparator }
+    components: { SButton, SInput, SModalContent, SModalSection, SModalSectionTitle, SModalSeparator },
+    setup() {
+        const userStore = User.useStore();
+
+        const platforms = reactive(cloneDeep(userStore.platforms));
+
+        const hasUpdate = computed(() => {
+            return !isMatch(userStore.platforms, platforms);
+        });
+
+        const sendUpdate = async () => {
+            if (!hasUpdate.value) {
+                return;
+            }
+
+            await userStore.updatePlatforms(platforms);
+        };
+
+        return {
+            hasUpdate,
+            InputValidators,
+            platforms,
+            sendUpdate,
+            userStore
+        };
+    }
 });
 </script>
 

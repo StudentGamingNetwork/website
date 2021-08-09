@@ -19,6 +19,7 @@
                     required
                     title="Nom"
                     :validators="[InputValidators.NotEmpty()]"
+                    @enter="sendUpdate"
                 />
                 <SInput
                     v-model="association.mail"
@@ -26,12 +27,15 @@
                     required
                     title="Mail"
                     type="email"
+                    :validators="[InputValidators.Mail()]"
+                    @enter="sendUpdate"
                 />
                 <SInput
                     v-model="association.tag"
                     :modified="association.tag !== associationStore.tag"
                     title="TAG"
                     :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
+                    @enter="sendUpdate"
                 />
             </SModalSection>
             <SModalSectionTitle>
@@ -43,17 +47,20 @@
                     :modified="association.school.name !== associationStore.school.name"
                     required
                     title="Nom de l'école"
+                    @enter="sendUpdate"
                 />
                 <SInput
                     v-model="association.school.address"
                     :modified="association.school.address !== associationStore.school.address"
                     title="Adresse de l'école"
+                    @enter="sendUpdate"
                 />
                 <SInput
                     v-model="association.school.studentsNumber"
                     :modified="association.school.studentsNumber !== associationStore.school.studentsNumber"
                     title="Nombre d'étudiants de l'école"
                     type="number"
+                    @enter="sendUpdate"
                 />
             </SModalSection>
             <SModalSectionTitle>
@@ -66,6 +73,7 @@
                     title="Facebook"
                     type="url"
                     :validators="[InputValidators.Url()]"
+                    @enter="sendUpdate"
                 />
                 <SInput
                     v-model="association.networks.twitter"
@@ -73,6 +81,7 @@
                     title="Twitter"
                     type="url"
                     :validators="[InputValidators.Url()]"
+                    @enter="sendUpdate"
                 />
                 <SInput
                     v-model="association.networks.twitch"
@@ -80,6 +89,7 @@
                     title="Twitch"
                     type="url"
                     :validators="[InputValidators.Url()]"
+                    @enter="sendUpdate"
                 />
                 <SInput
                     v-model="association.networks.instagram"
@@ -87,6 +97,7 @@
                     title="Instagram"
                     type="url"
                     :validators="[InputValidators.Url()]"
+                    @enter="sendUpdate"
                 />
             </SModalSection>
             <SModalSeparator />

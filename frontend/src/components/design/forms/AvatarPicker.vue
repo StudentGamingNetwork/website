@@ -5,6 +5,7 @@
         </div>
         <div
             class="picker"
+            title="Uploader une nouvelle image"
             @click="chooseFile"
         >
             <FontAwesomeIcon

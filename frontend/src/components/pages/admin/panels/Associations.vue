@@ -55,11 +55,25 @@
                 {{ association.name }}
             </div>
             <div class="status">
-                <div class="chip validated">
+                <div
+                    v-if="association.federation.isValidated"
+                    class="chip validated"
+                    @click="updateAssociation({association, isValidated: false})"
+                >
                     <FontAwesomeIcon
                         class="icon"
                         :icon="['fas', 'check']"
                     /> Validée
+                </div>
+                <div
+                    v-else
+                    class="chip verification"
+                    @click="updateAssociation({association, isValidated: true})"
+                >
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fas', 'eye']"
+                    /> Vérification
                 </div>
             </div>
             <div class="school">
@@ -69,15 +83,67 @@
                     class="students-number"
                 >({{ association.school.studentsNumber }} étudiants)</span>
             </div>
+            <div class="info">
+                <ul>
+                    <li>
+                        <FontAwesomeIcon
+                            class="icon"
+                            :icon="['fas', 'envelope']"
+                        /> <SCopier
+                            class="copier"
+                            :content="association.mail"
+                        >
+                            {{ association.mail }}
+                        </SCopier>
+                    </li>
+                    <li v-if="association.school.address">
+                        <FontAwesomeIcon
+                            class="icon"
+                            :icon="['fas', 'map-marker']"
+                        /> <SCopier
+                            class="copier"
+                            :content="association.school.address"
+                        >
+                            {{ association.school.address }}
+                        </SCopier>
+                    </li>
+                </ul>
+            </div>
             <div class="region">
                 {{ getRegionName(association.federation.region) }}
             </div>
             <div class="owner">
-                <FontAwesomeIcon :icon="['fas', 'address-book']" /> {{ association.users.owner.username }}
+                {{ association.users.owner.username }}
                 <span
                     v-if="association.users.owner.name"
-                    class="owner-name"
+                    class="name"
                 >({{ association.users.owner.name }})</span>
+            </div>
+            <div class="owner-info">
+                <ul>
+                    <li>
+                        <FontAwesomeIcon
+                            class="icon"
+                            :icon="['fas', 'envelope']"
+                        /> <SCopier
+                            class="copier"
+                            :content="association.users.owner.mail"
+                        >
+                            {{ association.users.owner.mail }}
+                        </SCopier>
+                    </li>
+                    <li v-if="association.users.owner.platforms.discord">
+                        <FontAwesomeIcon
+                            class="icon"
+                            :icon="['fab', 'discord']"
+                        /> <SCopier
+                            class="copier"
+                            :content="association.users.owner.platforms.discord"
+                        >
+                            {{ association.users.owner.platforms.discord }}
+                        </SCopier>
+                    </li>
+                </ul>
             </div>
             <div class="networks">
                 <a
@@ -132,20 +198,23 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { debounce } from "lodash";
+import { debounce, isUndefined } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
 import * as AdminService from "@/services/admin";
 import * as AssociationService from "@/services/association";
 import SCard from "@/components/design/Card.vue";
+import SCopier from "@/components/design/forms/Copier.vue";
+import { Toast } from "@/modules";
 
 type TAdminAssociation = {
     _id: string;
     name: string;
     federation: {
+        isValidated: boolean;
         region: string;
-        state: string;
     };
     logo: string;
+    mail: string;
     networks: {
         facebook: string;
         instagram: string;
@@ -154,11 +223,16 @@ type TAdminAssociation = {
     };
     school: {
         name: string;
+        address: string;
         studentsNumber: string;
     };
     users: {
         owner: {
             name: string;
+            mail: string;
+            platforms: {
+                discord: string;
+            };
             username: string;
         };
     };
@@ -166,7 +240,7 @@ type TAdminAssociation = {
 
 export default defineComponent({
     name: "SAdminPanelAssociations",
-    components: { FontAwesomeIcon, SCard, SInput },
+    components: { FontAwesomeIcon, SCard, SCopier, SInput },
     setup() {
         const searchInput = ref("");
         const isSearching = ref(true);
@@ -193,6 +267,25 @@ export default defineComponent({
             isSearching.value = false;
         }
 
+        async function updateAssociation({ association, isValidated, region }: {association: TAdminAssociation; isValidated?: boolean; region?: string }) {
+            const response = await Toast.testRequest(async () => {
+                return AdminService.associationUpdate({
+                    _id: association._id,
+                    isValidated,
+                    region
+                });
+            });
+
+            if (response?.success) {
+                if (!isUndefined(isValidated)) {
+                    association.federation.isValidated = isValidated;
+                }
+                if (region) {
+                    association.federation.region = region;
+                }
+            }
+        }
+
         onMounted(async () => {
             await updateSearch();
         });
@@ -202,7 +295,8 @@ export default defineComponent({
             getLogoUrl: AssociationService.getLogoUrl,
             getRegionName: AssociationService.getRegionName,
             isSearching,
-            searchInput
+            searchInput,
+            updateAssociation
         };
     }
 });
@@ -252,17 +346,17 @@ export default defineComponent({
     .association {
         display: grid;
         column-gap: var(--length-gap-m);
-        grid-template-columns: 96px 2fr 1fr;
+        grid-template-columns: 112px 1fr 1fr 0.5fr;
         grid-template-areas:
-        "logo name status"
-        "logo school region"
-        "logo owner networks";
+        "logo name name status"
+        "logo school owner region"
+        "logo info owner-info networks";
         padding-right: var(--length-padding-s);
 
         .logo {
             grid-area: logo;
-            height: 96px;
-            width: 96px;
+            height: 112px;
+            width: 112px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -295,6 +389,18 @@ export default defineComponent({
                 border-radius: var(--lenght-radius-base);
                 padding: 0 var(--length-padding-xxs);
                 display: inline-block;
+                transition: padding-right var(--duration-fast);
+
+                &:hover {
+                    cursor: pointer;
+                    padding-right: var(--length-padding-s);
+                }
+
+                &.verification {
+                    background: var(--color-warning-background);
+                    color: var(--color-warning-content);
+                    border: 1px solid var(--color-warning);
+                }
 
                 &.validated {
                     background: var(--color-success-background);
@@ -306,12 +412,44 @@ export default defineComponent({
 
         .school {
             grid-area: school;
+            font-size: 0.9rem;
             text-transform: uppercase;
             font-weight: 400;
-            color: var(--color-content-softer);
+            color: var(--color-content-soft);
 
             .students-number {
-                font-size: 0.8rem;
+                text-transform: none;
+                font-weight: 600;
+                font-size: 0.7rem;
+            }
+        }
+
+        .info {
+            grid-area: info;
+            font-size: 0.8rem;
+        }
+
+        .owner-info {
+            grid-area: owner-info;
+            font-size: 0.8rem;
+        }
+
+        .info ul, .owner-info ul {
+            margin: 0;
+            padding: 0;
+
+            li {
+                list-style: none;
+                color: var(--color-content-softer);
+
+                .icon {
+                    width: 12px;
+                    height: 12px;
+                }
+
+                .copier:hover {
+                    color: var(--color-primary-lite);
+                }
             }
         }
 
@@ -326,14 +464,18 @@ export default defineComponent({
             grid-area: owner;
             font-size: 0.9rem;
             color: var(--color-content-soft);
+
+            .name {
+                font-size: 0.7rem;
+            }
         }
 
         .networks {
-            text-align: right;
             grid-area: networks;
             display: flex;
             gap: var(--length-gap-s);
             justify-content: right;
+            align-items: end;
             color: var(--color-content-litest);
 
             &:hover {

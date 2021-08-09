@@ -37,6 +37,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             association.tag = request.body.tag || "";
             association.school.name = request.body.school.name;
             association.school.studentsNumber = request.body.school.studentsNumber;
+            association.school.address = request.body.school.address;
             association.mail = request.body.mail;
 
             await association.save();

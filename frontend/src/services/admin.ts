@@ -9,3 +9,9 @@ export async function associationSearch(query: { limit: number; search: string; 
     const result = await ApiService.get("/admin/association/search", { params: query });
     return result.data;
 }
+
+
+export async function associationUpdate(update: {_id: string; isValidated?: boolean; region?: string }): Promise<any> {
+    const result = await ApiService.post("/admin/association/update", update);
+    return result.data;
+}

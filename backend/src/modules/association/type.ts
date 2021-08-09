@@ -4,8 +4,8 @@ const BasicAssociation = {
     _id: Type.String(),
     name: Type.String({ maxLength: 64, minLength: 1 }),
     federation: Type.Optional(Type.Object({
-        region: Type.String(),
-        state: Type.String()
+        isValidated: Type.Boolean(),
+        region: Type.String()
     })),
     logo: Type.Optional(Type.String()),
     networks: Type.Optional(Type.Object({

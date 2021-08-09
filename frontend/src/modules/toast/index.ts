@@ -9,7 +9,7 @@ export async function testRequest(request: () => Promise<any>): Promise<any> {
     try {
         const response = await request();
         toastStore.add({
-            title: "Success",
+            title: "Succès",
             message: response.message,
             type: EToastType.Success
         });

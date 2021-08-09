@@ -43,7 +43,9 @@ export async function register(server: FastifyInstance): Promise<void> {
 
 async function associationSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }): Promise<Array<IAssociationDocument>> {
 
-    const findParameters = {} as Record<string, any>;
+    const findParameters = {
+        "federation.isValidated": true
+    } as Record<string, any>;
 
     if (search) {
         const searchRegex = new RegExp(escapeRegExp(search), "gi");

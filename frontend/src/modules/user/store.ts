@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { omit } from "lodash";
+import { cloneDeep, omit } from "lodash";
 import * as UserService from "@/services/user";
 import { Toast, Association } from "@/modules";
 
@@ -38,6 +38,15 @@ export const useStore = defineStore({
             if (response?.success) {
                 this.username = username;
                 this.name = name;
+            }
+        },
+        async updatePlatforms(platforms: {discord: string}) {
+            const response = await Toast.testRequest(async () => {
+                return await UserService.updatePlatforms(platforms);
+            });
+
+            if (response?.success) {
+                this.platforms = cloneDeep(platforms);
             }
         },
         async uploadAvatar(file: File) {
@@ -87,6 +96,9 @@ export const useStore = defineStore({
         name: "",
         avatar: "",
         mail: "",
+        platforms: {
+            discord: ""
+        },
         roles: [] as Array<string>,
         username: ""
     })

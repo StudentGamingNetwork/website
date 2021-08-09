@@ -42,6 +42,13 @@ export async function update({ name, password, username }: { name: string; passw
     return result.data;
 }
 
+export async function updatePlatforms(platforms: Record<string, string>): Promise<any> {
+    const result = await ApiService.post("/user/updatePlatforms", {
+        platforms
+    });
+    return result.data;
+}
+
 export function getAvatarUrl(user: { id: string; avatar: string }): string {
     return `${ Config.backendUrl }/upload/user/${ user.id }/${ user.avatar }`;
 }

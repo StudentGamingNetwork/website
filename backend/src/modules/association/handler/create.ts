@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import AssociationModel, { EAssociationState, ERegion } from "../model";
+import AssociationModel, { ERegion } from "../model";
 import * as UserLib from "@/modules/user/lib";
 
 const AssociationCreate = Type.Object({
@@ -41,11 +41,12 @@ export async function register(server: FastifyInstance): Promise<void> {
             const association = await AssociationModel.create({
                 name: request.body.name,
                 federation: {
-                    region: ERegion.none,
-                    state: EAssociationState.New
+                    isValidated: false,
+                    region: ERegion.none
                 },
                 lastOwnerChange: new Date(),
                 mail: request.body.mail,
+                platforms: { },
                 school: {
                     name: request.body.school,
                     address: "",
