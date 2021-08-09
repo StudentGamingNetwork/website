@@ -11,9 +11,9 @@
                 :validators="[InputValidators.Discord()]"
                 @enter="sendUpdate"
             />
-            <div class="description">
+            <SModalSectionDescription>
                 Nous avons besoin de votre identifiant Discord pour vous contacter lors de vos matchs.
-            </div>
+            </SModalSectionDescription>
         </SModalSection>
         <SModalSeparator />
         <SButton
@@ -37,10 +37,11 @@ import SModalSection from "@/components/design/modal/Section.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
 import * as InputValidators from "@/utils/validators";
 import { User } from "@/modules";
+import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
 
 export default defineComponent({
     name: "SGameProfil",
-    components: { SButton, SInput, SModalContent, SModalSection, SModalSectionTitle, SModalSeparator },
+    components: { SButton, SInput, SModalContent, SModalSection, SModalSectionDescription, SModalSectionTitle, SModalSeparator },
     setup() {
         const userStore = User.useStore();
 
@@ -70,10 +71,4 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.game-profil {
-    .description {
-        font-size: 0.8rem;
-        color: var(--color-content-softer);
-    }
-}
 </style>

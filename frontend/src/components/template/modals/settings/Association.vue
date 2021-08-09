@@ -37,6 +37,9 @@
                     :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
                     @enter="sendUpdate"
                 />
+                <SModalSectionDescription>
+                    Le tag de votre association sera visible devant les pseudos de vos membres participants à des tournois.
+                </SModalSectionDescription>
             </SModalSection>
             <SModalSectionTitle>
                 École
@@ -100,14 +103,39 @@
                     @enter="sendUpdate"
                 />
             </SModalSection>
+            <SModalSectionTitle>
+                Paramètres
+            </SModalSectionTitle>
+            <SModalSection>
+                <SInput title="Slug" />
+                <SModalSectionDescription>
+                    Le slug est l'identifiant unique de votre association. Votre page d'association sera disponible à cette adresse :<br><em>https://sgnw.fr/association/{votre slug}</em>
+                </SModalSectionDescription>
+                <SInput
+                    disabled
+                    model-value="https://sgnw.fr/"
+                    title="Lien d'invitation"
+                />
+                <SModalSectionDescription>
+                    Vous devez partager ce lien aux membres qui souhaitent rejoindre votre association.
+                </SModalSectionDescription>
+            </SModalSection>
             <SModalSeparator />
-            <SButton
-                :disabled="!hasChanged"
-                primary
-                @click="sendUpdate"
-            >
-                Sauvegarder
-            </SButton>
+            <div class="buttons">
+                <SButton
+                    :disabled="!hasChanged"
+                    primary
+                    @click="sendUpdate"
+                >
+                    Sauvegarder
+                </SButton>
+                <SButton
+                    danger
+                    outlined
+                >
+                    Céder l'association
+                </SButton>
+            </div>
         </template>
         <template v-else-if="isCreating">
             <SModalSectionTitle>
@@ -174,6 +202,7 @@ import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SButton from "@/components/design/forms/Button.vue";
 import * as InputValidators from "@/utils/validators";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
+import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
 
 type TAssociation = {
     _id: string;
@@ -207,6 +236,7 @@ export default defineComponent({
         SInput,
         SModalContent,
         SModalSection,
+        SModalSectionDescription,
         SModalSectionTitle,
         SModalSeparator
     },
@@ -300,6 +330,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .association {
+    .buttons {
+        display: flex;
+        gap: var(--length-gap-m);
+    }
+
     .empty {
         display: flex;
         flex-direction: column;

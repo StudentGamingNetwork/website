@@ -56,11 +56,11 @@
                     class="main"
                 ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté</span>
             </div>
-            <div class="description">
+            <SModalSectionDescription>
                 Pour participer aux tournois, vous devez fournir une preuve de votre statut étudiant (<u>certificat
                     étudiant</u> ou <u>carte étudiante</u>).
                 Les collégiens et lycéens <strong>ne sont pas</strong> considérés comme "étudiants".
-            </div>
+            </SModalSectionDescription>
         </SModalSection>
         <SModalSectionTitle>
             Changer de mot de passe
@@ -100,6 +100,7 @@ import SModalSection from "@/components/design/modal/Section.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SModalContent from "@/components/design/modal/Content.vue";
 import * as InputValidators from "@/utils/validators";
+import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
 
 export default defineComponent({
     name: "SPublicProfil",
@@ -110,6 +111,7 @@ export default defineComponent({
         SInput,
         SModalContent,
         SModalSection,
+        SModalSectionDescription,
         SModalSectionTitle,
         SModalSeparator
     },
@@ -179,11 +181,6 @@ export default defineComponent({
         .main {
             padding-left: var(--length-padding-xxs);
         }
-    }
-
-    .description {
-        font-size: 0.8rem;
-        color: var(--color-content-softer);
     }
 
     .certificate-input {

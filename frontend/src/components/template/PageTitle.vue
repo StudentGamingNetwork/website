@@ -56,16 +56,24 @@ export default defineComponent({
             position: absolute;
             left: -16px;
             top: -16px;
-            opacity: 0.3;
+            opacity: 0.1;
             user-select: none;
+
+            &:-moz-read-only {
+                opacity: 0.3;
+            }
         }
 
         &:nth-child(2) {
             position: absolute;
             left: -8px;
             top: -8px;
-            opacity: 0.6;
+            opacity: 0.3;
             user-select: none;
+
+            &:-moz-read-only {
+                opacity: 0.6;
+            }
         }
 
         &:nth-child(3) {

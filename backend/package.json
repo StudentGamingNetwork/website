@@ -7,7 +7,7 @@
         "trace": "tsc --traceResolution",
         "start": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register src/server.ts",
         "test": "cross-env NODE_ENV=test jest --runInBand",
-        "tunnel": "lt --port 3000 --subdomain sgn-next"
+        "tunnel": "lt --port 3000 --subdomain sgn-next2"
     },
     "dependencies": {
         "@sinclair/typebox": "^0.19.2",

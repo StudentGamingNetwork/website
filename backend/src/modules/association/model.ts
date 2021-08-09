@@ -39,6 +39,10 @@ export interface IAssociation {
         studentsNumber: number;
         type: ESchoolType;
     };
+    settings: {
+        invitationLink: string;
+        slug: string;
+    };
     tag: string;
     users: {
         members: Array<Mongo.Schema.Types.ObjectId>;
@@ -108,6 +112,14 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
         },
         type: {
             enum: Object.values(ESchoolType),
+            type: String
+        }
+    },
+    settings: {
+        invitationLink: {
+            type: String
+        },
+        slug: {
             type: String
         }
     },

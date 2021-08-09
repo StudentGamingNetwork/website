@@ -7,6 +7,7 @@ import { connectDatabase } from "@/database";
 import APIHandler from "@/api";
 import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
+import PageHandler from "@/page";
 
 async function init() {
     const isDevelopment = (process.env.NODE_ENV === "development");
@@ -25,6 +26,7 @@ async function init() {
     await server.register(APIHandler, { prefix: "/api" });
     await server.register(StaticHandler, { prefix: "/static" });
     await server.register(UploadHandler, { prefix: "/upload" });
+    await server.register(PageHandler);
 
     return server;
 }

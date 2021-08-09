@@ -10,10 +10,10 @@
             >
                 Supprimer mon compte
             </SButton>
-            <div class="description">
+            <SModalSectionDescription>
                 Attention, toute suppression est définitive ! Vous devrez recréer un compte pour participer aux futurs
                 événements du SGN.
-            </div>
+            </SModalSectionDescription>
         </SModalSection>
     </SModalContent>
 </template>
@@ -24,18 +24,13 @@ import SButton from "@/components/design/forms/Button.vue";
 import SModalContent from "@/components/design/modal/Content.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
 import SModalSection from "@/components/design/modal/Section.vue";
+import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
 
 export default defineComponent({
     name: "SAccount",
-    components: { SButton, SModalContent, SModalSection, SModalSectionTitle }
+    components: { SButton, SModalContent, SModalSection, SModalSectionDescription, SModalSectionTitle }
 });
 </script>
 
 <style scoped lang="scss">
-.account {
-    .description {
-        font-size: 0.8rem;
-        color: var(--color-content-softer);
-    }
-}
 </style>
