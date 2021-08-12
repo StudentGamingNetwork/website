@@ -32,6 +32,11 @@ export async function update(association: Record<string, string>): Promise<any> 
     return result.data;
 }
 
+export async function get(slug: string): Promise<any> {
+    const result = await ApiService.get(`/association/get/${ slug }`);
+    return result.data;
+}
+
 export const regionNames = {
     none: "Aucune région",
     ara: "Auvergne-Rhone-Alpes",

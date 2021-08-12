@@ -45,8 +45,10 @@ export default defineComponent({
         const selectedPanel = ref("users");
 
         onMounted(() => {
-            if (["users", "associations", "members"].includes(router.currentRoute.value.params.page)) {
-                selectedPanel.value = router.currentRoute.value.params.page;
+            const page = router.currentRoute.value.params.page as string;
+
+            if (["users", "associations", "members"].includes(page)) {
+                selectedPanel.value = page;
             }
         });
 

@@ -48,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "Association"
         },
-        path: "/association/:association"
+        path: "/association/:slug"
     },
     {
         name: "admin",

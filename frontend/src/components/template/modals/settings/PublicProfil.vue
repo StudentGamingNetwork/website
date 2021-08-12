@@ -11,6 +11,7 @@
             />
             <SInput
                 v-model="username"
+                autocomplete="false"
                 :modified="username !== userStore.username"
                 required
                 title="Pseudo"
@@ -29,6 +30,7 @@
         <SModalSection>
             <SInput
                 v-model="name"
+                autocomplete="false"
                 :modified="name !== userStore.name"
                 title="Prénom et nom"
                 @enter="sendUpdate"

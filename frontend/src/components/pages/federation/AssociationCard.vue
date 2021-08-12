@@ -84,28 +84,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import * as AssociationService from "@/services/association";
 import router from "@/router";
-
-type TAssociation = {
-    _id: string;
-    name: string;
-    federation: {
-        region: string;
-    };
-    logo: string;
-    networks?: {
-        facebook: string;
-        instagram: string;
-        twitch: string;
-        twitter: string;
-    };
-    school: {
-        name: string;
-    };
-    settings?: {
-        slug: string;
-    };
-    tag: string;
-}
+import { Association } from "@/modules";
 
 export default defineComponent({
     name: "SAssociationCard",
@@ -113,7 +92,7 @@ export default defineComponent({
     props: {
         association: {
             required: true,
-            type: Object as PropType<TAssociation>
+            type: Object as PropType<Association.TAssociation>
         }
     },
     setup(props) {
@@ -159,7 +138,6 @@ export default defineComponent({
         width: 100%;
         height: 128px;
         object-fit: contain;
-        filter: grayscale(50%);
     }
 
     .empty-logo {

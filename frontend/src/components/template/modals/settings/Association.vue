@@ -214,28 +214,6 @@ import * as InputValidators from "@/utils/validators";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
 
-type TAssociation = {
-    _id: string;
-    name: string;
-    logo: string;
-    mail: string;
-    networks: {
-        facebook: string;
-        instagram: string;
-        twitch: string;
-        twitter: string;
-    };
-    school: {
-        name: string;
-        address: string;
-        studentsNumber: number | string;
-    };
-    settings: {
-        slug: string;
-    };
-    tag: string;
-}
-
 export default defineComponent({
     name: "SAssociation",
     components: {
@@ -258,7 +236,7 @@ export default defineComponent({
         const association = reactive(cloneDeep(pick(
             associationStore.$state,
             ["_id", "mail", "name", "school", "networks", "tag", "settings", "logo"]
-        ))) as TAssociation;
+        ))) as Association.TAssociation;
 
         watch(
             () => associationStore.$state,
