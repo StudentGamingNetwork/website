@@ -1,5 +1,8 @@
 <template>
-    <SCard class="association-card">
+    <SCard
+        class="association-card"
+        @click="open"
+    >
         <img
             v-if="association.logo"
             alt="association logo"
@@ -80,6 +83,7 @@ import { computed, defineComponent, PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import * as AssociationService from "@/services/association";
+import router from "@/router";
 
 type TAssociation = {
     _id: string;
@@ -96,6 +100,9 @@ type TAssociation = {
     };
     school: {
         name: string;
+    };
+    settings?: {
+        slug: string;
     };
     tag: string;
 }
@@ -118,8 +125,14 @@ export default defineComponent({
             return AssociationService.getRegionName(props.association.federation.region);
         });
 
+        const open = () => {
+            const slug = props.association.settings?.slug || props.association._id;
+            router.push(`/association/${ slug }`);
+        };
+
         return {
             logoUrl,
+            open,
             regionName
         };
     }

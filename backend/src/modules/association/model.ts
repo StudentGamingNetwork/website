@@ -19,7 +19,6 @@ export enum ERegion {
 
 export interface IAssociation {
     name: string;
-    description: string;
     federation: {
         isValidated: boolean;
         region: ERegion;
@@ -58,9 +57,6 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
     name: {
         faker: "company.companyName",
         required: true,
-        type: String
-    },
-    description: {
         type: String
     },
     federation: {

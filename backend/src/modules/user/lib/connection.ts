@@ -24,14 +24,22 @@ export async function getUser(request: FastifyRequest): Promise<IUserDocument> {
     return user;
 }
 
-export function assertRoles(user: IUserDocument, roles: Array<ERoles>): void {
+export function hasRoles(user: IUserDocument, roles: Array<ERoles>): boolean {
     if (user.roles.includes(ERoles.Admin)) {
-        return;
+        return true;
     }
 
     for (const role of roles) {
         if (!user.roles.includes(role)) {
-            throw new httpErrors.Forbidden("Niveau d'autorisation trop faible.");
+            return false;
         }
+    }
+
+    return true;
+}
+
+export function assertRoles(user: IUserDocument, roles: Array<ERoles>): void {
+    if (!hasRoles(user, roles)) {
+        throw new httpErrors.Forbidden("Niveau d'autorisation trop faible.");
     }
 }

@@ -15,7 +15,7 @@ const SchemaRequest = Type.Object({
 
 type TSchemaRequest = Static<typeof SchemaRequest>;
 
-const AssociationSearchResponse = Type.Object({
+const SchemaResponse = Type.Object({
     associations: Type.Array(
         Type.Object(
             {
@@ -28,17 +28,17 @@ const AssociationSearchResponse = Type.Object({
     )
 });
 
-type TAssociationSearchResponse = Static<typeof AssociationSearchResponse>;
+type TSchemaResponse = Static<typeof SchemaResponse>;
 
 const schema = {
     querystring: SchemaRequest,
     response: {
-        200: AssociationSearchResponse
+        200: SchemaResponse
     }
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.get<{ Querystring: TSchemaRequest; Response: TAssociationSearchResponse }>(
+    server.get<{ Querystring: TSchemaRequest; Response: TSchemaResponse }>(
         "/association/search",
         { schema },
         async (request, reply) => {

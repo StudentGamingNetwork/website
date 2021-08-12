@@ -149,7 +149,10 @@
                     </li>
                 </ul>
             </div>
-            <div class="networks">
+            <div
+                v-if="association.networks"
+                class="networks"
+            >
                 <a
                     v-if="association.networks.facebook"
                     :href="association.networks.facebook"

@@ -38,7 +38,8 @@
                     @enter="sendUpdate"
                 />
                 <SModalSectionDescription>
-                    Le tag de votre association sera visible devant les pseudos de vos membres participants à des tournois.
+                    Le tag de votre association sera visible devant les pseudos de vos membres participants à des
+                    tournois.
                 </SModalSectionDescription>
             </SModalSection>
             <SModalSectionTitle>
@@ -107,9 +108,15 @@
                 Paramètres
             </SModalSectionTitle>
             <SModalSection>
-                <SInput title="Slug" />
+                <SInput
+                    v-model="association.settings.slug"
+                    :modified="association.settings.slug !== associationStore.settings.slug"
+                    title="Slug"
+                    @enter="sendUpdate"
+                />
                 <SModalSectionDescription>
-                    Le slug est l'identifiant unique de votre association. Votre page d'association sera disponible à cette adresse :<br><em>https://sgnw.fr/association/{votre slug}</em>
+                    Le slug est l'identifiant unique de votre association. Votre page d'association sera disponible à
+                    cette adresse :<br><em>https://sgnw.fr/association/{votre slug}</em>
                 </SModalSectionDescription>
                 <SInput
                     disabled
@@ -145,14 +152,17 @@
                 <SInput
                     v-model="creation.name"
                     title="Nom de l'association"
+                    @enter="create"
                 />
                 <SInput
                     v-model="creation.mail"
                     title="Mail de l'association"
+                    @enter="create"
                 />
                 <SInput
                     v-model="creation.school"
                     title="Nom de l'école"
+                    @enter="create"
                 />
             </SModalSection>
             <SModalSeparator />
@@ -207,10 +217,6 @@ import SModalSectionDescription from "@/components/design/modal/SectionDescripti
 type TAssociation = {
     _id: string;
     name: string;
-    federation: {
-        region: string;
-        state: string;
-    };
     logo: string;
     mail: string;
     networks: {
@@ -223,6 +229,9 @@ type TAssociation = {
         name: string;
         address: string;
         studentsNumber: number | string;
+    };
+    settings: {
+        slug: string;
     };
     tag: string;
 }
@@ -248,7 +257,7 @@ export default defineComponent({
 
         const association = reactive(cloneDeep(pick(
             associationStore.$state,
-            ["_id", "mail", "name", "school", "networks", "tag"]
+            ["_id", "mail", "name", "school", "networks", "tag", "settings", "logo"]
         ))) as TAssociation;
 
         watch(
@@ -256,7 +265,7 @@ export default defineComponent({
             () => {
                 merge(association, cloneDeep(pick(
                     associationStore.$state,
-                    ["_id", "mail", "name", "school", "networks", "tag"]
+                    ["_id", "mail", "name", "school", "networks", "tag", "settings", "logo"]
                 )));
             },
             { deep: true }
@@ -282,6 +291,10 @@ export default defineComponent({
         });
 
         const create = async () => {
+            if (!canCreate.value) {
+                return;
+            }
+
             await associationStore.create({
                 name: creation.name,
                 mail: creation.mail,

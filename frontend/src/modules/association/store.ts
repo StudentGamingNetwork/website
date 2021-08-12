@@ -19,7 +19,7 @@ export const useStore = defineStore({
             this.$patch(associationData);
             this.school.studentsNumber = this.school.studentsNumber ? this.school.studentsNumber.toString() : "";
         },
-        async update(association: Record<string, string>) {
+        async update(association: Record<string, any>) {
             const response = await Toast.testRequest(async () => {
                 return await AssociationService.update(association);
             });
@@ -47,6 +47,10 @@ export const useStore = defineStore({
     state: () => ({
         _id: "",
         name: "",
+        federation: {
+            isValidated: false,
+            region: ""
+        },
         logo: "",
         mail: "",
         networks: {
@@ -61,6 +65,9 @@ export const useStore = defineStore({
             region: "",
             studentsNumber: "" as number | string,
             type: ""
+        },
+        settings: {
+            slug: ""
         },
         tag: "",
         users: {

@@ -1,34 +1,35 @@
+
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import AssociationModel, { ERegion } from "../model";
+import * as AssociationLib from "../lib";
 import * as UserLib from "@/modules/user/lib";
 
-const AssociationCreate = Type.Object({
+const SchemaRequest = Type.Object({
     name: Type.String({ maxLength: 64, minLength: 1 }),
     mail: Type.String({ format: "email" }),
     school: Type.String({ maxLength: 64, minLength: 1 })
 });
 
-type TAssociationCreate = Static<typeof AssociationCreate>;
+type TSchemaRequest = Static<typeof SchemaRequest>;
 
-const AssociationCreateResponse = Type.Object({
+const SchemaResponse = Type.Object({
     message: Type.String(),
     success: Type.Boolean()
 });
 
-type TAssociationCreateResponse = Static<typeof AssociationCreateResponse>;
-
+type TSchemaResponse = Static<typeof SchemaResponse>;
 
 const schema = {
-    body: AssociationCreate,
+    body: SchemaRequest,
     response: {
-        200: AssociationCreateResponse
+        200: SchemaResponse
     }
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.post<{ Body: TAssociationCreate; Response: TAssociationCreateResponse }>(
+    server.post<{ Body: TSchemaRequest; Response: TSchemaResponse }>(
         "/create",
         { schema },
         async (request, reply) => {
@@ -46,11 +47,16 @@ export async function register(server: FastifyInstance): Promise<void> {
                 },
                 lastOwnerChange: new Date(),
                 mail: request.body.mail,
-                platforms: { },
+                networks: {},
+                platforms: {},
                 school: {
                     name: request.body.school,
                     address: "",
                     studentsNumber: 0
+                },
+                settings: {
+                    invitationLink: AssociationLib.generateInvitationLink(),
+                    slug: ""
                 },
                 users: {
                     members: [user.id],

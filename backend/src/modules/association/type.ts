@@ -19,6 +19,9 @@ const BasicAssociation = {
         address: Type.String(),
         studentsNumber: Type.Number()
     }),
+    settings: Type.Optional(Type.Object({
+        slug: Type.String()
+    })),
     tag: Type.Optional(Type.String())
 };
 
@@ -32,6 +35,26 @@ const Users = {
         moderators: Type.Array(Type.String()),
         owner: Type.String()
     })
+};
+
+const TypeBasicAssociationUser = Type.Object({
+    _id: Type.String(),
+    name: Type.Optional(Type.String()),
+    avatar: Type.Optional(Type.String()),
+    mail: Type.String(),
+    platforms: Type.Object({
+        discord: Type.String()
+    }),
+    roles: Type.Array(Type.String()),
+    username: Type.String()
+});
+
+const FullUsers = {
+    users: Type.Optional(Type.Object({
+        members: Type.Array(TypeBasicAssociationUser),
+        moderators: Type.Array(TypeBasicAssociationUser),
+        owner: TypeBasicAssociationUser
+    }))
 };
 
 export const TypeBasicAssociation = Type.Object(BasicAssociation);
@@ -50,4 +73,10 @@ export const TypeMemberAssociation = Type.Object({
     ...BasicAssociation,
     ...PrivateFields,
     ...Users
+});
+
+export const TypeFullMemberAssociation = Type.Object({
+    ...BasicAssociation,
+    ...PrivateFields,
+    ...FullUsers
 });
