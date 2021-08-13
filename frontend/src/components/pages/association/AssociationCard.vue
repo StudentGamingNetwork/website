@@ -69,6 +69,55 @@
                 </li>
             </ul>
         </div>
+        <div
+            v-if="association.networks"
+            class="networks"
+        >
+            <a
+                v-if="association.networks.facebook"
+                :href="association.networks.facebook"
+                target="_blank"
+                title="Facebook"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fab', 'facebook']"
+                />
+            </a>
+            <a
+                v-if="association.networks.twitter"
+                :href="association.networks.twitter"
+                target="_blank"
+                title="Twitter"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fab', 'twitter']"
+                />
+            </a>
+            <a
+                v-if="association.networks.twitch"
+                :href="association.networks.twitch"
+                target="_blank"
+                title="Twitch"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fab', 'twitch']"
+                />
+            </a>
+            <a
+                v-if="association.networks.instagram"
+                :href="association.networks.instagram"
+                target="_blank"
+                title="Instagram"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fab', 'instagram']"
+                />
+            </a>
+        </div>
     </SCard>
 </template>
 
@@ -109,7 +158,8 @@ export default defineComponent({
     grid-template-columns: 192px 1fr 1fr;
     grid-template-areas:
         "logo head head"
-        "logo school owner";
+        "logo school owner"
+        "logo networks networks";
 
     .logo {
         grid-area: logo;
@@ -138,10 +188,10 @@ export default defineComponent({
         display: inline-flex;
         align-items: center;
         gap: var(--length-gap-s);
-        padding: var(--length-padding-m) 0;
+        padding: var(--length-padding-s) 0;
 
         h2 {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 600;
             margin: 0;
             padding: 0;
@@ -177,6 +227,7 @@ export default defineComponent({
     .school ul, .owner ul {
         margin: 0;
         padding: 0;
+        font-size: 0.9rem;
 
         li {
             list-style: none;
@@ -190,6 +241,25 @@ export default defineComponent({
             .copier:hover {
                 color: var(--color-primary-lite);
             }
+        }
+    }
+
+    .networks {
+        grid-area: networks;
+        display: flex;
+        gap: var(--length-gap-s);
+        justify-content: right;
+        align-items: end;
+        color: var(--color-content-litest);
+        margin-right: var(--length-margin-s);
+
+        &:hover {
+            color: var(--color-primary-liter);
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
         }
     }
 }

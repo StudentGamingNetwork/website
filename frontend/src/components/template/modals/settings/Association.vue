@@ -112,11 +112,15 @@
                     v-model="association.settings.slug"
                     :modified="association.settings.slug !== associationStore.settings.slug"
                     title="Slug"
+                    :validators="[InputValidators.OnlyLettersAndDashes()]"
                     @enter="sendUpdate"
                 />
                 <SModalSectionDescription>
                     Le slug est l'identifiant unique de votre association. Votre page d'association sera disponible à
-                    cette adresse :<br><em>https://sgnw.fr/association/{votre slug}</em>
+                    cette adresse :<br><em><SCopier
+                        class="copier"
+                        :content="slugUrl"
+                    >{{ slugUrl }}</SCopier></em>
                 </SModalSectionDescription>
                 <SInput
                     disabled
@@ -138,11 +142,29 @@
                 </SButton>
                 <SButton
                     danger
+                    disabled
                     outlined
                 >
                     Céder l'association
                 </SButton>
             </div>
+            <SModalSectionTitle>
+                Danger zone
+            </SModalSectionTitle>
+            <SModalSection>
+                <SButton
+                    danger
+                    :disabled="associationStore.users.members.length > 1"
+                    outlined
+                    @click="deleteAssociation"
+                >
+                    Supprimer l'association
+                </SButton>
+                <SModalSectionDescription>
+                    Il est préférable de céder l'association à quelqu'un plutôt que de la supprimer.
+                    Vous ne pouvez supprimer l'association que si vous êtes seul dans celle-ci, sinon contactez votre responsable de région SGN.
+                </SModalSectionDescription>
+            </SModalSection>
         </template>
         <template v-else-if="isCreating">
             <SModalSectionTitle>
@@ -152,24 +174,25 @@
                 <SInput
                     v-model="creation.name"
                     title="Nom de l'association"
-                    @enter="create"
+                    @enter="createAssociation"
                 />
                 <SInput
                     v-model="creation.mail"
                     title="Mail de l'association"
-                    @enter="create"
+                    :validators="[InputValidators.Mail()]"
+                    @enter="createAssociation"
                 />
                 <SInput
                     v-model="creation.school"
                     title="Nom de l'école"
-                    @enter="create"
+                    @enter="createAssociation"
                 />
             </SModalSection>
             <SModalSeparator />
             <SButton
                 :disabled="!canCreate"
                 primary
-                @click="create"
+                @click="createAssociation"
             >
                 Créer l'association
             </SButton>
@@ -213,6 +236,7 @@ import SButton from "@/components/design/forms/Button.vue";
 import * as InputValidators from "@/utils/validators";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
+import SCopier from "@/components/design/forms/Copier.vue";
 
 export default defineComponent({
     name: "SAssociation",
@@ -220,6 +244,7 @@ export default defineComponent({
         FontAwesomeIcon,
         SAvatarPicker,
         SButton,
+        SCopier,
         SInput,
         SModalContent,
         SModalSection,
@@ -268,7 +293,7 @@ export default defineComponent({
             return creation.name && creation.mail && creation.school;
         });
 
-        const create = async () => {
+        const createAssociation = async () => {
             if (!canCreate.value) {
                 return;
             }
@@ -278,6 +303,12 @@ export default defineComponent({
                 mail: creation.mail,
                 school: creation.school
             });
+        };
+
+        const deleteAssociation = async() => {
+            if (confirm("Êtes-vous sûr de vouloir supprimer l'association ?")) {
+                await associationStore.delete();
+            }
         };
 
         const uploadLogo = async (file: File) => {
@@ -300,18 +331,24 @@ export default defineComponent({
             await associationStore.update(association);
         };
 
+        const slugUrl = computed(() => {
+            return `${ window.location.origin }/association/${ association.settings?.slug || "{votre slug}" }`;
+        });
+
         return {
             association,
             associationStore,
             canCreate,
-            create,
+            createAssociation,
             creation,
+            deleteAssociation,
             hasChanged,
             InputValidators,
             isCreating,
             join,
             logoUrl,
             sendUpdate,
+            slugUrl,
             startCreating,
             uploadLogo
         };
@@ -324,6 +361,10 @@ export default defineComponent({
     .buttons {
         display: flex;
         gap: var(--length-gap-m);
+    }
+
+    .copier:hover {
+        color: var(--color-primary-lite);
     }
 
     .empty {

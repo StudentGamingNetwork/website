@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static } from "@sinclair/typebox";
 import * as UserLib from "../lib";
+import * as AssociationLib from "@/modules/association/lib";
 import { TypeOwnerUser } from "@/modules/user/type";
 
 const UserPingResponse = TypeOwnerUser;
@@ -24,7 +25,13 @@ export async function register(server: FastifyInstance): Promise<void> {
                 await user.populate("association").execPopulate();
             }
 
-            reply.send(user);
+            const responseUser = user.toObject();
+
+            if (responseUser.association) {
+                responseUser.association = AssociationLib.sanitize(user, user.association);
+            }
+
+            reply.send(responseUser);
         }
     );
 }

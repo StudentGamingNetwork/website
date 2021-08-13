@@ -42,6 +42,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .copier {
-    cursor: pointer;
+    cursor: cell;
 }
 </style>

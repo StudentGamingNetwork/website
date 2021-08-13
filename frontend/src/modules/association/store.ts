@@ -15,11 +15,23 @@ export const useStore = defineStore({
                 await userStore.init();
             }
         },
+        async delete() {
+            const response = await Toast.testRequest(async () => {
+                return await AssociationService.remove(this._id);
+            });
+
+            if (response?.success) {
+                const userStore = User.useStore();
+                await userStore.init();
+            }
+        },
         init(associationData: Record<string, any>) {
             this.$patch(associationData);
             this.school.studentsNumber = this.school.studentsNumber ? this.school.studentsNumber.toString() : "";
         },
         async update(association: Record<string, any>) {
+            association.school.studentsNumber = parseInt(association.school.studentsNumber);
+
             const response = await Toast.testRequest(async () => {
                 return await AssociationService.update(association);
             });

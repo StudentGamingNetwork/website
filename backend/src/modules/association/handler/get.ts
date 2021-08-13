@@ -51,14 +51,10 @@ export async function register(server: FastifyInstance): Promise<void> {
                         .populate("users.moderators")
                         .populate("users.owner")
                         .execPopulate();
-
-                    console.log(association);
-
                     reply.send(association);
+                    return;
                 }
             }
-
-            console.log(association);
 
             reply.send(
                 pick(association, [

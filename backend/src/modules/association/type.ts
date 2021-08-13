@@ -17,7 +17,7 @@ const BasicAssociation = {
     school: Type.Object({
         name: Type.String({ maxLength: 64, minLength: 1 }),
         address: Type.String(),
-        studentsNumber: Type.Number()
+        studentsNumber: Type.Optional(Type.Number())
     }),
     settings: Type.Optional(Type.Object({
         slug: Type.String()
@@ -26,7 +26,11 @@ const BasicAssociation = {
 };
 
 const PrivateFields = {
-    mail: Type.String()
+    mail: Type.String(),
+    settings: Type.Optional(Type.Object({
+        invitationLink: Type.Optional(Type.String()),
+        slug: Type.String()
+    }))
 };
 
 const Users = {

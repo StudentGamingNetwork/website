@@ -18,10 +18,13 @@ export const useStore = defineStore({
             try {
                 const userData = await UserService.ping();
                 this.$patch(omit(userData, "association"));
+                const associationStore = Association.useStore();
 
                 if (userData.association) {
-                    const associationStore = Association.useStore();
                     associationStore.init(userData.association);
+                }
+                else {
+                    associationStore.$reset();
                 }
             }
             catch (error) {
