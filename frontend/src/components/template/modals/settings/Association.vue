@@ -4,164 +4,197 @@
             v-if="associationStore._id"
             class="details"
         >
-            <SModalSectionTitle>
-                Profil de l'association
-            </SModalSectionTitle>
-            <SModalSection>
-                <SAvatarPicker
-                    title="Logo"
-                    :url="logoUrl"
-                    @fileChange="uploadLogo"
-                />
-                <SInput
-                    v-model="association.name"
-                    :modified="association.name !== associationStore.name"
-                    required
-                    title="Nom"
-                    :validators="[InputValidators.NotEmpty()]"
-                    @enter="sendUpdate"
-                />
-                <SInput
-                    v-model="association.mail"
-                    :modified="association.mail !== associationStore.mail"
-                    required
-                    title="Mail"
-                    type="email"
-                    :validators="[InputValidators.Mail()]"
-                    @enter="sendUpdate"
-                />
-                <SInput
-                    v-model="association.tag"
-                    :modified="association.tag !== associationStore.tag"
-                    title="TAG"
-                    :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
-                    @enter="sendUpdate"
-                />
-                <SModalSectionDescription>
-                    Le tag de votre association sera visible devant les pseudos de vos membres participants à des
-                    tournois.
-                </SModalSectionDescription>
-            </SModalSection>
-            <SModalSectionTitle>
-                École
-            </SModalSectionTitle>
-            <SModalSection>
-                <SInput
-                    v-model="association.school.name"
-                    :modified="association.school.name !== associationStore.school.name"
-                    required
-                    title="Nom de l'école"
-                    @enter="sendUpdate"
-                />
-                <SInput
-                    v-model="association.school.address"
-                    :modified="association.school.address !== associationStore.school.address"
-                    title="Adresse de l'école"
-                    @enter="sendUpdate"
-                />
-                <SInput
-                    v-model="association.school.studentsNumber"
-                    :modified="association.school.studentsNumber !== associationStore.school.studentsNumber"
-                    title="Nombre d'étudiants de l'école"
-                    type="number"
-                    @enter="sendUpdate"
-                />
-            </SModalSection>
-            <SModalSectionTitle>
-                Réseaux
-            </SModalSectionTitle>
-            <SModalSection>
-                <SInput
-                    v-model="association.networks.facebook"
-                    :modified="association.networks.facebook !== associationStore.networks.facebook"
-                    title="Facebook"
-                    type="url"
-                    :validators="[InputValidators.Url()]"
-                    @enter="sendUpdate"
-                />
-                <SInput
-                    v-model="association.networks.twitter"
-                    :modified="association.networks.twitter !== associationStore.networks.twitter"
-                    title="Twitter"
-                    type="url"
-                    :validators="[InputValidators.Url()]"
-                    @enter="sendUpdate"
-                />
-                <SInput
-                    v-model="association.networks.twitch"
-                    :modified="association.networks.twitch !== associationStore.networks.twitch"
-                    title="Twitch"
-                    type="url"
-                    :validators="[InputValidators.Url()]"
-                    @enter="sendUpdate"
-                />
-                <SInput
-                    v-model="association.networks.instagram"
-                    :modified="association.networks.instagram !== associationStore.networks.instagram"
-                    title="Instagram"
-                    type="url"
-                    :validators="[InputValidators.Url()]"
-                    @enter="sendUpdate"
-                />
-            </SModalSection>
-            <SModalSectionTitle>
-                Paramètres
-            </SModalSectionTitle>
-            <SModalSection>
-                <SInput
-                    v-model="association.settings.slug"
-                    :modified="association.settings.slug !== associationStore.settings.slug"
-                    title="Slug"
-                    :validators="[InputValidators.OnlyLettersAndDashes()]"
-                    @enter="sendUpdate"
-                />
-                <SModalSectionDescription>
-                    Le slug est l'identifiant unique de votre association. Votre page d'association sera disponible à
-                    cette adresse :<br><em><SCopier
-                        class="copier"
-                        :content="slugUrl"
-                    >{{ slugUrl }}</SCopier></em>
-                </SModalSectionDescription>
+            <template v-if="isOwner">
+                <SModalSectionTitle>
+                    Profil de l'association
+                </SModalSectionTitle>
+                <SModalSection>
+                    <SAvatarPicker
+                        title="Logo"
+                        :url="logoUrl"
+                        @fileChange="uploadLogo"
+                    />
+                    <SInput
+                        v-model="association.name"
+                        :modified="association.name !== associationStore.name"
+                        required
+                        title="Nom"
+                        :validators="[InputValidators.NotEmpty()]"
+                        @enter="sendUpdate"
+                    />
+                    <SInput
+                        v-model="association.mail"
+                        :modified="association.mail !== associationStore.mail"
+                        required
+                        title="Mail"
+                        type="email"
+                        :validators="[InputValidators.Mail()]"
+                        @enter="sendUpdate"
+                    />
+                    <SInput
+                        v-model="association.tag"
+                        :modified="association.tag !== associationStore.tag"
+                        title="TAG"
+                        :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
+                        @enter="sendUpdate"
+                    />
+                    <SModalSectionDescription>
+                        Le tag de votre association sera visible devant les pseudos de vos membres participants à des
+                        tournois.
+                    </SModalSectionDescription>
+                </SModalSection>
+                <SModalSectionTitle>
+                    École
+                </SModalSectionTitle>
+                <SModalSection>
+                    <SInput
+                        v-model="association.school.name"
+                        :modified="association.school.name !== associationStore.school.name"
+                        required
+                        title="Nom de l'école"
+                        @enter="sendUpdate"
+                    />
+                    <SInput
+                        v-model="association.school.address"
+                        :modified="association.school.address !== associationStore.school.address"
+                        title="Adresse de l'école"
+                        @enter="sendUpdate"
+                    />
+                    <SInput
+                        v-model="association.school.studentsNumber"
+                        :modified="association.school.studentsNumber !== associationStore.school.studentsNumber"
+                        title="Nombre d'étudiants de l'école"
+                        type="number"
+                        @enter="sendUpdate"
+                    />
+                </SModalSection>
+                <SModalSectionTitle>
+                    Réseaux
+                </SModalSectionTitle>
+                <SModalSection>
+                    <SInput
+                        v-model="association.networks.facebook"
+                        :modified="association.networks.facebook !== associationStore.networks.facebook"
+                        title="Facebook"
+                        type="url"
+                        :validators="[InputValidators.Url()]"
+                        @enter="sendUpdate"
+                    />
+                    <SInput
+                        v-model="association.networks.twitter"
+                        :modified="association.networks.twitter !== associationStore.networks.twitter"
+                        title="Twitter"
+                        type="url"
+                        :validators="[InputValidators.Url()]"
+                        @enter="sendUpdate"
+                    />
+                    <SInput
+                        v-model="association.networks.twitch"
+                        :modified="association.networks.twitch !== associationStore.networks.twitch"
+                        title="Twitch"
+                        type="url"
+                        :validators="[InputValidators.Url()]"
+                        @enter="sendUpdate"
+                    />
+                    <SInput
+                        v-model="association.networks.instagram"
+                        :modified="association.networks.instagram !== associationStore.networks.instagram"
+                        title="Instagram"
+                        type="url"
+                        :validators="[InputValidators.Url()]"
+                        @enter="sendUpdate"
+                    />
+                </SModalSection>
+                <SModalSectionTitle>
+                    Paramètres
+                </SModalSectionTitle>
+                <SModalSection>
+                    <SInput
+                        v-model="association.settings.slug"
+                        :modified="association.settings.slug !== associationStore.settings.slug"
+                        title="Slug"
+                        :validators="[InputValidators.OnlyLettersAndDashes()]"
+                        @enter="sendUpdate"
+                    />
+                    <SModalSectionDescription>
+                        Le slug est l'identifiant unique de votre association. Votre page d'association sera disponible à
+                        cette adresse :<br><em><SCopier
+                            class="copier"
+                            :content="slugUrl"
+                        >{{ slugUrl }}</SCopier></em>
+                    </SModalSectionDescription>
 
-                <SModalSectionDescription>
-                    <strong><SCopier :content="invitationLink">Cliquez ici pour copier votre lien d'invitation</SCopier></strong><br>
-                    Vous devez partager ce lien aux membres qui souhaitent rejoindre votre association.
-                </SModalSectionDescription>
-            </SModalSection>
-            <SModalSeparator />
-            <div class="buttons">
-                <SButton
-                    :disabled="!hasChanged"
-                    primary
-                    @click="sendUpdate"
-                >
-                    Sauvegarder
-                </SButton>
-                <SButton
-                    danger
-                    disabled
-                    outlined
-                >
-                    Céder l'association
-                </SButton>
-            </div>
-            <SModalSectionTitle>
-                Danger zone
-            </SModalSectionTitle>
-            <SModalSection>
-                <SButton
-                    danger
-                    :disabled="associationStore.users.members.length > 1"
-                    outlined
-                    @click="deleteAssociation"
-                >
-                    Supprimer l'association
-                </SButton>
-                <SModalSectionDescription>
-                    Il est préférable de céder l'association à quelqu'un plutôt que de la supprimer.
-                    Vous ne pouvez supprimer l'association que si vous êtes seul dans celle-ci, sinon contactez votre responsable de région SGN.
-                </SModalSectionDescription>
-            </SModalSection>
+                    <SModalSectionDescription>
+                        <strong><SCopier :content="invitationLink">Cliquez ici pour copier votre lien d'invitation</SCopier></strong><br>
+                        Vous devez partager ce lien aux membres qui souhaitent rejoindre votre association.
+                    </SModalSectionDescription>
+                </SModalSection>
+                <SModalSeparator />
+                <div class="buttons">
+                    <SButton
+                        :disabled="!hasChanged"
+                        primary
+                        @click="sendUpdate"
+                    >
+                        Sauvegarder
+                    </SButton>
+                    <SButton
+                        danger
+                        disabled
+                        outlined
+                    >
+                        Céder l'association
+                    </SButton>
+                </div>
+                <SModalSectionTitle>
+                    Danger zone
+                </SModalSectionTitle>
+                <SModalSection>
+                    <SButton
+                        danger
+                        :disabled="associationStore.users.members.length > 1"
+                        outlined
+                        @click="deleteAssociation"
+                    >
+                        Supprimer l'association
+                    </SButton>
+                    <SModalSectionDescription>
+                        Il est préférable de céder l'association à quelqu'un plutôt que de la supprimer.
+                        Vous ne pouvez supprimer l'association que si vous êtes seul dans celle-ci, sinon contactez votre responsable de région SGN.
+                    </SModalSectionDescription>
+                </SModalSection>
+            </template>
+            <template v-else>
+                <div class="current">
+                    <img
+                        v-if="associationStore.logo"
+                        alt="logo"
+                        class="logo"
+                        :src="logoUrl"
+                    >
+                    <FontAwesomeIcon
+                        v-else
+                        class="icon"
+                        :icon="['fas','users']"
+                    />
+                    <div class="description">
+                        Vous faites partie de l'association<br>
+                        <strong>{{ associationStore.name }}</strong>
+                    </div>
+                </div>
+                <SModalSectionTitle>
+                    Danger zone
+                </SModalSectionTitle>
+                <SModalSection>
+                    <SButton
+                        danger
+                        outlined
+                        @click="leaveAssociation"
+                    >
+                        Quitter l'association
+                    </SButton>
+                </SModalSection>
+            </template>
         </template>
         <template v-else-if="isCreating">
             <SModalSectionTitle>
@@ -194,27 +227,26 @@
                 Créer l'association
             </SButton>
         </template>
-        <div
-            v-else
-            class="empty"
-        >
-            <FontAwesomeIcon
-                class="icon"
-                :icon="['fas','frown']"
-            />
-            <div class="description">
-                Vous n'êtes dans aucune association...
+        <template v-else>
+            <div class="empty">
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fas','frown']"
+                />
+                <div class="description">
+                    Vous n'êtes dans aucune association...
+                </div>
+                <div class="action">
+                    Vous pouvez <span
+                        class="link"
+                        @click="join"
+                    >rejoindre la vôtre</span> (sur la page Fédération)<br>ou en <span
+                        class="link"
+                        @click="startCreating"
+                    >créer une</span> si vous la représentez.
+                </div>
             </div>
-            <div class="action">
-                Vous pouvez <span
-                    class="link"
-                    @click="join"
-                >rejoindre la vôtre</span> (sur la page Fédération)<br>ou en <span
-                    class="link"
-                    @click="startCreating"
-                >créer une</span> si vous la représentez.
-            </div>
-        </div>
+        </template>
     </SModalContent>
 </template>
 
@@ -225,7 +257,7 @@ import { useRouter } from "vue-router";
 import { cloneDeep, isMatch, merge, pick } from "lodash";
 import SModalContent from "@/components/design/modal/Content.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
-import { Association, State } from "@/modules";
+import { Association, State, User } from "@/modules";
 import SModalSection from "@/components/design/modal/Section.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
@@ -251,6 +283,7 @@ export default defineComponent({
     },
     setup() {
         const associationStore = Association.useStore();
+        const userStore = User.useStore();
         const stateStore = State.useStore();
         const router = useRouter();
         const isCreating = ref(false);
@@ -308,6 +341,12 @@ export default defineComponent({
             }
         };
 
+        const leaveAssociation = async() => {
+            if (confirm("Êtes-vous sûr de vouloir quitter l'association ?")) {
+                await associationStore.leave();
+            }
+        };
+
         const uploadLogo = async (file: File) => {
             await associationStore.uploadLogo(file);
         };
@@ -336,6 +375,10 @@ export default defineComponent({
             return `${ window.location.origin }/association/${ association.settings?.slug || association._id }/join/${ association.settings.invitationLink }`;
         });
 
+        const isOwner = computed(() => {
+            return associationStore.users.owner === userStore._id;
+        });
+
         return {
             association,
             associationStore,
@@ -347,7 +390,9 @@ export default defineComponent({
             InputValidators,
             invitationLink,
             isCreating,
+            isOwner,
             join,
+            leaveAssociation,
             logoUrl,
             sendUpdate,
             slugUrl,
@@ -369,7 +414,7 @@ export default defineComponent({
         color: var(--color-primary-lite);
     }
 
-    .empty {
+    .empty, .current {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -383,9 +428,20 @@ export default defineComponent({
             color: var(--color-content-litest);
         }
 
+        .logo {
+            width: 192px;
+            height: 192px;
+            object-fit: contain;
+        }
+
         .description {
             text-align: center;
             color: var(--color-content-liter);
+
+            strong {
+                color: var(--color-content);
+                font-weight: 600;
+            }
         }
 
         .action {

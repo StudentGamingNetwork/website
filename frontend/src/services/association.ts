@@ -42,8 +42,13 @@ export async function join(slug: string, invitationLink: string): Promise<any> {
     return result.data;
 }
 
-export async function remove(id: string): Promise<any> {
-    const result = await ApiService.delete(`/association/delete/${ id }`);
+export async function remove(slug: string): Promise<any> {
+    const result = await ApiService.delete(`/association/delete/${ slug }`);
+    return result.data;
+}
+
+export async function leave(id: string): Promise<any> {
+    const result = await ApiService.post(`/association/leave`, { id });
     return result.data;
 }
 

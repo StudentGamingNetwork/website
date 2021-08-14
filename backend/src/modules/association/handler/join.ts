@@ -51,10 +51,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     throw new httpErrors.Forbidden("Vous ne pouvez pas rejoindre une association en étant déjà propriétaire d'une.");
                 }
 
-                console.log(currentAssociation.users.members);
                 currentAssociation.users.members = currentAssociation.users.members.filter((id) => id.toString() !== user._id.toString());
-                console.log(currentAssociation.users.members);
-                console.log(user._id);
                 await currentAssociation.save();
             }
 

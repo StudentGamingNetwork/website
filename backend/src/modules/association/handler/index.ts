@@ -5,6 +5,7 @@ import * as UpdateHandler from "./update";
 import * as GetHandler from "./get";
 import * as DeleteHandler from "./delete";
 import * as JoinHandler from "./join";
+import * as LeaveHandler from "./leave";
 import * as UploadLogoHandler from "@/modules/upload/handler/associationLogo";
 
 export default async function (server: FastifyInstance): Promise<void> {
@@ -15,4 +16,5 @@ export default async function (server: FastifyInstance): Promise<void> {
     await DeleteHandler.register(server);
     await UpdateHandler.register(server);
     await JoinHandler.register(server);
+    await LeaveHandler.register(server);
 }

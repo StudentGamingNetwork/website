@@ -39,6 +39,16 @@ export const useStore = defineStore({
                 await userStore.init();
             }
         },
+        async leave() {
+            const response = await Toast.testRequest(async () => {
+                return await AssociationService.leave(this._id);
+            });
+
+            if (response?.success) {
+                const userStore = User.useStore();
+                await userStore.init();
+            }
+        },
         async update(association: Record<string, any>) {
             association.school.studentsNumber = parseInt(association.school.studentsNumber);
 
