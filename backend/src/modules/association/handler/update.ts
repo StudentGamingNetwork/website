@@ -57,7 +57,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             association.school.name = request.body.school.name;
             association.school.studentsNumber = request.body.school.studentsNumber || 0;
             association.school.address = request.body.school.address;
-            association.settings.slug = request.body.settings?.slug.toLocaleLowerCase() || "";
+            association.settings.slug = request.body.settings?.slug?.toLocaleLowerCase() || "";
             association.mail = request.body.mail;
 
             await association.save();

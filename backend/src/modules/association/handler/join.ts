@@ -34,6 +34,12 @@ export async function register(server: FastifyInstance): Promise<void> {
         async (request, reply) => {
             const user = await UserLib.getUser(request);
 
+            const newAssociation = await AssociationLib.getAssociationFromSlug(request.body.slug);
+
+            if (newAssociation.settings.invitationLink !== request.body.invitationLink) {
+                throw new httpErrors.Forbidden("Le lien d'invitation n'est pas valide.");
+            }
+
             if (user.association) {
                 const currentAssociation = await AssociationModel.findById(user.association);
 
@@ -44,12 +50,12 @@ export async function register(server: FastifyInstance): Promise<void> {
                 if (currentAssociation.users.owner.toString() === user._id.toString()) {
                     throw new httpErrors.Forbidden("Vous ne pouvez pas rejoindre une association en étant déjà propriétaire d'une.");
                 }
-            }
 
-            const newAssociation = await AssociationLib.getAssociationFromSlug(request.body.slug);
-
-            if (newAssociation.settings.invitationLink !== request.body.invitationLink) {
-                throw new httpErrors.Forbidden("Le lien d'invitation n'est pas valide.");
+                console.log(currentAssociation.users.members);
+                currentAssociation.users.members = currentAssociation.users.members.filter((id) => id.toString() !== user._id.toString());
+                console.log(currentAssociation.users.members);
+                console.log(user._id);
+                await currentAssociation.save();
             }
 
             user.association = newAssociation._id;
@@ -59,7 +65,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             await newAssociation.save();
 
             reply.send({
-                message: "Vous avez correctement rejoins cette association.",
+                message: "Vous avez correctement rejoint cette association.",
                 success: true
             });
         }

@@ -9,10 +9,10 @@ const BasicAssociation = {
     })),
     logo: Type.Optional(Type.String()),
     networks: Type.Optional(Type.Object({
-        facebook: Type.String(),
-        instagram: Type.String(),
-        twitch: Type.String(),
-        twitter: Type.String()
+        facebook: Type.Optional(Type.String()),
+        instagram: Type.Optional(Type.String()),
+        twitch: Type.Optional(Type.String()),
+        twitter: Type.Optional(Type.String())
     })),
     school: Type.Object({
         name: Type.String({ maxLength: 64, minLength: 1 }),
@@ -20,7 +20,7 @@ const BasicAssociation = {
         studentsNumber: Type.Optional(Type.Number())
     }),
     settings: Type.Optional(Type.Object({
-        slug: Type.String()
+        slug: Type.Optional(Type.String())
     })),
     tag: Type.Optional(Type.String())
 };
@@ -29,7 +29,7 @@ const PrivateFields = {
     mail: Type.String(),
     settings: Type.Optional(Type.Object({
         invitationLink: Type.Optional(Type.String()),
-        slug: Type.String()
+        slug: Type.Optional(Type.String())
     }))
 };
 
