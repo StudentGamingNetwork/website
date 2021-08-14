@@ -29,9 +29,9 @@
         </SModalSectionTitle>
         <SModalSection>
             <SInput
-                v-model="name"
+                v-model="student.name"
                 autocomplete="false"
-                :modified="name !== userStore.name"
+                :modified="student.name !== userStore.student.name"
                 title="Prénom et nom"
                 @enter="sendUpdate"
             />
@@ -95,6 +95,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { cloneDeep } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
 import { User } from "@/modules";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
@@ -123,7 +124,7 @@ export default defineComponent({
         const userStore = User.useStore();
 
         const username = ref(userStore.username);
-        const name = ref(userStore.name);
+        const student = reactive(cloneDeep(userStore.student));
         const password = reactive({
             new: ref(""),
             old: ref("")
@@ -131,7 +132,7 @@ export default defineComponent({
 
         const hasUpdate = computed(() => {
             return username.value !== userStore.username
-                || name.value !== userStore.name
+                || student.name !== userStore.student.name
                 || (password.old && password.new);
         });
 
@@ -145,11 +146,11 @@ export default defineComponent({
             }
 
             await userStore.update({
-                name: name.value,
                 password: {
                     new: password.new,
                     old: password.old
                 },
+                student,
                 username: username.value
             });
         };
@@ -159,12 +160,12 @@ export default defineComponent({
         };
 
         return {
-            name,
             avatarUrl,
             hasUpdate,
             InputValidators,
             password,
             sendUpdate,
+            student,
             uploadAvatar,
             username,
             userStore

@@ -33,10 +33,10 @@ export async function uploadAvatar({ file }: { file: File }): Promise<any> {
     return result.data;
 }
 
-export async function update({ name, password, username }: { name: string; password: { new: string; old: string }; username: string }): Promise<any> {
+export async function update({ password, student, username }: { password: { new: string; old: string }; student: {name: string}; username: string }): Promise<any> {
     const result = await ApiService.post("/user/update", {
-        name,
         password,
+        student,
         username
     });
     return result.data;

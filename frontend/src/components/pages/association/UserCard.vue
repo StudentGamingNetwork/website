@@ -15,10 +15,10 @@
         <div class="username">
             {{ user.username }}
             <span
-                v-if="user.name"
+                v-if="user.student.name"
                 class="name"
             >
-                ({{ user.name }})
+                ({{ user.student.name }})
             </span>
         </div>
         <div class="informations">

@@ -57,10 +57,10 @@
                 <div class="username">
                     {{ user.username }}
                     <span
-                        v-if="user.name"
+                        v-if="user.student.name"
                         class="name"
                     >
-                        ({{ user.name }})
+                        ({{ user.student.name }})
                     </span>
                 </div>
                 <div class="roles">
@@ -143,7 +143,6 @@ import SCard from "@/components/design/Card.vue";
 
 type TAdminUser = {
     _id: string;
-    name: string;
     association: {
         name: string;
         school: {
@@ -156,6 +155,9 @@ type TAdminUser = {
         discord: string;
     };
     roles: Array<string>;
+    student: {
+        name: string;
+    };
     username: string;
 }
 

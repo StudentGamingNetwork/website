@@ -43,13 +43,15 @@ const Users = {
 
 const TypeBasicAssociationUser = Type.Object({
     _id: Type.String(),
-    name: Type.Optional(Type.String()),
     avatar: Type.Optional(Type.String()),
     mail: Type.String(),
     platforms: Type.Object({
         discord: Type.String()
     }),
     roles: Type.Array(Type.String()),
+    student: Type.Optional(Type.Object({
+        name: Type.Optional(Type.String())
+    })),
     username: Type.String()
 });
 

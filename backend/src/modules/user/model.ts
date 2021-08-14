@@ -27,7 +27,6 @@ export enum EStudentCertificateType {
 }
 
 export interface IUser {
-    name?: string;
     association?: PopulatedDoc<IAssociationDocument>;
     avatar?: string;
     mail: string;
@@ -37,8 +36,10 @@ export interface IUser {
     };
     roles: Array<ERoles>;
     student: {
+        name?: string;
         certificateType: EStudentCertificateType;
         lastModifier: Mongo.Schema.Types.ObjectId;
+        schoolName?: string;
         status: EStudentStatus;
     };
     subscriptionDate: Date;
@@ -49,10 +50,6 @@ export interface IUserDocument extends IUser, Mongo.Document {
 }
 
 const userSchema: Mongo.Schema = new Mongo.Schema({
-    name: {
-        faker: "name.firstName",
-        type: String
-    },
     association: {
         ref: "association",
         type: Mongo.Schema.Types.ObjectId
@@ -80,6 +77,10 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         type: String
     }],
     student: {
+        name: {
+            faker: "name.firstName",
+            type: String
+        },
         certificateType: {
             default: "undefined",
             enum: Object.values(EStudentCertificateType),
@@ -88,6 +89,10 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         lastModifier: {
             ref: "user",
             type: Mongo.Schema.Types.ObjectId
+        },
+        schoolName: {
+            faker: "company.companyName",
+            type: String
         },
         status: {
             default: EStudentStatus.Undefined,

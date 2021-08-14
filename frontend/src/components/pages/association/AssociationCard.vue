@@ -30,7 +30,7 @@
                         :icon="['fas', 'school']"
                     /> {{ association.school.name }}
                 </li>
-                <li>
+                <li v-if="association.school.address">
                     <FontAwesomeIcon
                         class="icon"
                         :icon="['fas', 'map-marker']"
@@ -53,7 +53,10 @@
                     <FontAwesomeIcon
                         class="icon"
                         :icon="['fas', 'user']"
-                    /> {{ association.users.owner.name }}
+                    /> {{ association.users.owner.username }}
+                    <template v-if="association.users.owner.student.name">
+                        ({{ association.users.owner.student.name }})
+                    </template>
                 </li>
                 <li>
                     <FontAwesomeIcon

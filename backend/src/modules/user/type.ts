@@ -3,7 +3,6 @@ import { TypeBasicAssociation, TypeMemberAssociation } from "@/modules/associati
 
 const BasicUser = {
     _id: Type.String(),
-    name: Type.Optional(Type.String()),
     association: Type.Optional(Type.String()),
     avatar: Type.Optional(Type.String()),
     roles: Type.Array(Type.String()),
@@ -24,8 +23,9 @@ const OwnerFields = {
         discord: Type.String()
     }),
     student: Type.Optional(Type.Object({
-        certificateType: Type.String(),
-        status: Type.String()
+        name: Type.Optional(Type.String()),
+        certificateType: Type.Optional(Type.String()),
+        status: Type.Optional(Type.String())
     }))
 };
 

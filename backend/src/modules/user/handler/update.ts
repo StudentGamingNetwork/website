@@ -8,10 +8,13 @@ import { IUserDocument } from "@/modules/user/model";
 import UserConfig from "@/modules/user/config";
 
 const UserUpdate = Type.Object({
-    name: Type.String(),
     password: Type.Object({
         new: Type.String(),
         old: Type.String()
+    }),
+    student: Type.Object({
+        name: Type.String(),
+        schoolName: Type.String()
     }),
     username: Type.String({ minLength: 1 })
 });
@@ -67,7 +70,7 @@ async function update(user: IUserDocument, update: TUserUpdate) {
         user.username = update.username;
     }
 
-    user.name = update.name;
+    user.student.name = update.student.name;
 
     await user.save();
 }
