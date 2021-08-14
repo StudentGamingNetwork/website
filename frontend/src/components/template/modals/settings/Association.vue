@@ -122,12 +122,9 @@
                         :content="slugUrl"
                     >{{ slugUrl }}</SCopier></em>
                 </SModalSectionDescription>
-                <SInput
-                    disabled
-                    model-value="https://sgnw.fr/"
-                    title="Lien d'invitation"
-                />
+
                 <SModalSectionDescription>
+                    <strong><SCopier :content="invitationLink">Cliquez ici pour copier votre lien d'invitation</SCopier></strong><br>
                     Vous devez partager ce lien aux membres qui souhaitent rejoindre votre association.
                 </SModalSectionDescription>
             </SModalSection>
@@ -335,6 +332,10 @@ export default defineComponent({
             return `${ window.location.origin }/association/${ association.settings?.slug || "{votre slug}" }`;
         });
 
+        const invitationLink = computed(() => {
+            return `${ window.location.origin }/association/${ association.settings?.slug || association._id }/join/${ association.settings.invitationLink }`;
+        });
+
         return {
             association,
             associationStore,
@@ -344,6 +345,7 @@ export default defineComponent({
             deleteAssociation,
             hasChanged,
             InputValidators,
+            invitationLink,
             isCreating,
             join,
             logoUrl,

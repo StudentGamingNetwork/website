@@ -55,7 +55,7 @@ export function generateInvitationLink(): string {
 }
 
 export function sanitize(user: IUserDocument, association: IAssociationDocument): Partial<LeanDocument<IAssociationDocument>> {
-    const allowedKeys = ["_id", "name", "federation", "logo", "network", "school", "settings.slug", "tag"];
+    const allowedKeys = ["_id", "name", "federation", "logo", "networks", "school", "settings.slug", "tag"];
 
     const isUserMember = (association.users.members.includes(user.id.toString()));
     const isSGNFederationMember = UserLib.hasRoles(user, [ERoles.Member, ERoles.Federation]);

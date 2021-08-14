@@ -16,6 +16,17 @@
         <div class="association-layout">
             <SAssociationCard :association="association" />
             <div
+                v-if="!isUserMember && invitationLink"
+                class="invitation"
+            >
+                <SButton
+                    primary
+                    @click="join"
+                >
+                    Rejoindre cette association
+                </SButton>
+            </div>
+            <div
                 v-if="association.users?.members"
                 class="members"
             >
@@ -41,13 +52,15 @@ import * as AssociationService from "@/services/association";
 import { Association } from "@/modules";
 import SCard from "@/components/design/Card.vue";
 import SUserCard from "@/components/pages/association/UserCard.vue";
+import SButton from "@/components/design/forms/Button.vue";
 
 export default defineComponent({
     name: "SAssociationLayout",
-    components: { FontAwesomeIcon, SAssociationCard, SBaseLayout, SCard, SPageHead, SUserCard },
+    components: { FontAwesomeIcon, SAssociationCard, SBaseLayout, SButton, SCard, SPageHead, SUserCard },
     async setup() {
         const router = useRouter();
         const slug = router.currentRoute.value.params.slug as string;
+        const invitationLink = router.currentRoute.value.params.invitationLink as string;
 
         const associationStore = Association.useStore();
 
@@ -61,10 +74,17 @@ export default defineComponent({
             return associationStore._id && associationStore._id === association.value._id;
         });
 
+        const join = async () => {
+            await associationStore.join(slug, invitationLink);
+            association.value = reactive(await AssociationService.get(slug));
+        };
+
         return {
             association,
             BackgroundAssociation,
+            invitationLink,
             isUserMember,
+            join,
             region
         };
     }
@@ -73,12 +93,17 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .association-layout {
+    .invitation {
+        margin-top: var(--length-margin-s);
+        text-align: center;
+    }
+
     .members {
-        margin-top: var(--length-margin-l);
+        margin-top: var(--length-margin-m);
         display: grid;
-        gap: var(--length-gap-xl);
+        gap: var(--length-gap-l);
         width: 100%;
-        grid-template-columns: repeat(auto-fill, 256px);
+        grid-template-columns: repeat(auto-fill, 384px);
         justify-content: center;
     }
 }

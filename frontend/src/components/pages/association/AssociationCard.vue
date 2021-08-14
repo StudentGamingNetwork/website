@@ -36,7 +36,7 @@
                         :icon="['fas', 'map-marker']"
                     /> {{ association.school.address }}
                 </li>
-                <li>
+                <li v-if="association.school.studentsNumber">
                     <FontAwesomeIcon
                         class="icon"
                         :icon="['fas', 'user-graduate']"
@@ -253,7 +253,7 @@ export default defineComponent({
         color: var(--color-content-litest);
         margin-right: var(--length-margin-s);
 
-        &:hover {
+        a:hover {
             color: var(--color-primary-liter);
         }
 
