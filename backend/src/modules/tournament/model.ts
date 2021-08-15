@@ -2,7 +2,6 @@ import Mongo from "@/database";
 
 export interface ITournament {
     title: string;
-    archived: boolean;
     dates: {
         final: string;
         playDays: string;
@@ -10,17 +9,25 @@ export interface ITournament {
         subscriptionClose: Date;
     };
     description: string;
-    gameId: Mongo.Schema.Types.ObjectId;
-    informations: {
-        prizes: string;
-        registeredTeams: number;
-        rulesUrl: string;
+    game: {
+        name: string;
         team: {
             playersNumber: number;
             substitutesNumber: number;
         };
     };
-    public: boolean;
+    informations: {
+        prizes: string;
+        rulesUrl: string;
+    };
+    settings: {
+        logo: string;
+        slug: string;
+    };
+    state: {
+        archived: boolean;
+        public: boolean;
+    };
 }
 
 export interface ITournamentDocument extends ITournament, Mongo.Document {
@@ -33,7 +40,6 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
         required: true,
         type: String
     },
-    archived: Boolean,
     dates: {
         start: String,
         final: String,
@@ -41,21 +47,25 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
         subscriptionClose: Date
     },
     description: String,
-    gameId: {
-        ref: "game",
-        required: true,
-        type: Mongo.Schema.Types.ObjectId
-    },
-    informations: {
-        prizes: String,
-        registeredTeams: Number,
-        rulesUrl: String,
+    game: {
+        name: String,
         team: {
             playersNumber: Number,
             substitutesNumber: Number
         }
     },
-    public: Boolean
+    informations: {
+        prizes: String,
+        rulesUrl: String
+    },
+    settings: {
+        logo: String,
+        slug: String
+    },
+    state: {
+        archived: Boolean,
+        public: Boolean
+    }
 });
 
 export default Mongo.model<ITournamentDocument>("tournament", tournamentSchema);

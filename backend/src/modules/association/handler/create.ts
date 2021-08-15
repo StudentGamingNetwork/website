@@ -1,4 +1,3 @@
-
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";

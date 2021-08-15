@@ -304,8 +304,8 @@ export default defineComponent({
             { deep: true }
         );
 
-        const join = () => {
-            router.push("/federation");
+        const join = async () => {
+            await router.push("/federation");
             stateStore.modalClose();
         };
 

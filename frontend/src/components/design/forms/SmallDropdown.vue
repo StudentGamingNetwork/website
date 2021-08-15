@@ -1,5 +1,8 @@
 <template>
-    <div class="small-dropdown">
+    <div
+        class="small-dropdown"
+        @click.stop
+    >
         <div
             ref="selector"
             class="selector"

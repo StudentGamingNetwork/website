@@ -54,8 +54,8 @@ export default defineComponent({
 
         watch(
             () => selectedPanel.value,
-            () => {
-                router.push(`/admin/${ selectedPanel.value }`);
+            async () => {
+                await router.push(`/admin/${ selectedPanel.value }`);
             });
 
         return {

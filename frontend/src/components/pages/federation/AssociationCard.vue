@@ -104,9 +104,9 @@ export default defineComponent({
             return AssociationService.getRegionName(props.association.federation.region);
         });
 
-        const open = () => {
+        const open = async () => {
             const slug = props.association.settings?.slug || props.association._id;
-            router.push(`/association/${ slug }`);
+            await router.push(`/association/${ slug }`);
         };
 
         return {
