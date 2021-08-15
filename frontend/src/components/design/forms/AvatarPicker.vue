@@ -58,7 +58,7 @@ export default defineComponent({
         };
 
         const changeFile = () => {
-            context.emit("fileChange", fileInput.value.files[0]);
+            context.emit("fileChange", fileInput.value.files?.[0]);
         };
 
         return {

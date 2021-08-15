@@ -48,11 +48,12 @@ button {
     --color-button-border : var(--color-content-softer);
 
     font-size: 0.9rem;
+    line-height: 32px;
     font-weight: 600;
     cursor: pointer;
     border-radius: var(--lenght-radius-base);
     border: none;
-    padding: var(--length-padding-xs) var(--length-padding-m);
+    padding: 0 var(--length-padding-m);
     background: none;
     color: var(--color-button-content);
 
@@ -95,7 +96,7 @@ button {
 
     &.outlined {
         border: 2px solid var(--color-button-border);
-        padding: calc(var(--length-padding-xs) - 2px) calc(var(--length-padding-m) - 2px);
+        padding: 0 calc(var(--length-padding-m) - 2px);
 
         &:hover:not(.disabled) {
             border-color: var(--color-button-content);

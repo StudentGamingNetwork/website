@@ -24,7 +24,7 @@ const OwnerFields = {
     }),
     student: Type.Optional(Type.Object({
         name: Type.Optional(Type.String()),
-        certificateType: Type.Optional(Type.String()),
+        certificate: Type.Optional(Type.String()),
         status: Type.Optional(Type.String())
     }))
 };

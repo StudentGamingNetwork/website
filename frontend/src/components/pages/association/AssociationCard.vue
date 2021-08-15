@@ -252,7 +252,7 @@ export default defineComponent({
         display: flex;
         gap: var(--length-gap-s);
         justify-content: right;
-        align-items: end;
+        align-items: flex-end;
         color: var(--color-content-litest);
         margin-right: var(--length-margin-s);
 

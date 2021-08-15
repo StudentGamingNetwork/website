@@ -309,7 +309,7 @@ export default defineComponent({
                 margin: 0;
                 padding: 0;
                 gap: var(--length-gap-s);
-                justify-content:end;
+                justify-content: flex-end;
 
                 li {
                     list-style: none;

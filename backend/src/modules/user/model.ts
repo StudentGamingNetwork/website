@@ -20,12 +20,6 @@ export enum EStudentStatus {
     Outdated = "outdated"
 }
 
-export enum EStudentCertificateType {
-    Undefined = "undefined",
-    Image = "image",
-    Document = "document",
-}
-
 export interface IUser {
     association?: PopulatedDoc<IAssociationDocument>;
     avatar?: string;
@@ -37,10 +31,10 @@ export interface IUser {
     roles: Array<ERoles>;
     student: {
         name?: string;
-        certificateType: EStudentCertificateType;
-        lastModifier: Mongo.Schema.Types.ObjectId;
+        certificate?: string;
+        lastModifier?: Mongo.Schema.Types.ObjectId;
         schoolName?: string;
-        status: EStudentStatus;
+        status?: EStudentStatus;
     };
     subscriptionDate: Date;
     username: string;
@@ -81,9 +75,7 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
             faker: "name.firstName",
             type: String
         },
-        certificateType: {
-            default: "undefined",
-            enum: Object.values(EStudentCertificateType),
+        certificate: {
             type: String
         },
         lastModifier: {

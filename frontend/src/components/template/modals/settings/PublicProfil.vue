@@ -35,13 +35,29 @@
                 title="Prénom et nom"
                 @enter="sendUpdate"
             />
-            <SButton
-                class="certificate-input"
-                disabled
-                outlined
-            >
-                Certificat étudiant
-            </SButton>
+            <template v-if="associationStore._id">
+                <SInput
+                    v-model="associationStore.school.name"
+                    disabled
+                    title="École"
+                />
+                <SModalSectionDescription>
+                    Votre école est celle fournie par votre association.
+                </SModalSectionDescription>
+            </template>
+            <template v-else>
+                <SInput
+                    v-model="student.schoolName"
+                    autocomplete="false"
+                    :modified="student.schoolName !== userStore.student.schoolName"
+                    title="École"
+                    @enter="sendUpdate"
+                />
+                <SModalSectionDescription>
+                    Il est préférable de rejoindre une association plutôt que de renseigner votre école manuellement.
+                </SModalSectionDescription>
+            </template>
+            <SCertificatePicker />
             <div class="status">
                 <span class="soft">État:</span>
                 <span class="main"><FontAwesomeIcon :icon="['fas', 'times']" /> Aucun certificat fourni</span><br>
@@ -97,7 +113,7 @@ import { computed, defineComponent, reactive, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { cloneDeep } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
-import { User } from "@/modules";
+import { User, Association } from "@/modules";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 import SButton from "@/components/design/forms/Button.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
@@ -106,6 +122,7 @@ import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SModalContent from "@/components/design/modal/Content.vue";
 import * as InputValidators from "@/utils/validators";
 import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
+import SCertificatePicker from "@/components/design/forms/CertificatePicker.vue";
 
 export default defineComponent({
     name: "SPublicProfil",
@@ -113,6 +130,7 @@ export default defineComponent({
         FontAwesomeIcon,
         SAvatarPicker,
         SButton,
+        SCertificatePicker,
         SInput,
         SModalContent,
         SModalSection,
@@ -122,6 +140,7 @@ export default defineComponent({
     },
     setup() {
         const userStore = User.useStore();
+        const associationStore = Association.useStore();
 
         const username = ref(userStore.username);
         const student = reactive(cloneDeep(userStore.student));
@@ -160,6 +179,7 @@ export default defineComponent({
         };
 
         return {
+            associationStore,
             avatarUrl,
             hasUpdate,
             InputValidators,

@@ -240,7 +240,7 @@
                     Vous pouvez <span
                         class="link"
                         @click="join"
-                    >rejoindre la vôtre</span> (sur la page Fédération)<br>ou en <span
+                    >rejoindre la vôtre</span><br>(en demandant le lien d'invitation à son responsable)<br>ou en <span
                         class="link"
                         @click="startCreating"
                     >créer une</span> si vous la représentez.

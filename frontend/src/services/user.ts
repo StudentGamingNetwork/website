@@ -33,6 +33,18 @@ export async function uploadAvatar({ file }: { file: File }): Promise<any> {
     return result.data;
 }
 
+export async function uploadCertificate({ file }: { file: File }): Promise<any> {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const result = await ApiService.post("/user/upload/certificate", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    });
+    return result.data;
+}
+
 export async function update({ password, student, username }: { password: { new: string; old: string }; student: {name: string}; username: string }): Promise<any> {
     const result = await ApiService.post("/user/update", {
         password,
