@@ -23,10 +23,15 @@
             v-if="url"
             class="document"
         >
-            <FontAwesomeIcon
-                class="icon"
-                :icon="['fas', 'id-card']"
-            />
+            <a
+                :href="url"
+                target="_blank"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fas', 'id-card']"
+                />
+            </a>
         </div>
     </div>
 </template>

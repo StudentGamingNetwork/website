@@ -57,22 +57,28 @@
                     Il est préférable de rejoindre une association plutôt que de renseigner votre école manuellement.
                 </SModalSectionDescription>
             </template>
-            <SCertificatePicker />
+            <SCertificatePicker
+                :url="certificateUrl"
+                @fileChange="uploadCertificate"
+            />
             <div class="status">
                 <span class="soft">État:</span>
-                <span class="main"><FontAwesomeIcon :icon="['fas', 'times']" /> Aucun certificat fourni</span><br>
                 <span
-                    v-if="false"
+                    v-if="userStore.student.status === 'processing'"
                     class="main"
                 ><FontAwesomeIcon :icon="['fas', 'eye']" /> Vérification en cours</span>
                 <span
-                    v-if="false"
+                    v-else-if="userStore.student.status === 'validated'"
                     class="main"
-                ><FontAwesomeIcon :icon="['fas', 'check']" /> Certificat validé</span>
+                ><FontAwesomeIcon :icon="['fas', 'check']" /> Certificat validé jusqu'en Septembre</span>
                 <span
-                    v-if="false"
+                    v-else-if="userStore.student.status === 'rejected'"
                     class="main"
                 ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté</span>
+                <span
+                    v-else
+                    class="main"
+                ><FontAwesomeIcon :icon="['fas', 'times']" /> Aucun certificat fourni</span>
             </div>
             <SModalSectionDescription>
                 Pour participer aux tournois, vous devez fournir une preuve de votre statut étudiant (<u>certificat
@@ -159,6 +165,10 @@ export default defineComponent({
             return userStore.avatar ? userStore.getAvatarUrl : "";
         });
 
+        const certificateUrl = computed(() => {
+            return userStore.student.certificate ? userStore.getCertificateUrl : "";
+        });
+
         const sendUpdate = async () => {
             if (!hasUpdate.value) {
                 return;
@@ -178,15 +188,21 @@ export default defineComponent({
             await userStore.uploadAvatar(file);
         };
 
+        const uploadCertificate = async(file: File) => {
+            await userStore.uploadCertificate(file);
+        };
+
         return {
             associationStore,
             avatarUrl,
+            certificateUrl,
             hasUpdate,
             InputValidators,
             password,
             sendUpdate,
             student,
             uploadAvatar,
+            uploadCertificate,
             username,
             userStore
         };

@@ -15,25 +15,32 @@ export const useStore = defineStore({
             this.$reset();
         },
         async init() {
-            try {
-                const userData = await UserService.ping();
-                this.$patch(omit(userData, "association"));
+            if (!document.cookie) {
+                return;
+            }
+
+            const response = await Toast.testRequest(async () => {
+                return await UserService.ping();
+            }, { onlyError: true });
+
+
+            if (response?._id) {
+                this.$patch(omit(response, "association"));
                 const associationStore = Association.useStore();
 
-                if (userData.association) {
-                    associationStore.init(userData.association);
+                if (response.association) {
+                    associationStore.init(response.association);
                 }
                 else {
                     associationStore.$reset();
                 }
             }
-            catch (error) {
-                if (!axios.isAxiosError(error)) {
-                    throw error;
-                }
-            }
         },
-        async update({ password, student, username }: { password: { new: string; old: string }; student: {name: string}; username: string }) {
+        async update({
+            password,
+            student,
+            username
+        }: { password: { new: string; old: string }; student: { name: string }; username: string }) {
             const response = await Toast.testRequest(async () => {
                 return await UserService.update({ password, student, username });
             });
@@ -43,7 +50,7 @@ export const useStore = defineStore({
                 this.student.name = student.name;
             }
         },
-        async updatePlatforms(platforms: {discord: string}) {
+        async updatePlatforms(platforms: { discord: string }) {
             const response = await Toast.testRequest(async () => {
                 return await UserService.updatePlatforms(platforms);
             });
@@ -60,11 +67,23 @@ export const useStore = defineStore({
             if (response?.success) {
                 this.avatar = response.avatar;
             }
+        },
+        async uploadCertificate(file: File) {
+            const response = await Toast.testRequest(async () => {
+                return await UserService.uploadCertificate({ file });
+            });
+
+            if (response?.success) {
+                await this.init();
+            }
         }
     },
     getters: {
-        getAvatarUrl(): string{
+        getAvatarUrl(): string {
             return UserService.getAvatarUrl({ id: this._id, avatar: this.avatar });
+        },
+        getCertificateUrl(): string {
+            return UserService.getCertificateUrl({ id: this._id, certificate: this.student.certificate });
         },
         hasFederationRight(): boolean {
             if (this.isAdmin) {
@@ -104,7 +123,9 @@ export const useStore = defineStore({
         roles: [] as Array<string>,
         student: {
             name: "",
-            schoolName: ""
+            certificate: "",
+            schoolName: "",
+            status: "undefined"
         },
         username: ""
     })

@@ -1,25 +1,26 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UploadLib from "../lib";
+import { generateName } from "../lib";
 import * as UserLib from "@/modules/user/lib";
+import { EStudentStatus } from "@/modules/user/model";
 
-const UserUpdateResponse = Type.Object({
-    certificate: Type.String(),
+const SchemaResponse = Type.Object({
     message: Type.String(),
     success: Type.Boolean()
 });
 
-type TUserUpdateResponse = Static<typeof UserUpdateResponse>;
+type TSchemaResponse = Static<typeof SchemaResponse>;
 
 const schema = {
     response: {
-        200: UserUpdateResponse
+        200: SchemaResponse
     }
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.post<{ Body: null; Response: TUserUpdateResponse }>(
-        "/upload/avatar",
+    server.post<{ Body: null; Response: TSchemaResponse }>(
+        "/upload/certificate",
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
@@ -31,26 +32,34 @@ export async function register(server: FastifyInstance): Promise<void> {
                 }
             });
 
-            console.log(files);
-            return;
+            let fileName;
 
-            const fileName = `avatar-${ Date.now() }.webp`;
+            if (files[0].mimetype === "application/pdf") {
+                fileName = `${ generateName("certificate") }.pdf`;
+                await UploadLib.moveFile(files[0], {
+                    fileName,
+                    path: `upload/user/${ user._id }`
+                });
+            }
+            else {
+                fileName = `${ generateName("certificate") }.webp`;
 
-            await UploadLib.processImage(files[0], {
-                fileName,
-                path: `upload/user/${ user._id }`,
-                size: 128
-            });
-
-            if (user.avatar) {
-                UploadLib.deleteFile(`upload/user/${ user._id }/${ user.avatar }`);
+                await UploadLib.processImage(files[0], {
+                    fileName,
+                    path: `upload/user/${ user._id }`,
+                    size: 1280
+                });
             }
 
-            user.avatar = fileName;
+            if (user.student.certificate) {
+                UploadLib.deleteFile(`upload/user/${ user._id }/${ user.student.certificate }`);
+            }
+
+            user.student.certificate = fileName;
+            user.student.status = EStudentStatus.Processing;
             await user.save();
 
             reply.send({
-                avatar: user.avatar,
                 message: "Votre certificat a correctement été uploadé.",
                 success: true
             });

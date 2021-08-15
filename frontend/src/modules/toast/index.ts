@@ -3,16 +3,18 @@ import { EToastType, useStore } from "./store";
 
 export { useStore };
 
-export async function testRequest(request: () => Promise<any>): Promise<any> {
+export async function testRequest(request: () => Promise<any>, options?: {onlyError?: boolean}): Promise<any> {
     const toastStore = useStore();
 
     try {
         const response = await request();
-        toastStore.add({
-            title: "Succès",
-            message: response.message,
-            type: EToastType.Success
-        });
+        if (!options?.onlyError) {
+            toastStore.add({
+                title: "Succès",
+                message: response.message,
+                type: EToastType.Success
+            });
+        }
         return response;
     }
     catch (error) {

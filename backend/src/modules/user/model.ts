@@ -16,8 +16,7 @@ export enum EStudentStatus {
     Undefined = "undefined",
     Processing = "processing",
     Validated = "validated",
-    Rejected = "rejected",
-    Outdated = "outdated"
+    Rejected = "rejected"
 }
 
 export interface IUser {
@@ -32,9 +31,9 @@ export interface IUser {
     student: {
         name?: string;
         certificate?: string;
-        lastModifier?: Mongo.Schema.Types.ObjectId;
         schoolName?: string;
         status?: EStudentStatus;
+        year?: number;
     };
     subscriptionDate: Date;
     username: string;
@@ -78,10 +77,6 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         certificate: {
             type: String
         },
-        lastModifier: {
-            ref: "user",
-            type: Mongo.Schema.Types.ObjectId
-        },
         schoolName: {
             faker: "company.companyName",
             type: String
@@ -90,6 +85,9 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
             default: EStudentStatus.Undefined,
             enum: Object.values(EStudentStatus),
             type: String
+        },
+        year: {
+            type: Number
         }
     },
     subscriptionDate: {

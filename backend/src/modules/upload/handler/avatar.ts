@@ -1,24 +1,25 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UploadLib from "../lib";
+import { generateName } from "../lib";
 import * as UserLib from "@/modules/user/lib";
 
-const UserUpdateResponse = Type.Object({
+const SchemaResponse = Type.Object({
     avatar: Type.String(),
     message: Type.String(),
     success: Type.Boolean()
 });
 
-type TUserUpdateResponse = Static<typeof UserUpdateResponse>;
+type TSchemaResponse = Static<typeof SchemaResponse>;
 
 const schema = {
     response: {
-        200: UserUpdateResponse
+        200: SchemaResponse
     }
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.post<{ Body: null; Response: TUserUpdateResponse }>(
+    server.post<{ Body: null; Response: TSchemaResponse }>(
         "/upload/avatar",
         { schema },
         async (request, reply) => {
@@ -31,7 +32,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 }
             });
 
-            const fileName = `avatar-${ Date.now() }.webp`;
+            const fileName = `${ generateName("avatar") }.webp`;
 
             await UploadLib.processImage(files[0], {
                 fileName,
