@@ -1,7 +1,7 @@
 import Mongo from "@/database";
 
 export interface ITournament {
-    title: string;
+    name: string;
     dates: {
         final: string;
         playDays: string;
@@ -35,7 +35,7 @@ export interface ITournamentDocument extends ITournament, Mongo.Document {
 }
 
 const tournamentSchema: Mongo.Schema = new Mongo.Schema({
-    title: {
+    name: {
         faker: "company.companyName",
         required: true,
         type: String

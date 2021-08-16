@@ -72,6 +72,10 @@ export default defineComponent({
         height: 100%;
         flex-shrink: 0;
         flex-grow: 0;
+
+        @media (max-width: 550px) {
+            width: 50px;
+        }
     }
 
     .content {

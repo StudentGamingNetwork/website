@@ -8,15 +8,15 @@ import { IUserDocument } from "@/modules/user/model";
 import UserConfig from "@/modules/user/config";
 
 const UserUpdate = Type.Object({
-    password: Type.Object({
+    password: Type.Optional(Type.Object({
         new: Type.String(),
         old: Type.String()
-    }),
-    student: Type.Object({
+    })),
+    student: Type.Optional(Type.Object({
         name: Type.String(),
         schoolName: Type.String()
-    }),
-    username: Type.String({ minLength: 1 })
+    })),
+    username: Type.Optional(Type.String({ minLength: 1 }))
 });
 
 type TUserUpdate = Static<typeof UserUpdate>;
@@ -52,7 +52,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 }
 
 async function update(user: IUserDocument, update: TUserUpdate) {
-    if (update.password.old) {
+    if (update.password?.old) {
         if (!isPasswordStrong(update.password.new)) {
             throw new httpErrors.BadRequest("Le nouveau mot de passe n'est pas assez solide.");
         }
@@ -70,7 +70,10 @@ async function update(user: IUserDocument, update: TUserUpdate) {
         user.username = update.username;
     }
 
-    user.student.name = update.student.name;
+    if (update.student) {
+        user.student.name = update.student.name;
+        user.student.schoolName = update.student.schoolName;
+    }
 
     await user.save();
 }

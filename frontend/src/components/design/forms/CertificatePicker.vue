@@ -82,6 +82,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     width: 320px;
+    max-width: 100%;
     box-sizing: border-box;
     padding: 0 calc(var(--length-padding-m) - 2px);
     border-radius: var(--lenght-radius-base);

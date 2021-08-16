@@ -33,6 +33,7 @@
                 :href="association.networks?.facebook"
                 target="_blank"
                 title="Facebook"
+                @click.stop
             >
                 <FontAwesomeIcon
                     class="network"
@@ -45,6 +46,7 @@
                 :href="association.networks?.twitter"
                 target="_blank"
                 title="Twitter"
+                @click.stop
             >
                 <FontAwesomeIcon
                     class="network"
@@ -56,6 +58,7 @@
                 :href="association.networks?.twitch"
                 target="_blank"
                 title="Twitch"
+                @click.stop
             >
                 <FontAwesomeIcon
                     class="network"
@@ -68,6 +71,7 @@
                 :href="association.networks?.instagram"
                 target="_blank"
                 title="Instagram"
+                @click.stop
             >
                 <FontAwesomeIcon
                     class="network"

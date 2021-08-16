@@ -6,11 +6,11 @@ import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 import { TypeFullMemberAssociation } from "@/modules/association/type";
 
-const SchemaRequest = Type.Object({
+const SchemaParams = Type.Object({
     slug: Type.String({ minLength: 1 })
 });
 
-type TSchemaRequest = Static<typeof SchemaRequest>;
+type TSchemaParams = Static<typeof SchemaParams>;
 
 const SchemaResponse = Type.Partial(TypeFullMemberAssociation);
 
@@ -18,14 +18,14 @@ type TSchemaResponse = Static<typeof SchemaResponse>;
 
 
 const schema = {
-    params: SchemaRequest,
+    params: SchemaParams,
     response: {
         200: SchemaResponse
     }
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.get<{ Params: TSchemaRequest; Response: TSchemaResponse }>(
+    server.get<{ Params: TSchemaParams; Response: TSchemaResponse }>(
         "/get/:slug",
         { schema },
         async (request, reply) => {

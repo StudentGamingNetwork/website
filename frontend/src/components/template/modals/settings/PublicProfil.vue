@@ -86,30 +86,13 @@
                 Les collégiens et lycéens <strong>ne sont pas</strong> considérés comme "étudiants".
             </SModalSectionDescription>
         </SModalSection>
-        <SModalSectionTitle>
-            Changer de mot de passe
-        </SModalSectionTitle>
-        <SModalSection>
-            <SInput
-                v-model="password.old"
-                autocomplete="false"
-                title="Ancien mot de passe"
-                type="password"
-            />
-            <SInput
-                v-model="password.new"
-                autocomplete="false"
-                title="Nouveau mot de passe"
-                type="password"
-            />
-        </SModalSection>
         <SModalSeparator />
         <SButton
             :disabled="!hasUpdate"
             primary
             @click="sendUpdate"
         >
-            Sauvegarder le profil
+            Sauvegarder les changements
         </SButton>
     </SModalContent>
 </template>
@@ -150,15 +133,10 @@ export default defineComponent({
 
         const username = ref(userStore.username);
         const student = reactive(cloneDeep(userStore.student));
-        const password = reactive({
-            new: ref(""),
-            old: ref("")
-        });
 
         const hasUpdate = computed(() => {
             return username.value !== userStore.username
-                || student.name !== userStore.student.name
-                || (password.old && password.new);
+                || student.name !== userStore.student.name;
         });
 
         const avatarUrl = computed(() => {
@@ -175,10 +153,6 @@ export default defineComponent({
             }
 
             await userStore.update({
-                password: {
-                    new: password.new,
-                    old: password.old
-                },
                 student,
                 username: username.value
             });
@@ -198,7 +172,6 @@ export default defineComponent({
             certificateUrl,
             hasUpdate,
             InputValidators,
-            password,
             sendUpdate,
             student,
             uploadAvatar,

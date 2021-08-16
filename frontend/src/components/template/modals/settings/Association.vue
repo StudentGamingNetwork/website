@@ -130,34 +130,34 @@
                     </SModalSectionDescription>
                 </SModalSection>
                 <SModalSeparator />
-                <div class="buttons">
-                    <SButton
-                        :disabled="!hasChanged"
-                        primary
-                        @click="sendUpdate"
-                    >
-                        Sauvegarder
-                    </SButton>
-                    <SButton
-                        danger
-                        disabled
-                        outlined
-                    >
-                        Céder l'association
-                    </SButton>
-                </div>
+                <SButton
+                    :disabled="!hasChanged"
+                    primary
+                    @click="sendUpdate"
+                >
+                    Sauvegarder les changements
+                </SButton>
                 <SModalSectionTitle>
                     Danger zone
                 </SModalSectionTitle>
                 <SModalSection>
-                    <SButton
-                        danger
-                        :disabled="associationStore.users.members.length > 1"
-                        outlined
-                        @click="deleteAssociation"
-                    >
-                        Supprimer l'association
-                    </SButton>
+                    <div class="buttons">
+                        <SButton
+                            danger
+                            disabled
+                            outlined
+                        >
+                            Céder l'association
+                        </SButton>
+                        <SButton
+                            danger
+                            :disabled="associationStore.users.members.length > 1"
+                            outlined
+                            @click="deleteAssociation"
+                        >
+                            Supprimer l'association
+                        </SButton>
+                    </div>
                     <SModalSectionDescription>
                         Il est préférable de céder l'association à quelqu'un plutôt que de la supprimer.
                         Vous ne pouvez supprimer l'association que si vous êtes seul dans celle-ci, sinon contactez votre responsable de région SGN.

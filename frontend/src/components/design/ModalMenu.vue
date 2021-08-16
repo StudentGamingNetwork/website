@@ -5,13 +5,14 @@
                 v-for="option of options"
                 :key="option.id"
                 :class="{ selected: option.id === modelValue.id }"
+                :title="option.name"
                 @click="$emit('update:modelValue', option)"
             >
                 <FontAwesomeIcon
                     class="icon"
                     :icon="['fas', option.icon]"
                 />
-                {{ option.name }}
+                <span class="name">{{ option.name }}</span>
             </li>
         </ul>
     </div>
@@ -33,7 +34,9 @@ export default defineComponent({
     components: { FontAwesomeIcon },
     props: {
         modelValue: {
-            required: true,
+            default: () => {
+                return {};
+            },
             type: Object as PropType<TMenuOption>
         },
         options: {
@@ -74,6 +77,13 @@ export default defineComponent({
             .icon {
                 width: 16px;
                 height: 16px;
+            }
+
+
+            @media (max-width: 550px) {
+                .name {
+                    display: none;
+                }
             }
         }
     }
