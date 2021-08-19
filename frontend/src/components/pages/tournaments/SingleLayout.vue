@@ -4,7 +4,21 @@
             class="tournament-card"
             :tournament="tournament"
         />
-        <div class="tournament-form">
+        <Suspense>
+            <template #default>
+                <STeamCard />
+            </template>
+            <template #fallback>
+                <SLoading />
+            </template>
+        </Suspense>
+        <SCard
+            v-if="userStore.hasTournamentRight"
+            class="tournament-form"
+        >
+            <SSectionTitle class="title">
+                Panneau d'administration
+            </SSectionTitle>
             <SModalSection class="tournament-section">
                 <SModalSectionTitle>Tournoi</SModalSectionTitle>
                 <SAvatarPicker
@@ -123,7 +137,7 @@
                     Supprimer le tournoi
                 </SButton>
             </div>
-        </div>
+        </SCard>
     </div>
 </template>
 
@@ -141,10 +155,14 @@ import SButton from "@/components/design/forms/Button.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 import { ERoles } from "@/services/user";
+import STeamCard from "@/components/pages/tournaments/TeamCard.vue";
+import SCard from "@/components/design/Card.vue";
+import SSectionTitle from "@/components/design/SectionTitle.vue";
+import SLoading from "@/components/design/Loading.vue";
 
 export default defineComponent({
     name: "STournamentsSingleLayout",
-    components: { SAvatarPicker, SButton, SInput, SModalSection, SModalSectionTitle, SModalSeparator, STournament },
+    components: { SAvatarPicker, SButton, SCard, SInput, SLoading, SModalSection, SModalSectionTitle, SModalSeparator, SSectionTitle, STeamCard, STournament },
     async setup() {
         const router = useRouter();
         const userStore = User.useStore();
@@ -230,7 +248,9 @@ export default defineComponent({
         }
 
         async function updateTournament() {
-            const tournamentApi = tournament._id ? await TournamentService.get(tournament._id) : await TournamentService.get(slug.value);
+            const tournamentApi = await Toast.testRequest(async () => {
+                return tournament._id ? await TournamentService.get(tournament._id) : await TournamentService.get(slug.value);
+            }, { onlyError: true });
 
             if (tournamentApi.dates?.subscriptionClose) {
                 const subscriptionClose = new Date(tournamentApi.dates?.subscriptionClose);
@@ -261,7 +281,8 @@ export default defineComponent({
             toggleArchived,
             togglePublic,
             tournament,
-            uploadLogo
+            uploadLogo,
+            userStore
         };
     }
 });
@@ -275,17 +296,25 @@ export default defineComponent({
     align-items: center;
     max-width: 960px;
     width: 100%;
-    gap: var(--length-gap-m);
+    gap: var(--length-gap-l);
 
     .tournament-form {
+        padding: var(--length-padding-l);
+        box-sizing: border-box;
         width: 100%;
         display: grid;
         column-gap: var(--length-gap-m);
+        row-gap: var(--length-gap-l);
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
+        "title title"
         "tournament game"
         "tournament dates"
         "save save";
+
+        .title {
+            grid-area: title;
+        }
 
         .tournament-section {
             grid-area: tournament;

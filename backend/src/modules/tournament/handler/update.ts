@@ -43,7 +43,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const tournament = await TournamentModel.findById(request.params.id);
 
             if (!tournament) {
-                throw new httpErrors.NotFound("Aucun tournoi trouvée.");
+                throw new httpErrors.NotFound("Aucun tournoi trouvé.");
             }
 
             if (!isUndefined(request.body.name)) {

@@ -33,7 +33,11 @@
                 />
                 <li><strong>Aucune équipe</strong> inscrite</li>
                 <li v-if="tournament.informations?.rulesUrl">
-                    <a :href="tournament.informations.rulesUrl">Afficher le règlement</a>
+                    <a
+                        :href="tournament.informations.rulesUrl"
+                        target="_blank"
+                        @click.stop
+                    >Afficher le règlement</a>
                 </li>
             </ul>
             <ul class="dates">

@@ -3,8 +3,8 @@
         :background="BackgroundTournaments"
         title="Tournois"
     >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper
-        semper. Donec pretium massa at enim tincidunt laoreet.
+        Nous organisons régulièrement des tournois, certains en partenariat avec des grands noms du jeu vidéo.
+        Nous nous assurons que seuls les étudiants français puissent participer à nos tournois.
     </SPageHead>
     <SBaseLayout>
         <div class="layout-tournaments">
@@ -22,12 +22,25 @@
             </SButton>
             <STournament
                 v-for="tournament of tournaments"
+                v-if="tournaments.length"
                 :key="tournament._id"
                 class="tournament-card"
                 :class="{private: !tournament.state?.public}"
                 :tournament="tournament"
                 @click="openTournament(tournament)"
             />
+            <div
+                v-else
+                class="empty"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fas','frown']"
+                />
+                <div class="description">
+                    Aucun tournoi trouvé...
+                </div>
+            </div>
         </div>
     </SBaseLayout>
 </template>
@@ -35,6 +48,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SPageHead from "@/components/template/PageHead.vue";
 import BackgroundTournaments from "@/assets/images/backgrounds/tournaments.png";
 import STournament from "@/components/pages/tournaments/Tournament.vue";
@@ -48,7 +62,7 @@ import { ETournamentType } from "@/services/tournament";
 
 export default defineComponent({
     name: "STournamentsLayout",
-    components: { SBaseLayout, SButton, SPageHead, SSelector, STournament },
+    components: { FontAwesomeIcon, SBaseLayout, SButton, SPageHead, SSelector, STournament },
     async setup() {
         const userStore = User.useStore();
         const router = useRouter();
@@ -125,7 +139,33 @@ export default defineComponent({
         }
 
         &.private {
-            background: var(--color-background-0);
+            background: repeating-linear-gradient(
+                    -45deg,
+                    var(--color-background-2),
+                    var(--color-background-2) 32px,
+                    var(--color-background-1) 32px,
+                    var(--color-background-1) 64px
+            );
+        }
+    }
+
+    .empty, .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: var(--length-gap-m);
+        margin: var(--length-margin-l) 0;
+
+        .icon {
+            width: 64px;
+            height: 64px;
+            color: var(--color-content-litest);
+        }
+
+        .description {
+            text-align: center;
+            color: var(--color-content-liter);
         }
     }
 }

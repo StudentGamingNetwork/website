@@ -22,5 +22,9 @@ export default defineComponent({
     border-top: 1px solid var(--color-content-litest);
     width: 100%;
     text-transform: uppercase;
+
+    &:nth-child(1) {
+        margin-top: 0;
+    }
 }
 </style>

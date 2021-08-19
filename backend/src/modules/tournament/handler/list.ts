@@ -61,7 +61,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 break;
             }
 
-            const tournaments = await TournamentModel.find(findParameters);
+            const tournaments = await TournamentModel.find(findParameters).sort({ _id: -1 });
 
             reply.send(tournaments);
         }

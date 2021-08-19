@@ -11,11 +11,11 @@ const Tournament = {
     }),
     description: Type.String(),
     game: Type.Object({
-        name: Type.String(),
+        name: Type.Optional(Type.String()),
         team: Type.Object({
-            playersNumber: Type.Number(),
+            playersNumber: Type.Optional(Type.Number()),
             subscribed: Type.Number(),
-            substitutesNumber: Type.Number()
+            substitutesNumber: Type.Optional(Type.Number())
         })
     }),
     informations: Type.Object({

@@ -33,7 +33,7 @@ export default defineComponent({
         const userStore = User.useStore();
 
         const isConnected = computed(() => {
-            return !! userStore.username;
+            return !! userStore._id;
         });
 
         return {

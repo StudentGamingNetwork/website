@@ -27,7 +27,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
 
             const tournament = await TournamentModel.create({
-                title: "Nouveau tournoi",
+                name: "Nouveau tournoi",
                 description: "",
                 game: {
                     team: {

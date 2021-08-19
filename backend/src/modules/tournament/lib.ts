@@ -14,7 +14,7 @@ export async function getTournamentFromSlug(slug: string): Promise<ITournamentDo
     }
 
     if (!tournament) {
-        throw new httpErrors.NotFound("Aucun tournoi trouvée.");
+        throw new httpErrors.NotFound("Aucun tournoi trouvé.");
     }
 
     return tournament;

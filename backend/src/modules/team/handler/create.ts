@@ -4,6 +4,7 @@ import httpErrors from "http-errors";
 import * as UserLib from "@/modules/user/lib";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
+import * as TeamLib from "@/modules/team/lib";
 
 const SchemaParams = Type.Object({
     slug: Type.String({ minLength: 1 })
@@ -32,22 +33,19 @@ export async function register(server: FastifyInstance): Promise<void> {
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
-
             const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
 
             if (!tournament.state.public) {
                 throw new httpErrors.Forbidden("Ce tournoi n'est pas encore publique.");
             }
 
-            if (!tournament.dates.subscriptionClose || tournament.dates.subscriptionClose > new Date()) {
+            if (!tournament.dates.subscriptionClose || tournament.dates.subscriptionClose < new Date()) {
                 throw new httpErrors.Forbidden("Les inscriptions pour ce tournoi sont fermées.");
             }
 
             const existingTeam = await TeamModel.findOne({
                 tournament: tournament._id,
-                "users.members": {
-                    id: user._id
-                }
+                "users.members._id": user._id
             });
 
             if (existingTeam) {
@@ -55,16 +53,17 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             const team = await TeamModel.create({
-                tournament: tournament._id,
-                users: {
-                    members: [
-                        {
-                            id: user._id,
-                            username: ""
-                        }
-                    ],
-                    owner: user._id
-                }
+                members: [
+                    {
+                        user: user._id,
+                        username: ""
+                    }
+                ],
+                owner: user._id,
+                settings: {
+                    invitationCode: TeamLib.generateInvitationCode()
+                },
+                tournament: tournament._id
             });
 
             reply.send({
