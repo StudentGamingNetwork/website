@@ -2,6 +2,8 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as TournamentLib from "../lib";
 import { TypeTournament } from "@/modules/tournament/type";
+import * as UserLib from "@/modules/user/lib";
+import { ERoles } from "@/modules/user/model";
 
 const SchemaParams = Type.Object({
     slug: Type.String({ minLength: 1 })
@@ -28,6 +30,11 @@ export async function register(server: FastifyInstance): Promise<void> {
         async (request, reply) => {
             const slug = request.params.slug;
             const tournament = await TournamentLib.getTournamentFromSlug(slug);
+
+            if (!tournament.state.public) {
+                const user = await UserLib.getUser(request);
+                UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
+            }
 
             reply.send(tournament);
         }

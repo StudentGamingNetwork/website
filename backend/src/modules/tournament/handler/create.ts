@@ -31,6 +31,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 description: "",
                 game: {
                     team: {
+                        subscribed: 0
                     }
                 },
                 informations: {

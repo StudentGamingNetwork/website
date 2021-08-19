@@ -1,6 +1,16 @@
 import Config from "./config";
 import ApiService from "@/services/api";
 
+export enum ERoles {
+    Admin = "admin",
+    Office = "office", // Bureau
+    Council = "council", // Conseil/Respos
+    Member = "member", // Membres SGN
+    Tournament = "tournament",
+    Federation = "federation",
+    Partnership = "partnership"
+}
+
 export async function login({ mail, password }: { mail: string; password: string }): Promise<any> {
     const result = await ApiService.post("/user/login", { mail, password });
     return result.data;

@@ -1,6 +1,12 @@
 import ApiService from "@/services/api";
 import Config from "@/services/config";
 
+export enum ETournamentType {
+    Coming = "coming",
+    Current = "current",
+    Past = "past"
+}
+
 export async function create(): Promise<any> {
     const result = await ApiService.post("/tournament/create", {});
     return result.data;
@@ -15,13 +21,23 @@ export async function search(query: { limit: number; search: string; skip: numbe
     return result.data;
 }
 
-export async function update(association: Record<string, any>, id: string): Promise<any> {
-    const result = await ApiService.post(`/tournament/update/${ id }`, association);
+export async function update(tournament: Record<string, any>, id: string): Promise<any> {
+    const result = await ApiService.post(`/tournament/update/${ id }`, tournament);
     return result.data;
 }
 
 export async function get(slug: string): Promise<any> {
     const result = await ApiService.get(`/tournament/get/${ slug }`);
+    return result.data;
+}
+
+export async function remove(id: string): Promise<any> {
+    const result = await ApiService.delete(`/tournament/delete/${ id }`);
+    return result.data;
+}
+
+export async function list(type: ETournamentType): Promise<any> {
+    const result = await ApiService.get(`/tournament/list/${ type }`);
     return result.data;
 }
 

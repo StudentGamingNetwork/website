@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import axios from "axios";
 import { cloneDeep, omit } from "lodash";
 import * as UserService from "@/services/user";
 import { Toast, Association } from "@/modules";
+import { ERoles } from "@/services/user";
 
 export const useStore = defineStore({
     id: "user",
@@ -13,6 +13,19 @@ export const useStore = defineStore({
             });
 
             this.$reset();
+        },
+        hasRoles(roles: Array<ERoles>): boolean {
+            if (this.roles.includes(ERoles.Admin)) {
+                return true;
+            }
+
+            for (const role of roles) {
+                if (!this.roles.includes(role)) {
+                    return false;
+                }
+            }
+
+            return true;
         },
         async init() {
             if (!document.cookie) {
@@ -85,28 +98,28 @@ export const useStore = defineStore({
             if (this.isAdmin) {
                 return true;
             }
-            return this.roles.includes("member") && this.roles.includes("federation");
+            return this.roles.includes(ERoles.Member) && this.roles.includes(ERoles.Federation);
         },
         hasPartnersRight(): boolean {
             if (this.isAdmin) {
                 return true;
             }
-            return this.roles.includes("member") && this.roles.includes("partnership");
+            return this.roles.includes(ERoles.Member) && this.roles.includes(ERoles.Partnership);
         },
         hasTournamentRight(): boolean {
             if (this.isAdmin) {
                 return true;
             }
-            return this.roles.includes("member") && this.roles.includes("tournament");
+            return this.roles.includes(ERoles.Member) && this.roles.includes(ERoles.Tournament);
         },
         isAdmin(): boolean {
-            return this.roles.includes("admin");
+            return this.roles.includes(ERoles.Admin);
         },
         isMember(): boolean {
             if (this.isAdmin) {
                 return true;
             }
-            return this.roles.includes("member");
+            return this.roles.includes(ERoles.Member);
         }
     },
     state: () => ({

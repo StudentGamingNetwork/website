@@ -41,14 +41,16 @@
                     <SButton
                         class="button"
                         outlined
+                        @click="togglePublic"
                     >
-                        Rendre public
+                        {{ tournament.state.public ? "Cacher" : "Rendre public" }}
                     </SButton>
                     <SButton
                         class="button"
                         outlined
+                        @click="toggleArchived"
                     >
-                        Archiver
+                        {{ tournament.state.archived ? "Désarchiver" : "Archiver" }}
                     </SButton>
                 </div>
             </SModalSection>
@@ -112,6 +114,14 @@
                 >
                     Sauvegarder les changements
                 </SButton>
+                <SModalSectionTitle>Danger Zone</SModalSectionTitle>
+                <SButton
+                    danger
+                    outlined
+                    @click="deleteTournament"
+                >
+                    Supprimer le tournoi
+                </SButton>
             </div>
         </div>
     </div>
@@ -122,7 +132,7 @@ import { computed, defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { cloneDeep, isMatch, merge } from "lodash";
 import * as TournamentService from "@/services/tournament";
-import { Toast, Tournament } from "@/modules";
+import { Toast, Tournament, User } from "@/modules";
 import STournament from "@/components/pages/tournaments/Tournament.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
@@ -130,12 +140,14 @@ import SModalSection from "@/components/design/modal/Section.vue";
 import SButton from "@/components/design/forms/Button.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
+import { ERoles } from "@/services/user";
 
 export default defineComponent({
     name: "STournamentsSingleLayout",
     components: { SAvatarPicker, SButton, SInput, SModalSection, SModalSectionTitle, SModalSeparator, STournament },
     async setup() {
         const router = useRouter();
+        const userStore = User.useStore();
         const slug = ref(router.currentRoute.value.params.slug as string);
 
         const savedTournament = reactive(Tournament.makeObject({}));
@@ -177,16 +189,54 @@ export default defineComponent({
             }
         };
 
+        const togglePublic = async () => {
+            const response = await Toast.testRequest(async () => {
+                return await TournamentService.update({ state: { public: !tournament.state.public } }, tournament._id);
+            });
+
+            if (response?.success) {
+                await updateTournament();
+            }
+        };
+
+        const toggleArchived = async () => {
+            const response = await Toast.testRequest(async () => {
+                return await TournamentService.update({ state: { archived: !tournament.state.archived } }, tournament._id);
+            });
+
+            if (response?.success) {
+                await updateTournament();
+            }
+        };
+
+        async function deleteTournament() {
+            const canDelete = userStore.hasRoles([ERoles.Member, ERoles.Tournament, ERoles.Council]);
+            if (!canDelete) {
+                alert("Vous n'avez pas les droits pour supprimer un tournoi. Demandez à l'administrateur du site ou au responsable tournoi.");
+                return;
+            }
+
+            if (!confirm("Il est préférable d'archiver le tournoi. Êtes-vous sûr de vouloir le supprimer ? Cette action est définitive.")) {
+                return;
+            }
+
+            const response = await Toast.testRequest(async () => {
+                return await TournamentService.remove(tournament._id);
+            });
+
+            if (response?.success) {
+                await router.push("/tournaments");
+            }
+        }
+
         async function updateTournament() {
             const tournamentApi = tournament._id ? await TournamentService.get(tournament._id) : await TournamentService.get(slug.value);
 
             if (tournamentApi.dates?.subscriptionClose) {
                 const subscriptionClose = new Date(tournamentApi.dates?.subscriptionClose);
-                console.log(subscriptionClose);
                 tournamentApi.dates.subscriptionClose = `${ subscriptionClose.getFullYear() }-` +
-                `${ (subscriptionClose.getMonth() + 1).toString().padStart(2, "0") }-` +
-                `${ subscriptionClose.getDate().toString().padStart(2, "0") }`;
-                console.log(tournamentApi.dates.subscriptionClose);
+                    `${ (subscriptionClose.getMonth() + 1).toString().padStart(2, "0") }-` +
+                    `${ subscriptionClose.getDate().toString().padStart(2, "0") }`;
             }
 
             if (tournamentApi.settings?.slug) {
@@ -203,10 +253,13 @@ export default defineComponent({
         }
 
         return {
+            deleteTournament,
             hasChanged,
             logoUrl,
             savedTournament,
             sendUpdate,
+            toggleArchived,
+            togglePublic,
             tournament,
             uploadLogo
         };

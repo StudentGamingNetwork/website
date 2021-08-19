@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
+import { isUndefined } from "lodash";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 import TournamentModel from "@/modules/tournament/model";
@@ -12,7 +13,7 @@ const SchemaParams = Type.Object({
 
 type TSchemaParams = Static<typeof SchemaParams>;
 
-const SchemaRequest = TypeTournament;
+const SchemaRequest = Type.Partial(TypeTournament);
 
 type TSchemaRequest = Static<typeof SchemaRequest>;
 
@@ -45,17 +46,27 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucun tournoi trouvée.");
             }
 
-            tournament.name = request.body.name;
-            tournament.settings.slug = request.body.settings?.slug || "";
-            tournament.informations.prizes = request.body.informations.prizes || "";
-            tournament.informations.rulesUrl = request.body.informations.rulesUrl || "";
-            tournament.game.name = request.body.game.name || "";
-            tournament.game.team.playersNumber = request.body.game.team.playersNumber || 0;
-            tournament.game.team.substitutesNumber = request.body.game.team.substitutesNumber || 0;
-            tournament.dates.subscriptionClose = new Date(request.body.dates.subscriptionClose) || undefined;
-            tournament.dates.start = request.body.dates.start || "";
-            tournament.dates.playDays = request.body.dates.playDays || "";
-            tournament.dates.final = request.body.dates.final || "";
+            if (!isUndefined(request.body.name)) {
+                tournament.name = request.body.name;
+                tournament.settings.slug = request.body.settings?.slug || "";
+                tournament.informations.prizes = request.body.informations?.prizes || "";
+                tournament.informations.rulesUrl = request.body.informations?.rulesUrl || "";
+                tournament.game.name = request.body.game?.name || "";
+                tournament.game.team.playersNumber = request.body.game?.team.playersNumber || 0;
+                tournament.game.team.substitutesNumber = request.body.game?.team.substitutesNumber || 0;
+                tournament.dates.subscriptionClose = request.body.dates?.subscriptionClose ? new Date(request.body.dates.subscriptionClose) : undefined;
+                tournament.dates.start = request.body.dates?.start || "";
+                tournament.dates.playDays = request.body.dates?.playDays || "";
+                tournament.dates.final = request.body.dates?.final || "";
+            }
+
+            if (!isUndefined(request.body.state?.public)) {
+                tournament.state.public = request.body.state?.public || false;
+            }
+
+            if (!isUndefined(request.body.state?.archived)) {
+                tournament.state.archived = request.body.state?.archived || false;
+            }
 
             await tournament.save();
 

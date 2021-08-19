@@ -14,6 +14,7 @@ const Tournament = {
         name: Type.String(),
         team: Type.Object({
             playersNumber: Type.Number(),
+            subscribed: Type.Number(),
             substitutesNumber: Type.Number()
         })
     }),
@@ -26,8 +27,8 @@ const Tournament = {
         slug: Type.Optional(Type.String())
     })),
     state: Type.Optional(Type.Object({
-        archived: Type.Boolean(),
-        public: Type.Boolean()
+        archived: Type.Optional(Type.Boolean()),
+        public: Type.Optional(Type.Boolean())
     }))
 };
 

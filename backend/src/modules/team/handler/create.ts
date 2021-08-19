@@ -39,7 +39,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Forbidden("Ce tournoi n'est pas encore publique.");
             }
 
-            if (tournament.dates.subscriptionClose > new Date()) {
+            if (!tournament.dates.subscriptionClose || tournament.dates.subscriptionClose > new Date()) {
                 throw new httpErrors.Forbidden("Les inscriptions pour ce tournoi sont fermées.");
             }
 

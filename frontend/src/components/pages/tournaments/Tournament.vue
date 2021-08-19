@@ -32,7 +32,7 @@
                     v-html="markdownProcess(team)"
                 />
                 <li><strong>Aucune équipe</strong> inscrite</li>
-                <li v-if="tournament.informations.rulesUrl">
+                <li v-if="tournament.informations?.rulesUrl">
                     <a :href="tournament.informations.rulesUrl">Afficher le règlement</a>
                 </li>
             </ul>

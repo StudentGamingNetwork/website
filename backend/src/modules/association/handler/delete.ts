@@ -6,7 +6,6 @@ import * as UserLib from "@/modules/user/lib";
 import UserModel, { ERoles } from "@/modules/user/model";
 import AssociationModel from "@/modules/association/model";
 
-
 const SchemaRequest = Type.Object({
     id: Type.String({ minLength: 1 })
 });
@@ -17,7 +16,6 @@ const SchemaResponse = Type.Object({
     message: Type.String(),
     success: Type.Boolean()
 });
-
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
 

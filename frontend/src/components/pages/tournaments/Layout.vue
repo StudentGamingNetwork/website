@@ -3,11 +3,13 @@
         :background="BackgroundTournaments"
         title="Tournois"
     >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper
+        semper. Donec pretium massa at enim tincidunt laoreet.
     </SPageHead>
     <SBaseLayout>
         <div class="layout-tournaments">
             <SSelector
+                v-model="tournamentType"
                 class="selector"
                 :options="tournamentsTypes"
             />
@@ -20,110 +22,68 @@
             </SButton>
             <STournament
                 v-for="tournament of tournaments"
-                :key="tournament.id"
+                :key="tournament._id"
                 class="tournament-card"
+                :class="{private: !tournament.state?.public}"
                 :tournament="tournament"
+                @click="openTournament(tournament)"
             />
         </div>
     </SBaseLayout>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import SPageHead from "@/components/template/PageHead.vue";
 import BackgroundTournaments from "@/assets/images/backgrounds/tournaments.png";
 import STournament from "@/components/pages/tournaments/Tournament.vue";
 import SSelector from "@/components/design/Selector.vue";
-import LogoCSGO from "@/assets/images/games/csgo.png";
-import LogoTM from "@/assets/images/games/trackmania.png";
-import LogoRL from "@/assets/images/games/rocket-league.png";
-import { Toast, Tournament, User } from "@/modules";
+import { Toast, User, Tournament } from "@/modules";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
 import SButton from "@/components/design/forms/Button.vue";
 import * as TournamentService from "@/services/tournament";
+import { ETournamentType } from "@/services/tournament";
 
 
 export default defineComponent({
     name: "STournamentsLayout",
     components: { SBaseLayout, SButton, SPageHead, SSelector, STournament },
-    setup() {
+    async setup() {
         const userStore = User.useStore();
-
-        const csgoTournament: Tournament.TTournament = {
-            id: "a",
-            title: "Student Gaming League 2021 : CSGO",
-            dates: {
-                start: "15 Mai 2021",
-                final: "5 Juin 2021",
-                playDays: "Les mardis à 19h30",
-                subscriptionClose: "13 Mai 2021"
-            },
-            game: {
-                id: "",
-                title: "Counter Strike: Global Offensive",
-                logoUrl: LogoCSGO
-            },
-            informations: {
-                prizes: "*2000€* de cashprize",
-                registeredTeams: 27,
-                rulesUrl: "https://google.com",
-                team: "*5 joueurs* par équipe + *2 remplaçants*"
-            }
-        };
-
-        const rlTournament: Tournament.TTournament = {
-            id: "b",
-            title: "Student Gaming League 2021 : Rocket League",
-            dates: {
-                start: "15 Mai 2021",
-                final: "5 Juin 2021",
-                playDays: "Les mardis à 19h30",
-                subscriptionClose: "13 Mai 2021"
-            },
-            game: {
-                id: "",
-                title: "Rocket League",
-                logoUrl: LogoRL
-            },
-            informations: {
-                prizes: "*2000€* de cashprize",
-                registeredTeams: 27,
-                rulesUrl: "https://google.com",
-                team: "*5 joueurs* par équipe + *2 remplaçants*"
-            }
-        };
-
-        const tmTournament: Tournament.TTournament = {
-            id: "c",
-            title: "Student Gaming League 2021 : Trackmania",
-            dates: {
-                start: "15 Mai 2021",
-                final: "5 Juin 2021",
-                playDays: "Les mardis à 19h30",
-                subscriptionClose: "13 Mai 2021"
-            },
-            game: {
-                id: "",
-                title: "Trackmania",
-                logoUrl: LogoTM
-            },
-            informations: {
-                prizes: "*2000€* de cashprize",
-                registeredTeams: 27,
-                rulesUrl: "https://google.com",
-                team: "*5 joueurs* par équipe + *2 remplaçants*"
-            }
-        };
-
-        const tournamentsTypes = [
-            { title: "Prochains tournois", key: "coming" },
-            { title: "Tournois en cours", key: "current" },
-            { title: "Précédents tournois", key: "past" }
-        ];
         const router = useRouter();
 
-        const create = async () => {
+        const tournamentType = ref(ETournamentType.Coming);
+        const tournaments = ref<Array<Tournament.TTournament>>([]);
+
+        const tournamentsTypes = [
+            { title: "Prochains tournois", key: ETournamentType.Coming },
+            { title: "Tournois en cours", key: ETournamentType.Current },
+            { title: "Précédents tournois", key: ETournamentType.Past }
+        ];
+
+        watch(
+            () => tournamentType.value,
+            async () => {
+                await list();
+            });
+
+        await list();
+
+        function openTournament(tournament: Tournament.TTournament) {
+            let slug = tournament._id;
+            if (tournament.settings?.slug) {
+                slug = tournament.settings.slug;
+            }
+
+            router.push(`/tournament/${ slug }`);
+        }
+
+        async function list() {
+            tournaments.value = await TournamentService.list(tournamentType.value);
+        }
+
+        async function create() {
             const response = await Toast.testRequest(async () => {
                 return await TournamentService.create();
             });
@@ -131,13 +91,15 @@ export default defineComponent({
             if (response?.success) {
                 await router.push(`/tournament/${ response.id }`);
             }
-        };
+        }
 
         return {
             BackgroundTournaments,
             create,
-            tournaments: [csgoTournament, rlTournament, tmTournament],
+            openTournament,
+            tournaments,
             tournamentsTypes,
+            tournamentType,
             userStore
         };
     }
@@ -155,11 +117,15 @@ export default defineComponent({
 
     .tournament-card {
         cursor: pointer;
-        box-shadow: 0 0 0 hsla(0,0%,0%,0);
+        box-shadow: 0 0 0 hsla(0, 0%, 0%, 0);
 
         &:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 20px hsla(0,0%,0%,0.25);
+            box-shadow: 0 0 20px hsla(0, 0%, 0%, 0.25);
+        }
+
+        &.private {
+            background: var(--color-background-0);
         }
     }
 }
