@@ -11,23 +11,26 @@
                 class="selector"
                 :options="tournamentsTypes"
             />
-            <STournament
-                v-for="tournament of tournaments"
-                :key="tournament.id"
-                :tournament="tournament"
-            />
             <SButton
                 v-if="userStore.hasTournamentRight"
                 outlined
+                @click="create"
             >
-                Ajouter un nouveau tournoi
+                Créer un nouveau tournoi
             </SButton>
+            <STournament
+                v-for="tournament of tournaments"
+                :key="tournament.id"
+                class="tournament-card"
+                :tournament="tournament"
+            />
         </div>
     </SBaseLayout>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 import SPageHead from "@/components/template/PageHead.vue";
 import BackgroundTournaments from "@/assets/images/backgrounds/tournaments.png";
 import STournament from "@/components/pages/tournaments/Tournament.vue";
@@ -35,9 +38,10 @@ import SSelector from "@/components/design/Selector.vue";
 import LogoCSGO from "@/assets/images/games/csgo.png";
 import LogoTM from "@/assets/images/games/trackmania.png";
 import LogoRL from "@/assets/images/games/rocket-league.png";
-import { Tournament, User } from "@/modules";
+import { Toast, Tournament, User } from "@/modules";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
 import SButton from "@/components/design/forms/Button.vue";
+import * as TournamentService from "@/services/tournament";
 
 
 export default defineComponent({
@@ -117,9 +121,21 @@ export default defineComponent({
             { title: "Tournois en cours", key: "current" },
             { title: "Précédents tournois", key: "past" }
         ];
+        const router = useRouter();
+
+        const create = async () => {
+            const response = await Toast.testRequest(async () => {
+                return await TournamentService.create();
+            });
+
+            if (response?.success) {
+                await router.push(`/tournament/${ response.id }`);
+            }
+        };
 
         return {
             BackgroundTournaments,
+            create,
             tournaments: [csgoTournament, rlTournament, tmTournament],
             tournamentsTypes,
             userStore
@@ -136,5 +152,15 @@ export default defineComponent({
     gap: var(--length-gap-xl);
     max-width: 960px;
     margin: auto;
+
+    .tournament-card {
+        cursor: pointer;
+        box-shadow: 0 0 0 hsla(0,0%,0%,0);
+
+        &:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px hsla(0,0%,0%,0.25);
+        }
+    }
 }
 </style>

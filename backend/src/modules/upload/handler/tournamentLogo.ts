@@ -1,10 +1,10 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
+import * as UploadLib from "../lib";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 import TournamentModel from "@/modules/tournament/model";
-import { TypeTournament } from "@/modules/tournament/type";
 
 const SchemaParams = Type.Object({
     id: Type.String({ minLength: 1 })
@@ -12,11 +12,8 @@ const SchemaParams = Type.Object({
 
 type TSchemaParams = Static<typeof SchemaParams>;
 
-const SchemaRequest = TypeTournament;
-
-type TSchemaRequest = Static<typeof SchemaRequest>;
-
 const SchemaResponse = Type.Object({
+    logo: Type.String(),
     message: Type.String(),
     success: Type.Boolean()
 });
@@ -24,7 +21,6 @@ const SchemaResponse = Type.Object({
 type TSchemaResponse = Static<typeof SchemaResponse>;
 
 const schema = {
-    body: SchemaRequest,
     params: SchemaParams,
     response: {
         200: SchemaResponse
@@ -32,8 +28,8 @@ const schema = {
 };
 
 export async function register(server: FastifyInstance): Promise<void> {
-    server.post<{ Body: TSchemaRequest; Params: TSchemaParams; Response: TSchemaResponse }>(
-        "/update/:id",
+    server.post<{ Params: TSchemaParams; Response: TSchemaResponse }>(
+        "/upload/logo/:slug",
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
@@ -45,22 +41,31 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucun tournoi trouvée.");
             }
 
-            tournament.name = request.body.name;
-            tournament.settings.slug = request.body.settings?.slug || "";
-            tournament.informations.prizes = request.body.informations.prizes || "";
-            tournament.informations.rulesUrl = request.body.informations.rulesUrl || "";
-            tournament.game.name = request.body.game.name || "";
-            tournament.game.team.playersNumber = request.body.game.team.playersNumber || 0;
-            tournament.game.team.substitutesNumber = request.body.game.team.substitutesNumber || 0;
-            tournament.dates.subscriptionClose = new Date(request.body.dates.subscriptionClose) || undefined;
-            tournament.dates.start = request.body.dates.start || "";
-            tournament.dates.playDays = request.body.dates.playDays || "";
-            tournament.dates.final = request.body.dates.final || "";
+            const files = await request.saveRequestFiles({
+                limits: {
+                    files: 1,
+                    fileSize: 8 * 1024 * 1024
+                }
+            });
 
+            const fileName = `${ UploadLib.generateName("logo") }.webp`;
+
+            await UploadLib.processImage(files[0], {
+                fileName,
+                path: `upload/tournament/${ tournament.id }`,
+                size: 512
+            });
+
+            if (tournament.settings.logo) {
+                UploadLib.deleteFile(`upload/tournament/${ tournament.id }/${ tournament.settings.logo }`);
+            }
+
+            tournament.settings.logo = fileName;
             await tournament.save();
 
             reply.send({
-                message: "Le tournoi a correctement été mis à jour.",
+                logo: tournament.settings.logo,
+                message: "Votre logo a correctement été uploadé.",
                 success: true
             });
         }

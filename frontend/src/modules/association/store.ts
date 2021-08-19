@@ -99,6 +99,7 @@ export const useStore = defineStore({
             type: ""
         },
         settings: {
+            invitationLink: "",
             slug: ""
         },
         tag: "",

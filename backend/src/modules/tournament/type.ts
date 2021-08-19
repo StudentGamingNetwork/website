@@ -18,12 +18,12 @@ const Tournament = {
         })
     }),
     informations: Type.Object({
-        prize: Type.String(),
+        prizes: Type.String(),
         rulesUrl: Type.String()
     }),
     settings: Type.Optional(Type.Object({
-        logo: Type.String(),
-        slug: Type.String()
+        logo: Type.Optional(Type.String()),
+        slug: Type.Optional(Type.String())
     })),
     state: Type.Optional(Type.Object({
         archived: Type.Boolean(),

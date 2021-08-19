@@ -6,7 +6,7 @@
         >
             <input
                 :autocomplete="autocomplete ? autocomplete : null"
-                :class="{ modified }"
+                :class="{ modified, hide }"
                 :disabled="disabled"
                 :type="type"
                 :value="modelValue"
@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import { ComponentPublicInstance, computed, defineComponent, onMounted, PropType, ref } from "vue";
+import { isUndefined } from "lodash";
 import { InputValidator } from "@/utils/validators";
 import SValidator from "@/components/design/forms/Validator.vue";
 
@@ -87,7 +88,11 @@ export default defineComponent({
         const validatorsElement = ref<ComponentPublicInstance<HTMLInputElement>>(null);
 
         const hasContent = computed(() => {
-            return !!props.modelValue && props.modelValue !== "";
+            return !isUndefined(props.modelValue) && props.modelValue !== "";
+        });
+
+        const hide = computed(() => {
+            return !hasContent .value && props.type === "date";
         });
 
         const isValid = computed(() => {
@@ -117,6 +122,7 @@ export default defineComponent({
 
         return {
             hasContent,
+            hide,
             isValid,
             processKeyDown,
             validatorsElement
@@ -159,6 +165,10 @@ export default defineComponent({
             border: none;
             width: 100%;
             border-radius: calc(var(--lenght-radius-base) - 2px);
+
+            &.hide:not(:focus-within) {
+                opacity: 0;
+            }
 
             &:focus {
                 outline: none;

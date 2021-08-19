@@ -24,7 +24,6 @@ export async function register(server: FastifyInstance): Promise<void> {
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
-
             UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
 
             const tournament = await TournamentModel.create({

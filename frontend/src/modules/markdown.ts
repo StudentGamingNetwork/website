@@ -48,6 +48,10 @@ const MARKDOWN_RULES = [
 
 
 export function process(input: string) {
+    if (!input) {
+        return input;
+    }
+
     loadMarkdown();
 
     for (const pattern of MARKDOWN.patterns) {

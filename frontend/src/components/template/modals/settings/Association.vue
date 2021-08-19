@@ -291,7 +291,7 @@ export default defineComponent({
         const association = reactive(cloneDeep(pick(
             associationStore.$state,
             ["_id", "mail", "name", "school", "networks", "tag", "settings", "logo"]
-        ))) as Association.TAssociation;
+        ))) as Partial<Association.TAssociation>;
 
         watch(
             () => associationStore.$state,
@@ -372,7 +372,7 @@ export default defineComponent({
         });
 
         const invitationLink = computed(() => {
-            return `${ window.location.origin }/association/${ association.settings?.slug || association._id }/join/${ association.settings.invitationLink }`;
+            return `${ window.location.origin }/association/${ association.settings?.slug || association._id }/join/${ association.settings?.invitationLink || "" }`;
         });
 
         const isOwner = computed(() => {

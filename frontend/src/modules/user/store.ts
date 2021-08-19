@@ -36,18 +36,14 @@ export const useStore = defineStore({
                 }
             }
         },
-        async update({
-            password,
-            student,
-            username
-        }: { password: { new: string; old: string }; student: { name: string }; username: string }) {
+        async update(update: { password?: { new: string; old: string }; student?: { name: string }; username?: string }) {
             const response = await Toast.testRequest(async () => {
-                return await UserService.update({ password, student, username });
+                return await UserService.update(update);
             });
 
-            if (response?.success) {
-                this.username = username;
-                this.student.name = student.name;
+            if (response?.success && update.username) {
+                this.username = update.username;
+                this.student.name = update.student?.name || "";
             }
         },
         async updatePlatforms(platforms: { discord: string }) {

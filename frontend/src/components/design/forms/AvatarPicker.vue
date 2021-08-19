@@ -11,7 +11,7 @@
             <FontAwesomeIcon
                 v-if="!url"
                 class="icon"
-                :icon="['fas', 'user']"
+                :icon="icon"
             />
             <img
                 v-else
@@ -42,6 +42,10 @@ export default defineComponent({
         title: {
             default: "Avatar",
             type: String
+        },
+        icon: {
+            default: () => ["fas", "user"],
+            type: Array
         },
         url: {
             default: "",

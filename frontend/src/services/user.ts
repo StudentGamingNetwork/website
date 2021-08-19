@@ -45,12 +45,8 @@ export async function uploadCertificate({ file }: { file: File }): Promise<any> 
     return result.data;
 }
 
-export async function update({ password, student, username }: { password: { new: string; old: string }; student: {name: string}; username: string }): Promise<any> {
-    const result = await ApiService.post("/user/update", {
-        password,
-        student,
-        username
-    });
+export async function update (update: { password?: { new: string; old: string }; student?: {name: string}; username?: string }): Promise<any> {
+    const result = await ApiService.post("/user/update", update);
     return result.data;
 }
 

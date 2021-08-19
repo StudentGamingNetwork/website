@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UploadLib from "../lib";
-import { generateName } from "../lib";
 import * as UserLib from "@/modules/user/lib";
 import { EStudentStatus } from "@/modules/user/model";
 
@@ -35,14 +34,14 @@ export async function register(server: FastifyInstance): Promise<void> {
             let fileName;
 
             if (files[0].mimetype === "application/pdf") {
-                fileName = `${ generateName("certificate") }.pdf`;
+                fileName = `${ UploadLib.generateName("certificate") }.pdf`;
                 await UploadLib.moveFile(files[0], {
                     fileName,
                     path: `upload/user/${ user._id }`
                 });
             }
             else {
-                fileName = `${ generateName("certificate") }.webp`;
+                fileName = `${ UploadLib.generateName("certificate") }.webp`;
 
                 await UploadLib.processImage(files[0], {
                     fileName,

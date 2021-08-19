@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UploadLib from "../lib";
-import { generateName } from "../lib";
 import * as UserLib from "@/modules/user/lib";
 
 const SchemaResponse = Type.Object({
@@ -32,7 +31,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 }
             });
 
-            const fileName = `${ generateName("avatar") }.webp`;
+            const fileName = `${ UploadLib.generateName("avatar") }.webp`;
 
             await UploadLib.processImage(files[0], {
                 fileName,
