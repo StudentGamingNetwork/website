@@ -7,6 +7,17 @@ export type TUser = {
     };
     student: {
         name: string;
+        schoolName: string;
+        status: string;
     };
     username: string;
 };
+
+export type TCompleteUser = TUser & {
+    association: {
+        school: {
+            name: string;
+        };
+        tag: string;
+    };
+}

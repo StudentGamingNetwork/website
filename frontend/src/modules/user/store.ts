@@ -43,6 +43,7 @@ export const useStore = defineStore({
 
                 if (response.association) {
                     associationStore.init(response.association);
+                    this.association = response.association._id;
                 }
                 else {
                     associationStore.$reset();
@@ -124,6 +125,7 @@ export const useStore = defineStore({
     },
     state: () => ({
         _id: "",
+        association: "",
         avatar: "",
         mail: "",
         platforms: {

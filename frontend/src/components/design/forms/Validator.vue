@@ -62,6 +62,7 @@ export default defineComponent({
     .icon {
         display: flex;
         width: 16px;
+        padding-right: var(--length-padding-xxs);
     }
 }
 </style>

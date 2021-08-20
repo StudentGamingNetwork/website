@@ -76,7 +76,7 @@ export default defineComponent({
         type: {
             default: "text",
             type: String,
-            validator: (value: string) => ["text", "password", "search", "email", "url", "number"].includes(value)
+            validator: (value: string) => ["text", "password", "search", "email", "url", "number", "date"].includes(value)
         },
         validators: {
             default: () => [],

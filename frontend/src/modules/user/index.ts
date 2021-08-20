@@ -1,5 +1,5 @@
 import { useStore } from "./store";
-import { TUser } from "./type";
+import { TUser, TCompleteUser } from "./type";
 
 export { useStore };
-export type { TUser };
+export type { TUser, TCompleteUser };

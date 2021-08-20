@@ -6,7 +6,7 @@
         />
         <Suspense>
             <template #default>
-                <STeamCard />
+                <STeamCard :tournament="savedTournament" />
             </template>
             <template #fallback>
                 <SLoading />

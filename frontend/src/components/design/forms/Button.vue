@@ -56,6 +56,8 @@ button {
     padding: 0 var(--length-padding-m);
     background: none;
     color: var(--color-button-content);
+    height: 36px;
+    box-sizing: border-box;
 
     &.danger {
         --color-button-content : var(--color-error-content);

@@ -1,19 +1,18 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import AssociationModel from "@/modules/association/model";
+import { find, findIndex } from "lodash";
 import * as UserLib from "@/modules/user/lib";
-import { ERoles } from "@/modules/user/model";
-import { TypeTournament } from "@/modules/tournament/type";
-import * as TournamentLib from "@/modules/tournament/lib";
+import { TypeCompleteTeam } from "@/modules/team/type";
+import TeamModel from "@/modules/team/model";
 
 const SchemaParams = Type.Object({
-    slug: Type.String({ minLength: 1 })
+    id: Type.String()
 });
 
 type TSchemaParams = Static<typeof SchemaParams>;
 
-const SchemaRequest = TypeTournament;
+const SchemaRequest = TypeCompleteTeam;
 
 type TSchemaRequest = Static<typeof SchemaRequest>;
 
@@ -34,32 +33,36 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.post<{ Body: TSchemaRequest; Params: TSchemaParams; Response: TSchemaResponse }>(
-        "/update/:slug",
+        "/update/:id",
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
 
-            UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
+            const team = await TeamModel.findOne({
+                _id: request.body._id,
+                "members.user": user._id
+            });
 
-            const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
-
-            if (request.body.settings?.slug) {
-                const slugRegex = /^[A-Za-z-]+$/;
-                if (!slugRegex.test(request.body.settings.slug)) {
-                    throw new httpErrors.BadRequest("Le slug n'est pas au bon format.");
-                }
-
-                if (await AssociationModel.findOne({ _id: { $ne: tournament._id }, "settings.slug": request.body.settings.slug })) {
-                    throw new httpErrors.Forbidden("Un autre tournoi utilise déjà ce slug.");
-                }
+            if (!team) {
+                throw new httpErrors.NotFound("Aucune équipe trouvée.");
             }
 
-            tournament.name = request.body.name;
+            if (team.owner.toString() === user._id.toString()){
+                team.settings.name = request.body.settings.name || "";
+                team.settings.tag = request.body.settings.tag || "";
+            }
 
-            await tournament.save();
+            const currentMember = find(request.body.members, ["user._id", user._id.toString()]);
+            const memberIndex = findIndex(team.members, ["user._id", user._id]);
+
+            if (currentMember) {
+                team.members[memberIndex].username = currentMember.username;
+            }
+
+            await team.save();
 
             reply.send({
-                message: "Le tournoi a correctement été mis à jour.",
+                message: "L'équipe a correctement été mise à jour.",
                 success: true
             });
         }
