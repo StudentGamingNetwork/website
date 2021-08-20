@@ -54,7 +54,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     studentsNumber: 0
                 },
                 settings: {
-                    invitationLink: AssociationLib.generateInvitationLink(),
+                    invitationCode: AssociationLib.generateInvitationCode(),
                     slug: ""
                 },
                 users: {

@@ -16,7 +16,7 @@
         <div class="association-layout">
             <SAssociationCard :association="association" />
             <div
-                v-if="!isUserMember && invitationLink"
+                v-if="!isUserMember && invitationCode"
                 class="invitation"
             >
                 <SButton
@@ -60,7 +60,7 @@ export default defineComponent({
     async setup() {
         const router = useRouter();
         const slug = router.currentRoute.value.params.slug as string;
-        const invitationLink = router.currentRoute.value.params.invitationLink as string;
+        const invitationCode = router.currentRoute.value.params.invitationCode as string;
 
         const associationStore = Association.useStore();
 
@@ -75,14 +75,14 @@ export default defineComponent({
         });
 
         const join = async () => {
-            await associationStore.join(slug, invitationLink);
+            await associationStore.join(slug, invitationCode);
             association.value = reactive(await AssociationService.get(slug));
         };
 
         return {
             association,
             BackgroundAssociation,
-            invitationLink,
+            invitationCode,
             isUserMember,
             join,
             region

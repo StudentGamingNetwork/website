@@ -15,7 +15,12 @@ export async function get(tournamentSlug: string): Promise<any> {
     return result.data;
 }
 
-export async function remove(id: string): Promise<any> {
-    const result = await ApiService.delete(`/team/delete/${ id }`);
+export async function join(tournamentSlug: string, invitationCode: string): Promise<any> {
+    const result = await ApiService.post(`/team/join/${ tournamentSlug }`, { invitationCode });
+    return result.data;
+}
+
+export async function remove(tournamentSlug: string): Promise<any> {
+    const result = await ApiService.delete(`/team/delete/${ tournamentSlug }`);
     return result.data;
 }

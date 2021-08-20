@@ -56,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "Association"
         },
-        path: "/association/:slug/join/:invitationLink"
+        path: "/association/:slug/join/:invitationCode"
     },
     {
         name: "association",

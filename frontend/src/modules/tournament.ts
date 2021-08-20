@@ -14,6 +14,7 @@ export type TTournament = {
         name: string;
         team: {
             playersNumber: number;
+            subscribed: number;
             substitutesNumber: number;
         };
     };

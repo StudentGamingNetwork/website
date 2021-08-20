@@ -50,8 +50,9 @@ export function hasMember(user: IUserDocument, association: IAssociationDocument
     return association.users.members.includes(user._id);
 }
 
-export function generateInvitationLink(): string {
-    return Crypto.randomBytes(8).toString("hex");
+export function generateInvitationCode(): string {
+    const code = Crypto.randomBytes(8).toString("hex").toUpperCase();
+    return code.match(/.{4}/g)?.join("-") as string;
 }
 
 export function sanitize(user: IUserDocument, association: IAssociationDocument): Partial<LeanDocument<IAssociationDocument>> {
@@ -67,7 +68,7 @@ export function sanitize(user: IUserDocument, association: IAssociationDocument)
     }
 
     if (isUserOwner || isSGNFederationMember) {
-        allowedKeys.push("settings.invitationLink");
+        allowedKeys.push("settings.invitationCode");
     }
 
     return pick(association.toObject(), allowedKeys);

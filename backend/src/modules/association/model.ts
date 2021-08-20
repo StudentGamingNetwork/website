@@ -39,7 +39,7 @@ export interface IAssociation {
         type: ESchoolType;
     };
     settings: {
-        invitationLink: string;
+        invitationCode: string;
         slug: string;
     };
     tag: string;
@@ -112,7 +112,7 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
         }
     },
     settings: {
-        invitationLink: {
+        invitationCode: {
             type: String
         },
         slug: {

@@ -31,7 +31,7 @@
                     v-if="team"
                     v-html="markdownProcess(team)"
                 />
-                <li><strong>Aucune équipe</strong> inscrite</li>
+                <li><strong>{{ teamNumberText }}</strong> inscrite{{ tournament.game.team.subscribed > 1 ? 's' : '' }}</li>
                 <li v-if="tournament.informations?.rulesUrl">
                     <a
                         :href="tournament.informations.rulesUrl"
@@ -83,6 +83,15 @@ export default defineComponent({
             return (value > 1) ? `${ value } ${ name }s` : `${ value } ${ name }`;
         };
 
+        const teamNumberText = computed(() => {
+            if (!props.tournament.game.team.subscribed) {
+                return "Aucune équipe";
+            }
+            else {
+                return makePlural(props.tournament.game.team.subscribed, "équipe");
+            }
+        });
+
         const team = computed(() => {
             if (!props.tournament.game || !props.tournament.game.team.playersNumber) {
                 return "";
@@ -116,9 +125,11 @@ export default defineComponent({
 
         return {
             logoUrl,
+            makePlural,
             markdownProcess: Markdown.process,
             subscriptionDateText,
-            team
+            team,
+            teamNumberText
         };
     }
 });

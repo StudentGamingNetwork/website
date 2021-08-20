@@ -135,7 +135,7 @@
                     >
                         <template v-if="team.members[index]">
                             <SValidator :valid="isMemberReady(team.members[index])">
-                                Joueur {{ number }} : {{ team.members[index].user.username }}
+                                Joueur {{ number }} : <strong>{{ team.members[index].user.username }}</strong> ({{ isMemberReady(team.members[index]) ? "prêt" : "incomplet" }})
                             </SValidator>
                         </template>
                         <template v-else>
@@ -151,26 +151,18 @@
                     :content="team.settings.invitationCode"
                     title="Code d'invitation"
                 />
-                <template v-if="isOwner">
-                    <SButton
-                        danger
-                        outlined
-                    >
-                        Dissoudre l'équipe
-                    </SButton>
-                </template>
-                <template v-else>
-                    <SButton
-                        danger
-                        outlined
-                    >
-                        Quitter l'équipe
-                    </SButton>
-                </template>
+                <SButton
+                    danger
+                    outlined
+                    @click="deleteTeam"
+                >
+                    {{ isOwner ? "Dissoudre l'équipe" : "Quitter l'équipe" }}
+                </SButton>
             </div>
             <div class="members">
                 <table class="members-table">
                     <tr>
+                        <th />
                         <th>Joueur</th>
                         <th>Étudiant</th>
                         <th>Contact</th>
@@ -181,7 +173,21 @@
                         :key="member.user._id"
                     >
                         <td>
-                            {{ member.user.username }} <span class="info">(IG: {{ member.username }})</span>
+                            <div class="avatar">
+                                <img
+                                    v-if="member.user.avatar"
+                                    alt="avatar"
+                                    :src="getUserAvatarUrl({id:member.user._id, avatar:member.user.avatar})"
+                                >
+                                <FontAwesomeIcon
+                                    v-else
+                                    class="icon"
+                                    :icon="['fas', 'user']"
+                                />
+                            </div>
+                        </td>
+                        <td>
+                            {{ member.user.username }} <span class="info">(IG : {{ member.username }})</span>
                         </td>
                         <td>
                             {{ member.user.student.name }} <span class="info">({{
@@ -190,8 +196,19 @@
                         </td>
                         <td>
                             <div class="contact">
-                                <FontAwesomeIcon :icon="['fab', 'discord']" />
-                                <FontAwesomeIcon :icon="['fas', 'envelope']" />
+                                <SCopier
+                                    v-if="member.user.platforms.discord"
+                                    class="button"
+                                    :content="member.user.platforms.discord"
+                                >
+                                    <FontAwesomeIcon :icon="['fab', 'discord']" />
+                                </SCopier>
+                                <SCopier
+                                    class="button"
+                                    :content="member.user.mail"
+                                >
+                                    <FontAwesomeIcon :icon="['fas', 'envelope']" />
+                                </SCopier>
                             </div>
                         </td>
                         <td>
@@ -231,6 +248,7 @@ import SSectionTitle from "@/components/design/SectionTitle.vue";
 import * as InputValidators from "@/utils/validators";
 import SCopier from "@/components/design/forms/Copier.vue";
 import SInputCopier from "@/components/design/forms/InputCopier.vue";
+import * as UserService from "@/services/user";
 
 export default defineComponent({
     name: "STeamCard",
@@ -327,12 +345,25 @@ export default defineComponent({
                 return;
             }
             const teamApi = await TeamService.get(tournamentSlug.value);
+
             merge(savedTeam, teamApi);
             merge(team, cloneDeep(savedTeam));
+
+            if (!teamApi._id) {
+                team._id = "";
+            }
         }
 
         async function joinTeam() {
             const invitationCode = prompt("Entrez le code d'invitation de l'équipe. Vous pouvez le demander au chef d'équipe, il est de la forme XXXX-XXXX-XXXX-XXXX.");
+
+            const response = await Toast.testRequest(async () => {
+                return await TeamService.join(tournamentSlug.value, invitationCode);
+            });
+
+            if (response?.success) {
+                await updateTeam();
+            }
         }
 
         async function createTeam() {
@@ -345,8 +376,28 @@ export default defineComponent({
             }
         }
 
+        async function deleteTeam() {
+            const message = isOwner.value ?
+                "Êtes-vous sûr de vouloir supprimer l'équipe ? Les membres invités en seront exclus." :
+                "Êtes-vous sûr de vouloir quitter cette équipe ?";
+
+            if (!confirm(message)) {
+                return;
+            }
+
+            const response = await Toast.testRequest(async () => {
+                return await TeamService.remove(tournamentSlug.value);
+            });
+
+            if (response?.success) {
+                await updateTeam();
+            }
+        }
+
         return {
             createTeam,
+            deleteTeam,
+            getUserAvatarUrl: UserService.getAvatarUrl,
             hasChanged,
             hasTeam,
             InputValidators,
@@ -433,6 +484,10 @@ export default defineComponent({
             display: flex;
             flex-direction: column;
             gap: var(--length-gap-xs);
+
+            strong {
+                font-weight: 600;
+            }
         }
 
         .link {
@@ -464,6 +519,7 @@ export default defineComponent({
                 text-transform: uppercase;
                 font-size: 0.8rem;
                 color: var(--color-content-softer);
+                padding: var(--length-padding-s) 0;
             }
 
             .info {
@@ -476,26 +532,62 @@ export default defineComponent({
                 align-items: center;
                 gap: var(--length-gap-s);
                 font-size: 1.2rem;
+
+                .button {
+                    color: var(--color-content-litest);
+
+                    &:hover {
+                        color: var(--color-content-lite);
+                    }
+                }
             }
 
             td {
-                padding: var(--length-padding-m) 0;
+                padding: var(--length-padding-s) 0;
 
                 &:nth-child(1) {
-                    width: 40%;
+                    width: 5%;
                 }
 
                 &:nth-child(2) {
-                    width: 40%;
+                    width: 35%;
                 }
 
                 &:nth-child(3) {
-                    width: 10%;
+                    width: 40%;
                 }
 
                 &:nth-child(4) {
                     width: 10%;
                 }
+
+                &:nth-child(5) {
+                    width: 10%;
+                }
+            }
+        }
+
+        .avatar {
+            grid-area: avatar;
+            height: 48px;
+            width: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: var(--length-margin-s);
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            .icon {
+                width: 24px;
+                height: 24px;
+                color: var(--color-content-litest);
             }
         }
     }

@@ -37,8 +37,8 @@ export async function get(slug: string): Promise<any> {
     return result.data;
 }
 
-export async function join(slug: string, invitationLink: string): Promise<any> {
-    const result = await ApiService.post(`/association/join`, { invitationLink, slug });
+export async function join(slug: string, invitationCode: string): Promise<any> {
+    const result = await ApiService.post(`/association/join`, { invitationCode, slug });
     return result.data;
 }
 

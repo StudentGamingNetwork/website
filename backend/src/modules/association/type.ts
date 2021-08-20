@@ -28,7 +28,7 @@ const BasicAssociation = {
 const PrivateFields = {
     mail: Type.String(),
     settings: Type.Optional(Type.Object({
-        invitationLink: Type.Optional(Type.String()),
+        invitationCode: Type.Optional(Type.String()),
         slug: Type.Optional(Type.String())
     }))
 };

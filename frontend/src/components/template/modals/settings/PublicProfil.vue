@@ -136,7 +136,8 @@ export default defineComponent({
 
         const hasUpdate = computed(() => {
             return username.value !== userStore.username
-                || student.name !== userStore.student.name;
+                || student.name !== userStore.student.name
+                || student.schoolName !== userStore.student.schoolName;
         });
 
         const avatarUrl = computed(() => {
@@ -152,10 +153,7 @@ export default defineComponent({
                 return;
             }
 
-            await userStore.update({
-                student,
-                username: username.value
-            });
+            await userStore.init();
         };
 
         const uploadAvatar = async(file: File) => {

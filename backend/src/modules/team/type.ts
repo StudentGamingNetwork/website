@@ -42,6 +42,7 @@ const TeamUser = {
     }),
     student: Type.Optional(Type.Object({
         name: Type.Optional(Type.String()),
+        schoolName: Type.Optional(Type.String()),
         status: Type.Optional(Type.String())
     })),
     username: Type.String()

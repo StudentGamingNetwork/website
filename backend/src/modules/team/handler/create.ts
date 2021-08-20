@@ -66,6 +66,9 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament: tournament._id
             });
 
+            tournament.game.team.subscribed++;
+            await tournament.save();
+
             reply.send({
                 id: team._id,
                 message: "L'équipe a correctement été créée.",

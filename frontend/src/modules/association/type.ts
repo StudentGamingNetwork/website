@@ -20,7 +20,7 @@ export type TAssociation = {
         studentsNumber: number | string;
     };
     settings?: {
-        invitationLink: string;
+        invitationCode: string;
         slug: string;
     };
     tag: string;

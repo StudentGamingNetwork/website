@@ -7,7 +7,7 @@ import * as AssociationLib from "@/modules/association/lib";
 
 
 const SchemaRequest = Type.Object({
-    invitationLink: Type.String({ minLength: 1 }),
+    invitationCode: Type.String({ minLength: 1 }),
     slug: Type.String({ minLength: 1 })
 });
 
@@ -36,7 +36,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const newAssociation = await AssociationLib.getAssociationFromSlug(request.body.slug);
 
-            if (newAssociation.settings.invitationLink !== request.body.invitationLink) {
+            if (newAssociation.settings.invitationCode !== request.body.invitationCode) {
                 throw new httpErrors.Forbidden("Le lien d'invitation n'est pas valide.");
             }
 

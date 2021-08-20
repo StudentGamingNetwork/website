@@ -29,9 +29,9 @@ export const useStore = defineStore({
             this.$patch(associationData);
             this.school.studentsNumber = this.school.studentsNumber ? this.school.studentsNumber.toString() : "";
         },
-        async join(slug: string, invitationLink: string) {
+        async join(slug: string, invitationCode: string) {
             const response = await Toast.testRequest(async () => {
-                return await AssociationService.join(slug, invitationLink);
+                return await AssociationService.join(slug, invitationCode);
             });
 
             if (response?.success) {
@@ -99,7 +99,7 @@ export const useStore = defineStore({
             type: ""
         },
         settings: {
-            invitationLink: "",
+            invitationCode: "",
             slug: ""
         },
         tag: "",
