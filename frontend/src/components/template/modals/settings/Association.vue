@@ -123,10 +123,12 @@
                             :content="slugUrl"
                         >{{ slugUrl }}</SCopier></em>
                     </SModalSectionDescription>
-
+                    <SInputCopier
+                        :content="association.settings.invitationCode"
+                        title="Code d'invitation"
+                    />
                     <SModalSectionDescription>
-                        <strong><SCopier :content="invitationCode">Cliquez ici pour copier votre lien d'invitation</SCopier></strong><br>
-                        Vous devez partager ce lien aux membres qui souhaitent rejoindre votre association.
+                        Vous devez partager ce code aux membres qui souhaitent rejoindre votre association.
                     </SModalSectionDescription>
                 </SModalSection>
                 <SModalSeparator />
@@ -240,7 +242,7 @@
                     Vous pouvez <span
                         class="link"
                         @click="join"
-                    >rejoindre la vôtre</span><br>(en demandant le lien d'invitation à son responsable)<br>ou en <span
+                    >rejoindre la vôtre</span><br>(en demandant le code d'invitation à son responsable)<br>ou en <span
                         class="link"
                         @click="startCreating"
                     >créer une</span> si vous la représentez.
@@ -266,6 +268,7 @@ import * as InputValidators from "@/utils/validators";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
 import SCopier from "@/components/design/forms/Copier.vue";
+import SInputCopier from "@/components/design/forms/InputCopier.vue";
 
 export default defineComponent({
     name: "SAssociation",
@@ -275,6 +278,7 @@ export default defineComponent({
         SButton,
         SCopier,
         SInput,
+        SInputCopier,
         SModalContent,
         SModalSection,
         SModalSectionDescription,

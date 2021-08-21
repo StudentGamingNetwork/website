@@ -51,14 +51,6 @@ const routes: Array<RouteRecordRaw> = [
         path: "/about"
     },
     {
-        name: "association-invite",
-        component: () => import(/* webpackChunkName: "association-invite" */ "@/views/Association.vue"),
-        meta: {
-            title: "Association"
-        },
-        path: "/association/:slug/join/:invitationCode"
-    },
-    {
         name: "association",
         component: () => import(/* webpackChunkName: "association" */ "@/views/Association.vue"),
         meta: {
