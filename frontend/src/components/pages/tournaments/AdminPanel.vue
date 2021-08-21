@@ -3,7 +3,7 @@
         class="tournament-admin-panel"
     >
         <SSectionTitle class="title">
-            Panneau d'administration
+            Paramètres du tournoi
         </SSectionTitle>
         <SModalSection class="tournament-section">
             <SModalSectionTitle>Tournoi</SModalSectionTitle>

@@ -14,7 +14,7 @@
             />
             <SAdminPanelUsers v-if="selectedPanel === 'users'" />
             <SAdminPanelAssociations v-if="selectedPanel === 'associations'" />
-            <SAdminPanelMembers v-if="selectedPanel === 'members'" />
+            <SAdminPanelCertificates v-if="selectedPanel === 'certificates'" />
         </div>
     </SBaseLayout>
 </template>
@@ -28,18 +28,18 @@ import SBaseLayout from "@/components/pages/BaseLayout.vue";
 import SSelector from "@/components/design/Selector.vue";
 import SAdminPanelUsers from "@/components/pages/admin/panels/Users.vue";
 import SAdminPanelAssociations from "@/components/pages/admin/panels/Associations.vue";
-import SAdminPanelMembers from "@/components/pages/admin/panels/Members.vue";
+import SAdminPanelCertificates from "@/components/pages/admin/panels/Certificates.vue";
 
 export default defineComponent({
     name: "SAdminLayout",
-    components: { SAdminPanelAssociations, SAdminPanelMembers, SAdminPanelUsers, SBaseLayout, SPageHead, SSelector },
+    components: { SAdminPanelAssociations, SAdminPanelCertificates, SAdminPanelUsers, SBaseLayout, SPageHead, SSelector },
     setup() {
         const router = useRouter();
 
         const adminPanels = [
             { title: "Utilisateurs", key: "users" },
             { title: "Associations", key: "associations" },
-            { title: "Membres", key: "members" }
+            { title: "Certificats", key: "certificates" }
         ];
 
         const selectedPanel = ref("users");
@@ -47,7 +47,7 @@ export default defineComponent({
         onMounted(() => {
             const page = router.currentRoute.value.params.page as string;
 
-            if (["users", "associations", "members"].includes(page)) {
+            if (["users", "associations", "certificates"].includes(page)) {
                 selectedPanel.value = page;
             }
         });

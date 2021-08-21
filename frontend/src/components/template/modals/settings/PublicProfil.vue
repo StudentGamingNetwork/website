@@ -73,8 +73,8 @@
                 ><FontAwesomeIcon :icon="['fas', 'check']" /> Certificat validé jusqu'en Septembre</span>
                 <span
                     v-else-if="userStore.student.status === 'rejected'"
-                    class="main"
-                ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté</span>
+                    class="main error"
+                ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté (veuillez en fournir un autre)</span>
                 <span
                     v-else
                     class="main"
@@ -197,6 +197,10 @@ export default defineComponent({
 
         .main {
             padding-left: var(--length-padding-xxs);
+
+            &.error {
+                color: var(--color-error-content);
+            }
         }
     }
 

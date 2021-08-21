@@ -24,5 +24,6 @@ h2 {
     margin: 0;
     line-height: 2rem;
     text-shadow: 0 0 16px var(--color-primary-lite);
+    padding: var(--length-padding-xs) 0;
 }
 </style>

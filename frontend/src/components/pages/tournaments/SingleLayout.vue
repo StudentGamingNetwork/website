@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, onMounted, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { assign, cloneDeep } from "lodash";
 import * as TournamentService from "@/services/tournament";
@@ -50,9 +50,23 @@ export default defineComponent({
 
         const tournamentsPages = [
             { title: "Équipe", key: "team" },
-            { title: "Administration", key: "admin" },
+            { title: "Paramètres", key: "admin" },
             { title: "Gestion", key: "management" }
         ];
+
+        onMounted(() => {
+            const page = router.currentRoute.value.params.page as string;
+
+            if (["team", "admin", "management"].includes(page)) {
+                tournamentsPage.value = page;
+            }
+        });
+
+        watch(
+            () => tournamentsPage.value,
+            async () => {
+                await router.push(`/tournament/${ slug.value }/${ tournamentsPage.value }`);
+            });
 
         const savedTournament = reactive(Tournament.makeObject({}));
         const tournament = reactive<Tournament.TTournament>(cloneDeep(savedTournament));

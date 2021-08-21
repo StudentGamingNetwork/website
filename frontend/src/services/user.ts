@@ -71,7 +71,6 @@ export function getAvatarUrl(user: { id: string; avatar: string }): string {
     return `${ Config.backendUrl }/upload/user/${ user.id }/${ user.avatar }`;
 }
 
-
 export function getCertificateUrl(user: { id: string; certificate: string }): string {
     return `${ Config.backendUrl }/upload/user/${ user.id }/${ user.certificate }`;
 }

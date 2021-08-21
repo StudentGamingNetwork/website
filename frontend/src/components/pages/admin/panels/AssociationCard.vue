@@ -363,11 +363,13 @@ export default defineComponent({
         li {
             list-style: none;
             color: var(--color-content-softer);
+            display: flex;
+            gap: var(--length-gap-s);
+            align-items: center;
 
             .icon {
                 width: 12px;
                 height: 12px;
-                padding-right: var(--length-padding-xxs);
             }
 
             .copier:hover {
