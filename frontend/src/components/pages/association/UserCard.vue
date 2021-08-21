@@ -103,7 +103,7 @@ export default defineComponent({
         font-weight: 600;
 
         .name {
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             font-weight: 400;
             color: var(--color-content-softer);
