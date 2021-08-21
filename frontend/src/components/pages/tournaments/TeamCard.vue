@@ -65,7 +65,7 @@
                 <SInput
                     v-model="team.members[playerIndex].username"
                     :modified="team.members[playerIndex].username !== savedTeam.members[playerIndex].username"
-                    title="Identifiant ingame"
+                    :title="tournament.game.username"
                     @enter="sendUpdate"
                 />
                 <div class="buttons">
@@ -169,7 +169,7 @@
                         <th>Statut</th>
                     </tr>
                     <tr
-                        v-for="member of team.members"
+                        v-for="(member, memberIndex) of team.members"
                         :key="member.user._id"
                     >
                         <td>
@@ -188,6 +188,13 @@
                         </td>
                         <td>
                             {{ member.user.username }} <span class="info">(IG : {{ member.username }})</span>
+                            <div
+                                v-if="isOwner && member.user._id !== team.owner"
+                                class="kick"
+                                @click="kickMember(memberIndex)"
+                            >
+                                Expulser
+                            </div>
                         </td>
                         <td>
                             {{ member.user.student.name }} <span class="info">({{
@@ -233,7 +240,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { cloneDeep, findIndex, isMatch, merge } from "lodash";
+import { assign, cloneDeep, findIndex, isMatch } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import * as TeamService from "@/services/team";
@@ -346,8 +353,8 @@ export default defineComponent({
             }
             const teamApi = await TeamService.get(tournamentSlug.value);
 
-            merge(savedTeam, teamApi);
-            merge(team, cloneDeep(savedTeam));
+            assign(savedTeam, teamApi);
+            assign(team, cloneDeep(savedTeam));
 
             if (!teamApi._id) {
                 team._id = "";
@@ -394,6 +401,22 @@ export default defineComponent({
             }
         }
 
+        async function kickMember(memberIndex: number) {
+            if (!confirm("Êtes-vous sûr de vouloir expulser ce membre de votre équipe ?")) {
+                return;
+            }
+
+            team.members[memberIndex].kick = true;
+
+            const response = await Toast.testRequest(async () => {
+                return await TeamService.update(team, team._id);
+            });
+
+            if (response?.success) {
+                await updateTeam();
+            }
+        }
+
         return {
             createTeam,
             deleteTeam,
@@ -405,6 +428,7 @@ export default defineComponent({
             isMemberReady,
             isOwner,
             joinTeam,
+            kickMember,
             playerIndex,
             savedTeam,
             sendUpdate,
@@ -589,6 +613,26 @@ export default defineComponent({
                 height: 24px;
                 color: var(--color-content-litest);
             }
+        }
+
+        .kick {
+            font-size: 0.7rem;
+            border-radius: var(--lenght-radius-base);
+            padding: 0 var(--length-padding-xxs);
+            display: inline-block;
+            cursor: pointer;
+            margin-left: var(--length-margin-s);
+
+            background: var(--color-error-background);
+            color: var(--color-error-content);
+            border: 1px solid var(--color-error);
+
+            opacity: 0.75;
+
+            &:hover {
+                opacity: 1;
+            }
+
         }
     }
 }

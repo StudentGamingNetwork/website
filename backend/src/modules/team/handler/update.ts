@@ -50,6 +50,12 @@ export async function register(server: FastifyInstance): Promise<void> {
             if (team.owner.toString() === user._id.toString()){
                 team.settings.name = request.body.settings.name || "";
                 team.settings.tag = request.body.settings.tag || "";
+
+                for (const teamMember of request.body.members) {
+                    if (teamMember.kick && teamMember.user._id !== team.owner.toString()) {
+                        team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
+                    }
+                }
             }
 
             const currentMember = find(request.body.members, ["user._id", user._id.toString()]);

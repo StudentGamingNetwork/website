@@ -77,6 +77,12 @@
                     @enter="sendUpdate"
                 />
                 <SInput
+                    v-model="tournament.game.username"
+                    :modified="tournament.game.username !== savedTournament.game.username"
+                    title="Nom de l'identifiant"
+                    @enter="sendUpdate"
+                />
+                <SInput
                     v-model="tournament.game.team.playersNumber"
                     :modified="tournament.game.team.playersNumber !== savedTournament.game.team.playersNumber"
                     title="Nombre de joueurs par équipe"
@@ -87,6 +93,13 @@
                     v-model="tournament.game.team.substitutesNumber"
                     :modified="tournament.game.team.substitutesNumber !== savedTournament.game.team.substitutesNumber"
                     title="Nombre de remplaçants par équipe"
+                    type="number"
+                    @enter="sendUpdate"
+                />
+                <SInput
+                    v-model="tournament.game.team.maxTeams"
+                    :modified="tournament.game.team.maxTeams !== savedTournament.game.team.maxTeams"
+                    title="Nombre maximum d'équipes"
                     type="number"
                     @enter="sendUpdate"
                 />
@@ -144,7 +157,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { cloneDeep, isMatch, merge } from "lodash";
+import { assign, cloneDeep, isMatch } from "lodash";
 import * as TournamentService from "@/services/tournament";
 import { Toast, Tournament, User } from "@/modules";
 import STournament from "@/components/pages/tournaments/Tournament.vue";
@@ -252,6 +265,10 @@ export default defineComponent({
                 return tournament._id ? await TournamentService.get(tournament._id) : await TournamentService.get(slug.value);
             }, { onlyError: true });
 
+            if (!tournamentApi) {
+                await router.push("/404");
+            }
+
             if (tournamentApi.dates?.subscriptionClose) {
                 const subscriptionClose = new Date(tournamentApi.dates?.subscriptionClose);
                 tournamentApi.dates.subscriptionClose = `${ subscriptionClose.getFullYear() }-` +
@@ -268,8 +285,8 @@ export default defineComponent({
                 await router.push(`/tournament/${ tournamentApi._id }`);
             }
 
-            merge(savedTournament, Tournament.makeObject(tournamentApi));
-            merge(tournament, cloneDeep(savedTournament));
+            assign(savedTournament, Tournament.makeObject(tournamentApi));
+            assign(tournament, cloneDeep(savedTournament));
         }
 
         return {

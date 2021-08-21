@@ -125,8 +125,6 @@ export default defineComponent({
         align-items: center;
         gap: var(--length-gap-s);
 
-
-
         .edit {
             opacity: 0;
             width: 24px;

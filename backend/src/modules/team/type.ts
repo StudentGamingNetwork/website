@@ -53,6 +53,7 @@ export const TypeTeam = Type.Object(Team);
 export const TypeCompleteTeam = Type.Object({
     ...Team,
     members: Type.Array(Type.Object({
+        kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUser),
         username: Type.String()
     }))

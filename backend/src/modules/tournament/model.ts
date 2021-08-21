@@ -12,10 +12,12 @@ export interface ITournament {
     game: {
         name: string;
         team: {
+            maxTeams: number;
             playersNumber: number;
             subscribed: number;
             substitutesNumber: number;
         };
+        username: string;
     };
     informations: {
         prizes: string;
@@ -50,10 +52,12 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
     game: {
         name: String,
         team: {
+            maxTeams: Number,
             playersNumber: Number,
             subscribed: Number,
             substitutesNumber: Number
-        }
+        },
+        username: String
     },
     informations: {
         prizes: String,

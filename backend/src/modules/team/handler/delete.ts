@@ -43,9 +43,12 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             if (team.owner.toString() === user._id.toString()) {
+                if (team.state.validated) {
+                    tournament.game.team.subscribed--;
+                    await tournament.save();
+                }
+
                 await TeamModel.findByIdAndDelete(team._id);
-                tournament.game.team.subscribed--;
-                await tournament.save();
             }
             else {
                 team.members = team.members.filter((member) => member.user.toString() !== user._id.toString());

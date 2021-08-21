@@ -29,7 +29,7 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.post<{ Params: TSchemaParams; Response: TSchemaResponse }>(
-        "/upload/logo/:slug",
+        "/upload/logo/:id",
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);

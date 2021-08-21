@@ -153,6 +153,11 @@ export default defineComponent({
                 return;
             }
 
+            await userStore.update({
+                student,
+                username: username.value
+            });
+
             await userStore.init();
         };
 

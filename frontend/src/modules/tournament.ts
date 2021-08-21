@@ -13,10 +13,12 @@ export type TTournament = {
     game: {
         name: string;
         team: {
+            maxTeams: number;
             playersNumber: number;
             subscribed: number;
             substitutesNumber: number;
         };
+        username: string;
     };
     informations: {
         prizes: string;

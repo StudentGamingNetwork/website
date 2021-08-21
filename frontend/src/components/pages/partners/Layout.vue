@@ -92,6 +92,7 @@ export default defineComponent({
 
     .partners-list {
         width: 1024px;
+        max-width: 100%;
         display: flex;
         flex-direction: column;
         gap: 160px;

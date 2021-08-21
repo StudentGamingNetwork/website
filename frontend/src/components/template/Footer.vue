@@ -73,10 +73,10 @@ export default defineComponent({
         return {
             currentYear: new Date().getFullYear(),
             links: [
-                { title: "FAQ", key: "faq", link: "#" },
-                { title: "Contact", key: "contact", link: "#" },
-                { title: "Recrutement", key: "recruitment", link: "#" },
-                { title: "Galerie", key: "gallery", link: "#" }
+                { title: "Fédération", key: "federation", link: "/federation" },
+                { title: "Tournois", key: "tournaments", link: "/tournaments" },
+                { title: "Partenaires", key: "partners", link: "/partners" },
+                { title: "À propos", key: "about", link: "/about" }
             ],
             networks: [
                 { title: "Facebook", icon: "facebook", key: "facebook", link: "https://www.facebook.com/StudentGN/" },
@@ -85,7 +85,8 @@ export default defineComponent({
                 { title: "Instagram", icon: "instagram", key: "instagram", link: "https://www.instagram.com/student_gaming_network/" },
                 { title: "Twitch", icon: "twitch", key: "twitch", link: "https://www.twitch.tv/studentgn/" },
                 { title: "LinkedIn", icon: "linkedin", key: "linkedin", link: "https://www.linkedin.com/company/10125720" },
-                { title: "Steam", icon: "steam", key: "steam", link: "https://steamcommunity.com/groups/sgnw" }
+                { title: "Steam", icon: "steam", key: "steam", link: "https://steamcommunity.com/groups/sgnw" },
+                { title: "GitHub", icon: "github", key: "github", link: "https://github.com/StudentGamingNetwork/website" }
             ],
             partners: [
                 { title: "ESpot Paris", key: "espot-paris", link: "https://espot.fr/" },

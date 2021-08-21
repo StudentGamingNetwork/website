@@ -31,7 +31,12 @@
                     v-if="team"
                     v-html="markdownProcess(team)"
                 />
-                <li><strong>{{ teamNumberText }}</strong> inscrite{{ tournament.game.team.subscribed > 1 ? 's' : '' }}</li>
+                <li>
+                    <strong>{{ teamNumberText }}</strong> inscrite{{ tournament.game.team.subscribed > 1 ? 's' : '' }}
+                    <template v-if="tournament.game.team.maxTeams > 0">
+                        (<strong>{{ tournament.game.team.maxTeams }} places</strong>)
+                    </template>
+                </li>
                 <li v-if="tournament.informations?.rulesUrl">
                     <a
                         :href="tournament.informations.rulesUrl"
