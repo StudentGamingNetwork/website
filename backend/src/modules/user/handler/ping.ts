@@ -22,7 +22,9 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
 
             if (user.association) {
-                await user.populate("association").execPopulate();
+                await user
+                    .populate("association")
+                    .execPopulate();
             }
 
             const responseUser = user.toObject();

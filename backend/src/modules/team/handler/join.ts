@@ -50,7 +50,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             const team = await TeamModel.findOne({
-                "settings.invitationCode": request.body.invitationCode.toUpperCase(),
+                "settings.invitationCode": request.body.invitationCode.trim().toUpperCase(),
                 tournament: tournament._id
             });
 

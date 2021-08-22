@@ -53,7 +53,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import * as AdminService from "@/services/admin";
 import SInput from "@/components/design/forms/Input.vue";
-import SCard from "@/components/design/Card.vue";
 import SAdminUserCard from "@/components/pages/admin/panels/UserCard.vue";
 
 type TAdminUser = {
@@ -78,7 +77,7 @@ type TAdminUser = {
 
 export default defineComponent({
     name: "SAdminPanelUsers",
-    components: { FontAwesomeIcon, SAdminUserCard, SCard, SInput },
+    components: { FontAwesomeIcon, SAdminUserCard, SInput },
     setup() {
         const searchInput = ref("");
         const isSearching = ref(true);

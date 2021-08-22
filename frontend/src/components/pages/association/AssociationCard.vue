@@ -211,10 +211,13 @@ export default defineComponent({
             font-weight: 600;
 
             &::before {
-                content: "["
+                content: "[";
+                color: var(--color-content-softer);
             }
+
             &::after {
-                content: "]"
+                content: "]";
+                color: var(--color-content-softer);
             }
         }
     }

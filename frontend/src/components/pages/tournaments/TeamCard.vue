@@ -161,13 +161,6 @@
             </div>
             <div class="members">
                 <table class="members-table">
-                    <tr>
-                        <th />
-                        <th>Joueur</th>
-                        <th>Étudiant</th>
-                        <th>Contact</th>
-                        <th>Statut</th>
-                    </tr>
                     <tr
                         v-for="(member, memberIndex) of team.members"
                         :key="member.user._id"
@@ -187,7 +180,17 @@
                             </div>
                         </td>
                         <td>
-                            {{ member.user.username }} <span class="info">(IG : {{ member.username }})</span>
+                            <router-link
+                                v-if="member.user.association?.tag"
+                                class="tag"
+                                :to="'/association/' + (member.user.association.settings?.slug || member.user.association._id)"
+                            >
+                                <span class="gradient">{{ member.user.association.tag }}</span>
+                            </router-link>
+                            {{ member.user.username }}
+                            <span class="info">
+                                (<span :class="{error: !member.username}">{{ member.username || "ID manquant" }}</span>)
+                            </span>
                             <div
                                 v-if="isOwner && member.user._id !== team.owner"
                                 class="kick"
@@ -197,24 +200,32 @@
                             </div>
                         </td>
                         <td>
-                            {{ member.user.student.name }} <span class="info">({{
-                                member.user.association?.school.name || member.user.student.schoolName
-                            }})</span>
+                            {{ member.user.student.name }}
+                            <span class="info">(<span :class="{error: !(member.user.association || member.user.student.schoolName)}">{{
+                                member.user.association?.school.name || member.user.student.schoolName || "École manquante"
+                            }}</span>)</span>
                         </td>
                         <td>
                             <div class="contact">
-                                <SCopier
-                                    v-if="member.user.platforms.discord"
-                                    class="button"
-                                    :content="member.user.platforms.discord"
+                                <span
+                                    class="certificate"
+                                    :class="{error: member.user.student.status !== 'validated'}"
+                                    title="Certificat étudiant"
                                 >
-                                    <FontAwesomeIcon :icon="['fab', 'discord']" />
-                                </SCopier>
+                                    <FontAwesomeIcon :icon="['fas', 'id-card']" />
+                                </span>
                                 <SCopier
                                     class="button"
                                     :content="member.user.mail"
                                 >
                                     <FontAwesomeIcon :icon="['fas', 'envelope']" />
+                                </SCopier>
+                                <SCopier
+                                    class="button"
+                                    :class="{error: !member.user.platforms.discord}"
+                                    :content="member.user.platforms.discord"
+                                >
+                                    <FontAwesomeIcon :icon="['fab', 'discord']" />
                                 </SCopier>
                             </div>
                         </td>
@@ -470,6 +481,16 @@ export default defineComponent({
         "actions actions"
         "members members";
 
+        @media (max-width: 999px) {
+            grid-template-columns: 1fr;
+            grid-template-areas:
+            "title"
+            "settings"
+            "checklist"
+            "actions"
+            "members";
+        }
+
         .settings {
             grid-area: settings;
         }
@@ -483,6 +504,12 @@ export default defineComponent({
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
+            gap: var(--length-gap-m);
+
+            @media (max-width: 999px) {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
 
         .members {
@@ -536,14 +563,23 @@ export default defineComponent({
 
         .members-table {
             width: 100%;
+            border-collapse: collapse;
 
-            th {
-                text-align: left;
-                font-weight: 600;
-                text-transform: uppercase;
-                font-size: 0.8rem;
-                color: var(--color-content-softer);
-                padding: var(--length-padding-s) 0;
+            td:first-child {
+                border-top-left-radius: var(--lenght-radius-base);
+                border-bottom-left-radius: var(--lenght-radius-base);
+                padding-left: var(--length-padding-s);
+            }
+
+            td:last-child {
+                border-top-right-radius: var(--lenght-radius-base);
+                border-bottom-right-radius: var(--lenght-radius-base);
+                padding-right: var(--length-padding-s);
+            }
+
+            tr:hover td{
+                overflow: hidden;
+                background: var(--color-background-2);
             }
 
             .info {
@@ -562,6 +598,14 @@ export default defineComponent({
 
                     &:hover {
                         color: var(--color-content-lite);
+                    }
+                }
+
+                .certificate {
+                    color: var(--color-content-litest);
+
+                    &.error {
+                        color: var(--color-error-lite);
                     }
                 }
             }
@@ -589,50 +633,81 @@ export default defineComponent({
                     width: 10%;
                 }
             }
-        }
 
-        .avatar {
-            grid-area: avatar;
-            height: 48px;
-            width: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: var(--length-margin-s);
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
+            .error {
+                color: var(--color-error-content);
             }
 
-            .icon {
-                width: 24px;
-                height: 24px;
-                color: var(--color-content-litest);
+            .avatar {
+                grid-area: avatar;
+                height: 48px;
+                width: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                overflow: hidden;
+                margin-right: var(--length-margin-s);
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+
+                .icon {
+                    width: 24px;
+                    height: 24px;
+                    color: var(--color-content-litest);
+                }
             }
-        }
 
-        .kick {
-            font-size: 0.7rem;
-            border-radius: var(--lenght-radius-base);
-            padding: 0 var(--length-padding-xxs);
-            display: inline-block;
-            cursor: pointer;
-            margin-left: var(--length-margin-s);
+            .kick {
+                font-size: 0.7rem;
+                border-radius: var(--lenght-radius-base);
+                padding: 0 var(--length-padding-xxs);
+                display: inline-block;
+                cursor: pointer;
+                margin-left: var(--length-margin-s);
 
-            background: var(--color-error-background);
-            color: var(--color-error-content);
-            border: 1px solid var(--color-error);
+                background: var(--color-error-background);
+                color: var(--color-error-content);
+                border: 1px solid var(--color-error);
 
-            opacity: 0.75;
+                opacity: 0.75;
 
-            &:hover {
-                opacity: 1;
+                &:hover {
+                    opacity: 1;
+                }
             }
 
+            .tag {
+                font-weight: 600;
+                text-decoration: none;
+
+                &:hover .gradient{
+                    padding: 0 var(--length-padding-xxs);
+                }
+
+                .gradient {
+                    background: var(--gradient);
+                    display: inline-block;
+                    color: transparent;
+                    -webkit-background-clip: text;
+                    text-shadow: 0 0 8px var(--color-primary-lite);
+                    transition: padding var(--duration-fast);
+                }
+
+                &::before {
+                    content: "[";
+                    color: var(--color-content-softer);
+                }
+
+                &::after {
+                    content: "]";
+                    color: var(--color-content-softer);
+                }
+            }
         }
     }
 }

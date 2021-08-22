@@ -16,8 +16,12 @@ export type TUser = {
 
 export type TCompleteUser = TUser & {
     association: {
+        _id: string;
         school: {
             name: string;
+        };
+        settings: {
+            slug: string;
         };
         tag: string;
     };

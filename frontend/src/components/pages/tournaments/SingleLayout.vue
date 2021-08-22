@@ -23,6 +23,7 @@
             :saved-tournament="savedTournament"
             @update="updateTournament"
         />
+        <STournamentManagement v-if="tournamentsPage === 'management'" />
     </div>
 </template>
 
@@ -37,10 +38,11 @@ import STeamCard from "@/components/pages/tournaments/TeamCard.vue";
 import SLoading from "@/components/design/Loading.vue";
 import SSelector from "@/components/design/Selector.vue";
 import STournamentAdminPanel from "@/components/pages/tournaments/AdminPanel.vue";
+import STournamentManagement from "@/components/pages/tournaments/Management.vue";
 
 export default defineComponent({
     name: "STournamentsSingleLayout",
-    components: { SLoading, SSelector, STeamCard, STournament, STournamentAdminPanel },
+    components: { SLoading, SSelector, STeamCard, STournament, STournamentAdminPanel, STournamentManagement },
     async setup() {
         const router = useRouter();
         const userStore = User.useStore();

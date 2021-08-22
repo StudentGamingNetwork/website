@@ -20,15 +20,16 @@
             >
                 Créer un nouveau tournoi
             </SButton>
-            <STournament
-                v-for="tournament of tournaments"
-                v-if="tournaments.length"
-                :key="tournament._id"
-                class="tournament-card"
-                :class="{private: !tournament.state?.public}"
-                :tournament="tournament"
-                @click="openTournament(tournament)"
-            />
+            <template v-if="tournaments.length">
+                <STournament
+                    v-for="tournament of tournaments"
+                    :key="tournament._id"
+                    class="tournament-card"
+                    :class="{private: !tournament.state?.public}"
+                    :tournament="tournament"
+                    @click="openTournament(tournament)"
+                />
+            </template>
             <div
                 v-else
                 class="empty"

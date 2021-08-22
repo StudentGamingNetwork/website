@@ -36,7 +36,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const newAssociation = await AssociationLib.getAssociationFromSlug(request.body.slug);
 
-            if (newAssociation.settings.invitationCode !== request.body.invitationCode.toUpperCase()) {
+            if (newAssociation.settings.invitationCode !== request.body.invitationCode.trim().toUpperCase()) {
                 throw new httpErrors.Forbidden("Le code d'invitation n'est pas valide.");
             }
 

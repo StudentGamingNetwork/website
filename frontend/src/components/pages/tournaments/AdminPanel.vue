@@ -301,6 +301,16 @@ export default defineComponent({
         "tournament dates"
         "save save";
 
+    @media (max-width: 999px) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "title"
+            "tournament"
+            "game"
+            "dates"
+            "save";
+    }
+
     .title {
         grid-area: title;
     }

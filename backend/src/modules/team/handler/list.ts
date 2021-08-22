@@ -4,6 +4,7 @@ import * as UserLib from "@/modules/user/lib";
 import { TypeCompleteTeam } from "@/modules/team/type";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
+import { ERoles } from "@/modules/user/model";
 
 const SchemaParams = Type.Object({
     slug: Type.String()
@@ -11,7 +12,7 @@ const SchemaParams = Type.Object({
 
 type TSchemaParams = Static<typeof SchemaParams>;
 
-const SchemaResponse = Type.Partial(TypeCompleteTeam);
+const SchemaResponse = Type.Array(Type.Partial(TypeCompleteTeam));
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
 
@@ -25,15 +26,15 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.get<{ Params: TSchemaParams; Response: TSchemaResponse }>(
-        "/get/:slug",
+        "/list/:slug",
         { schema },
         async (request, reply) => {
+            const user = await UserLib.getUser(request);
+            UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
+
             const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
 
-            const user = await UserLib.getUser(request);
-
-            const team = await TeamModel.findOne({
-                "members.user": user._id,
+            const teams = await TeamModel.find({
                 tournament: tournament._id
             })
                 .populate({
@@ -44,12 +45,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 })
                 .exec();
 
-            if (!team) {
-                reply.send({});
-                return;
-            }
-
-            reply.send(team);
+            reply.send(teams);
         }
     );
 }
