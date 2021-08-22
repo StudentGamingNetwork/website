@@ -65,7 +65,7 @@ async function generatePage(url: string): Promise<string> {
     <meta property="og:image" content="${ pageInformations.image }"/>
     <meta property="og:image:width" content="1200"/>
     <meta property="og:image:height" content="600"/>
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@Student_GN">`;
 
     return pageTemplate
