@@ -122,8 +122,8 @@ export default defineComponent({
 
             const date = new Date(props.tournament.dates.subscriptionClose);
 
-            const days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
-            const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+            const days = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+            const months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
             return `${ days[date.getDay()] } ${ date.getDate() } ${ months[date.getMonth()] }`;
         });

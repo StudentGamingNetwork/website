@@ -3,7 +3,8 @@
         :background="BackgroundPartners"
         title="Partenaires"
     >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
+        Nous échangeons notre expertise pour l'organisation d'événements esportifs et la promotion auprès des étudiants avec de nombreuses entités.
+        Nous sommes heureux de compter sur leur soutien et leurs compétences.
     </SPageHead>
     <SBaseLayout>
         <div class="partners-layout">

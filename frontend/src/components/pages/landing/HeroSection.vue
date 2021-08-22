@@ -14,7 +14,10 @@
             >
                 Rejoignez-nous
             </SButton>
-            <SButton outlined>
+            <SButton
+                outlined
+                @click="contact"
+            >
                 Contactez-nous
             </SButton>
         </div>
@@ -35,8 +38,13 @@ export default defineComponent({
     setup() {
         const stateStore = State.useStore();
 
+        function contact() {
+            window.open("mailto:contact@sgnw.fr");
+        }
+
         return {
             backgroundImage: `url(${ heroBackground })`,
+            contact,
             stateStore
         };
     }
