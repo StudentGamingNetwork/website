@@ -10,35 +10,17 @@
         <div class="partners-layout">
             <div class="partners-list">
                 <SPartner
-                    :logo="LogoESpotParis"
-                    title="ESpot Paris"
-                >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
-                </SPartner>
-                <SPartner
-                    :logo="LogoMaxnomic"
-                    mirrored
-                    title="Maxnomic"
-                >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
-                </SPartner>
-                <SPartner
-                    :logo="LogoHyperX"
-                    title="HyperX"
-                >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
-                </SPartner>
-                <SPartner
-                    :logo="LogoGamesAndRules"
-                    mirrored
-                    title="gameAndRules"
-                >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget feugiat sem. Sed commodo dolor vel semper semper. Donec pretium massa at enim tincidunt laoreet.
-                </SPartner>
+                    v-for="(partner, index) in partners"
+                    :key="partner._id"
+                    :mirrored="index % 2"
+                    :model-value="partner"
+                    @update="updatePartners"
+                />
             </div>
             <SButton
                 v-if="userStore.hasPartnersRight"
                 outlined
+                @click="addPartner"
             >
                 Ajouter un nouveau partenaire
             </SButton>
@@ -47,30 +29,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import SPartner from "@/components/pages/partners/Partner.vue";
 import BackgroundPartners from "@/assets/images/backgrounds/partners.png";
-import LogoHyperX from "@/assets/images/partners/hyperx.svg";
-import LogoESpotParis from "@/assets/images/partners/espot.png";
-import LogoMaxnomic from "@/assets/images/partners/maxnomic.png";
-import LogoGamesAndRules from "@/assets/images/partners/gamesandrules.png";
 import SPageHead from "@/components/template/PageHead.vue";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
 import SButton from "@/components/design/forms/Button.vue";
-import { User } from "@/modules";
+import { Partner, Toast, User } from "@/modules";
+import * as PartnerService from "@/services/partner";
 
 export default defineComponent({
     name: "SPartnersLayout",
     components: { SBaseLayout, SButton, SPageHead, SPartner },
-    setup() {
+    async setup() {
         const userStore = User.useStore();
+        const partners = ref<Array<Partner.TPartner>>([]);
+
+        await updatePartners();
+
+        async function updatePartners() {
+            partners.value = await PartnerService.list();
+        }
+
+        async function addPartner() {
+            const response = await Toast.testRequest(async () => {
+                return await PartnerService.create();
+            });
+
+            if (response?.success) {
+                await updatePartners();
+            }
+        }
 
         return {
+            addPartner,
             BackgroundPartners,
-            LogoESpotParis,
-            LogoGamesAndRules,
-            LogoHyperX,
-            LogoMaxnomic,
+            partners,
+            updatePartners,
             userStore
         };
     }

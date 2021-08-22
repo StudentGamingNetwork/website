@@ -27,7 +27,13 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             await PartnerModel.create({
                 name: "Nouveau partenaire",
-                networks: {},
+                description: "",
+                logo: "",
+                networks: {
+                    facebook: "",
+                    twitter: "",
+                    website: ""
+                },
                 public: false
             });
 

@@ -43,6 +43,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             partner.networks.facebook = request.body.networks?.facebook || "";
             partner.networks.twitter = request.body.networks?.twitter || "";
             partner.networks.website = request.body.networks?.website || "";
+            partner.public = request.body.public;
 
             await partner.save();
 

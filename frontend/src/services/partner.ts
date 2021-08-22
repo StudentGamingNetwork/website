@@ -10,8 +10,8 @@ export function getLogoUrl(partner: { id: string; logo: string }): string {
     return `${ Config.backendUrl }/upload/partner/${ partner.id }/${ partner.logo }`;
 }
 
-export async function update(partner: Record<string, any>, id: string): Promise<any> {
-    const result = await ApiService.post(`/partner/update/${ id }`, partner);
+export async function update(partner: Record<string, any>): Promise<any> {
+    const result = await ApiService.post(`/partner/update`, partner);
     return result.data;
 }
 
