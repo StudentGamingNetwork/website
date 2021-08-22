@@ -1,0 +1,73 @@
+import { FastifyInstance } from "fastify";
+import { Static, Type } from "@sinclair/typebox";
+import httpErrors from "http-errors";
+import * as UploadLib from "../lib";
+import * as UserLib from "@/modules/user/lib";
+import { ERoles } from "@/modules/user/model";
+import PartnerModel from "@/modules/partner/model";
+
+const SchemaParams = Type.Object({
+    id: Type.String({ minLength: 1 })
+});
+
+type TSchemaParams = Static<typeof SchemaParams>;
+
+const SchemaResponse = Type.Object({
+    logo: Type.String(),
+    message: Type.String(),
+    success: Type.Boolean()
+});
+
+type TSchemaResponse = Static<typeof SchemaResponse>;
+
+const schema = {
+    params: SchemaParams,
+    response: {
+        200: SchemaResponse
+    }
+};
+
+export async function register(server: FastifyInstance): Promise<void> {
+    server.post<{ Params: TSchemaParams; Response: TSchemaResponse }>(
+        "/upload/logo/:id",
+        { schema },
+        async (request, reply) => {
+            const user = await UserLib.getUser(request);
+            UserLib.assertRoles(user, [ERoles.Member, ERoles.Partnership]);
+
+            const partner = await PartnerModel.findById(request.params.id);
+
+            if (!partner) {
+                throw new httpErrors.NotFound("Aucun partenaire trouvé.");
+            }
+
+            const files = await request.saveRequestFiles({
+                limits: {
+                    files: 1,
+                    fileSize: 8 * 1024 * 1024
+                }
+            });
+
+            const fileName = `${ UploadLib.generateName("logo") }.webp`;
+
+            await UploadLib.processImage(files[0], {
+                fileName,
+                path: `upload/partner/${ partner.id }`,
+                size: 512
+            });
+
+            if (partner.logo) {
+                UploadLib.deleteFile(`upload/partner/${ partner.id }/${ partner.logo }`);
+            }
+
+            partner.logo = fileName;
+            await partner.save();
+
+            reply.send({
+                logo: partner.logo,
+                message: "Votre logo a correctement été uploadé.",
+                success: true
+            });
+        }
+    );
+}

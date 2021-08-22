@@ -73,7 +73,6 @@ async function generatePage(url: string): Promise<string> {
         .replace("<!--{ssr-head}-->", head);
 }
 
-
 async function fillTournamentData(pageInformations: {title: string; description: string; image: string}, slug: string) {
     const tournament = await TournamentLib.getTournamentFromSlug(slug);
 
@@ -94,7 +93,6 @@ async function fillTournamentData(pageInformations: {title: string; description:
         pageInformations.image = `${ origin }/upload/tournament/${ tournament.id }/${ tournament.settings.logo }`;
     }
 }
-
 
 async function fillAssociationData(pageInformations: {title: string; description: string; image: string}, slug: string) {
     const association = await AssociationLib.getAssociationFromSlug(slug);

@@ -5,6 +5,7 @@
     >
         <img
             :alt="title"
+            class="logo"
             :src="logo"
         >
         <div class="description">
@@ -17,13 +18,7 @@
                     class="edit"
                     :icon="['fas', 'edit']"
                     title="Modifier"
-                />
-                <FontAwesomeIcon
-                    v-if="userStore.hasPartnersRight"
-                    class="edit"
-                    :icon="['fas', 'times']"
-                    title="Supprimer"
-                    @click="deletePartner"
+                    @click="editPartner"
                 />
             </div>
             <p>
@@ -47,18 +42,57 @@
                 />
             </div>
         </div>
+        <SCard
+            v-if="isEditing"
+            class="edit-card"
+        >
+            <div class="head">
+                <SAvatarPicker
+                    title="Logo"
+                    :url="logo"
+                />
+                <SInput title="Nom du partenaire" />
+                <SButton
+                    outlined
+                >
+                    Rendre public
+                </SButton>
+                <SButton
+                    danger
+                    outlined
+                >
+                    Supprimer
+                </SButton>
+            </div>
+            <STextarea
+                class="textarea"
+                title="Description"
+            />
+            <SButton
+                class="button"
+                disabled
+                primary
+            >
+                Sauvegarder
+            </SButton>
+        </SCard>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
 import { User } from "@/modules";
+import SCard from "@/components/design/Card.vue";
+import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
+import SInput from "@/components/design/forms/Input.vue";
+import STextarea from "@/components/design/forms/Textarea.vue";
+import SButton from "@/components/design/forms/Button.vue";
 
 export default defineComponent({
     name: "SPartner",
-    components: { FontAwesomeIcon, SSectionTitle },
+    components: { FontAwesomeIcon, SAvatarPicker, SButton, SCard, SInput, SSectionTitle, STextarea },
     props: {
         title: {
             required: true,
@@ -75,15 +109,22 @@ export default defineComponent({
     },
     setup(props) {
         const userStore = User.useStore();
+        const isEditing = ref(false);
 
-        const deletePartner = () => {
+        function deletePartner() {
             if (confirm(`Voulez-vous vraiment supprimer le partenaire "${ props.title }" ?`)) {
 
             }
-        };
+        }
+
+        function editPartner() {
+            isEditing.value = true;
+        }
 
         return {
             deletePartner,
+            editPartner,
+            isEditing,
             userStore
         };
     }
@@ -92,8 +133,13 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .partner {
-    display: flex;
-    gap: 96px;
+    display: grid;
+    column-gap: 96px;
+    row-gap: var(--length-gap-m);
+    grid-template-columns: 256px 1fr;
+    grid-template-areas:
+        "logo description"
+        "edit edit";
 
     @media (max-width: 1099px) {
         flex-direction: column;
@@ -102,17 +148,21 @@ export default defineComponent({
     }
 
     &.mirrored {
-        flex-direction: row-reverse;
+        grid-template-columns: 1fr 256px;
+        grid-template-areas:
+        "description logo"
+        "edit edit";
 
         @media (max-width: 1099px) {
             flex-direction: column;
         }
     }
 
-    img {
+    .logo {
         height: 128px;
         width: 256px;
         object-fit: contain;
+        grid-area: logo;
 
         @media (max-width: 1099px) {
             height: 64px;
@@ -134,6 +184,29 @@ export default defineComponent({
             &:hover {
                 opacity: 1;
             }
+        }
+    }
+
+    .description {
+        grid-area: description;
+    }
+
+    .edit-card {
+        grid-area: edit;
+        padding: var(--length-padding-m);
+        display: flex;
+        flex-direction: column;
+        gap: var(--length-gap-m);
+        align-items: flex-start;
+
+        .head {
+            display: flex;
+            gap: var(--length-gap-m);
+            align-items: flex-end;
+        }
+
+        .textarea {
+            width: 100%;
         }
     }
 

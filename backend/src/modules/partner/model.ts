@@ -3,12 +3,13 @@ import Mongo from "@/database";
 export interface IPartner {
     name: string;
     description: string;
-    links: {
+    logo: string;
+    networks: {
         facebook: string;
         twitter: string;
         website: string;
     };
-    logo: string;
+    public: boolean;
 }
 
 export interface IPartnerDocument extends IPartner, Mongo.Document {
@@ -23,7 +24,10 @@ const partnerSchema: Mongo.Schema = new Mongo.Schema({
     description: {
         type: String
     },
-    links: {
+    logo: {
+        type: String
+    },
+    networks: {
         facebook: {
             type: String
         },
@@ -34,9 +38,7 @@ const partnerSchema: Mongo.Schema = new Mongo.Schema({
             type: String
         }
     },
-    logo: {
-        type: String
-    }
+    public: Boolean
 });
 
 export default Mongo.model<IPartnerDocument>("partner", partnerSchema);
