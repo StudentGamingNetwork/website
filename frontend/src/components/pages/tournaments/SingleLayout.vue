@@ -58,7 +58,6 @@ export default defineComponent({
 
         onMounted(() => {
             const page = router.currentRoute.value.params.page as string;
-
             if (["team", "admin", "management"].includes(page)) {
                 tournamentsPage.value = page;
             }
@@ -93,13 +92,16 @@ export default defineComponent({
                     `${ subscriptionClose.getDate().toString().padStart(2, "0") }`;
             }
 
+
+            const page = router.currentRoute.value.params.page || "" as string;
+
             if (tournamentApi.settings?.slug) {
                 if (tournamentApi.settings?.slug !== slug.value) {
-                    await router.push(`/tournament/${ tournamentApi.settings?.slug }`);
+                    await router.push(`/tournament/${ tournamentApi.settings?.slug }/${ page }`);
                 }
             }
             else {
-                await router.push(`/tournament/${ tournamentApi._id }`);
+                await router.push(`/tournament/${ tournamentApi._id }/${ page }`);
             }
 
             assign(savedTournament, Tournament.makeObject(tournamentApi));

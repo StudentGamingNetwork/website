@@ -28,7 +28,7 @@ export const useStore = defineStore({
             return true;
         },
         async init() {
-            if (!document.cookie) {
+            if (!document.cookie?.includes("userId=")) {
                 return;
             }
 

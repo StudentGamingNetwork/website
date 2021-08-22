@@ -90,7 +90,6 @@ export default defineComponent({
             if (tournament.settings?.slug) {
                 slug = tournament.settings.slug;
             }
-
             router.push(`/tournament/${ slug }`);
         }
 
@@ -104,7 +103,7 @@ export default defineComponent({
             });
 
             if (response?.success) {
-                await router.push(`/tournament/${ response.id }`);
+                await router.push(`/tournament/${ response.id }/admin`);
             }
         }
 

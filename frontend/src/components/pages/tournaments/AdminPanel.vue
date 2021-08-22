@@ -264,7 +264,7 @@ export default defineComponent({
             }
 
             const response = await Toast.testRequest(async () => {
-                return await TournamentService.remove(internalTournament._id);
+                return await TournamentService.remove(tournament._id);
             });
 
             if (response?.success) {
