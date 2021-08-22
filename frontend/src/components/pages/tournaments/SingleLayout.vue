@@ -19,9 +19,10 @@
         </Suspense>
         <STournamentAdminPanel
             v-if="tournamentsPage === 'admin'"
-            v-model="tournament"
+            :model-value="tournament"
             :saved-tournament="savedTournament"
             @update="updateTournament"
+            @update:model-value="updateLocalTournament($event)"
         />
         <STournamentManagement v-if="tournamentsPage === 'management'" />
     </div>
@@ -75,6 +76,9 @@ export default defineComponent({
         const tournament = reactive<Tournament.TTournament>(cloneDeep(savedTournament));
         await updateTournament();
 
+        function updateLocalTournament(localTournament) {
+            assign(tournament, localTournament);
+        }
 
         async function updateTournament() {
             const tournamentApi = await Toast.testRequest(async () => {
@@ -113,6 +117,7 @@ export default defineComponent({
             tournament,
             tournamentsPage,
             tournamentsPages,
+            updateLocalTournament,
             updateTournament,
             userStore
         };
