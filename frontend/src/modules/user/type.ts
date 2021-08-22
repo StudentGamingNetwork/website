@@ -1,3 +1,5 @@
+import { ERoles } from "@/services/user";
+
 export type TUser = {
     _id: string;
     avatar: string;
@@ -25,4 +27,5 @@ export type TCompleteUser = TUser & {
         };
         tag: string;
     };
+    roles: Array<ERoles>;
 }

@@ -81,7 +81,7 @@
             <SSmallDropdown
                 :model-value="association.federation.region"
                 :options="regionNames"
-                @update:modelValue="updateAssociation({association, region: $event})"
+                @update:modelValue="updateAssociation({ region: $event })"
             />
         </div>
         <div class="owner">

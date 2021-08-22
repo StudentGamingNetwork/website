@@ -29,9 +29,20 @@
                     v-for="role in user.roles"
                     :key="role"
                 >
-                    {{ role }}
+                    {{ roles[role] }}
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fas', 'times']"
+                        @click="userUpdate({_id: user._id, role: {name: role, modification: 'remove'}})"
+                    />
                 </li>
             </ul>
+            <SSmallDropdown
+                class="dropdown"
+                model-value="none"
+                :options="roles"
+                @update:modelValue="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
+            />
         </div>
         <div class="informations">
             <ul>
@@ -102,17 +113,22 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import * as UserService from "@/services/user";
 import { TCompleteUser } from "@/modules/user";
+import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
+import * as AdminService from "@/services/admin";
+import { ERoles } from "@/services/user";
+import { Toast } from "@/modules";
 
 export default defineComponent({
     name: "SAdminUserCard",
-    components: { FontAwesomeIcon, SCard },
+    components: { FontAwesomeIcon, SCard, SSmallDropdown },
     props: {
         user: {
             required: true,
             type: Object as PropType<TCompleteUser>
         }
     },
-    setup(props) {
+    emits: ["update"],
+    setup(props, context) {
         const certificateType = computed(() => {
             const certificate = props.user.student.certificate;
 
@@ -133,8 +149,6 @@ export default defineComponent({
 
         const studentStatus = computed(() => {
             switch (props.user.student.status) {
-            case "undefined":
-                return "Aucun certificat";
             case "processing":
                 return "En cours de validation";
             case "validated":
@@ -142,17 +156,45 @@ export default defineComponent({
             case "rejected":
                 return "Rejeté";
             }
+            return "Aucun certificat";
         });
 
         const avatarUrl = computed(() => {
             return UserService.getAvatarUrl({ id: props.user._id, avatar: props.user.avatar });
         });
 
+        const roles = {
+            none: "Ajouter un role",
+            admin: "Admin",
+            council: "Conseil",
+            federation: "Fédération",
+            member: "Membre",
+            office: "Bureau",
+            partnership: "Partenariat",
+            tournament: "Tournoi"
+        };
+
+        async function userUpdate(update: {_id: string; role: {name: ERoles; modification: "add" | "remove"}}) {
+            if (update.role.name === "none") {
+                return;
+            }
+
+            const response = await Toast.testRequest(async () => {
+                return await AdminService.userUpdate(update);
+            });
+
+            if (response?.success) {
+                await context.emit("update");
+            }
+        }
+
         return {
             avatarUrl,
             certificateType,
             certificateUrl,
-            studentStatus
+            roles,
+            studentStatus,
+            userUpdate
         };
     }
 });
@@ -204,6 +246,12 @@ export default defineComponent({
     .roles {
         font-size: 0.7rem;
         padding: var(--length-padding-xs);
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: var(--length-gap-s);
+        grid-area: roles;
+        flex-wrap: wrap;
 
         ul {
             display: flex;
@@ -218,9 +266,23 @@ export default defineComponent({
                 color: var(--color-info-content);
                 border: 1px solid var(--color-info);
                 border-radius: var(--lenght-radius-base);
-                padding: 0 var(--length-padding-xxs);
-                text-transform: capitalize;
+                padding: 0 var(--length-padding-xs);
+                display: flex;
+                align-items: center;
+                gap: var(--length-gap-xs);
+
+                .icon {
+                    cursor: pointer;
+
+                    &:hover {
+                        color: var(--color-content);
+                    }
+                }
             }
+        }
+
+        .dropdown {
+            color: var(--color-content-softer);
         }
     }
 

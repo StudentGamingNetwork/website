@@ -42,6 +42,7 @@
                 :key="user._id"
                 class="user"
                 :user="user"
+                @update="updateSearch"
             />
         </transition-group>
     </div>
@@ -111,6 +112,7 @@ export default defineComponent({
         return {
             isSearching,
             searchInput,
+            updateSearch,
             users
         };
     }
