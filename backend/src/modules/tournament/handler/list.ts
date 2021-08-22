@@ -37,11 +37,18 @@ export async function register(server: FastifyInstance): Promise<void> {
             const type = request.params.type;
             const findParameters = {} as Record<string, any>;
 
-            const user = await UserLib.getUser(request);
-            const hasTournamentRight = UserLib.hasRoles(user, [ERoles.Member, ERoles.Tournament]);
+            try {
+                const user = await UserLib.getUser(request);
+                const hasTournamentRight = UserLib.hasRoles(user, [ERoles.Member, ERoles.Tournament]);
 
-            if (!hasTournamentRight) {
-                findParameters["state.public"] = true;
+                if (!hasTournamentRight) {
+                    findParameters["state.public"] = true;
+                }
+            }
+            catch (error) {
+                if (error.status !== 401) {
+                    throw error;
+                }
             }
 
             switch (type) {

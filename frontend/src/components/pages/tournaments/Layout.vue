@@ -14,7 +14,7 @@
                 :options="tournamentsTypes"
             />
             <SButton
-                v-if="userStore.hasTournamentRight"
+                v-if="userStore?.hasTournamentRight"
                 outlined
                 @click="create"
             >
