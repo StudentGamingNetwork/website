@@ -46,9 +46,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 }
             }
             catch (error) {
-                if (error.status !== 401) {
-                    throw error;
-                }
+                findParameters["state.public"] = true;
             }
 
             switch (type) {
