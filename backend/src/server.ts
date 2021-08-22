@@ -8,6 +8,7 @@ import APIHandler from "@/api";
 import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
 import PageHandler from "@/page";
+//import NotFoundHandler from "@/notFound";
 
 async function init() {
     const isDevelopment = (process.env.NODE_ENV === "development");
@@ -27,6 +28,7 @@ async function init() {
     await server.register(StaticHandler, { prefix: "/static" });
     await server.register(UploadHandler, { prefix: "/upload" });
     await server.register(PageHandler);
+    //await server.register(NotFoundHandler);
 
     return server;
 }

@@ -9,12 +9,18 @@ const origin = process.env.CORS_ORIGIN;
 
 export default async function (server: Fastify.FastifyInstance): Promise<void> {
     server.get("*", async (request, reply) => {
-        const page = await generatePage(request.url);
 
-        reply
-            .type("text/html")
-            .send(page);
+        try {
+            const page = await generatePage(request.url);
 
+            reply
+                .type("text/html")
+                .send(page);
+
+        }
+        catch (error) {
+            reply.code(404).type("text/html").send(pageTemplate);
+        }
     });
 }
 
