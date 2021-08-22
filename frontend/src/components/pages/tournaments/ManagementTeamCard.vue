@@ -1,9 +1,42 @@
 <template>
     <SCard class="management-team-card">
-        <div class="name">
-            <span class="tag">
-                <span class="gradient">{{ team.settings.tag }}</span>
-            </span> {{ team.settings.name }}
+        <div class="team-head">
+            <div class="name">
+                <span class="tag">
+                    <span class="gradient">{{ team.settings.tag }}</span>
+                </span> {{ team.settings.name }}
+            </div>
+            <div class="status">
+                <div
+                    v-if="team.state.validated"
+                    class="chip validated"
+                    @click="updateTeam({_id: team._id, validated:!team.state.validated})"
+                >
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fas', 'check']"
+                    />
+                    Validée
+                </div>
+                <div
+                    v-else
+                    class="chip verification"
+                    @click="updateTeam({_id: team._id, validated:!team.state.validated})"
+                >
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fas', 'eye']"
+                    />
+                    Vérification
+                </div>
+                <div class="chip export">
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fas', 'upload']"
+                    />
+                    Exporter
+                </div>
+            </div>
         </div>
         <table class="members-table">
             <tr
@@ -46,7 +79,9 @@
                 </td>
                 <td>
                     {{ member.user.student.name }}
-                    <span class="info">(<span :class="{error: !(member.user.association || member.user.student.schoolName)}">{{
+                    <span class="info">(<span
+                        :class="{error: !(member.user.association || member.user.student.schoolName)}"
+                    >{{
                         member.user.association?.school.name || member.user.student.schoolName || "École manquante"
                     }}</span>)</span>
                 </td>
@@ -94,11 +129,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { Team, User } from "@/modules";
+import { Team, Toast, User } from "@/modules";
 import SCard from "@/components/design/Card.vue";
 import SValidator from "@/components/design/forms/Validator.vue";
 import SCopier from "@/components/design/forms/Copier.vue";
 import * as UserService from "@/services/user";
+import * as AdminService from "@/services/admin";
 
 export default defineComponent({
     name: "STournamentManagementTeamCard",
@@ -109,9 +145,8 @@ export default defineComponent({
             type: Object as PropType<Team.TTeam>
         }
     },
-    setup() {
-
-
+    emits: ["update"],
+    setup(props, context) {
         function isMemberReady(member: { user: User.TCompleteUser; username: string }): boolean {
             if (!member.username) {
                 return false;
@@ -136,9 +171,20 @@ export default defineComponent({
             return true;
         }
 
+        async function updateTeam(update: { _id: string; validated?: boolean }) {
+            const response = await Toast.testRequest(async () => {
+                return await AdminService.teamManage(update);
+            });
+
+            if (response?.success) {
+                context.emit("update");
+            }
+        }
+
         return {
             getUserAvatarUrl: UserService.getAvatarUrl,
-            isMemberReady
+            isMemberReady,
+            updateTeam
         };
     }
 });
@@ -150,6 +196,48 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     gap: var(--length-gap-m);
+
+    .team-head {
+        display: flex;
+        justify-content: space-between;
+
+        .status {
+            display: flex;
+            gap: var(--length-gap-m);
+            align-items: flex-start;
+        }
+
+        .chip {
+            font-size: 0.7rem;
+            border-radius: var(--lenght-radius-base);
+            padding: 0 var(--length-padding-xxs);
+            display: inline-block;
+            opacity: 0.75;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 1;
+            }
+
+            &.verification {
+                background: var(--color-warning-background);
+                color: var(--color-warning-content);
+                border: 1px solid var(--color-warning);
+            }
+
+            &.validated {
+                background: var(--color-success-background);
+                color: var(--color-success-content);
+                border: 1px solid var(--color-success);
+            }
+
+            &.export {
+                background: var(--color-info-background);
+                color: var(--color-info-content);
+                border: 1px solid var(--color-info);
+            }
+        }
+    }
 
     .name {
         font-size: 1.2rem;
@@ -219,10 +307,10 @@ export default defineComponent({
 
             .certificate {
                 color: var(--color-content-litest);
+            }
 
-                &.error {
-                    color: var(--color-error-lite);
-                }
+            .error {
+                color: var(--color-error-lite);
             }
         }
 
@@ -282,7 +370,7 @@ export default defineComponent({
             font-weight: 600;
             text-decoration: none;
 
-            &:hover .gradient{
+            &:hover .gradient {
                 padding: 0 var(--length-padding-xxs);
             }
 

@@ -311,11 +311,11 @@ export default defineComponent({
             border-radius: var(--lenght-radius-base);
             padding: 0 var(--length-padding-xxs);
             display: inline-block;
-            transition: padding-right var(--duration-fast);
+            opacity: 0.75;
 
             &:hover {
                 cursor: pointer;
-                padding-right: var(--length-padding-s);
+                opacity: 1;
             }
 
             &.verification {

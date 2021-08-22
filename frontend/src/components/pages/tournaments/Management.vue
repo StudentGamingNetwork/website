@@ -1,5 +1,9 @@
 <template>
     <div class="tournament-management">
+        <SSelector
+            v-model="managementPage"
+            :options="managementPages"
+        />
         <div
             v-if="isSearching"
             class="loading"
@@ -19,7 +23,7 @@
                 :icon="['fas','frown']"
             />
             <div class="description">
-                Aucun équipe inscrite...
+                Aucun équipe trouvée...
             </div>
         </div>
         <template v-else>
@@ -27,36 +31,70 @@
                 v-for="team of teams"
                 :key="team._id"
                 :team="team"
+                @update="updateSearch"
             />
         </template>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRouter } from "vue-router";
 import { Team } from "@/modules";
 import * as AdminService from "@/services/admin";
 import STournamentManagementTeamCard from "@/components/pages/tournaments/ManagementTeamCard.vue";
+import SSelector from "@/components/design/Selector.vue";
 
 export default defineComponent({
     name: "STournamentManagement",
-    components: { FontAwesomeIcon, STournamentManagementTeamCard },
+    components: { FontAwesomeIcon, SSelector, STournamentManagementTeamCard },
     setup() {
         const router = useRouter();
         const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
         const isSearching = ref(true);
         const teams = ref([] as Array<Team.TTeam>);
 
+        const managementPage = ref("forming");
+
+        const managementPages = [
+            { title: "En formation", key: "forming" },
+            { title: "Prêtes", key: "ready" },
+            { title: "Validées", key: "validated" }
+        ];
+
+        watch(
+            () => managementPage.value,
+            async () => {
+                if (managementPage.value !== router.currentRoute.value.params.management) {
+                    await router.push(`/tournament/${ tournamentSlug.value }/management/${ managementPage.value }`);
+
+                    await updateSearch();
+                }
+            });
+
         onMounted(async () => {
-            teams.value = await AdminService.teamList(tournamentSlug.value);
-            isSearching.value = false;
+            const page = router.currentRoute.value.params.management as string;
+
+            if (["forming", "complete", "validated"].includes(page)) {
+                managementPage.value = page;
+            }
+
+            await updateSearch();
         });
+
+        async function updateSearch() {
+            isSearching.value = true;
+            teams.value = await AdminService.teamList(tournamentSlug.value, managementPage.value);
+            isSearching.value = false;
+        }
 
         return {
             isSearching,
-            teams
+            managementPage,
+            managementPages,
+            teams,
+            updateSearch
         };
     }
 });
@@ -65,6 +103,9 @@ export default defineComponent({
 <style scoped lang="scss">
 .tournament-management {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--length-gap-l);
 
     .empty, .loading {
         display: flex;

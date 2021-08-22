@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "Tournoi"
         },
-        path: "/tournament/:slug/:page?"
+        path: "/tournament/:slug/:page?/:management?"
     },
     {
         name: "partners",

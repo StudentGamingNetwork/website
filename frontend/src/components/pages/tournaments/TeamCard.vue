@@ -326,7 +326,7 @@ export default defineComponent({
             }
 
             const response = await Toast.testRequest(async () => {
-                return await TeamService.update(team, team._id);
+                return await TeamService.update(team);
             });
 
             if (response?.success) {
@@ -420,7 +420,7 @@ export default defineComponent({
             team.members[memberIndex].kick = true;
 
             const response = await Toast.testRequest(async () => {
-                return await TeamService.update(team, team._id);
+                return await TeamService.update(team);
             });
 
             if (response?.success) {
@@ -603,10 +603,10 @@ export default defineComponent({
 
                 .certificate {
                     color: var(--color-content-litest);
+                }
 
-                    &.error {
-                        color: var(--color-error-lite);
-                    }
+                .error {
+                    color: var(--color-error-lite);
                 }
             }
 

@@ -5,6 +5,7 @@ import * as GetHandler from "./get";
 import * as JoinHandler from "./join";
 import * as DeleteHandler from "./delete";
 import * as ListHandler from "./list";
+import * as ManageHandler from "./manage";
 
 export default async function (server: FastifyInstance): Promise<void> {
     await CreateHandler.register(server);
@@ -13,4 +14,5 @@ export default async function (server: FastifyInstance): Promise<void> {
     await JoinHandler.register(server);
     await DeleteHandler.register(server);
     await ListHandler.register(server);
+    await ManageHandler.register(server);
 }

@@ -15,12 +15,18 @@ export async function associationSearch(query: { limit: number; search: string; 
     return result.data;
 }
 
-export async function teamList(tournamentSlug: string): Promise<any> {
-    const result = await ApiService.get(`/team/list/${ tournamentSlug }`);
+export async function associationUpdate(update: {_id: string; isValidated?: boolean; region?: string }): Promise<any> {
+    const result = await ApiService.post("/admin/association/update", update);
     return result.data;
 }
 
-export async function associationUpdate(update: {_id: string; isValidated?: boolean; region?: string }): Promise<any> {
-    const result = await ApiService.post("/admin/association/update", update);
+export async function teamList(tournamentSlug: string, management: string): Promise<any> {
+    const result = await ApiService.get(`/team/list/${ tournamentSlug }/${ management }`);
+    return result.data;
+}
+
+
+export async function teamManage(update: {_id: string; validated?: boolean }): Promise<any> {
+    const result = await ApiService.post("/team/manage", update);
     return result.data;
 }

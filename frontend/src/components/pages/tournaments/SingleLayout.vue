@@ -67,7 +67,9 @@ export default defineComponent({
         watch(
             () => tournamentsPage.value,
             async () => {
-                await router.push(`/tournament/${ slug.value }/${ tournamentsPage.value }`);
+                if (tournamentsPage.value !== router.currentRoute.value.params.page) {
+                    await router.push(`/tournament/${ slug.value }/${ tournamentsPage.value }`);
+                }
             });
 
         const savedTournament = reactive(Tournament.makeObject({}));

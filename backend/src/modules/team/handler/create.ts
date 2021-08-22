@@ -63,6 +63,10 @@ export async function register(server: FastifyInstance): Promise<void> {
                 settings: {
                     invitationCode: TeamLib.generateInvitationCode()
                 },
+                state: {
+                    ready: false,
+                    validated: false
+                },
                 tournament: tournament._id
             });
 

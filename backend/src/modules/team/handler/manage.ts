@@ -1,12 +1,15 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import { find, findIndex } from "lodash";
+import { isUndefined } from "lodash";
 import * as UserLib from "@/modules/user/lib";
-import { TypeCompleteTeam } from "@/modules/team/type";
 import TeamModel from "@/modules/team/model";
+import { ERoles } from "@/modules/user/model";
 
-const SchemaRequest = TypeCompleteTeam;
+const SchemaRequest = Type.Object({
+    _id: Type.String(),
+    validated: Type.Optional(Type.Boolean())
+});
 
 type TSchemaRequest = Static<typeof SchemaRequest>;
 
@@ -26,36 +29,22 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.post<{ Body: TSchemaRequest; Response: TSchemaResponse }>(
-        "/update",
+        "/manage",
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
+            UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
 
             const team = await TeamModel.findOne({
-                _id: request.body._id,
-                "members.user": user._id
+                _id: request.body._id
             });
 
             if (!team) {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
             }
 
-            if (team.owner.toString() === user._id.toString()){
-                team.settings.name = request.body.settings.name || "";
-                team.settings.tag = request.body.settings.tag || "";
-
-                for (const teamMember of request.body.members) {
-                    if (teamMember.kick && teamMember.user._id !== team.owner.toString()) {
-                        team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
-                    }
-                }
-            }
-
-            const currentMember = find(request.body.members, ["user._id", user._id.toString()]);
-            const memberIndex = findIndex(team.members, ["user._id", user._id]);
-
-            if (currentMember) {
-                team.members[memberIndex].username = currentMember.username;
+            if (!isUndefined(request.body.validated)) {
+                team.state.validated = request.body.validated;
             }
 
             await team.save();

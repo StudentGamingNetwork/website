@@ -5,8 +5,8 @@ export async function create(tournamentSlug: string): Promise<any> {
     return result.data;
 }
 
-export async function update(team: Record<string, any>, id: string): Promise<any> {
-    const result = await ApiService.post(`/team/update/${ id }`, team);
+export async function update(team: Record<string, any>): Promise<any> {
+    const result = await ApiService.post(`/team/update`, team);
     return result.data;
 }
 
