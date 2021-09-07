@@ -26,7 +26,7 @@
 
     --gradient: linear-gradient(20deg, #ec7400 0%, #f5cc3f 50%, #ffffff 100%);
 
-    --color-success: hsl(96, 60%, 38%);
+    --color-success: hsl(96, 60%, 28%);
     --color-success-content: hsl(96, 60%, 38%);
     --color-success-background: hsl(96, 20%, 20%);
 
@@ -38,12 +38,12 @@
     --color-error-background: hsl(0, 20%, 20%);
 
     --color-warning: hsl(55, 69%, 47%);
-    --color-warning-background: hsl(55, 50%, 20%);
     --color-warning-content: hsl(55, 69%, 50%);
+    --color-warning-background: hsl(55, 50%, 20%);
 
     --color-info: hsl(200, 60%, 38%);
-    --color-info-background: hsl(200, 60%, 20%);
     --color-info-content: hsl(200, 60%, 50%);
+    --color-info-background: hsl(200, 60%, 20%);
 }
 
 :root {
