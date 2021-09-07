@@ -8,15 +8,20 @@
     </SPageHead>
     <SBaseLayout>
         <div class="about-layout">
-            <SSectionTitle>Lorem Ipsum</SSectionTitle>
+            <SSectionTitle>Le Student Gaming Network</SSectionTitle>
             <br><br>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque id rutrum mi, vitae ornare justo.
-                Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis et congue justo. Quisque purus lorem,
-                facilisis quis ultricies hendrerit, aliquam vel lectus. Nunc finibus id ex quis aliquet. Aenean sed eros
-                sem. Vestibulum semper diam eget arcu porta, at porta leo porttitor. Sed venenatis tempus porta.
-                Vestibulum rhoncus nisl sollicitudin maximus pulvinar.
+                Le <strong>Student Gaming Network</strong> est la fédération des associations esport étudiantes des écoles et universités de France. Le SGN a pour but de promouvoir le jeu vidéo et l’esport étudiant sous toutes ses formes.
+                Fier de ses 60 associations membres, le SGN veut pouvoir faire entendre la voix des étudiants dans l’esport, et porter les projets créés par les étudiants et pour les étudiants !
             </p>
+            <p>
+                Ces objectifs s’articulent autour de 3 axes majeurs au SGN :
+            </p>
+            <ul>
+                <li>Développer la scène esportive étudiante</li>
+                <li>Accompagner la vie associative en France et sur les campus</li>
+                <li>Rapprocher les étudiants du monde professionnel de l’esport et du jeu vidéo</li>
+            </ul>
         </div>
     </SBaseLayout>
 </template>
@@ -43,5 +48,9 @@ export default defineComponent({
 .about-layout {
     max-width: 960px;
     margin: auto;
+
+    strong {
+        font-weight: 600;
+    }
 }
 </style>
