@@ -1,55 +1,37 @@
-import { defineStore } from "pinia";
-import { cloneDeep, omit } from "lodash";
-import * as UserService from "@/services/user";
-import { Toast, Association } from "@/modules";
-import { ERoles } from "@/services/user";
+import { defineStore } from 'pinia'
+import { cloneDeep, omit } from 'lodash'
+import * as UserService from '@/services/user'
+import { disconnect, ERoles, ping } from '@/services/user'
+import { Toast } from '@/modules/'
+import { testRequest as wrapRequestWithToast } from '@/modules/toast'
+import { useStore as useAssociationStore } from '@/modules/association'
 
 export const useStore = defineStore({
-    id: "user",
-    actions: {
-        async disconnect() {
-            await Toast.testRequest(async () => {
-                return await UserService.disconnect();
-            });
+  id: 'user',
+  actions: {
+    async disconnect() {
+      await wrapRequestWithToast(disconnect)
 
-            this.$reset();
-        },
-        hasRoles(roles: Array<ERoles>): boolean {
-            if (this.roles.includes(ERoles.Admin)) {
-                return true;
-            }
+      this.$reset()
+    },
+    hasRoles(roles: ERoles[]): boolean { // C'est vraiment une action ça ? Je m'aurais mis dans les getters.
+      return this.isAdmin || roles.every(role => this.roles.includes(role))
+    },
+    async init() {
+      if (!document.cookie?.includes('userId=')) return
 
-            for (const role of roles) {
-                if (!this.roles.includes(role)) {
-                    return false;
-                }
-            }
+      const response = await wrapRequestWithToast(ping, { onlyError: true })
 
-            return true;
-        },
-        async init() {
-            if (!document.cookie?.includes("userId=")) {
-                return;
-            }
+      if (!response?._id) return
 
-            const response = await Toast.testRequest(async () => {
-                return await UserService.ping();
-            }, { onlyError: true });
+      this.$patch(omit(response, 'association'))
+      const associationStore = useAssociationStore()
 
+      if (!response.association) return associationStore.$reset()
 
-            if (response?._id) {
-                this.$patch(omit(response, "association"));
-                const associationStore = Association.useStore();
-
-                if (response.association) {
-                    associationStore.init(response.association);
-                    this.association = response.association._id;
-                }
-                else {
-                    associationStore.$reset();
-                }
-            }
-        },
+      associationStore.init(response.association)
+      this.association = response.association._id
+    },
         async update(update: { password?: { new: string; old: string }; student?: { name: string; schoolName: string }; username?: string }) {
             const response = await Toast.testRequest(async () => {
                 return await UserService.update(update);
