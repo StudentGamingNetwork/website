@@ -10,8 +10,8 @@
 
 # Le SGN
 
-Le Student Gaming Network (SGN) est la fédération des associations étudiantes françaises d'esport. A l’initiative des
-associations étudiantes de nouvelles technologies et de jeux vidéo, le SGN, association loi 1901 à but non lucratif, a été fondé en 2015. 
+Le Student Gaming Network (SGN) est la fédération des associations étudiantes françaises d'esport. À l’initiative des
+associations étudiantes de nouvelles technologies et de jeux vidéo, le SGN, association loi 1901 à but non lucratif, a été fondé en 2015.
 
 
 # La plateforme
