@@ -31,6 +31,7 @@ export interface IAssociation {
         instagram: string;
         twitch: string;
         twitter: string;
+        website: string;
     };
     school: {
         name: string;
@@ -90,6 +91,9 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
             type: String
         },
         twitter: {
+            type: String
+        },
+        website: {
             type: String
         }
     },

@@ -89,7 +89,8 @@ export const useStore = defineStore({
             facebook: "",
             instagram: "",
             twitch: "",
-            twitter: ""
+            twitter: "",
+            website: ""
         },
         school: {
             name: "",
