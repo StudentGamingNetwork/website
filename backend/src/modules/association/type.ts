@@ -12,7 +12,8 @@ const BasicAssociation = {
         facebook: Type.Optional(Type.String()),
         instagram: Type.Optional(Type.String()),
         twitch: Type.Optional(Type.String()),
-        twitter: Type.Optional(Type.String())
+        twitter: Type.Optional(Type.String()),
+        website: Type.Optional(Type.String())
     })),
     school: Type.Object({
         name: Type.String({ maxLength: 64, minLength: 1 }),

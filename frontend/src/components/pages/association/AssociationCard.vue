@@ -120,6 +120,17 @@
                     :icon="['fab', 'instagram']"
                 />
             </a>
+            <a
+                v-if="association.networks.website"
+                :href="association.networks.website"
+                target="_blank"
+                title="website"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fas', 'globe']"
+                />
+            </a>
         </div>
     </SCard>
 </template>

@@ -167,6 +167,17 @@
                     :icon="['fab', 'instagram']"
                 />
             </a>
+            <a
+                v-if="association.networks.website"
+                :href="association.networks.website"
+                target="_blank"
+                title="Website"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fas', 'globe']"
+                />
+            </a>
         </div>
     </SCard>
 </template>
@@ -196,6 +207,7 @@ export type TAdminAssociation = {
         instagram: string;
         twitch: string;
         twitter: string;
+        website: string;
     };
     school: {
         name: string;
