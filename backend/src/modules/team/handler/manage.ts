@@ -5,6 +5,7 @@ import { isUndefined } from "lodash";
 import * as UserLib from "@/modules/user/lib";
 import TeamModel from "@/modules/team/model";
 import { ERoles } from "@/modules/user/model";
+import TournamentModel from "@/modules/tournament/model";
 
 const SchemaRequest = Type.Object({
     _id: Type.String(),
@@ -43,11 +44,27 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
             }
 
+            const tournament = await TournamentModel.findById(team.tournament);
+
+            if (!tournament) {
+                throw new httpErrors.NotFound("Aucun tournoi trouvée.");
+            }
+
             if (!isUndefined(request.body.validated)) {
+                if (team.state.validated !== request.body.validated) {
+                    if (request.body.validated) {
+                        tournament.game.team.subscribed++;
+                    }
+                    else {
+                        tournament.game.team.subscribed--;
+                    }
+                }
+
                 team.state.validated = request.body.validated;
             }
 
             await team.save();
+            await tournament.save();
 
             reply.send({
                 message: "L'équipe a correctement été mise à jour.",

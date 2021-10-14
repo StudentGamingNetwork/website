@@ -49,6 +49,8 @@ export async function register(server: FastifyInstance): Promise<void> {
                         team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
                     }
                 }
+
+                team.state.ready = request.body.state.ready;
             }
 
             const currentMember = find(request.body.members, ["user._id", user._id.toString()]);

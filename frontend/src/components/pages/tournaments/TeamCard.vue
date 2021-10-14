@@ -78,11 +78,29 @@
                         Sauvegarder
                     </SButton>
                     <SButton
+                        v-if="!team.state.ready"
+                        class="button"
+                        :disabled="!isTeamReady"
+                        outlined
+                        @click="markReady"
+                    >
+                        Marquer prêt
+                    </SButton>
+                    <SButton
+                        v-else-if="!team.state.validated"
+                        class="button"
+                        outlined
+                        @click="markUnready"
+                    >
+                        En attente
+                    </SButton>
+                    <SButton
+                        v-else
                         class="button"
                         disabled
                         outlined
                     >
-                        Marquer prêt
+                        Équipe validée
                     </SButton>
                 </div>
                 <SModalSectionDescription>
@@ -289,7 +307,7 @@ export default defineComponent({
             type: Object as PropType<Tournament.TTournament>
         }
     },
-    async setup() {
+    async setup(props) {
         const router = useRouter();
         const userStore = User.useStore();
         const stateStore = State.useStore();
@@ -320,6 +338,16 @@ export default defineComponent({
             return !isMatch(savedTeam, team);
         });
 
+        const markReady = async() => {
+            team.state.ready = true;
+            await sendUpdate();
+        };
+
+        const markUnready = async() => {
+            team.state.ready = false;
+            await sendUpdate();
+        };
+
         const sendUpdate = async () => {
             if (!hasChanged.value) {
                 return;
@@ -333,6 +361,29 @@ export default defineComponent({
                 await updateTeam();
             }
         };
+
+        const isTeamReady = computed(() => {
+
+            if (team.members.length < props.tournament.game.team.playersNumber) {
+                return false;
+            }
+
+            for (const member of team.members) {
+                if (!isMemberReady(member)) {
+                    return false;
+                }
+            }
+
+            if (!savedTeam.settings.name) {
+                return false;
+            }
+
+            if (!savedTeam.settings.tag) {
+                return false;
+            }
+
+            return true;
+        });
 
         function isMemberReady(member: { user: User.TCompleteUser; username: string }): boolean {
             if (!member.username) {
@@ -376,7 +427,7 @@ export default defineComponent({
             const invitationCode = prompt("Entrez le code d'invitation de l'équipe. Vous pouvez le demander au chef d'équipe, il est de la forme XXXX-XXXX-XXXX-XXXX.");
 
             const response = await Toast.testRequest(async () => {
-                return await TeamService.join(tournamentSlug.value, invitationCode);
+                return await TeamService.join(tournamentSlug.value, invitationCode || "");
             });
 
             if (response?.success) {
@@ -438,8 +489,11 @@ export default defineComponent({
             isConnected,
             isMemberReady,
             isOwner,
+            isTeamReady,
             joinTeam,
             kickMember,
+            markReady,
+            markUnready,
             playerIndex,
             savedTeam,
             sendUpdate,
