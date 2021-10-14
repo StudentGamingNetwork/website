@@ -104,6 +104,14 @@
                         :validators="[InputValidators.Url()]"
                         @enter="sendUpdate"
                     />
+                    <SInput
+                        v-model="association.networks.website"
+                        :modified="association.networks.website !== associationStore.networks.website"
+                        title="Website"
+                        type="url"
+                        :validators="[InputValidators.Url()]"
+                        @enter="sendUpdate"
+                    />
                 </SModalSection>
                 <SModalSectionTitle>
                     Paramètres

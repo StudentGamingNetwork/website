@@ -53,13 +53,13 @@ export async function register(server: FastifyInstance): Promise<void> {
             association.networks.twitch = request.body.networks?.twitch || "";
             association.networks.twitter = request.body.networks?.twitter || "";
             association.networks.instagram = request.body.networks?.instagram || "";
+            association.networks.website = request.body.networks?.website || "";
             association.tag = request.body.tag || "";
             association.school.name = request.body.school.name;
             association.school.studentsNumber = request.body.school.studentsNumber || 0;
             association.school.address = request.body.school.address;
             association.settings.slug = request.body.settings?.slug?.toLocaleLowerCase() || "";
             association.mail = request.body.mail;
-
             await association.save();
 
             reply.send({

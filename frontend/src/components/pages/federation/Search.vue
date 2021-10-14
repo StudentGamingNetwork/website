@@ -63,6 +63,7 @@ type TBasicAssociation = {
         instagram: string;
         twitch: string;
         twitter: string;
+        website: string;
     };
     school: {
         name: string;
