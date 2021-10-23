@@ -19,7 +19,7 @@
     box-shadow var(--duration-fast);
 }
 
-html {
+html:not([data-widget]) {
     @media (max-width: 1099px) {
         font-size: 80%;
     }

@@ -96,7 +96,6 @@ export default defineComponent({
                     `${ subscriptionClose.getDate().toString().padStart(2, "0") }`;
             }
 
-
             const page = router.currentRoute.value.params.page || "" as string;
 
             if (tournamentApi.settings?.slug) {

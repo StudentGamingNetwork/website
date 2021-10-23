@@ -1,32 +1,24 @@
 <template>
     <div id="app">
-        <SHeader />
         <router-view />
-        <SFooter />
         <SToasts />
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
-import SHeader from "@/components/template/Header.vue";
-import SFooter from "@/components/template/Footer.vue";
+export default {
+    name: "App"
+};
+</script>
+
+<script setup lang="ts">
+import { onMounted } from "vue";
 import SToasts from "@/components/template/toasts/Toasts.vue";
 import { User } from "@/modules";
 
-export default defineComponent({
-    name: "App",
-    components: {
-        SFooter,
-        SHeader,
-        SToasts
-    },
-    setup() {
-        onMounted(async () => {
-            const userStore = User.useStore();
-            await userStore.init();
-        });
-    }
+onMounted(async() => {
+    const userStore = User.useStore();
+    await userStore.init();
 });
 </script>
 

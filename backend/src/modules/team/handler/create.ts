@@ -44,8 +44,8 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             const existingTeam = await TeamModel.findOne({
-                tournament: tournament._id,
-                "users.members._id": user._id
+                "members.user": user._id,
+                tournament: tournament._id
             });
 
             if (existingTeam) {

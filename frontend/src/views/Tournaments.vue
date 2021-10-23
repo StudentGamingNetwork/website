@@ -1,4 +1,5 @@
 <template>
+    <SHeader />
     <Suspense>
         <template #default>
             <STournamentsLayout />
@@ -7,16 +8,19 @@
             <SLoading />
         </template>
     </Suspense>
+    <SFooter />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import STournamentsLayout from "@/components/pages/tournaments/Layout.vue";
 import SLoading from "@/components/design/Loading.vue";
+import SHeader from "@/components/template/Header.vue";
+import SFooter from "@/components/template/Footer.vue";
 
 export default defineComponent({
     name: "Tournaments",
-    components: { SLoading, STournamentsLayout }
+    components: { SFooter, SHeader, SLoading, STournamentsLayout }
 });
 </script>
 

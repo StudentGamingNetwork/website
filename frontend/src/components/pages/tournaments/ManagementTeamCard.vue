@@ -2,7 +2,10 @@
     <SCard class="management-team-card">
         <div class="team-head">
             <div class="name">
-                <span class="tag">
+                <span
+                    v-if="team.settings.tag"
+                    class="tag"
+                >
                     <span class="gradient">{{ team.settings.tag }}</span>
                 </span> {{ team.settings.name }}
             </div>

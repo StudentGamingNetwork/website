@@ -426,6 +426,10 @@ export default defineComponent({
         async function joinTeam() {
             const invitationCode = prompt("Entrez le code d'invitation de l'équipe. Vous pouvez le demander au chef d'équipe, il est de la forme XXXX-XXXX-XXXX-XXXX.");
 
+            if (!invitationCode) {
+                return;
+            }
+
             const response = await Toast.testRequest(async () => {
                 return await TeamService.join(tournamentSlug.value, invitationCode || "");
             });

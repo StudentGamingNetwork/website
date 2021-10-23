@@ -102,7 +102,7 @@ export default defineComponent({
                 return "";
             }
 
-            let string = `*${ makePlural(props.tournament.game.team.playersNumber, "joueur") }* par équipes`;
+            let string = `*${ makePlural(props.tournament.game.team.playersNumber, "joueur") }* par équipe`;
 
             if (props.tournament.game.team.substitutesNumber) {
                 string += ` + *${ makePlural(props.tournament.game.team.substitutesNumber, "remplaçant") }*`;

@@ -61,6 +61,7 @@ export default defineComponent({
 .toast {
     pointer-events: all;
     width: 384px;
+    max-width: calc(100vw - 68px);
     border-radius: var(--lenght-radius-base);
     padding: var(--length-padding-xs) var(--length-padding-m);
     border: 2px solid;

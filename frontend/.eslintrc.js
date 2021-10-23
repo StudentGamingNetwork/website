@@ -12,6 +12,12 @@ module.exports = {
         "plugin:import/warnings",
         "plugin:import/typescript"
     ],
+    globals: {
+        defineEmits: "readonly",
+        defineExpose: "readonly",
+        defineProps: "readonly",
+        withDefaults: "readonly"
+    },
     parser: "vue-eslint-parser",
     parserOptions: {
         ecmaVersion: 2020,

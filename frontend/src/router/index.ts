@@ -35,6 +35,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "/tournament/:slug/:page?/:management?"
     },
     {
+        name: "tournament-widget",
+        component: () => import(/* webpackChunkName: "tournament-widget" */ "@/views/TournamentWidget.vue"),
+        meta: {
+            title: "Tournoi"
+        },
+        path: "/tournament-widget/:slug/"
+    },
+    {
         name: "partners",
         component: () => import(/* webpackChunkName: "partners" */ "@/views/Partners.vue"),
         meta: {

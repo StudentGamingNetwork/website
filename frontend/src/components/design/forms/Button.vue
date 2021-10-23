@@ -80,6 +80,7 @@ button {
 
     &.primary {
         background: var(--color-primary-background);
+        border: 2px solid var(--color-primary-background);
         box-shadow: 0 4px 0px -8px transparent;
 
         &:hover:not(.disabled) {
