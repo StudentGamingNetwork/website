@@ -22,6 +22,9 @@ export const useStore = defineStore({
     id: "toast",
     actions: {
         add({ title, message, type }: { title: string; message: string; type: EToastType }) {
+            if (!this.activated && type === EToastType.Success) {
+                return;
+            }
             const id = uuidV4();
             this.toasts[id] = {
                 id,
@@ -38,6 +41,7 @@ export const useStore = defineStore({
         }
     },
     state: () => ({
+        activated: true,
         toasts: {} as Record<string, TToast>
     })
 });

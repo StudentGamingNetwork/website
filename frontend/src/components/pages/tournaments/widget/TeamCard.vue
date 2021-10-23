@@ -264,6 +264,7 @@ import SModalSectionDescription from "@/components/design/modal/SectionDescripti
 const router = useRouter();
 const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
 const userStore = User.useStore();
+const toastStore = Toast.useStore();
 
 const savedTeam = reactive(Team.Lib.makeObject({}));
 const team = reactive<Team.TTeam>(cloneDeep(savedTeam));
@@ -430,9 +431,13 @@ const markUnready = async () => {
 };
 
 const sendUpdate = async () => {
+    toastStore.activated = false;
+
     await userStore.update({ student });
     await userStore.updatePlatforms(platforms);
     await userStore.init();
+
+    toastStore.activated = true;
 
     const response = await Toast.testRequest(async () => {
         return await TeamService.update(team);
