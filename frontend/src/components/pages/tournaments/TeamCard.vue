@@ -48,6 +48,7 @@
             <SModalSection class="settings">
                 <SModalSectionTitle>Paramètre de l'équipe</SModalSectionTitle>
                 <SInput
+                    v-if="isTeamBased"
                     v-model="team.settings.name"
                     :disabled="!isOwner"
                     :modified="team.settings.name !== savedTeam.settings.name"
@@ -55,6 +56,7 @@
                     @enter="sendUpdate"
                 />
                 <SInput
+                    v-if="isTeamBased"
                     v-model="team.settings.tag"
                     :disabled="!isOwner"
                     :modified="team.settings.tag !== savedTeam.settings.tag"
@@ -112,16 +114,25 @@
                 <SModalSectionTitle>Checklist</SModalSectionTitle>
                 <div class="validators">
                     <div class="validators-column">
-                        <SValidator :valid="!!savedTeam.settings.name">
+                        <SValidator
+                            v-if="isTeamBased"
+                            :valid="!!savedTeam.settings.name"
+                        >
                             Nom d'équipe
                         </SValidator>
-                        <SValidator :valid="!!savedTeam.settings.tag">
+                        <SValidator
+                            v-if="isTeamBased"
+                            :valid="!!savedTeam.settings.tag"
+                        >
                             TAG d'équipe
                         </SValidator>
                         <SValidator :valid="!!savedTeam.members[playerIndex].username">
                             Identifiant de jeu
                         </SValidator>
-                        <SValidator :valid="savedTeam.members.length >= tournament.game.team.playersNumber">
+                        <SValidator
+                            v-if="isTeamBased"
+                            :valid="savedTeam.members.length >= tournament.game.team.playersNumber"
+                        >
                             Équipe complète
                         </SValidator>
                     </div>
@@ -146,7 +157,10 @@
                         @click="stateStore.modalOpen('settings')"
                     >paramètres</span> de votre profil.
                 </SModalSectionDescription>
-                <div class="validators-column">
+                <div
+                    v-if="isTeamBased"
+                    class="validators-column"
+                >
                     <div
                         v-for="(number, index) in Math.max(tournament.game.team.playersNumber, team.members.length)"
                         :key="index"
@@ -166,6 +180,7 @@
             </SModalSection>
             <div class="actions">
                 <SInputCopier
+                    v-if="isTeamBased"
                     :content="team.settings.invitationCode"
                     title="Code d'invitation"
                 />
@@ -174,7 +189,7 @@
                     outlined
                     @click="deleteTeam"
                 >
-                    {{ isOwner ? "Dissoudre l'équipe" : "Quitter l'équipe" }}
+                    {{ isOwner ? (isTeamBased ? "Dissoudre l'équipe" : "Quitter le tournoi") : "Quitter l'équipe" }}
                 </SButton>
             </div>
             <div class="members">
@@ -374,15 +389,19 @@ export default defineComponent({
                 }
             }
 
-            if (!savedTeam.settings.name) {
+            if (isTeamBased.value && !savedTeam.settings.name) {
                 return false;
             }
 
-            if (!savedTeam.settings.tag) {
+            if (isTeamBased.value && !savedTeam.settings.tag) {
                 return false;
             }
 
             return true;
+        });
+
+        const isTeamBased = computed(() => {
+            return props.tournament.game.team.playersNumber > 1;
         });
 
         function isMemberReady(member: { user: User.TCompleteUser; username: string }): boolean {
@@ -493,6 +512,7 @@ export default defineComponent({
             isConnected,
             isMemberReady,
             isOwner,
+            isTeamBased,
             isTeamReady,
             joinTeam,
             kickMember,
