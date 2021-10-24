@@ -5,17 +5,26 @@
                 Prêt à rejoindre l'arène ?
             </div>
             <div class="buttons">
+                <template v-if="isTeamBased">
+                    <SButton
+                        primary
+                        @click="createTeam"
+                    >
+                        Créer une équipe
+                    </SButton>
+                    <SButton
+                        outlined
+                        @click="joinTeam"
+                    >
+                        Rejoindre une équipe
+                    </SButton>
+                </template>
                 <SButton
+                    v-else
                     primary
                     @click="createTeam"
                 >
-                    Créer une équipe
-                </SButton>
-                <SButton
-                    outlined
-                    @click="joinTeam"
-                >
-                    Rejoindre une équipe
+                    Participer au tournoi
                 </SButton>
             </div>
         </SCard>
@@ -539,6 +548,7 @@ h2 {
         display: flex;
         gap: var(--length-gap-l);
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .delete-button {
