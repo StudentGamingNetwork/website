@@ -7,6 +7,10 @@
             <STeamCard :tournament="tournament" />
         </template>
     </div>
+    <div
+        v-if="tournament.settings.code"
+        v-html="tournament.settings.code"
+    />
 </template>
 
 <script lang="ts">
@@ -46,6 +50,8 @@ const isConnected = computed(() => {
 
 onMounted(async() => {
     await updateTournament();
+
+    doc;
 });
 </script>
 

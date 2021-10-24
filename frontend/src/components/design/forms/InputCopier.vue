@@ -8,7 +8,7 @@
             title="Copier dans le press-papier"
             @click="copyIntoClipboard"
         >
-            <span>{{ content }}</span><FontAwesomeIcon
+            <span class="text">{{ content }}</span><FontAwesomeIcon
                 class="icon"
                 :icon="['fas', 'copy']"
             />
@@ -82,6 +82,12 @@ export default defineComponent({
         );
         cursor: cell;
         color: var(--color-content-soft);
+
+        .text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         .icon {
             color: var(--color-content-softer);

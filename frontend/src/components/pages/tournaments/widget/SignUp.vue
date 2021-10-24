@@ -4,6 +4,7 @@
             <SInput
                 v-model="mail"
                 title="Mail"
+                type="email"
                 :validators="[Validators.Mail()]"
             />
         </div>
@@ -30,7 +31,6 @@
         </div>
         <SButton
             class="button signup"
-            :disabled="!(mail && password)"
             primary
             :spinning="waitingForSignUpResponse"
             @click="signup"
@@ -39,7 +39,6 @@
         </SButton>
         <SButton
             class="button login"
-            :disabled="!(mail && password)"
             outlined
             :spinning="waitingForLogInResponse"
             @click="login"

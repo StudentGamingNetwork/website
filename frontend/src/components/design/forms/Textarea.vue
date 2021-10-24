@@ -54,6 +54,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .input-wrapper {
+    width: 320px;
     max-width: 100%;
 
     .input {

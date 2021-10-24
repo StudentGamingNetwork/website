@@ -25,6 +25,7 @@ const Tournament = {
         rulesUrl: Type.String()
     }),
     settings: Type.Optional(Type.Object({
+        code: Type.Optional(Type.String()),
         logo: Type.Optional(Type.String()),
         slug: Type.Optional(Type.String())
     })),

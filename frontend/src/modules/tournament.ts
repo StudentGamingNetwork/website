@@ -25,6 +25,7 @@ export type TTournament = {
         rulesUrl: string;
     };
     settings: {
+        code: string;
         logo: string;
         slug: string;
     };
@@ -57,6 +58,7 @@ export function makeObject(tournament: Partial<TTournament>): TTournament {
             rulesUrl: ""
         },
         settings: {
+            code: "",
             logo: "",
             slug: ""
         },

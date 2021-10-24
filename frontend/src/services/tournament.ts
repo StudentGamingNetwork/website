@@ -16,6 +16,10 @@ export function getLogoUrl(tournament: { id: string; logo: string }): string {
     return `${ Config.backendUrl }/upload/tournament/${ tournament.id }/${ tournament.logo }`;
 }
 
+export function getWidgetUrl(tournament: { id: string }): string {
+    return `${ Config.frontendUrl }/tournament-widget/${ tournament.id }`;
+}
+
 export async function search(query: { limit: number; search: string; skip: number }): Promise<any> {
     const result = await ApiService.get("/tournament/search", { params: query });
     return result.data;

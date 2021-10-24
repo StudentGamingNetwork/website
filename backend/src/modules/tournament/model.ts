@@ -24,6 +24,7 @@ export interface ITournament {
         rulesUrl: string;
     };
     settings: {
+        code: string;
         logo: string;
         slug: string;
     };
@@ -64,6 +65,7 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
         rulesUrl: String
     },
     settings: {
+        code: String,
         logo: String,
         slug: String
     },

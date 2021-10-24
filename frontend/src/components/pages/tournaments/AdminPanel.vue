@@ -54,6 +54,18 @@
                 </SButton>
             </div>
         </SModalSection>
+        <SModalSection class="widget-section">
+            <SModalSectionTitle>Widget</SModalSectionTitle>
+            <SInputCopier
+                :content="widgetUrl"
+                title="Lien du widget"
+            />
+            <STextarea
+                v-model="tournament.settings.code"
+                :modified="tournament.settings.code !== savedTournament.settings.code"
+                title="Code custom"
+            />
+        </SModalSection>
         <SModalSection class="game-section">
             <SModalSectionTitle>Jeu</SModalSectionTitle>
             <SInput
@@ -154,6 +166,9 @@ import SModalSeparator from "@/components/design/modal/Separator.vue";
 import { Toast, Tournament, User } from "@/modules";
 import * as TournamentService from "@/services/tournament";
 import { ERoles } from "@/services/user";
+import SInputCopier from "@/components/design/forms/InputCopier.vue";
+import { getWidgetUrl } from "@/services/tournament";
+import STextarea from "@/components/design/forms/Textarea.vue";
 
 export default defineComponent({
     name: "STournamentAdminPanel",
@@ -162,10 +177,12 @@ export default defineComponent({
         SButton,
         SCard,
         SInput,
+        SInputCopier,
         SModalSection,
         SModalSectionTitle,
         SModalSeparator,
-        SSectionTitle
+        SSectionTitle,
+        STextarea
     },
     props: {
         modelValue: {
@@ -216,6 +233,10 @@ export default defineComponent({
 
         const hasChanged = computed(() => {
             return !isMatch(props.savedTournament, tournament);
+        });
+
+        const widgetUrl = computed(() => {
+            return getWidgetUrl({ id: tournament._id });
         });
 
         const sendUpdate = async () => {
@@ -280,7 +301,8 @@ export default defineComponent({
             toggleArchived,
             togglePublic,
             tournament,
-            uploadLogo
+            uploadLogo,
+            widgetUrl
         };
     }
 });
@@ -298,7 +320,7 @@ export default defineComponent({
     grid-template-areas:
         "title title"
         "tournament game"
-        "tournament dates"
+        "widget dates"
         "save save";
 
     @media (max-width: 999px) {
@@ -306,6 +328,7 @@ export default defineComponent({
         grid-template-areas:
             "title"
             "tournament"
+            "widget"
             "game"
             "dates"
             "save";
@@ -317,6 +340,10 @@ export default defineComponent({
 
     .tournament-section {
         grid-area: tournament;
+    }
+
+    .widget-section {
+        grid-area: widget;
     }
 
     .game-section {
