@@ -528,10 +528,12 @@ h2 {
     flex-direction: column;
     justify-content: center;
     gap: var(--length-gap-l);
+    text-align: center;
 
     .buttons {
         display: flex;
         gap: var(--length-gap-l);
+        justify-content: center;
     }
 
     .delete-button {

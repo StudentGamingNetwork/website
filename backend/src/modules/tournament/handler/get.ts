@@ -31,10 +31,12 @@ export async function register(server: FastifyInstance): Promise<void> {
             const slug = request.params.slug;
             const tournament = await TournamentLib.getTournamentFromSlug(slug);
 
+            /* Désactivé temporairement pour les widget
             if (!tournament.state.public) {
                 const user = await UserLib.getUser(request);
                 UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
             }
+            */
 
             reply.send(tournament);
         }
