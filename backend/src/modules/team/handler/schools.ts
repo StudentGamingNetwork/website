@@ -101,14 +101,12 @@ export async function register(server: FastifyInstance): Promise<void> {
                     }
                 }, {
                     "$project": {
-                        "_id": "$user._id",
-                        "schoolName": {
-                            "$cond": [
-                                {
-                                    "$eq": [
-                                        "$user.student.schoolName", ""
-                                    ]
-                                }, "$association.name", "$user.student.schoolName"
+                        _id: "$user._id",
+                        schoolName: {
+                            $cond: [
+                                { $not: ["$association"] },
+                                "$user.student.schoolName",
+                                "$association.school.name"
                             ]
                         }
                     }
@@ -131,11 +129,12 @@ export async function register(server: FastifyInstance): Promise<void> {
                         "count": "$schoolName"
                     }
                 },
-                ...searchStage,
-                {
+                ...searchStage, {
                     "$sort": {
                         "count": -1
                     }
+                }, {
+                    $limit: 20
                 }
             ]);
 

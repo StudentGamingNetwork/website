@@ -24,3 +24,8 @@ export async function remove(tournamentSlug: string): Promise<any> {
     const result = await ApiService.delete(`/team/delete/${ tournamentSlug }`);
     return result.data;
 }
+
+export async function searchSchools(tournamentSlug: string, searchString: string): Promise<any> {
+    const result = await ApiService.get(`/team/schools/${ tournamentSlug }/all/${ searchString }`);
+    return result.data;
+}

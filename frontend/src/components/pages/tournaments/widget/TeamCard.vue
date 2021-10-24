@@ -73,12 +73,42 @@
                 @enter="sendUpdate"
             />
             <SInput
-                v-model="student.schoolName"
-                autocomplete="false"
-                :modified="student.schoolName !== userStore.student.schoolName"
+                v-if="associationStore?.school?.name"
+                disabled
+                :model-value="associationStore?.school?.name"
                 title="École"
-                @enter="sendUpdate"
             />
+            <div
+                v-else
+                class="school"
+            >
+                <SInput
+                    v-model="student.schoolName"
+                    autocomplete="false"
+                    :modified="student.schoolName !== userStore.student.schoolName"
+                    title="École"
+                    @enter="sendUpdate"
+                />
+                <SCard
+                    v-if="schools.length > 0 || searchLoading"
+                    class="suggestion"
+                >
+                    <SLoading
+                        v-if="searchLoading"
+                        class="loading"
+                    />
+                    <ul v-else>
+                        <li
+                            v-for="school of schools"
+                            :key="school.name"
+                            tabindex="-1"
+                            @click="student.schoolName = school.name"
+                        >
+                            {{ school.name }}
+                        </li>
+                    </ul>
+                </SCard>
+            </div>
             <SCertificatePicker
                 :url="certificateUrl"
                 @fileChange="uploadCertificate"
@@ -244,12 +274,12 @@ export default {
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { computed, onMounted, reactive, ref } from "vue";
-import { assign, cloneDeep, findIndex, isMatch } from "lodash";
+import { computed, onMounted, reactive, ref, watch } from "vue";
+import { assign, cloneDeep, debounce, findIndex, isMatch } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import SButton from "@/components/design/forms/Button.vue";
-import { Team, Toast, User } from "@/modules";
+import { Association, Team, Toast, User } from "@/modules";
 import * as TeamService from "@/services/team";
 import SInput from "@/components/design/forms/Input.vue";
 import * as InputValidators from "@/utils/validators";
@@ -260,10 +290,13 @@ import SValidator from "@/components/design/forms/Validator.vue";
 import SCopier from "@/components/design/forms/Copier.vue";
 import { getAvatarUrl as getUserAvatarUrl } from "@/services/user";
 import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
+import * as AssociationService from "@/services/association";
+import SLoading from "@/components/design/Loading.vue";
 
 const router = useRouter();
 const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
 const userStore = User.useStore();
+const associationStore = Association.useStore();
 const toastStore = Toast.useStore();
 
 const savedTeam = reactive(Team.Lib.makeObject({}));
@@ -298,6 +331,28 @@ const certificateUrl = computed(() => {
 const isTeamBased = computed(() => {
     return props.tournament.game.team.playersNumber > 1;
 });
+
+const debounceSearch = debounce(updateSearch, 500);
+const searchLoading = ref(false);
+
+const schools = ref([] as Array<{name: string}>);
+
+watch(
+    () => student.schoolName,
+    () => {
+        searchLoading.value = true;
+        debounceSearch();
+    }
+);
+
+async function updateSearch() {
+    schools.value = await TeamService.searchSchools(tournamentSlug.value, student.schoolName);
+    searchLoading.value = false;
+}
+
+const uploadCertificate = async(file: File) => {
+    await userStore.uploadCertificate(file);
+};
 
 async function joinTeam() {
     const invitationCode = prompt("Entrez le code d'invitation de l'équipe. Vous pouvez le demander au chef d'équipe, il est de la forme XXXX-XXXX-XXXX-XXXX.");
@@ -481,6 +536,46 @@ h2 {
 
     .delete-button {
         max-width: 320px;
+    }
+
+    .school {
+        position: relative;
+
+        .suggestion {
+            display: none;
+            position: absolute;
+            top: 64px;
+            left: 0;
+            right: 0;
+            box-sizing: border-box;
+            max-width: 320px;
+            z-index: 10;
+
+            .loading {
+                margin: var(--length-margin-m);
+            }
+
+            ul {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+
+                li {
+                    cursor: pointer;
+                    padding: var(--length-padding-xxs) var(--length-padding-s);
+
+                    &:hover {
+                        background: var(--color-background-2);
+                    }
+                }
+            }
+        }
+
+        &:focus-within {
+            .suggestion {
+                display: block;
+            }
+        }
     }
 
     .status {
