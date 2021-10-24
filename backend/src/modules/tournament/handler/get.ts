@@ -2,8 +2,8 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as TournamentLib from "../lib";
 import { TypeTournament } from "@/modules/tournament/type";
-import * as UserLib from "@/modules/user/lib";
-import { ERoles } from "@/modules/user/model";
+//import * as UserLib from "@/modules/user/lib";
+//import { ERoles } from "@/modules/user/model";
 
 const SchemaParams = Type.Object({
     slug: Type.String({ minLength: 1 })
