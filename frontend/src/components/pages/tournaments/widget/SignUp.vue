@@ -46,7 +46,10 @@
             Connexion
         </SButton>
         <SModalSectionDescription class="description">
-            Vous pouvez utiliser votre <a href="https://sgnw.fr">compte SGN</a> si vous en avez un.
+            Vous pouvez utiliser votre <a
+                href="https://sgnw.fr"
+                target="_blank"
+            >compte SGN</a> si vous en avez un.
             Vous pourrez supprimer ce compte après la compétition si vous le souhaitez.
         </SModalSectionDescription>
     </SCard>
