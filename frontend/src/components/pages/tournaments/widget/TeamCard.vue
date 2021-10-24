@@ -1,7 +1,9 @@
 <template>
     <template v-if="!hasTeam">
         <SCard class="join">
-            <div>Prêt à rejoindre l'arène ?</div>
+            <div class="title">
+                Prêt à rejoindre l'arène ?
+            </div>
             <div class="buttons">
                 <SButton
                     primary
@@ -528,7 +530,10 @@ h2 {
     flex-direction: column;
     justify-content: center;
     gap: var(--length-gap-l);
-    text-align: center;
+
+    .title {
+        text-align: center;
+    }
 
     .buttons {
         display: flex;
