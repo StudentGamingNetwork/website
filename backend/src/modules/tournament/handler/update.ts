@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import { isUndefined } from "lodash";
+import endOfDay from "date-fns/endOfDay";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 import TournamentModel from "@/modules/tournament/model";
@@ -57,7 +58,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament.game.team.playersNumber = request.body.game?.team.playersNumber || 0;
                 tournament.game.team.substitutesNumber = request.body.game?.team.substitutesNumber || 0;
                 tournament.game.team.maxTeams = request.body.game?.team.maxTeams || 0;
-                tournament.dates.subscriptionClose = request.body.dates?.subscriptionClose ? new Date(request.body.dates.subscriptionClose) : undefined;
+                tournament.dates.subscriptionClose = request.body.dates?.subscriptionClose ? endOfDay(new Date(request.body.dates.subscriptionClose)) : undefined;
                 tournament.dates.start = request.body.dates?.start || "";
                 tournament.dates.playDays = request.body.dates?.playDays || "";
                 tournament.dates.final = request.body.dates?.final || "";
