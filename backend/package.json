@@ -31,7 +31,6 @@
         "@types/bcryptjs": "^2.4.2",
         "@types/busboy": "^0.2.4",
         "@types/cors": "^2.8.10",
-        "@types/date-fns": "^2.6.0",
         "@types/faker": "^5.5.6",
         "@types/http-errors": "^1.8.1",
         "@types/jest": "^26.0.23",

@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
+import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
@@ -39,7 +40,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Forbidden("Ce tournoi n'est pas encore publique.");
             }
 
-            if (!tournament.dates.subscriptionClose || tournament.dates.subscriptionClose < new Date()) {
+            if (!tournament.dates.subscriptionClose || tournament.dates.subscriptionClose < startOfDay(new Date())) {
                 throw new httpErrors.Forbidden("Les inscriptions pour ce tournoi sont fermées.");
             }
 

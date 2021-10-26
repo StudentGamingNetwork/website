@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
+import startOfDay from "date-fns/startOfDay";
 import TournamentModel from "../model";
 import { TypeTournament } from "@/modules/tournament/type";
 import * as UserLib from "@/modules/user/lib";
@@ -53,13 +54,13 @@ export async function register(server: FastifyInstance): Promise<void> {
             case ETournamentType.Coming:
                 findParameters["state.archived"] = false;
                 findParameters.$or = [
-                    { "dates.subscriptionClose": { $gt: new Date() } },
+                    { "dates.subscriptionClose": { $gte: startOfDay(new Date()) } },
                     { "dates.subscriptionClose": null }
                 ];
                 break;
             case ETournamentType.Current:
                 findParameters["state.archived"] = false;
-                findParameters["dates.subscriptionClose"] = { $lt: new Date() };
+                findParameters["dates.subscriptionClose"] = { $lt: startOfDay(new Date()) };
                 break;
             case ETournamentType.Past:
                 findParameters["state.archived"] = true;
