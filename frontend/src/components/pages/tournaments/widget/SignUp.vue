@@ -71,8 +71,10 @@ import { Toast, User as UserModule } from "@/modules";
 import * as UserService from "@/services/user";
 import SValidator from "@/components/design/forms/Validator.vue";
 import * as Validators from "@/utils/validators";
+import { EToastType, useStore } from "@/modules/toast/store";
 
 const PASSWORD_MIN_LENGTH = 8;
+const toastStore = useStore();
 
 const mail = ref("");
 const password = ref("");
@@ -80,6 +82,16 @@ const waitingForSignUpResponse = ref(false);
 const waitingForLogInResponse = ref(false);
 
 async function signup() {
+    if (!mail.value || !password.value) {
+        toastStore.add({
+            title: "Erreur",
+            message: "Tous les champs doivent être remplis.",
+            type: EToastType.Error
+        });
+
+        return;
+    }
+
     waitingForSignUpResponse.value = true;
     const response = await Toast.testRequest(async () => {
         return UserService.signup({ mail: mail.value, password: password.value });
@@ -96,6 +108,16 @@ async function signup() {
 }
 
 async function login() {
+    if (!mail.value || !password.value) {
+        toastStore.add({
+            title: "Erreur",
+            message: "Tous les champs doivent être remplis.",
+            type: EToastType.Error
+        });
+
+        return;
+    }
+
     waitingForLogInResponse.value = true;
     const response = await Toast.testRequest(async () => {
         return await UserService.login({ mail: mail.value, password: password.value });
