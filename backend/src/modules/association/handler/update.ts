@@ -42,7 +42,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             if (request.body.tag) {
-                const tagRegex = /^[A-Za-z0-9]{3,4}$/;
+                const tagRegex = /^[A-Za-z0-9]{2,4}$/;
                 if (!tagRegex.test(request.body.tag)) {
                     throw new httpErrors.BadRequest("Le tag n'est pas au bon format.");
                 }
