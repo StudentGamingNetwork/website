@@ -34,7 +34,7 @@ async function init() {
 }
 
 init().then((server) => {
-    server.listen(Number(process.env.BACKEND_PORT), (error: Error) => {
+    server.listen(Number(process.env.BACKEND_PORT), "127.0.0.1", (error: Error) => {
         server.ready(() => {
             console.log(server.printRoutes());
         });

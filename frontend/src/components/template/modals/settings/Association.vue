@@ -35,7 +35,7 @@
                         v-model="association.tag"
                         :modified="association.tag !== associationStore.tag"
                         title="TAG"
-                        :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
+                        :validators="[InputValidators.Length({min:2, max:4}), InputValidators.OnlyLettersAndNumbers()]"
                         @enter="sendUpdate"
                     />
                     <SModalSectionDescription>
