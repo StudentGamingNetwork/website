@@ -27,7 +27,8 @@ const Tournament = {
     settings: Type.Optional(Type.Object({
         code: Type.Optional(Type.String()),
         logo: Type.Optional(Type.String()),
-        slug: Type.Optional(Type.String())
+        slug: Type.Optional(Type.String()),
+        toornament: Type.Optional(Type.String())
     })),
     state: Type.Optional(Type.Object({
         archived: Type.Optional(Type.Boolean()),

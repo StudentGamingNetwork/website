@@ -27,6 +27,7 @@ export interface ITournament {
         code: string;
         logo: string;
         slug: string;
+        toornament: string;
     };
     state: {
         archived: boolean;
@@ -67,7 +68,8 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
     settings: {
         code: String,
         logo: String,
-        slug: String
+        slug: String,
+        toornament: String
     },
     state: {
         archived: Boolean,

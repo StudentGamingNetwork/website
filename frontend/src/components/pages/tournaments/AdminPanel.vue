@@ -54,8 +54,14 @@
                 </SButton>
             </div>
         </SModalSection>
-        <SModalSection class="widget-section">
-            <SModalSectionTitle>Widget</SModalSectionTitle>
+        <SModalSection class="integration-section">
+            <SModalSectionTitle>Intégration</SModalSectionTitle>
+            <SInput
+                v-model="tournament.settings.toornament"
+                :modified="tournament.settings.toornament !== savedTournament.settings.toornament"
+                title="ID toornament"
+                @enter="sendUpdate"
+            />
             <SInputCopier
                 :content="widgetUrl"
                 title="Lien du widget"
@@ -320,7 +326,7 @@ export default defineComponent({
     grid-template-areas:
         "title title"
         "tournament game"
-        "widget dates"
+        "dates integration"
         "save save";
 
     @media (max-width: 999px) {
@@ -342,8 +348,8 @@ export default defineComponent({
         grid-area: tournament;
     }
 
-    .widget-section {
-        grid-area: widget;
+    .integration-section {
+        grid-area: integration;
     }
 
     .game-section {

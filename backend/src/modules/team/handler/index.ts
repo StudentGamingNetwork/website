@@ -6,7 +6,8 @@ import * as JoinHandler from "./join";
 import * as DeleteHandler from "./delete";
 import * as ListHandler from "./list";
 import * as ManageHandler from "./manage";
-import * as SchoolsHander from "./schools";
+import * as SchoolsHandler from "./schools";
+import * as ExportHAndler from "./export";
 
 export default async function (server: FastifyInstance): Promise<void> {
     await CreateHandler.register(server);
@@ -16,5 +17,6 @@ export default async function (server: FastifyInstance): Promise<void> {
     await DeleteHandler.register(server);
     await ListHandler.register(server);
     await ManageHandler.register(server);
-    await SchoolsHander.register(server);
+    await SchoolsHandler.register(server);
+    await ExportHAndler.register(server);
 }

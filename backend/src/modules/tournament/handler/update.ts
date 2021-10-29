@@ -50,6 +50,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament.name = request.body.name;
                 tournament.settings.slug = request.body.settings?.slug || "";
                 tournament.settings.code = request.body.settings?.code || "";
+                tournament.settings.toornament = request.body.settings?.toornament || "";
                 tournament.informations.prizes = request.body.informations?.prizes || "";
                 tournament.informations.rulesUrl = request.body.informations?.rulesUrl || "";
                 tournament.game.name = request.body.game?.name || "";

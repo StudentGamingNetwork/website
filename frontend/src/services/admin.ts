@@ -31,6 +31,11 @@ export async function teamManage(update: {_id: string; validated?: boolean }): P
     return result.data;
 }
 
+export async function teamExport(team: {_id: string}): Promise<any> {
+    const result = await ApiService.post("/team/export", team);
+    return result.data;
+}
+
 export async function userUpdate(update: {_id: string; role: {name: ERoles; modification: "add" | "remove"}}): Promise<any> {
     const result = await ApiService.post("/admin/user/update", update);
     return result.data;

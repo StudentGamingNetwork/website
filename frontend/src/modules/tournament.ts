@@ -28,6 +28,7 @@ export type TTournament = {
         code: string;
         logo: string;
         slug: string;
+        toornament: string;
     };
     state: {
         archived: boolean;
@@ -60,7 +61,8 @@ export function makeObject(tournament: Partial<TTournament>): TTournament {
         settings: {
             code: "",
             logo: "",
-            slug: ""
+            slug: "",
+            toornament: ""
         },
         state: {
             archived: false,

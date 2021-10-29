@@ -32,7 +32,10 @@
                     />
                     Vérification
                 </div>
-                <div class="chip export">
+                <div
+                    class="chip export"
+                    @click="exportTeam({_id: team._id})"
+                >
                     <FontAwesomeIcon
                         class="icon"
                         :icon="['fas', 'upload']"
@@ -184,7 +187,14 @@ export default defineComponent({
             }
         }
 
+        async function exportTeam(team: {_id: string}) {
+            await Toast.testRequest(async () => {
+                return await AdminService.teamExport(team);
+            });
+        }
+
         return {
+            exportTeam,
             getUserAvatarUrl: UserService.getAvatarUrl,
             isMemberReady,
             updateTeam
