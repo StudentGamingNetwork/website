@@ -38,8 +38,8 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             reply.headers({
                 "Set-Cookie": [
-                    `userId=${ session.userId };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`,
-                    `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() }`
+                    `userId=${ session.userId };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`,
+                    `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`
                 ]
             }).send({
                 message: "Vous êtes maintenant connecté.",

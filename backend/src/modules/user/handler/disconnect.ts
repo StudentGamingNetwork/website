@@ -24,8 +24,8 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             reply.headers({
                 "Set-Cookie": [
-                    `userId=deleted;path=/;expires=${ yesterday.toUTCString() }`,
-                    `token=deleted;path=/;expires=${ yesterday.toUTCString() }`
+                    `userId=deleted;path=/;expires=${ yesterday.toUTCString() };SameSite=None;Secure`,
+                    `token=deleted;path=/;expires=${ yesterday.toUTCString() };SameSite=None;Secure`
                 ]
             }).send({
                 message: "Vous êtes maintenant déconnecté.",

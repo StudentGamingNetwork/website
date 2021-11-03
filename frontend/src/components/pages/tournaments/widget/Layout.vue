@@ -50,8 +50,6 @@ const isConnected = computed(() => {
 
 onMounted(async() => {
     await updateTournament();
-
-    doc;
 });
 </script>
 
