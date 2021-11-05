@@ -75,6 +75,12 @@
                 :validators="[InputValidators.Discord()]"
                 @enter="sendUpdate"
             />
+            <SModalSectionDescription>
+                <strong>Attention: </strong> Vous devez <a
+                    href="https://discord.gg/YePmUx2E5a"
+                    target="_blank"
+                >rejoindre le discord</a> pour participer!
+            </SModalSectionDescription>
             <h2>Statut étudiant</h2>
             <SInput
                 v-model="student.name"
@@ -187,6 +193,10 @@
                 </SButton>
             </div>
             <SModalSectionDescription>
+                <strong>Attention: </strong> Vous devez <a
+                    href="https://discord.gg/YePmUx2E5a"
+                    target="_blank"
+                >rejoindre le discord</a> pour participer!<br><br>
                 Une fois que tout est en ordre, cliquez sur "Marquer prêt" pour que les admins valident votre
                 équipe.
             </SModalSectionDescription>
@@ -487,6 +497,9 @@ async function kickMember(memberIndex: number) {
 }
 
 const markReady = async () => {
+    if (!isTeamReady.value) {
+        return;
+    }
     team.state.ready = true;
     await sendUpdate();
 };
