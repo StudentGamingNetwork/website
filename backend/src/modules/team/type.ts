@@ -48,6 +48,23 @@ const TeamUser = {
     username: Type.String()
 };
 
+const TeamUserAdmin = {
+    _id: Type.String(),
+    association: Type.Optional(Type.Object(TeamAssociation)),
+    avatar: Type.Optional(Type.String()),
+    mail: Type.String(),
+    platforms: Type.Object({
+        discord: Type.String()
+    }),
+    student: Type.Optional(Type.Object({
+        name: Type.Optional(Type.String()),
+        certificate: Type.Optional(Type.String()),
+        schoolName: Type.Optional(Type.String()),
+        status: Type.Optional(Type.String())
+    })),
+    username: Type.String()
+};
+
 export const TypeTeam = Type.Object(Team);
 
 export const TypeCompleteTeam = Type.Object({
@@ -55,6 +72,15 @@ export const TypeCompleteTeam = Type.Object({
     members: Type.Array(Type.Object({
         kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUser),
+        username: Type.String()
+    }))
+});
+
+export const TypeCompleteTeamAdmin = Type.Object({
+    ...Team,
+    members: Type.Array(Type.Object({
+        kick: Type.Optional(Type.Boolean()),
+        user: Type.Object(TeamUserAdmin),
         username: Type.String()
     }))
 });

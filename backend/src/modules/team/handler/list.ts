@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UserLib from "@/modules/user/lib";
-import { TypeCompleteTeam } from "@/modules/team/type";
+import { TypeCompleteTeamAdmin } from "@/modules/team/type";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
 import { ERoles } from "@/modules/user/model";
@@ -17,7 +17,7 @@ const SchemaParams = Type.Object({
 
 type TSchemaParams = Static<typeof SchemaParams>;
 
-const SchemaResponse = Type.Array(Type.Partial(TypeCompleteTeam));
+const SchemaResponse = Type.Array(Type.Partial(TypeCompleteTeamAdmin));
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
 
