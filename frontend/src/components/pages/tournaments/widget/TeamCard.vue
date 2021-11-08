@@ -4,6 +4,58 @@
             <div class="title">
                 Prêt à rejoindre l'arène ?
             </div>
+            <div class="join">
+                <SInput
+                    v-model="student.name"
+                    autocomplete="false"
+                    :modified="student.name !== userStore.student.name"
+                    title="Prénom et nom"
+                    @enter="sendUpdate"
+                />
+                <SInput
+                    v-if="associationStore?.school?.name"
+                    disabled
+                    :model-value="associationStore?.school?.name"
+                    title="École"
+                />
+                <div
+                    v-else
+                    class="school"
+                >
+                    <SInput
+                        v-model="student.schoolName"
+                        autocomplete="false"
+                        :modified="student.schoolName !== userStore.student.schoolName"
+                        title="École"
+                        @enter="sendUpdate"
+                    />
+                    <SCard
+                        v-if="schools.length > 0 || searchLoading"
+                        class="suggestion"
+                    >
+                        <SLoading
+                            v-if="searchLoading"
+                            class="loading"
+                        />
+                        <ul v-else>
+                            <li
+                                v-for="school of schools"
+                                :key="school.name"
+                                tabindex="-1"
+                                @click="student.schoolName = school.name"
+                            >
+                                {{ school.name }}
+                            </li>
+                        </ul>
+                    </SCard>
+                </div>
+                <SInput
+                    v-model="username"
+                    :modified="username !== ''"
+                    :title="tournament.game.username"
+                    @enter="sendUpdate"
+                />
+            </div>
             <div class="buttons">
                 <template v-if="isTeamBased">
                     <SButton
@@ -31,6 +83,17 @@
     </template>
     <template v-else>
         <SCard class="join">
+            <div class="message">
+                <div class="header">
+                    Félicitation, vous êtes bien inscrits à ce tournoi 🏆 !
+                </div>
+                <SModalSectionDescription class="description">
+                    Pensez à remplir les autres champs et à <a
+                        href="https://discord.gg/YePmUx2E5a"
+                        target="_blank"
+                    >rejoindre le <b>Discord</b></a>.
+                </SModalSectionDescription>
+            </div>
             <template v-if="isTeamBased">
                 <h2>Équipe</h2>
                 <SInput
@@ -79,7 +142,7 @@
                 <strong>Attention: </strong> Vous devez <a
                     href="https://discord.gg/YePmUx2E5a"
                     target="_blank"
-                >rejoindre le discord</a> pour participer!
+                >rejoindre le Discord</a> pour participer!
             </SModalSectionDescription>
             <h2>Statut étudiant</h2>
             <SInput
@@ -196,7 +259,7 @@
                 <strong>Attention: </strong> Vous devez <a
                     href="https://discord.gg/YePmUx2E5a"
                     target="_blank"
-                >rejoindre le discord</a> pour participer!<br><br>
+                >rejoindre le Discord</a> pour participer!<br><br>
                 Une fois que tout est en ordre, cliquez sur "Marquer prêt" pour que les admins valident votre
                 équipe.
             </SModalSectionDescription>
@@ -311,7 +374,6 @@ import SValidator from "@/components/design/forms/Validator.vue";
 import SCopier from "@/components/design/forms/Copier.vue";
 import { getAvatarUrl as getUserAvatarUrl } from "@/services/user";
 import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
-import * as AssociationService from "@/services/association";
 import SLoading from "@/components/design/Loading.vue";
 
 const router = useRouter();
@@ -324,6 +386,8 @@ const savedTeam = reactive(Team.Lib.makeObject({}));
 const team = reactive<Team.TTeam>(cloneDeep(savedTeam));
 const student = reactive(cloneDeep(userStore.student));
 const platforms = reactive(cloneDeep(userStore.platforms));
+
+const username = ref("");
 
 const props = defineProps<{
     tournament: TTournament;
@@ -356,7 +420,7 @@ const isTeamBased = computed(() => {
 const debounceSearch = debounce(updateSearch, 500);
 const searchLoading = ref(false);
 
-const schools = ref([] as Array<{name: string}>);
+const schools = ref([] as Array<{ name: string }>);
 
 watch(
     () => student.schoolName,
@@ -371,7 +435,7 @@ async function updateSearch() {
     searchLoading.value = false;
 }
 
-const uploadCertificate = async(file: File) => {
+const uploadCertificate = async (file: File) => {
     await userStore.uploadCertificate(file);
 };
 
@@ -389,6 +453,10 @@ async function joinTeam() {
     if (response?.success) {
         await updateTeam();
     }
+
+    team.members[playerIndex.value].username = username.value;
+
+    await sendUpdate();
 }
 
 async function createTeam() {
@@ -399,6 +467,10 @@ async function createTeam() {
     if (response?.success) {
         await updateTeam();
     }
+
+    team.members[playerIndex.value].username = username.value;
+
+    await sendUpdate();
 }
 
 async function updateTeam() {
@@ -552,6 +624,26 @@ h2 {
     flex-direction: column;
     justify-content: center;
     gap: var(--length-gap-l);
+
+    .message {
+        .header {
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+        .description {
+            font-size: 1.2rem;
+
+            a:hover {
+                text-decoration: none;
+            }
+
+            b {
+                font-weight: 600;
+                color: var(--color-primary);
+            }
+        }
+    }
 
     .title {
         text-align: center;
