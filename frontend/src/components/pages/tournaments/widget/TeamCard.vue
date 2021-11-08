@@ -88,10 +88,12 @@
                     Félicitation, vous êtes bien inscrits à ce tournoi 🏆 !
                 </div>
                 <SModalSectionDescription class="description">
-                    Pensez à remplir les autres champs et à <a
+                    <br>
+                    Pour participer au tournoi, vous devez rejoindre le Discord ici :  <b><a
                         href="https://discord.gg/YePmUx2E5a"
                         target="_blank"
-                    >rejoindre le <b>Discord</b></a>.
+                    >https://discord.gg/YePmUx2E5a</a></b><br><br>
+                    Pensez à remplir les autres champs !
                 </SModalSectionDescription>
             </div>
             <template v-if="isTeamBased">
