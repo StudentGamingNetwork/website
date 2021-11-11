@@ -49,6 +49,9 @@
                         </ul>
                     </SCard>
                 </div>
+                <SModalSectionDescription>
+                    <strong>Note :</strong> Si votre école n'est pas suggérée, ce n'est pas grave, inscrivez-la quand même.
+                </SModalSectionDescription>
                 <SInput
                     v-model="username"
                     :modified="username !== ''"
@@ -141,10 +144,10 @@
                 @enter="sendUpdate"
             />
             <SModalSectionDescription>
-                <strong>Attention: </strong> Vous devez <a
+                <strong>Attention : </strong> Vous devez <a
                     href="https://discord.gg/YePmUx2E5a"
                     target="_blank"
-                >rejoindre le Discord</a> pour participer!
+                >rejoindre le Discord</a> pour participer !
             </SModalSectionDescription>
             <h2>Statut étudiant</h2>
             <SInput
@@ -258,10 +261,6 @@
                 </SButton>
             </div>
             <SModalSectionDescription>
-                <strong>Attention: </strong> Vous devez <a
-                    href="https://discord.gg/YePmUx2E5a"
-                    target="_blank"
-                >rejoindre le Discord</a> pour participer!<br><br>
                 Une fois que tout est en ordre, cliquez sur "Marquer prêt" pour que les admins valident votre
                 équipe.
             </SModalSectionDescription>
