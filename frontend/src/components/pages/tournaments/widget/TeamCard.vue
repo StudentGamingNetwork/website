@@ -439,6 +439,7 @@ async function updateSearch() {
 
 const uploadCertificate = async (file: File) => {
     await userStore.uploadCertificate(file);
+    await userStore.init();
 };
 
 async function joinTeam() {
