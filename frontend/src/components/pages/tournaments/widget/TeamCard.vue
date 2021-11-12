@@ -316,7 +316,7 @@
                     <div class="contact">
                         <span
                             class="certificate"
-                            :class="{error: member.user.student.status !== 'validated'}"
+                            :class="{error: ['rejected', 'undefined'].includes(member.user.student.status), warning: member.user.student.status === 'processing'}"
                             title="Certificat étudiant"
                         >
                             <FontAwesomeIcon :icon="['fas', 'id-card']" />
@@ -529,7 +529,7 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }): 
         return false;
     }
 
-    if (member.user.student.status !== "validated") {
+    if (!["validated", "processing"].includes(member.user.student.status)) {
         return false;
     }
 
@@ -773,6 +773,10 @@ h2 {
 
         .error {
             color: var(--color-error-lite);
+        }
+
+        .warning {
+            color: var(--color-warning-lite);
         }
     }
 
