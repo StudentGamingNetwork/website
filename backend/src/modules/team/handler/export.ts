@@ -61,7 +61,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     name: player.user.username,
                     custom_fields: {
                         name: player.user.student.name,
-                        discord: player.user.platforms.discord,
+                        discord: player.user.platforms.discord || "",
                         ingame: player.username,
                         school: player.user.association?.school?.name || player.user.student.schoolName
                     },

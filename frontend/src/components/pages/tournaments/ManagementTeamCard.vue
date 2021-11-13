@@ -95,7 +95,7 @@
                     <div class="contact">
                         <a
                             class="certificate"
-                            :class="{error: ['rejected', 'undefined'].includes(member.user.student.status), warning: member.user.student.status === 'processing'}"
+                            :class="{error: member.user.student.status === 'undefined',rejected: member.user.student.status === 'rejected', warning: member.user.student.status === 'processing'}"
                             :href="'/admin/certificates/'+member.user._id"
                             target="_blank"
                             :title="'Certificat étudiant ('+member.user.student.status+')'"
@@ -189,7 +189,7 @@ export default defineComponent({
             }
         }
 
-        async function exportTeam(team: {_id: string}) {
+        async function exportTeam(team: { _id: string }) {
             await Toast.testRequest(async () => {
                 return await AdminService.teamExport(team);
             });
@@ -327,6 +327,10 @@ export default defineComponent({
 
             .error {
                 color: var(--color-error-lite);
+            }
+
+            .rejected {
+                color: #ff0000;
             }
 
             .warning {
