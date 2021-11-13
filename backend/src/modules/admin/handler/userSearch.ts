@@ -53,7 +53,8 @@ async function userSearch({ limit, search, skip }: { limit: number; search?: str
         findParameters.$or = [
             { "name": searchRegex },
             { "username": searchRegex },
-            { "mail": searchRegex }
+            { "mail": searchRegex },
+            { "platforms.discord": searchRegex }
         ];
     }
 

@@ -27,6 +27,10 @@ client.on("ready", async () => {
         const hasRole = !!member[1].roles.cache.find((role) => role.name === roleToAdd);
 
         if (hasRole) {
+            const index = userList.indexOf(user.tag);
+            if (index !== -1) {
+                userList.splice(index, 1);
+            }
             continue;
         }
 
@@ -36,6 +40,7 @@ client.on("ready", async () => {
     }
 
     console.log("Done!");
+    console.log(JSON.stringify(userList));
 });
 
 client.login(process.env.CLIENT_TOKEN).then(() => {
