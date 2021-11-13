@@ -431,6 +431,13 @@ watch(
     }
 );
 
+watch (
+    () => platforms.discord,
+    () => {
+        platforms.discord = platforms.discord.replace(" #", "#");
+    }
+);
+
 async function updateSearch() {
     schools.value = await TeamService.searchSchools(tournamentSlug.value, student.schoolName);
     searchLoading.value = false;

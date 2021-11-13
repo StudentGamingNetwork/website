@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from "vue";
+import { computed, defineComponent, reactive, ref, watch } from "vue";
 import { cloneDeep, isMatch } from "lodash";
 import SButton from "@/components/design/forms/Button.vue";
 import SInput from "@/components/design/forms/Input.vue";
@@ -58,6 +58,13 @@ export default defineComponent({
 
             await userStore.updatePlatforms(platforms);
         };
+
+        watch (
+            () => platforms.discord,
+            () => {
+                platforms.discord = platforms.discord.replace(" #", "#");
+            }
+        );
 
         return {
             hasUpdate,
