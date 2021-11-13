@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
+import createHttpError from "http-errors";
 import * as UserLib from "@/modules/user/lib";
 import TeamModel from "@/modules/team/model";
 import { ERoles, IUserDocument } from "@/modules/user/model";
@@ -71,8 +72,13 @@ export async function register(server: FastifyInstance): Promise<void> {
                     type: "player"
                 };
 
-                const toornamentToken = await ToornamentLib.getToken();
-                await ToornamentLib.createParticipant(toornamentToken, teamData);
+                try {
+                    const toornamentToken = await ToornamentLib.getToken();
+                    await ToornamentLib.createParticipant(toornamentToken, teamData);
+                }
+                catch (error) {
+                    throw new createHttpError.InternalServerError(error);
+                }
             }
             else {
                 const players = (team.members as any as Array<{user: IUserDocument; username: string}>);
@@ -104,8 +110,13 @@ export async function register(server: FastifyInstance): Promise<void> {
                     type: "team"
                 };
 
-                const toornamentToken = await ToornamentLib.getToken();
-                await ToornamentLib.createParticipant(toornamentToken, teamData);
+                try {
+                    const toornamentToken = await ToornamentLib.getToken();
+                    await ToornamentLib.createParticipant(toornamentToken, teamData);
+                }
+                catch (error) {
+                    throw new createHttpError.InternalServerError(error);
+                }
             }
 
             reply.send({
