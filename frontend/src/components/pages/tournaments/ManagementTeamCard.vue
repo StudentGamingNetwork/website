@@ -96,9 +96,9 @@
                         <a
                             class="certificate"
                             :class="{error: ['rejected', 'undefined'].includes(member.user.student.status), warning: member.user.student.status === 'processing'}"
-                            :href="getUserCertificateUrl({id:member.user._id, certificate:member.user.student.certificate})"
+                            :href="'/admin/certificates/'+member.user._id"
                             target="_blank"
-                            title="Certificat étudiant"
+                            :title="'Certificat étudiant ('+member.user.student.status+')'"
                         >
                             <FontAwesomeIcon :icon="['fas', 'id-card']" />
                         </a>

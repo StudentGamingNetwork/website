@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
             title: "Administration",
             admin: true
         },
-        path: "/admin/:page?"
+        path: "/admin/:page?/:id?"
     },
     {
         name: "not-found",

@@ -24,7 +24,7 @@
         </div>
         <template v-else>
             <SAdminUserCard :user="user" />
-            <SCard>
+            <SCard v-if="user.student.certificate">
                 <img
                     v-if="certificateType === 'webp'"
                     alt="certificate"
@@ -38,7 +38,10 @@
                     type="application/pdf"
                 />
             </SCard>
-            <SCard class="actions">
+            <SCard
+                v-if="user.student.certificate"
+                class="actions"
+            >
                 <SButton
                     class="button"
                     outlined
@@ -63,6 +66,7 @@
 import { computed, defineComponent, onMounted, reactive, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { assign } from "lodash";
+import { useRouter } from "vue-router";
 import * as AdminService from "@/services/admin";
 import { TUser } from "@/modules/user";
 import SAdminUserCard from "@/components/pages/admin/panels/UserCard.vue";
@@ -70,7 +74,6 @@ import SCard from "@/components/design/Card.vue";
 import * as UserService from "@/services/user";
 import SButton from "@/components/design/forms/Button.vue";
 import { Toast } from "@/modules";
-import * as TournamentService from "@/services/tournament";
 
 export default defineComponent({
     name: "SAdminPanelCertificates",
@@ -78,10 +81,22 @@ export default defineComponent({
     setup() {
         const isSearching = ref(true);
         const user = reactive({} as Partial<TUser>);
+        const router = useRouter();
 
         onMounted(async () => {
-            const userCertificate = await AdminService.userCertificate({});
-            assign(user, userCertificate.user);
+            const userId = router.currentRoute.value.params.id as string;
+
+            if (userId) {
+                const userCertificate = await AdminService.userGet({ _id: userId });
+                assign(user, userCertificate);
+            }
+            else {
+                const userCertificate = await AdminService.userCertificate({});
+                assign(user, userCertificate.user);
+            }
+
+            await router.push(`/admin/certificates/${ user._id }`);
+
             isSearching.value = false;
         });
 
@@ -116,6 +131,7 @@ export default defineComponent({
                 else {
                     user._id = "";
                 }
+                await router.push(`/admin/certificates/${ user._id }`);
             }
         }
 
