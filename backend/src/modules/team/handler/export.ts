@@ -77,6 +77,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     await ToornamentLib.createParticipant(toornamentToken, teamData);
                 }
                 catch (error) {
+                    console.error(teamData);
                     throw new createHttpError.InternalServerError(error.message);
                 }
             }
@@ -115,6 +116,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     await ToornamentLib.createParticipant(toornamentToken, teamData);
                 }
                 catch (error) {
+                    console.error(teamData);
                     throw new createHttpError.InternalServerError(error.message);
                 }
             }
