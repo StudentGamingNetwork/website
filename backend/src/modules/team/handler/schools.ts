@@ -134,7 +134,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                         "count": -1
                     }
                 }, {
-                    $limit: 20
+                    $limit: 50
                 }
             ]);
 
