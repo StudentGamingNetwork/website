@@ -76,7 +76,7 @@ export default defineComponent({
         onMounted(async () => {
             const page = router.currentRoute.value.params.management as string;
 
-            if (["forming", "complete", "validated"].includes(page)) {
+            if (["forming", "ready", "validated"].includes(page)) {
                 managementPage.value = page;
             }
 
