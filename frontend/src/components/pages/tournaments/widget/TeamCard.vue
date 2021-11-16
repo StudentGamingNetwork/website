@@ -93,11 +93,21 @@
                 <SModalSectionDescription class="description">
                     <br>
                     <template v-if="team.state.validated">
-                        Vous êtes correctement inscrit au tournoi 🥳 ! Pensez à mettre à jour vos informations manquantes s'il y en a.
+                        <template v-if="isTeamReady">
+                            Vous êtes correctement inscrit au tournoi 🥳 ! Pensez à mettre à jour vos informations manquantes s'il y en a.<br><br>
+                            Pour participer, merci de rejoindre le serveur Discord à l'adresse suivante : <a href="https://discord.gg/YePmUx2E5a">https://discord.gg/YePmUx2E5a</a>
+                        </template>
+                        <template v-else>
+                            Les inscriptions sont maintenant terminées et votre équipe est bien inscrite au tournoi.<br><br>
+                            Attention! Il vous reste des informations à remplir ci-dessous. Merci de compléter ces informations afin de ne pas être exclus du tournoi.<br><br>
+                            Pour participer, merci de rejoindre le serveur Discord à l'adresse suivante : <a href="https://discord.gg/YePmUx2E5a">https://discord.gg/YePmUx2E5a</a>
+                        </template>
                     </template>
                     <template v-else>
-                        Vous n'êtes malheureusement pas inscrit... Votre équipe n'a pas été acceptée.<br>
-                        Les raisons peuvent être : "Manque d'informations", "Certificat étudiant non valide" ou "Plus de place dans le tournoi".
+                        Votre équipe n'a pas été validée pour participer au tournoi l'Académie 2.<br><br>
+                        Les inscriptions au tournoi sont terminées et les informations de votre équipe étaient incomplètes ou invalides.<br><br>
+                        Si vous pensez qu'il s'agit d'une erreur, vous pouvez nous contacter sur Discord avant le début du tournoi le mardi 16/11.<br>
+                        <a href="https://discord.gg/YePmUx2E5a">https://discord.gg/YePmUx2E5a</a>
                     </template>
                 </SModalSectionDescription>
             </div>

@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
+import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import * as TournamentLib from "@/modules/tournament/lib";
 import TeamModel from "@/modules/team/model";
@@ -40,6 +41,10 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             if (!team) {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
+            }
+
+            if (tournament.dates.subscriptionClose && tournament.dates.subscriptionClose < startOfDay(new Date())) {
+                throw new httpErrors.Forbidden("Vous ne pouvez pas supprimer votre équipe une fois que le tournoi a commencé.");
             }
 
             if (team.owner.toString() === user._id.toString()) {
