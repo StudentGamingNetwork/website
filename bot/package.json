@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "ts-node -r tsconfig-paths/register src/index.ts",
+        "filter": "ts-node -r tsconfig-paths/register src/filter.ts",
         "dev": "nodemon -r tsconfig-paths/register src/index.ts"
     },
     "author": "",

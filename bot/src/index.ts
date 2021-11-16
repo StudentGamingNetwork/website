@@ -1,21 +1,26 @@
 import DotEnv from "dotenv";
-import { Client, Intents } from "discord.js";
+import { Client, Intents, TextChannel } from "discord.js";
 
 DotEnv.config();
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES] });
 
+const guildId = "902322913879916554";
 const roleToAdd = "Joueur RL";
+const channelToSend = "bot-role";
+const roleMessage = `Tu as maintenant le rôle "Joueur RL", bienvenue dans le tournoi !`;
 const userList = "".split(",");
 
 client.on("ready", async () => {
     console.log(`Logged in as ${ client.user?.tag }!`);
 
-    const guild = await client.guilds.fetch(process.env.GUILD_ID as string);
+    const guild = await client.guilds.fetch(guildId);
     const members = await guild.members.fetch();
     const roles = await guild.roles.fetch();
+    const channels = await guild.channels.fetch();
 
     const role = roles.find((role) => role.name === roleToAdd);
+    const channel = channels.find((channel) => channel.name === channelToSend) as TextChannel;
 
     for (const member of members) {
         const user = member[1].user;
@@ -35,6 +40,7 @@ client.on("ready", async () => {
         }
 
         await member[1].roles.add(role?.id as string);
+        await channel.send(`${ user.toString() } - ${ roleMessage }`);
 
         console.log(user.tag);
     }
