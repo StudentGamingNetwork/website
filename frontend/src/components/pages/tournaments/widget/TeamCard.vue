@@ -88,15 +88,17 @@
         <SCard class="join">
             <div class="message">
                 <div class="header">
-                    Félicitation, vous êtes bien inscrits à ce tournoi 🏆 !
+                    Les inscriptions sont terminées 🏆 !
                 </div>
                 <SModalSectionDescription class="description">
                     <br>
-                    Pour participer au tournoi, vous devez rejoindre le Discord ici :  <b><a
-                        href="https://discord.gg/YePmUx2E5a"
-                        target="_blank"
-                    >https://discord.gg/YePmUx2E5a</a></b><br><br>
-                    Pensez à remplir les autres champs !
+                    <template v-if="team.state.validated">
+                        Vous êtes correctement inscrit au tournoi 🥳 ! Pensez à mettre à jour vos informations manquantes s'il y en a.
+                    </template>
+                    <template v-else>
+                        Vous n'êtes malheureusement pas inscrit... Votre équipe n'a pas été acceptée.<br>
+                        Les raisons peuvent être : "Manque d'informations", "Certificat étudiant non valide" ou "Plus de place dans le tournoi".
+                    </template>
                 </SModalSectionDescription>
             </div>
             <template v-if="isTeamBased">
