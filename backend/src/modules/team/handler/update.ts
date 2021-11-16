@@ -2,9 +2,11 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import { find, findIndex } from "lodash";
+import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import { TypeCompleteTeam } from "@/modules/team/type";
 import TeamModel from "@/modules/team/model";
+import TournamentModel from "@/modules/tournament/model";
 
 const SchemaRequest = TypeCompleteTeam;
 
@@ -38,6 +40,16 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             if (!team) {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
+            }
+
+            const tournament = await TournamentModel.findById(team.tournament);
+
+            if (!tournament) {
+                throw new httpErrors.NotFound("Aucun tournoi trouvé.");
+            }
+
+            if (tournament.dates.subscriptionClose && tournament.dates.subscriptionClose < startOfDay(new Date())) {
+                throw new httpErrors.Forbidden("Vous ne pouvez pas modifier votre équipe une fois que le tournoi a commencé.");
             }
 
             if (team.owner.toString() === user._id.toString()){
