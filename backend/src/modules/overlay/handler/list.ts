@@ -24,7 +24,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const donations = await DonationModel.find({
                 date: { $gte: fiveMinutesAgo }
             }).sort({
-                date: -1
+                date: 1
             });
 
             reply.send(donations);

@@ -7,4 +7,11 @@ export default async function (server: Fastify.FastifyInstance): Promise<void> {
         maxAge: 31536000000,
         root: path.join(__dirname, "../../frontend/dist")
     });
+
+    await server.register(FastifyStatic, {
+        decorateReply: false,
+        maxAge: 31536000000,
+        prefix: "/overlay",
+        root: path.join(__dirname, "../../overlay/dist")
+    });
 }

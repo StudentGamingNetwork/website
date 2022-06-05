@@ -8,10 +8,21 @@ export type TDonation = {
     amount: number;
 }
 
+const backendUrl = import.meta.env.VITE_BACKEND_HOST as string;
+
 export const useDonationStore = defineStore({
     id: "donation",
     actions: {
-        updateList() {
+        async updateList() {
+            const request = await fetch(backendUrl + "/api/overlay/donation/list");
+            const result = await request.json() as Array<TDonation>;
+
+            for (const donation of result) {
+                if (donation.date > this.lastDate) {
+                    this.lastDate = donation.date;
+                    this.list.push(donation);
+                }
+            }
         },
         getNextDonation() {
             return this.list.shift();
@@ -23,7 +34,7 @@ export const useDonationStore = defineStore({
         }
     },
     state: () => ({
-        lastDate: null,
+        lastDate: "",
         list: [
             {
                 _id: "a",

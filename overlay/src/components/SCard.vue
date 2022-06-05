@@ -18,14 +18,14 @@ export default {
 </script>
 
 <script setup lang="ts">
+import SCardTitle from "./SCardTitle.vue";
+import SCardBackground from "./SCardBackground.vue";
+
 const props = defineProps<{
     author: string;
     message: string;
     amount: number;
 }>();
-
-import SCardTitle from "./SCardTitle.vue";
-import SCardBackground from "./SCardBackground.vue";
 </script>
 
 <style scoped lang="scss">

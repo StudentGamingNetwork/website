@@ -18,14 +18,16 @@ import { ref, watch } from "vue";
 import { TDonation, useDonationStore } from "../store";
 import { sleep } from "../lib/utils";
 
+const DELAY = 10 * 1000;
+
 const isShowing = ref(false);
 const donationStore = useDonationStore()
-const currentDonation = ref<TDonation>();
+const currentDonation = ref<TDonation>({} as any);
 
 watch(() => !isShowing.value && donationStore.hasDonations, async (result) => {
     if (result) {
         await sleep(500);
-        currentDonation.value = donationStore.getNextDonation()
+        currentDonation.value = donationStore.getNextDonation() as TDonation
         isShowing.value = true;
         await sleep(8000);
         isShowing.value = false;
@@ -33,6 +35,13 @@ watch(() => !isShowing.value && donationStore.hasDonations, async (result) => {
 }, {
     immediate: true
 })
+
+async function updateLoop() {
+    await donationStore.updateList();
+    setTimeout(updateLoop, DELAY);
+}
+
+updateLoop();
 </script>
 
 <style scoped lang="scss">
