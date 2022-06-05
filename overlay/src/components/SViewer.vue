@@ -1,6 +1,8 @@
 <template>
     <div class="viewer">
-        <SCard author="Herobrine" message="Let's goooooooo !" :amount="25" />
+        <Transition>
+            <SCard v-if="isShowing" :author="currentDonation.author" :message="currentDonation.message" :amount="currentDonation.amount" />
+        </Transition>
     </div>
 </template>
 
@@ -11,8 +13,26 @@ export default {
 </script>
 
 <script setup lang="ts">
-
 import SCard from "./SCard.vue";
+import { ref, watch } from "vue";
+import { TDonation, useDonationStore } from "../store";
+import { sleep } from "../lib/utils";
+
+const isShowing = ref(false);
+const donationStore = useDonationStore()
+const currentDonation = ref<TDonation>();
+
+watch(() => !isShowing.value && donationStore.hasDonations, async (result) => {
+    if (result) {
+        await sleep(500);
+        currentDonation.value = donationStore.getNextDonation()
+        isShowing.value = true;
+        await sleep(8000);
+        isShowing.value = false;
+    }
+}, {
+    immediate: true
+})
 </script>
 
 <style scoped lang="scss">
@@ -21,4 +41,20 @@ import SCard from "./SCard.vue";
     align-items: center;
     justify-content: center;
 }
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.25s ease-in, transform 0.25s ease-in;
+    transform: scale(100%);
+}
+
+.v-enter-from {
+    opacity: 0;
+    transform: scale(0%);
+}
+
+.v-leave-to {
+    opacity: 0;
+}
+
 </style>

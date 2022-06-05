@@ -36,7 +36,6 @@ const speedVar = computed(()=> 1/props.speed + "s")
 
 .marquee {
     white-space: nowrap;
-    overflow: hidden;
     display: inline-block;
     animation: marquee v-bind(speedVar) linear infinite;
 

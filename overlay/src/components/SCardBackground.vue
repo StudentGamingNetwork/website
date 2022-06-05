@@ -34,7 +34,6 @@ import SMarquee from "./SMarquee.vue";
     left: -100%;
     top: -100%;
     transform: rotate(-10deg) translateX(25%) translateY(40%);
-    overflow: hidden;
     opacity: 5%;
 }
 </style>
