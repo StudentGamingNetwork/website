@@ -38,7 +38,7 @@ import SCardBackground from "./SCardBackground.vue";
     align-items: center;
     padding: var(--length-padding-s) var(--length-padding-l);
     gap: var(--length-gap-l);
-    box-shadow: 0 8px 32px black;
+    box-shadow: 0 16px 64px black;
 
     .left {
         position: relative;

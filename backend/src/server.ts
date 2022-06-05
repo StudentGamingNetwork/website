@@ -2,8 +2,8 @@ import "module-alias/register";
 import * as Fastify from "fastify";
 import cors from "cors";
 import Middie from "middie";
-import FastifyMultipart from "fastify-multipart";
-import { connectDatabase } from "@/database";
+import FastifyMultipart from "@fastify/multipart";
+import { closeDatabase, connectDatabase } from "@/database";
 import APIHandler from "@/api";
 import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
@@ -34,7 +34,7 @@ async function init() {
 }
 
 init().then((server) => {
-    server.listen(Number(process.env.BACKEND_PORT), "127.0.0.1", (error: Error) => {
+    server.listen(Number(process.env.BACKEND_PORT), "127.0.0.1", (error: Error | null) => {
         server.ready(() => {
             console.log(server.printRoutes());
         });
@@ -44,4 +44,9 @@ init().then((server) => {
             process.exit(1);
         }
     });
+});
+
+process.on("SIGINT", async function() {
+    await closeDatabase();
+    process.exit(1);
 });

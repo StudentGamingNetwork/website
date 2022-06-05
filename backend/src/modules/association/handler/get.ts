@@ -47,10 +47,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
                 if (isAssociationMember || isSGNMember) {
                     await association
-                        .populate("users.members")
-                        .populate("users.moderators")
-                        .populate("users.owner")
-                        .execPopulate();
+                        .populate(["users.members", "users.moderators", "users.owner"]);
                     reply.send(association);
                     return;
                 }

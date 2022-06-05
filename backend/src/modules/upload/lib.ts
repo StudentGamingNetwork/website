@@ -1,6 +1,6 @@
 import fs from "fs";
 import Crypto from "crypto";
-import { MultipartFile } from "fastify-multipart";
+import { MultipartFile } from "@fastify/multipart";
 import Sharp from "sharp";
 
 export async function processImage(file: MultipartFile, options: { fileName: string; path: string; size: number }): Promise<void> {

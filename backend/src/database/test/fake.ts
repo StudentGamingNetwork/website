@@ -1,6 +1,6 @@
 import _ from "lodash";
-import * as jsf from "json-schema-faker";
-import faker from "faker/locale/fr";
+import jsf from "json-schema-faker";
+import { faker } from "@faker-js/faker/locale/fr";
 import { PartialDeep } from "type-fest";
 import Mongo from "@/database";
 
