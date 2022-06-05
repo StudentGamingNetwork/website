@@ -19,6 +19,9 @@ const donationSchema: Mongo.Schema = new Mongo.Schema({
         required: true,
         type: String
     },
+    date: {
+        type: Date
+    },
     message: {
         type: String
     }
