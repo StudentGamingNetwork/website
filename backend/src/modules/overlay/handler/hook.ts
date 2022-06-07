@@ -11,9 +11,19 @@ const SchemaResponse = Type.Object({
 type TSchemaResponse = Static<typeof SchemaResponse>;
 
 const SchemaBody = Type.Object({
-    amount: Type.Number(),
-    author: Type.String(),
-    message: Type.String()
+    data: Type.Object({
+        items: Type.Array(
+            Type.Object({
+                amount: Type.Number(),
+                customFields: Type.Array(
+                    Type.Object({
+                        answer: Type.String()
+                    })
+                )
+            })
+        )
+    }),
+    eventType: Type.String()
 });
 
 const SchemaQueryString = Type.Object({
@@ -42,11 +52,23 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Forbidden("La clé API n'est pas valide.");
             }
 
+            if (request.body.eventType !== "Order") {
+                reply.send({
+                    message: "Ce n'est pas une donation",
+                    success: true
+                });
+                return;
+            }
+
+            const amount = request.body.data.items[0].amount;
+            const author = request.body.data.items[0].customFields[0].answer;
+            const message = request.body.data.items[0].customFields[1].answer;
+
             await DonationModel.create({
-                amount: request.body.amount,
-                author: request.body.author,
+                amount: amount,
+                author: author,
                 date: new Date(),
-                message: request.body.message
+                message: message
             });
 
             reply.send({
