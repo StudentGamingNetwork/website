@@ -1,12 +1,12 @@
 <template>
     <div class="card">
         <SCardBackground>{{ author }}</SCardBackground>
-        <div class="left">{{ amount }}€</div>
+        <div class="left">{{ formattedAmount }}€</div>
         <div class="right">
             <div class="title-wrapper">
                 <SCardTitle class="title">{{ author }}</SCardTitle>
             </div>
-            <div class="message">“{{ message }}”</div>
+            <div class="message" v-if="message">“{{ message }}”</div>
         </div>
     </div>
 </template>
@@ -20,12 +20,20 @@ export default {
 <script setup lang="ts">
 import SCardTitle from "./SCardTitle.vue";
 import SCardBackground from "./SCardBackground.vue";
+import { computed } from "vue";
 
 const props = defineProps<{
     author: string;
     message: string;
     amount: number;
 }>();
+
+const formattedAmount = computed(() => {
+    if (props.amount%100 === 0) {
+        return Math.round(props.amount/100)
+    }
+    return (props.amount/100).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+})
 </script>
 
 <style scoped lang="scss">

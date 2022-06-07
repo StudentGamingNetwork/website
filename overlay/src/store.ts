@@ -40,15 +40,8 @@ export const useDonationStore = defineStore({
                 _id: "a",
                 author: "Herobrine",
                 message: "Loading...",
-                amount: 0,
+                amount: 250,
                 date: "0"
-            },
-            {
-                _id: "b",
-                author: "Herobrine",
-                message: "Ready!",
-                amount: 25,
-                date: "1"
             }
         ] as Array<TDonation>
     })
