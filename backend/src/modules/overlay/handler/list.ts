@@ -3,7 +3,10 @@ import { Static, Type } from "@sinclair/typebox";
 import DonationModel from "@/modules/overlay/models/donation";
 import { TypeDonation } from "@/modules/overlay/types/donation";
 
-const SchemaResponse = Type.Array(TypeDonation);
+const SchemaResponse = Type.Object({
+    donations: Type.Array(TypeDonation),
+    total: Type.Number()
+});
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
 
@@ -27,7 +30,11 @@ export async function register(server: FastifyInstance): Promise<void> {
                 date: 1
             });
 
-            reply.send(donations);
+            const total = (await DonationModel.aggregate([{
+                $group: { _id: 0, total: { $sum: "$amount" } }
+            }]))[0].total;
+
+            reply.send({ donations, total });
         }
     );
 }

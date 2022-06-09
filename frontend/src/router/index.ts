@@ -4,7 +4,7 @@ import { User } from "@/modules";
 const routes: Array<RouteRecordRaw> = [
     {
         name: "landing",
-        component: () => import(/* webpackChunkName: "landing" */ "@/views/Landing.vue"),
+        component: () => import("@/views/Landing.vue"),
         meta: {
             title: "Student Gaming Network"
         },
@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "federation",
-        component: () => import(/* webpackChunkName: "federation" */ "@/views/Federation.vue"),
+        component: () => import("@/views/Federation.vue"),
         meta: {
             title: "Fédération"
         },
@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "tournaments",
-        component: () => import(/* webpackChunkName: "tournaments" */ "@/views/Tournaments.vue"),
+        component: () => import("@/views/Tournaments.vue"),
         meta: {
             title: "Tournois"
         },
@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "tournament",
-        component: () => import(/* webpackChunkName: "tournament" */ "@/views/Tournament.vue"),
+        component: () => import("@/views/Tournament.vue"),
         meta: {
             title: "Tournoi"
         },
@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "tournament-widget",
-        component: () => import(/* webpackChunkName: "tournament-widget" */ "@/views/TournamentWidget.vue"),
+        component: () => import("@/views/TournamentWidget.vue"),
         meta: {
             title: "Tournoi"
         },
@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "partners",
-        component: () => import(/* webpackChunkName: "partners" */ "@/views/Partners.vue"),
+        component: () => import("@/views/Partners.vue"),
         meta: {
             title: "Partenaires"
         },
@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "about",
-        component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue"),
+        component: () => import("@/views/About.vue"),
         meta: {
             title: "À propos"
         },
@@ -60,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "association",
-        component: () => import(/* webpackChunkName: "association" */ "@/views/Association.vue"),
+        component: () => import("@/views/Association.vue"),
         meta: {
             title: "Association"
         },
@@ -68,7 +68,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "admin",
-        component: () => import(/* webpackChunkName: "admin" */ "@/views/Admin.vue"),
+        component: () => import("@/views/Admin.vue"),
         meta: {
             title: "Administration",
             admin: true
@@ -76,8 +76,16 @@ const routes: Array<RouteRecordRaw> = [
         path: "/admin/:page?/:id?"
     },
     {
+        name: "redirect",
+        component: () => import("@/views/Redirect.vue"),
+        meta: {
+            title: "Redirection"
+        },
+        path: "/to/:page"
+    },
+    {
         name: "not-found",
-        component: () => import(/* webpackChunkName: "not-found" */ "@/views/NotFound.vue"),
+        component: () => import("@/views/NotFound.vue"),
         meta: {
             title: "Page introuvable"
         },

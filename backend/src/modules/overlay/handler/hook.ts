@@ -62,7 +62,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const amount = request.body.data.items[0].amount;
             const author = request.body.data.items[0].customFields[0].answer || "Anonyme";
-            const message = request.body.data.items[0].customFields[1].answer;
+            const message = request.body.data.items[0].customFields[1].answer || "";
 
             await DonationModel.create({
                 amount: amount,

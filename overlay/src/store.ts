@@ -15,9 +15,11 @@ export const useDonationStore = defineStore({
     actions: {
         async updateList() {
             const request = await fetch(backendUrl + "/api/overlay/donation/list");
-            const result = await request.json() as Array<TDonation>;
+            const result = await request.json() as {total: number, donations: Array<TDonation>};
 
-            for (const donation of result) {
+            this.total = result.total;
+
+            for (const donation of result.donations) {
                 if (donation.date > this.lastDate) {
                     this.lastDate = donation.date;
                     this.list.push(donation);
@@ -35,6 +37,7 @@ export const useDonationStore = defineStore({
     },
     state: () => ({
         lastDate: "",
+        total: 0,
         list: [
             {
                 _id: "a",
