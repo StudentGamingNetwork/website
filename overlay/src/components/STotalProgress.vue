@@ -69,13 +69,13 @@ updateLoop();
 .wrapper-progress {
     position: relative;
     background-image: linear-gradient(-45deg, var(--color-background-0), var(--color-background-2));
-    border-radius: var(--lenght-radius-base);
+    border-radius: calc(var(--lenght-radius-base) * 2);
     overflow: hidden;
     margin: var(--length-margin-s);
     display: flex;
     justify-content: space-between;
-    padding: var(--length-padding-xxs) var(--length-padding-xs);
-    font-size: 0.7rem;
+    padding: var(--length-padding-xs) var(--length-padding-m);
+    font-size: 4rem;
     font-weight: 800;
 
     .progress-bar {
