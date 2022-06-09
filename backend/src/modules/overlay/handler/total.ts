@@ -21,7 +21,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 $group: { _id: 0, total: { $sum: "$amount" } }
             }]))[0].total as number;
 
-            reply.send(`${ total.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 }) } €`);
+            reply.send(`${ (total / 100).toLocaleString("fr-FR", { maximumFractionDigits: 2, minimumFractionDigits: 2 }) } €`);
         }
     );
 }
