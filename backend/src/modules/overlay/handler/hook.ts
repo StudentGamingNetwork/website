@@ -17,6 +17,7 @@ const SchemaBody = Type.Object({
                 amount: Type.Number(),
                 customFields: Type.Array(
                     Type.Object({
+                        name: Type.String(),
                         answer: Type.String()
                     })
                 )
@@ -61,8 +62,8 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             const amount = request.body.data.items[0].amount;
-            const author = request.body.data.items[0].customFields[0].answer || "Anonyme";
-            const message = request.body.data.items[0].customFields[1].answer || "";
+            const author = request.body.data.items[0].customFields.find(field => field.name === "Ton pseudo Twitch")?.answer || "Anonyme";
+            const message = request.body.data.items[0].customFields.find(field => field.name === "Ton commentaire")?.answer || "";
 
             await DonationModel.create({
                 amount: amount,
