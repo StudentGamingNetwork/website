@@ -14,4 +14,12 @@ export default async function (server: Fastify.FastifyInstance): Promise<void> {
         prefix: "/overlay",
         root: path.join(__dirname, "../../overlay/dist")
     });
+
+    await server.setNotFoundHandler((request, reply) => {
+        if (request.url.startsWith("/static/overlay")){
+            reply.sendFile("index.html", path.join(__dirname, "../../overlay/dist"));
+            return;
+        }
+        reply.sendFile("index.html", path.join(__dirname, "../../frontend/dist"));
+    });
 }
