@@ -32,8 +32,8 @@ Pour pouvoir développer et tester la plateforme chez vous, vous devez avoir [No
 
 - Pour le frontend
   - Naviguer dans le dossier `frontend` (ex: `cd frontend`)
-  - Installer les dépendances avec `pnpm install`
-  - Lancer le serveur de test avec `pnpm run dev` pour avoir le hot-reload
+  - Installer les dépendances avec `npm install`
+  - Lancer le serveur de test avec `npm run dev` pour avoir le hot-reload
 - Pour le backend
   - Naviguer dans le dossier `backend` (ex: `cd backend`)
   - Installer les dépendances avec `pnpm install`
