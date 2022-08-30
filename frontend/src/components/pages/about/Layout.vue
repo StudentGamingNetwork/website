@@ -22,6 +22,17 @@
                 <li>Accompagner la vie associative en France et sur les campus</li>
                 <li>Rapprocher les étudiants du monde professionnel de l’esport et du jeu vidéo</li>
             </ul>
+
+            <br><br>
+            <SSectionTitle>Recrutements</SSectionTitle>
+            <br><br>
+            <p>
+                Le Student Gaming Network est toujours à la recherche de nouveaux talents pour rejoindre l'équipe, pour cela tu peux consulter les <a :href="https://drive.google.com/drive/folders/1jLqGvmcxbGHl4OZaxnl6YaGxdjFTSBis?usp=sharing" target="_blank">fiches des postes ouverts actuellement</a> et voir si tu as envie de travailler avec nous
+            </p>
+            <p>
+                Tu peux ensuite remplir ce <a :href="https://forms.gle/uD9maAE7gnMiqWbv5" target="_blank">formulaire de candidature</a>, et nous te recontacterons pour en discuter un peu plus avec toi !
+            </p>
+
         </div>
     </SBaseLayout>
 </template>
