@@ -121,7 +121,7 @@
                         v-model="association.settings.slug"
                         :modified="association.settings.slug !== associationStore.settings.slug"
                         title="Slug"
-                        :validators="[InputValidators.OnlyLettersAndDashes()]"
+                        :validators="[InputValidators.OnlyLettersAndNumbers()]"
                         @enter="sendUpdate"
                     />
                     <SModalSectionDescription>
