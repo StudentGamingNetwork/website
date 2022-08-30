@@ -32,6 +32,17 @@ export function OnlyLettersAndDashes(): InputValidator {
     };
 }
 
+export function SlugTest(): InputValidator {
+    return {
+        execute(value: string) {
+            const charRegex = /^[A-Za-z0-9-_]+$/;
+            return charRegex.test(value);
+        },
+        message: "Seulement des lettres, chiffres ou des tirets"
+    };
+}
+
+
 export function Length({ max, min }: {max: number; min: number}): InputValidator {
     return {
         execute(value: string) {
