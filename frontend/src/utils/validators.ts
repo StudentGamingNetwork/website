@@ -12,6 +12,16 @@ export function NotEmpty(): InputValidator {
     };
 }
 
+export function Slug(): InputValidator {
+    return {
+        execute(value: string) {
+            const charRegex = /^[A-Za-z0-9-_]+$/;
+            return charRegex.test(value);
+        },
+        message: "Seulement des lettres, chiffres ou des tirets"
+    };
+}
+
 export function OnlyLettersAndNumbers(): InputValidator {
     return {
         execute(value: string) {
