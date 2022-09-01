@@ -31,7 +31,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const association = await AssociationLib.getOwningAssociation(request);
 
             if (request.body.settings?.slug) {
-                const slugRegex = /^[A-Za-z-]+$/;
+                const slugRegex = /^[A-Za-z0-9-_]+$/;
                 if (!slugRegex.test(request.body.settings.slug)) {
                     throw new httpErrors.BadRequest("Le slug n'est pas au bon format.");
                 }
