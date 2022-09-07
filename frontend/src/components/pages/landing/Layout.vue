@@ -1,6 +1,7 @@
 <template>
     <SHeroSection />
     <div class="landing-layout">
+        <NewsletterSubscription />
         <SBaseLayout>
             <STrustSection />
         </SBaseLayout>
@@ -12,10 +13,11 @@ import { defineComponent } from "vue";
 import SHeroSection from "@/components/pages/landing/HeroSection.vue";
 import STrustSection from "@/components/pages/landing/TrustSection.vue";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
+import NewsletterSubscription from "@/components/template/NewsletterSubscription.vue";
 
 export default defineComponent({
     name: "SLandingLayout",
-    components: { SBaseLayout, SHeroSection, STrustSection }
+    components: { SBaseLayout, SHeroSection, STrustSection, NewsletterSubscription }
 });
 </script>
 
