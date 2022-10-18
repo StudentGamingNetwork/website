@@ -9,6 +9,7 @@ const BasicAssociation = {
     })),
     logo: Type.Optional(Type.String()),
     networks: Type.Optional(Type.Object({
+        discord: Type.Optional(Type.String()),
         facebook: Type.Optional(Type.String()),
         instagram: Type.Optional(Type.String()),
         twitch: Type.Optional(Type.String()),

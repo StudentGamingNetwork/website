@@ -91,6 +91,18 @@
                     :icon="['fas','globe']"
                 />
             </a>
+            <a
+                v-if="association.networks?.discord"
+                :href="association.networks?.discord"
+                target="_blank"
+                title="Discord"
+                @click.stop
+            >
+                <FontAwesomeIcon
+                    class="network"
+                    :icon="['fas','discord']"
+                />
+            </a>
         </div>
     </SCard>
 </template>
