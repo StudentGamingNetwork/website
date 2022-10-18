@@ -51,7 +51,6 @@ export const useStore = defineStore({
         },
         async update(association: Record<string, any>) {
             association.school.studentsNumber = parseInt(association.school.studentsNumber);
-
             const response = await Toast.testRequest(async () => {
                 return await AssociationService.update(association);
             });
@@ -86,6 +85,7 @@ export const useStore = defineStore({
         logo: "",
         mail: "",
         networks: {
+            discord: "",
             facebook: "",
             instagram: "",
             twitch: "",

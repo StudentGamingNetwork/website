@@ -59,6 +59,7 @@ type TBasicAssociation = {
     };
     logo: string;
     networks: {
+        discord: string;
         facebook: string;
         instagram: string;
         twitch: string;

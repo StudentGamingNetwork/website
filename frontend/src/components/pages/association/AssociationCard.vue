@@ -77,6 +77,17 @@
             class="networks"
         >
             <a
+                v-if="association.networks.discord"
+                :href="association.networks.discord"
+                target="_blank"
+                title="Discord"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fab', 'discord']"
+                />
+            </a>
+            <a
                 v-if="association.networks.facebook"
                 :href="association.networks.facebook"
                 target="_blank"

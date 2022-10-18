@@ -9,6 +9,7 @@ export type TAssociation = {
     logo: string;
     mail: string;
     networks?: {
+        discord: string;
         facebook: string;
         instagram: string;
         twitch: string;

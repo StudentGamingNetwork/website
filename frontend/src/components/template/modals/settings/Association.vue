@@ -112,6 +112,14 @@
                         :validators="[InputValidators.Url()]"
                         @enter="sendUpdate"
                     />
+                    <SInput
+                        v-model="association.networks.discord"
+                        :modified="association.networks.discord !== associationStore.networks.discord"
+                        title="Discord"
+                        type="url"
+                        :validators="[InputValidators.Url()]"
+                        @enter="sendUpdate"
+                    />
                 </SModalSection>
                 <SModalSectionTitle>
                     Paramètres
@@ -375,7 +383,6 @@ export default defineComponent({
             if (!hasChanged.value) {
                 return;
             }
-
             await associationStore.update(association);
         };
 
