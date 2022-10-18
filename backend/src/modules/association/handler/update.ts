@@ -49,6 +49,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             association.name = request.body.name;
+            association.networks.discord = request.body.networks?.discord || "";
             association.networks.facebook = request.body.networks?.facebook || "";
             association.networks.twitch = request.body.networks?.twitch || "";
             association.networks.twitter = request.body.networks?.twitter || "";
