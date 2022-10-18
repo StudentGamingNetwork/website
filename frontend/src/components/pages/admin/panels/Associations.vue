@@ -73,7 +73,7 @@ export default defineComponent({
                 isSearching.value = true;
             }
             const result = await AdminService.associationSearch({
-                limit: 20,
+                limit: 100,
                 search: searchInput.value,
                 skip: 0
             });
