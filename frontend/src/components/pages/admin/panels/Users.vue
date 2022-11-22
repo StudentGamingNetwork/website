@@ -96,7 +96,7 @@ export default defineComponent({
                 isSearching.value = true;
             }
             const result = await AdminService.userSearch({
-                limit: 100,
+                limit: 10,
                 search: searchInput.value,
                 skip: 0
             });

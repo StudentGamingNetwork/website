@@ -8,13 +8,19 @@ import APIHandler from "@/api";
 import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
 import PageHandler from "@/page";
-//import NotFoundHandler from "@/notFound";
+// import NotFoundHandler from "@/notFound";
+import * as Fake from "@/database/test/fake";
+import UserModel from "@/modules/user/model";
 
 async function init() {
     const isDevelopment = (process.env.NODE_ENV === "development");
     await connectDatabase();
 
     const server: Fastify.FastifyInstance = Fastify.fastify({ logger: isDevelopment });
+
+    for (let i = 0; i <= 10; i++) {
+        Fake.generate(UserModel, { subscriptionDate: new Date() });
+    }
 
     await server.register(Middie);
     await server.register(FastifyMultipart);
