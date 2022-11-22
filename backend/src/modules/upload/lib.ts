@@ -1,9 +1,9 @@
 import fs from "fs";
 import Crypto from "crypto";
-import { MultipartFile } from "@fastify/multipart";
 import Sharp from "sharp";
+import { SavedMultipartFile } from "@fastify/multipart";
 
-export async function processImage(file: MultipartFile, options: { fileName: string; path: string; size: number }): Promise<void> {
+export async function processImage(file: SavedMultipartFile, options: { fileName: string; path: string; size: number }): Promise<void> {
     if (!fs.existsSync(options.path)) {
         fs.mkdirSync(options.path, { recursive: true });
     }
@@ -13,7 +13,7 @@ export async function processImage(file: MultipartFile, options: { fileName: str
         .toFile(`${ options.path }/${ options.fileName }`);
 }
 
-export async function moveFile(file: MultipartFile, options: {fileName: string; path: string}): Promise<void> {
+export async function moveFile(file: SavedMultipartFile, options: {fileName: string; path: string}): Promise<void> {
     if (!fs.existsSync(options.path)) {
         fs.mkdirSync(options.path, { recursive: true });
     }

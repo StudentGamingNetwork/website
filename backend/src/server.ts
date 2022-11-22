@@ -1,8 +1,8 @@
 import "module-alias/register";
 import * as Fastify from "fastify";
 import cors from "cors";
-import Middie from "middie";
-import FastifyMultipart from "@fastify/multipart";
+import fastifyMiddie from "@fastify/middie";
+import fastifyMultipart from "@fastify/multipart";
 import { closeDatabase, connectDatabase } from "@/database";
 import APIHandler from "@/api";
 import StaticHandler from "@/static";
@@ -16,8 +16,8 @@ async function init() {
 
     const server: Fastify.FastifyInstance = Fastify.fastify({ logger: isDevelopment });
 
-    await server.register(Middie);
-    await server.register(FastifyMultipart);
+    await server.register(fastifyMiddie);
+    await server.register(fastifyMultipart);
 
     server.use(cors({
         credentials: true,
