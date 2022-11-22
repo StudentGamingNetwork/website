@@ -28,13 +28,17 @@ Le but est de pouvoir apprendre et s'améliorer en développement web, tout en c
 
 ## Développement
 
-Pour pouvoir développer et tester la plateforme chez vous, vous devez avoir [Node.js](https://nodejs.org/en/).
+Pour pouvoir développer et tester la plateforme chez vous, vous devez avoir [Node.js](https://nodejs.org/en/) (version 14+).
+Il vous faudra aussi [MongoDB Compass](https://www.mongodb.com/fr-fr/products/compass) pour accéder à la bdd en local.
 
 - Pour le frontend
+  - copier le `.env.example` -> `.env`
   - Naviguer dans le dossier `frontend` (ex: `cd frontend`)
   - Installer les dépendances avec `pnpm install`
+  - Pour le premier lancement, faire un `npm run build:force`
   - Lancer le serveur de test avec `pnpm run dev` pour avoir le hot-reload
 - Pour le backend
+  - copier le `.env.example` -> `.env`
   - Naviguer dans le dossier `backend` (ex: `cd backend`)
   - Installer les dépendances avec `pnpm install`
   - Lancer le serveur de test avec `pnpm run dev` pour avoir le hot-reload
