@@ -1,26 +1,26 @@
-import _ from "lodash";
-import jsf from "json-schema-faker";
+import { merge, set } from "lodash";
+import { JSONSchemaFaker } from "json-schema-faker";
 import { faker } from "@faker-js/faker/locale/fr";
 import { PartialDeep } from "type-fest";
 import Mongo from "@/database";
 
-jsf.extend("faker", () => {
+JSONSchemaFaker.extend("faker", () => {
     return faker;
 });
 
-jsf.format("objectId", () => {
-    return Mongo.Types.ObjectId();
+JSONSchemaFaker.format("objectId", () => {
+    return new Mongo.Types.ObjectId();
 });
 
-jsf.option({
+JSONSchemaFaker.option({
     alwaysFakeOptionals: true,
     resolveJsonPath: true
 });
 
 export async function generate<DataModel extends typeof Mongo.Model>(model: DataModel, overwrite?: PartialDeep<InstanceType<DataModel>>): Promise<InstanceType<DataModel>> {
     const jsonSchema = makeJsonSchema(model.schema);
-    let fake = await jsf.resolve(jsonSchema);
-    fake = _.merge(fake, overwrite);
+    let fake = await JSONSchemaFaker.resolve(jsonSchema);
+    fake = merge(fake, overwrite);
     const generatedModel = await model.create(fake);
     return generatedModel as InstanceType<DataModel>;
 }
@@ -50,7 +50,7 @@ function makeJsonSchema(model: Mongo.Schema): any {
         }
 
         if (value) {
-            _.set(properties, path, { ...options, ...value });
+            set(properties, path, { ...options, ...value });
         }
     });
 

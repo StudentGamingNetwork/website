@@ -78,7 +78,7 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
             type: String
         },
         schoolName: {
-            faker: "company.companyName",
+            faker: "company.company.name",
             type: String
         },
         status: {

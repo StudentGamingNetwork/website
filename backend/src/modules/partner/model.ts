@@ -17,7 +17,7 @@ export interface IPartnerDocument extends IPartner, Mongo.Document {
 
 const partnerSchema: Mongo.Schema = new Mongo.Schema({
     name: {
-        faker: "company.companyName",
+        faker: "company.company.name",
         required: true,
         type: String
     },

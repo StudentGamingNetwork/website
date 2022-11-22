@@ -41,7 +41,7 @@ export interface ITournamentDocument extends ITournament, Mongo.Document {
 
 const tournamentSchema: Mongo.Schema = new Mongo.Schema({
     name: {
-        faker: "company.companyName",
+        faker: "company.company.name",
         type: String
     },
     dates: {
