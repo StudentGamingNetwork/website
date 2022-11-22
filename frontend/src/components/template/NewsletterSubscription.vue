@@ -4,12 +4,21 @@
         <form action="https://sgnw.us20.list-manage.com/subscribe/post?u=80afd6afd952ad5837f61864e&amp;id=d7c0df515b&amp;f_id=00504ee6f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
             <div id="mc_embed_signup_scroll">
                 <div class="description">
-                    N'hésitez pas à vous inscrire à la newsletter pour suivre toutes les dernires actus<br>
-                    nos assos, de nos tournois et bien plus encore !
+                    N'hésitez pas à vous inscrire à la newsletter pour suivre toutes les dernières actus<br>
+                    de nos assos, de nos tournois et bien plus encore !
                 </div>
                 <!-- <div class="indicates-required"><span class="asterisk">*</span> indicates required</div> -->
                 <div class="mc-field-group">
                     <!-- <label for="mce-EMAIL">Adresse mail  <span class="asterisk">*</span></label> -->
+                    <!-- <SInput
+                        value=""
+                        name="EMAIL"
+                        type="email"
+                        class="required email"
+                        id="mce-EMAIL"
+                        title="Adresse email"
+                        required
+                    /> -->
                     <input type="email" placeholder="Adresse mail" value="" name="EMAIL" class="required email" id="mce-EMAIL" required>
                 </div>
                 <div id="mce-responses" class="clear foot">
@@ -32,10 +41,11 @@
 <script lang="ts">
     import { defineComponent } from "vue";
     import SSectionTitle from "@/components/design/SectionTitle.vue";
+    import SInput from "@/components/design/forms/Input.vue";
 
     export default defineComponent({
         name: "NewsletterSub",
-        components: { SSectionTitle },
+        components: { SSectionTitle, SInput },
         mounted() {
             let mcValidate = document.createElement('script');
             mcValidate.setAttribute('src', '//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js');
