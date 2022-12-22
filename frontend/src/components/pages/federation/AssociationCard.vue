@@ -21,88 +21,90 @@
         <div class="title">
             <h2>{{ association.name }}</h2>
         </div>
-        <div class="region">
-            {{ regionName }}
-        </div>
-        <div class="school">
-            {{ association.school.name }}
-        </div>
-        <div class="networks">
-            <a
-                v-if="association.networks?.facebook"
-                :href="association.networks?.facebook"
-                target="_blank"
-                title="Facebook"
-                @click.stop
-            >
-                <FontAwesomeIcon
-                    class="network"
-                    :icon="['fab','facebook']"
-                />
-            </a>
+        <div class="bottom-wrapper">
+            <div class="region">
+                {{ regionName }}
+            </div>
+            <div class="school">
+                {{ association.school.name }}
+            </div>
+            <div class="networks">
+                <a
+                    v-if="association.networks?.facebook"
+                    :href="association.networks?.facebook"
+                    target="_blank"
+                    title="Facebook"
+                    @click.stop
+                >
+                    <FontAwesomeIcon
+                        class="network"
+                        :icon="['fab','facebook']"
+                    />
+                </a>
 
-            <a
-                v-if="association.networks?.twitter"
-                :href="association.networks?.twitter"
-                target="_blank"
-                title="Twitter"
-                @click.stop
-            >
-                <FontAwesomeIcon
-                    class="network"
-                    :icon="['fab','twitter']"
-                />
-            </a>
-            <a
-                v-if="association.networks?.twitch"
-                :href="association.networks?.twitch"
-                target="_blank"
-                title="Twitch"
-                @click.stop
-            >
-                <FontAwesomeIcon
-                    class="network"
-                    :icon="['fab','twitch']"
-                />
-            </a>
+                <a
+                    v-if="association.networks?.twitter"
+                    :href="association.networks?.twitter"
+                    target="_blank"
+                    title="Twitter"
+                    @click.stop
+                >
+                    <FontAwesomeIcon
+                        class="network"
+                        :icon="['fab','twitter']"
+                    />
+                </a>
+                <a
+                    v-if="association.networks?.twitch"
+                    :href="association.networks?.twitch"
+                    target="_blank"
+                    title="Twitch"
+                    @click.stop
+                >
+                    <FontAwesomeIcon
+                        class="network"
+                        :icon="['fab','twitch']"
+                    />
+                </a>
 
-            <a
-                v-if="association.networks?.instagram"
-                :href="association.networks?.instagram"
-                target="_blank"
-                title="Instagram"
-                @click.stop
-            >
-                <FontAwesomeIcon
-                    class="network"
-                    :icon="['fab','instagram']"
-                />
-            </a>
+                <a
+                    v-if="association.networks?.instagram"
+                    :href="association.networks?.instagram"
+                    target="_blank"
+                    title="Instagram"
+                    @click.stop
+                >
+                    <FontAwesomeIcon
+                        class="network"
+                        :icon="['fab','instagram']"
+                    />
+                </a>
 
-            <a
-                v-if="association.networks?.website"
-                :href="association.networks?.website"
-                target="_blank"
-                title="website"
-                @click.stop
-            >
-                <FontAwesomeIcon
-                    class="network"
-                    :icon="['fas','globe']"
-                />
-            </a>
-            <a
-                v-if="association.networks?.discord"
-                :href="association.networks?.discord"
-                target="_blank"
-                title="Discord"
-                @click.stop
-            >
-                <FontAwesomeIcon
-                    class="network"
-                    :icon="['fas','discord']"
-                />
-            </a>
+                <a
+                    v-if="association.networks?.website"
+                    :href="association.networks?.website"
+                    target="_blank"
+                    title="website"
+                    @click.stop
+                >
+                    <FontAwesomeIcon
+                        class="network"
+                        :icon="['fas','globe']"
+                    />
+                </a>
+                <a
+                    v-if="association.networks?.discord"
+                    :href="association.networks?.discord"
+                    target="_blank"
+                    title="Discord"
+                    @click.stop
+                >
+                    <FontAwesomeIcon
+                        class="network"
+                        :icon="['fas','discord']"
+                    />
+                </a>
+            </div>
         </div>
     </SCard>
 </template>
@@ -157,6 +159,7 @@ export default defineComponent({
     padding: var(--length-padding-m);
     cursor: pointer;
     box-shadow: 0 0 0 hsla(0,0%,0%,0);
+    text-align: center;
 
     &:hover {
         transform: scale(1.05);
@@ -183,44 +186,54 @@ export default defineComponent({
         }
     }
 
-    h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin: 0;
-        padding: 0;
+    .title {
+        margin: auto;
 
-        background: var(--gradient);
-        display: inline-block;
-        color: transparent;
-        -webkit-background-clip: text;
-        text-shadow: 0 0 16px var(--color-primary-lite);
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
+
+            background: var(--gradient);
+            display: inline-block;
+            color: transparent;
+            -webkit-background-clip: text;
+            text-shadow: 0 0 16px var(--color-primary-lite);
+        }
     }
 
-    .region {
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        font-weight: 200;
-        opacity: 0.5;
-    }
-
-    .school {
-        font-size: 0.8rem;
-    }
-
-    .networks {
+    .bottom-wrapper {
         margin-top: var(--length-margin-s);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.8rem;
-        gap: var(--length-gap-m);
 
-        .network {
-            opacity: 0.3;
+        .region {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 200;
+            opacity: 0.5;
+            margin: auto;
+            padding: var(--length-margin-s)/2 0;
+        }
 
-            &:hover {
-                color: var(--color-primary);
-                opacity: 1;
+        .school {
+            font-size: 0.8rem;
+            padding: var(--length-margin-s) 0;
+        }
+
+        .networks {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            gap: var(--length-gap-m);
+
+            .network {
+                opacity: 0.3;
+
+                &:hover {
+                    color: var(--color-primary);
+                    opacity: 1;
+                }
             }
         }
     }
