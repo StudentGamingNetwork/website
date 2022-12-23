@@ -30,6 +30,18 @@
             </div>
             <div class="networks">
                 <a
+                    v-if="association.networks?.discord"
+                    :href="association.networks?.discord"
+                    target="_blank"
+                    title="Discord"
+                    @click.stop
+                >
+                    <FontAwesomeIcon
+                        class="network"
+                        :icon="['fab','discord']"
+                    />
+                </a>
+                <a
                     v-if="association.networks?.facebook"
                     :href="association.networks?.facebook"
                     target="_blank"
@@ -55,19 +67,6 @@
                     />
                 </a>
                 <a
-                    v-if="association.networks?.twitch"
-                    :href="association.networks?.twitch"
-                    target="_blank"
-                    title="Twitch"
-                    @click.stop
-                >
-                    <FontAwesomeIcon
-                        class="network"
-                        :icon="['fab','twitch']"
-                    />
-                </a>
-
-                <a
                     v-if="association.networks?.instagram"
                     :href="association.networks?.instagram"
                     target="_blank"
@@ -79,7 +78,18 @@
                         :icon="['fab','instagram']"
                     />
                 </a>
-
+                <a
+                    v-if="association.networks?.twitch"
+                    :href="association.networks?.twitch"
+                    target="_blank"
+                    title="Twitch"
+                    @click.stop
+                >
+                    <FontAwesomeIcon
+                        class="network"
+                        :icon="['fab','twitch']"
+                    />
+                </a>
                 <a
                     v-if="association.networks?.website"
                     :href="association.networks?.website"
@@ -90,18 +100,6 @@
                     <FontAwesomeIcon
                         class="network"
                         :icon="['fas','globe']"
-                    />
-                </a>
-                <a
-                    v-if="association.networks?.discord"
-                    :href="association.networks?.discord"
-                    target="_blank"
-                    title="Discord"
-                    @click.stop
-                >
-                    <FontAwesomeIcon
-                        class="network"
-                        :icon="['fas','discord']"
                     />
                 </a>
             </div>
@@ -188,6 +186,7 @@ export default defineComponent({
 
     .title {
         margin: auto;
+        // margin: var(--length-margin-s) 0;
 
         h2 {
             font-size: 1.5rem;
@@ -204,7 +203,6 @@ export default defineComponent({
     }
 
     .bottom-wrapper {
-        margin-top: var(--length-margin-s);
 
         .region {
             text-transform: uppercase;
@@ -212,12 +210,11 @@ export default defineComponent({
             font-weight: 200;
             opacity: 0.5;
             margin: auto;
-            padding: var(--length-margin-s)/2 0;
         }
 
         .school {
             font-size: 0.8rem;
-            padding: var(--length-margin-s) 0;
+            margin: var(--length-margin-s) 0;
         }
 
         .networks {
@@ -226,6 +223,7 @@ export default defineComponent({
             align-items: center;
             font-size: 1.8rem;
             gap: var(--length-gap-m);
+            flex-wrap: wrap;
 
             .network {
                 opacity: 0.3;

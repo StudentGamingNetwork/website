@@ -21,6 +21,9 @@
                 class="tag"
             >{{ association.tag }}</span>
             <h2>{{ association.name }}</h2>
+            <div class="region">
+                {{ regionName }}
+            </div>
         </div>
         <div class="school">
             <ul>
@@ -110,17 +113,6 @@
                 />
             </a>
             <a
-                v-if="association.networks.twitch"
-                :href="association.networks.twitch"
-                target="_blank"
-                title="Twitch"
-            >
-                <FontAwesomeIcon
-                    class="icon"
-                    :icon="['fab', 'twitch']"
-                />
-            </a>
-            <a
                 v-if="association.networks.instagram"
                 :href="association.networks.instagram"
                 target="_blank"
@@ -129,6 +121,17 @@
                 <FontAwesomeIcon
                     class="icon"
                     :icon="['fab', 'instagram']"
+                />
+            </a>
+            <a
+                v-if="association.networks.twitch"
+                :href="association.networks.twitch"
+                target="_blank"
+                title="Twitch"
+            >
+                <FontAwesomeIcon
+                    class="icon"
+                    :icon="['fab', 'twitch']"
                 />
             </a>
             <a
@@ -167,8 +170,13 @@ export default defineComponent({
             return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
         });
 
+        const regionName = computed(() => {
+            return AssociationService.getRegionName(props.association.federation.region);
+        });
+
         return {
-            logoUrl
+            logoUrl,
+            regionName
         };
     }
 });
@@ -241,6 +249,16 @@ export default defineComponent({
                 content: "]";
                 color: var(--color-content-softer);
             }
+        }
+
+        .region {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 200;
+            opacity: 0.5;
+            margin-left: auto;
+            margin-right: var(--length-margin-s);
+            padding: var(--length-margin-s) 0;
         }
     }
 
