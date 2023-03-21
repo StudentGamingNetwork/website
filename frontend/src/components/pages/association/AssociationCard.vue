@@ -21,6 +21,9 @@
                 class="tag"
             >{{ association.tag }}</span>
             <h2>{{ association.name }}</h2>
+            <div class="region">
+                {{ regionName }}
+            </div>
         </div>
         <div class="school">
             <ul>
@@ -166,9 +169,12 @@ export default defineComponent({
         const logoUrl = computed(() => {
             return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
         });
-
+        const regionName = computed(() => {
+            return AssociationService.getRegionName(props.association.federation.region);
+        });
         return {
-            logoUrl
+            logoUrl,
+            regionName
         };
     }
 });
@@ -242,6 +248,16 @@ export default defineComponent({
                 color: var(--color-content-softer);
             }
         }
+    }
+
+    .region {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-weight: 200;
+        opacity: 0.5;
+        margin-left: auto;
+        margin-right: var(--length-margin-s);
+        padding: var(--length-margin-s) 0;
     }
 
     .school {
