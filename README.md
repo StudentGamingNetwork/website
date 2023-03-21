@@ -42,6 +42,8 @@ Il vous faudra aussi [MongoDB Compass](https://www.mongodb.com/fr-fr/products/co
   - Naviguer dans le dossier `backend` (ex: `cd backend`)
   - Installer les dépendances avec `pnpm install`
   - Lancer le serveur de test avec `pnpm run dev` pour avoir le hot-reload
+  
+> pour avoir accès à l'interface en local: http://127.0.0.1:8080/
 
 
 ## Contribution
