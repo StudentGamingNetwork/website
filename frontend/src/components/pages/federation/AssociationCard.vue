@@ -185,8 +185,6 @@ export default defineComponent({
 
     .title {
         flex-grow: 1;
-        display: flex;
-        align-items: center;
 
         h2 {
             font-size: 1.5rem;
