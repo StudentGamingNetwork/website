@@ -100,7 +100,7 @@
             >
                 <FontAwesomeIcon
                     class="network"
-                    :icon="['fas','discord']"
+                    :icon="['fab','discord']"
                 />
             </a>
         </div>
