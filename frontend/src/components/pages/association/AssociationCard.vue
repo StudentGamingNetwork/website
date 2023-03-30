@@ -186,6 +186,7 @@ export default defineComponent({
     margin: auto;
     display: grid;
     column-gap: var(--length-gap-l);
+    row-gap: var(--length-gap-m);
     grid-template-columns: 192px 1fr 1fr;
     grid-template-areas:
         "logo head head"
@@ -216,10 +217,10 @@ export default defineComponent({
 
     .head {
         grid-area: head;
-        display: inline-flex;
-        align-items: center;
+        display: flex;
         gap: var(--length-gap-s);
-        padding: var(--length-padding-s) 0;
+        padding-top: var(--length-padding-m);
+        padding-right: var(--length-padding-m);
 
         h2 {
             font-size: 1.5rem;
@@ -248,16 +249,15 @@ export default defineComponent({
                 color: var(--color-content-softer);
             }
         }
-    }
 
-    .region {
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        font-weight: 200;
-        opacity: 0.5;
-        margin-left: auto;
-        margin-right: var(--length-margin-s);
-        padding: var(--length-margin-s) 0;
+        .region {
+            flex-grow: 1;
+            text-align: right;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 200;
+            color: var(--color-content-softer);
+        }
     }
 
     .school {
@@ -295,7 +295,8 @@ export default defineComponent({
         justify-content: right;
         align-items: flex-end;
         color: var(--color-content-litest);
-        margin-right: var(--length-margin-s);
+        padding-right: var(--length-padding-m);
+        padding-bottom: var(--length-padding-xs);
 
         a:hover {
             color: var(--color-primary-liter);
