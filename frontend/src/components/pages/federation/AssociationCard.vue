@@ -100,7 +100,7 @@
             >
                 <FontAwesomeIcon
                     class="network"
-                    :icon="['fas','discord']"
+                    :icon="['fab','discord']"
                 />
             </a>
         </div>
@@ -183,18 +183,23 @@ export default defineComponent({
         }
     }
 
-    h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin: 0;
-        padding: 0;
+    .title {
+        flex-grow: 1;
 
-        background: var(--gradient);
-        display: inline-block;
-        color: transparent;
-        -webkit-background-clip: text;
-        text-shadow: 0 0 16px var(--color-primary-lite);
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
+
+            background: var(--gradient);
+            display: inline-block;
+            color: transparent;
+            -webkit-background-clip: text;
+            text-shadow: 0 0 16px var(--color-primary-lite);
+        }
     }
+    
 
     .region {
         text-transform: uppercase;
