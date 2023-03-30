@@ -8,19 +8,7 @@ const alias = {
 
 export default defineConfig(({ command }) => {
     const config: UserConfig = {
-        plugins: [vue()],
-        resolve: {
-            alias
-        },
-        server: {
-            host: "127.0.0.1",
-            port: 8080
-        }
-    };
-
-    if (command === "build") {
-        config.base = "/static/";
-        config.build = {
+        build: {
             rollupOptions: {
                 output: {
                     manualChunks: {
@@ -33,7 +21,19 @@ export default defineConfig(({ command }) => {
                     }
                 }
             }
-        };
+        },
+        plugins: [vue()],
+        resolve: {
+            alias
+        },
+        server: {
+            host: "127.0.0.1",
+            port: 8080
+        }
+    };
+
+    if (command === "build") {
+        config.base = "/static/";
     }
 
     return config;
