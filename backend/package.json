@@ -5,7 +5,7 @@
         "dev": "cross-env NODE_ENV=development nodemon -r tsconfig-paths/register src/server.ts",
         "clean": "tsc --build --clean",
         "trace": "tsc --traceResolution",
-        "start": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register src/server.ts",
+        "start": "cross-env NODE_ENV=production ts-node -T -r tsconfig-paths/register src/server.ts",
         "test": "cross-env NODE_ENV=test vitest",
         "dev:test": "cross-env NODE_ENV=test vitest --ui",
         "tunnel": "lt --port 3000 --subdomain sgn-next"
