@@ -10,6 +10,19 @@ const origin = process.env.CORS_ORIGIN;
 export default async function (server: Fastify.FastifyInstance): Promise<void> {
     server.get("*", async (request, reply) => {
 
+        if (request.url.endsWith(".txt")) {
+            const fileName = request.url.split("/").pop() as string;
+            const distPath = path.join(__dirname, "../../frontend/dist");
+            const filePath = path.join(distPath, fileName);
+
+            if (fs.existsSync(filePath)) {
+                reply.send(fs.readFileSync(filePath).toString());
+                return;
+            }
+        }
+
+        console.log(request.url);
+
         try {
             const page = await generatePage(request.url);
 
