@@ -21,8 +21,6 @@ export default async function (server: Fastify.FastifyInstance): Promise<void> {
             }
         }
 
-        console.log(request.url);
-
         try {
             const page = await generatePage(request.url);
 
