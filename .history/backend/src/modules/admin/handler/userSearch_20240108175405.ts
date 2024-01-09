@@ -36,11 +36,11 @@ export async function register(server: FastifyInstance): Promise<void> {
             UserLib.assertRoles(user, [ERoles.Member]);
 
             const users = await userSearch(request.query);
-            const displayed = 2;
+            const display = 5;
 
             reply.send({
                 users,
-                displayed
+                display
             });
         }
     );

@@ -83,7 +83,7 @@ export default defineComponent({
         const searchInput = ref("");
         const isSearching = ref(true);
         const users = ref([] as Array<TAdminUser>);
-        const displayed= ref(0);
+        var displayed = 0;
         const debounceSearch = debounce(updateSearch, 500);
 
         watch(
@@ -102,7 +102,8 @@ export default defineComponent({
             });
 
             users.value = result.users;
-            displayed.value = result.displayed
+            displayed = result.displayed
+            console.log(displayed)
             isSearching.value = false;
         }
 

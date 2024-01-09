@@ -38,7 +38,7 @@
             name="user-list"
         >
             <SAdminUserCard
-                v-for="(user, index) in users.slice(0, displayed)"
+                v-for="user of users"
                 :key="user._id"
                 class="user"
                 :user="user"
@@ -83,7 +83,7 @@ export default defineComponent({
         const searchInput = ref("");
         const isSearching = ref(true);
         const users = ref([] as Array<TAdminUser>);
-        const displayed= ref(0);
+        var displayed = 0;
         const debounceSearch = debounce(updateSearch, 500);
 
         watch(
@@ -102,7 +102,8 @@ export default defineComponent({
             });
 
             users.value = result.users;
-            displayed.value = result.displayed
+            console.log(result.displayed)
+            displayed = result.displayed
             isSearching.value = false;
         }
 
@@ -114,8 +115,7 @@ export default defineComponent({
             isSearching,
             searchInput,
             updateSearch,
-            users,
-            displayed
+            users
         };
     }
 });
