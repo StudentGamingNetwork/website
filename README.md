@@ -28,8 +28,10 @@ Le but est de pouvoir apprendre et s'améliorer en développement web, tout en c
 
 ## Développement
 
+
 Pour pouvoir développer et tester la plateforme chez vous, vous devez avoir [Node.js](https://nodejs.org/en/) (version 14.18.1).
-Il vous faudra aussi [MongoDB Compass](https://www.mongodb.com/fr-fr/products/compass) pour accéder à la bdd en local.
+Il vous faudra aussi [MongoDB](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/)
+Dans le cas ou MongoDb est déja installer vous aurez besoins de [MongoDB Compass](https://www.mongodb.com/fr-fr/products/compass) pour accéder à la bdd en local.
 
 - Pour le frontend
   - copier le `.env.example` -> `.env`
