@@ -33,11 +33,13 @@ Pour pouvoir développer et tester la plateforme chez vous, vous devez avoir [No
 Il vous faudra aussi [MongoDB](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/).
 Dans le cas ou MongoDb est déja installer vous aurez besoins de [MongoDB Compass](https://www.mongodb.com/fr-fr/products/compass) pour accéder à la bdd en local.
 
+Pour installer pnpm : `npm install -g pnpm`
+
 - Pour le frontend
   - copier le `.env.example` -> `.env`
   - Naviguer dans le dossier `frontend` (ex: `cd frontend`)
   - Installer les dépendances avec `pnpm install`
-  - Pour le premier lancement, faire un `npm run build:force`
+  - Pour le premier lancement, faire un `pnpm run build`
   - Lancer le serveur de test avec `pnpm run dev` pour avoir le hot-reload
 - Pour le backend
   - copier le `.env.example` -> `.env`
