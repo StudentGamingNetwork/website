@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SButton from "@/components/design/forms/Button.vue";
 
 export default {
-  name: "Sort",
+  name: "SSort",
   components: { FontAwesomeIcon, SButton },
 };
 </script>

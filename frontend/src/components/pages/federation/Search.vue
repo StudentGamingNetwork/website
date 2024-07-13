@@ -10,7 +10,7 @@
           <FontAwesomeIcon :icon="['fas', 'search']" />
         </template>
       </SInput>
-      <Sort ref="regionSort" sort_field="Région" />
+      <SSort ref="regionSort" sort_field="Région" />
     </div>
     <div v-if="isSearching" class="loading">
       <FontAwesomeIcon class="icon" :icon="['fas', 'spinner']" spin />
@@ -19,29 +19,39 @@
       <FontAwesomeIcon class="icon" :icon="['fas', 'frown']" />
       <div class="description">Aucune association trouvée...</div>
     </div>
+    <div class="filter-region-wrapper">
+      <SBadge ref="filtresRegion" v-for="region in regions" :name="region" />
+    </div>
     <div v-if="regionSort?.sortCount == 1" class="search-result">
       <SAssociationCard
-        v-for="association in associations"
+        v-for="association in associations.filter((a) =>
+          isRegionActive(a.federation.region)
+        )"
         :key="association._id"
         :association="association"
       />
     </div>
     <div v-else class="search-result-wrapper">
-      <div
+      <template
         v-for="(associations, region) in regionSortedAssociations"
         class="search-result-region"
       >
-        <div class="title">
-          <h2>{{ region }}</h2>
-        </div>
-        <div class="search-result">
-          <SAssociationCard
-            v-for="association in associations"
-            :key="association._id"
-            :association="association"
-          />
-        </div>
-      </div>
+        <template
+          v-if="isRegionActive(String(region))"
+          :class="{ hidden: isRegionActive(String(region)) }"
+        >
+          <div class="title">
+            <h2>{{ region }}</h2>
+          </div>
+          <div class="search-result">
+            <SAssociationCard
+              v-for="association in associations"
+              :key="association._id"
+              :association="association"
+            />
+          </div>
+        </template>
+      </template>
     </div>
   </div>
 </template>
@@ -51,7 +61,8 @@ import { defineComponent, onMounted, ref, watch, computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
-import Sort from "@/components/design/Sort.vue";
+import SSort from "@/components/design/Sort.vue";
+import SBadge from "@/components/design/Badge.vue";
 import SAssociationCard from "@/components/pages/federation/AssociationCard.vue";
 import * as AssociationService from "@/services/association";
 
@@ -77,7 +88,13 @@ type TBasicAssociation = {
 
 export default defineComponent({
   name: "SFederationSearch",
-  components: { FontAwesomeIcon, SAssociationCard, SInput, Sort },
+  components: {
+    FontAwesomeIcon,
+    SAssociationCard,
+    SInput,
+    SSort,
+    SBadge,
+  },
   setup() {
     const isSearching = ref(true);
     const searchInput = ref("");
@@ -86,6 +103,27 @@ export default defineComponent({
 
     const debounceSearch = debounce(updateSearch, 500);
 
+    // Filtres
+    const regions = AssociationService.regionNames;
+    delete regions["none"]; // Inutile pour les filtres
+
+    const filtresRegion = ref([] as Array<typeof SBadge>);
+
+    function isRegionActive(region: string): boolean {
+      let isActive = false;
+      const fullRegion =
+        AssociationService.getRegionName(region) === "Aucune région"
+          ? region
+          : AssociationService.getRegionName(region);
+      filtresRegion.value.forEach((filtre) => {
+        if (filtre.displayedName === fullRegion) {
+          isActive = filtre.active;
+        }
+      });
+      return isActive;
+    }
+
+    // Tri
     const regionSort = ref<null | { sortCount: number }>(null);
 
     const sortedAssociations = computed(() => {
@@ -151,6 +189,9 @@ export default defineComponent({
       associations,
       isSearching,
       searchInput,
+      regions,
+      filtresRegion,
+      isRegionActive,
       regionSort,
       regionSortedAssociations,
     };
@@ -159,6 +200,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.hidden {
+  display: none;
+}
+
 .title {
   flex-grow: 1;
 
@@ -188,7 +233,7 @@ export default defineComponent({
     display: flex;
     flex-direction: row;
     gap: var(--length-gap-m);
-    max-width: 512px;
+    max-width: 612px;
     width: 100%;
 
     .input {
@@ -223,6 +268,15 @@ export default defineComponent({
       text-align: center;
       color: var(--color-content-liter);
     }
+  }
+
+  .filter-region-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--length-gap-m);
+    width: 100%;
+    justify-content: center;
   }
 
   .search-result {
