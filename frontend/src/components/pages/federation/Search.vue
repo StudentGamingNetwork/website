@@ -19,12 +19,29 @@
       <FontAwesomeIcon class="icon" :icon="['fas', 'frown']" />
       <div class="description">Aucune association trouvée...</div>
     </div>
-    <div class="search-result">
+    <div v-if="regionSort?.sortCount == 1" class="search-result">
       <SAssociationCard
-        v-for="association in sortedAssociations"
+        v-for="association in associations"
         :key="association._id"
         :association="association"
       />
+    </div>
+    <div v-else class="search-result-wrapper">
+      <div
+        v-for="(associations, region) in regionSortedAssociations"
+        class="search-result-region"
+      >
+        <div class="title">
+          <h2>{{ region }}</h2>
+        </div>
+        <div class="search-result">
+          <SAssociationCard
+            v-for="association in associations"
+            :key="association._id"
+            :association="association"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +108,25 @@ export default defineComponent({
       return sorted;
     });
 
+    const regionSortedAssociations = computed(() => {
+      let sorted = {} as { [key: string]: Array<TBasicAssociation> };
+
+      sorted = sortedAssociations.value.reduce((acc, association) => {
+        if (
+          !acc[AssociationService.getRegionName(association.federation.region)]
+        ) {
+          acc[AssociationService.getRegionName(association.federation.region)] =
+            [];
+        }
+        acc[
+          AssociationService.getRegionName(association.federation.region)
+        ].push(association);
+        return acc;
+      }, {} as { [key: string]: Array<TBasicAssociation> });
+
+      return sorted;
+    });
+
     watch(() => searchInput.value, debounceSearch);
 
     async function updateSearch() {
@@ -116,13 +152,31 @@ export default defineComponent({
       isSearching,
       searchInput,
       regionSort,
-      sortedAssociations,
+      regionSortedAssociations,
     };
   },
 });
 </script>
 
 <style scoped lang="scss">
+.title {
+  flex-grow: 1;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+
+    background: var(--gradient);
+    display: inline-block;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-shadow: 0 0 16px var(--color-primary-lite);
+  }
+}
+
 .search-layout {
   display: flex;
   align-items: center;
@@ -177,6 +231,21 @@ export default defineComponent({
     width: 100%;
     grid-template-columns: repeat(auto-fill, 256px);
     justify-content: center;
+  }
+
+  .search-result-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--length-gap-xl);
+    width: 100%;
+    justify-content: center;
+
+    .search-result-region {
+      display: flex;
+      flex-direction: column;
+      gap: var(--length-gap-xl);
+      width: 100%;
+    }
   }
 }
 </style>
