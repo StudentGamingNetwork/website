@@ -92,7 +92,6 @@ export default defineComponent({
                 isSearching.value = true;
             }
             const result = await AssociationService.search({
-                limit: 50,
                 search: searchInput.value,
                 skip: 0
             });
