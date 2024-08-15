@@ -10,18 +10,18 @@
                     <FontAwesomeIcon :icon="['fas', 'search']" />
                 </template>
             </SInput>
-            <SSort v-model="regionSort">
+            <SToggle v-model="regionDivide">
                 Région
-            </SSort>
+            </SToggle>
         </div>
         <div class="filter-region-wrapper">
             <SToggle
                 v-for="key in Object.keys(visibleRegions)"
-                :id="key"
                 :key="key"
-                ref="filtresRegion"
                 v-model="visibleRegions[key]"
-            />
+            >
+                {{ getRegionName(key) }}
+            </SToggle>
         </div>
         <div
             v-if="isSearching"
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div
-            v-if="regionSort === ESortDirection.NONE"
+            v-if="!regionDivide"
             class="search-result"
         >
             <SAssociationCard
@@ -85,12 +85,12 @@ import { onMounted, ref, watch, computed, reactive } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
-import SSort from "@/components/design/SSort.vue";
 import SToggle from "@/components/design/SToggle.vue";
 import SAssociationCard from "@/components/pages/federation/AssociationCard.vue";
 import * as AssociationService from "@/services/association";
 import { TAssociation } from "@/modules/association";
 import { ESortDirection } from "@/components/design/lib/type";
+import { getRegionName } from "@/services/association";
 
 type TBasicAssociation = {
     _id: string;
@@ -114,12 +114,11 @@ type TBasicAssociation = {
 
 const isSearching = ref(true);
 const searchInput = ref("");
-
-const associations = ref([] as Array<TBasicAssociation>);
+const associations = ref<Array<TBasicAssociation>>([]);
+const regionDivide = ref(false);
 
 const debounceSearch = debounce(updateSearch, 500);
 
-// Filtres
 const visibleRegions = reactive(Object.fromEntries(
     Object.keys(AssociationService.regionNames)
         .filter((key) => key !== "none")
@@ -130,29 +129,20 @@ const filteredAssociations = computed(() => associations.value
     .filter((association) => visibleRegions[association.federation.region])
 );
 
-// Tri
-const regionSort = ref(ESortDirection.NONE);
-
-const sortedAssociations = computed(() => {
-    if (regionSort.value === ESortDirection.NONE) {
-        return filteredAssociations.value;
-    }
-    return filteredAssociations.value.toSorted((a, b) => {
-        return a.federation.region.localeCompare(b.federation.region) * (regionSort.value === ESortDirection.UP ? 1 : -1);
-    });
-});
-
 const regionSortedAssociations = computed(() => {
-    const sorted: Record<string, Array<TAssociation>> = {};
+    const sorted: Record<string, Array<TAssociation>> = Object.fromEntries(
+        Object.keys(AssociationService.regionNames)
+            .map((key) => [key, []])
+    );
 
-    for (const association of sortedAssociations.value) {
-        if (!sorted[association.federation.region]) {
-            sorted[association.federation.region] = [];
-        }
+    for (const association of filteredAssociations.value) {
         sorted[association.federation.region].push(association);
     }
 
-    return sorted;
+    return Object.fromEntries(
+        Object.entries(sorted)
+            .filter((region) => region[1].length)
+    );
 });
 
 watch(() => searchInput.value, debounceSearch);
@@ -220,7 +210,7 @@ onMounted(async () => {
         }
 
         .button {
-            background-color: var(--color-content-litest);
+            border-color: var(--color-content-liter);
         }
     }
 

@@ -5,25 +5,18 @@
         outlined
         @click="toggle"
     >
-        {{ displayedName }}
+        <slot />
     </SButton>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import SButton from "@/components/design/forms/Button.vue";
-import { getRegionName } from "@/services/association";
-
-const props = defineProps<{
-    id: string;
-}>();
 
 const model = defineModel<boolean>();
-const displayedName = computed(() => getRegionName(props.id));
 
-const toggle = () => {
+function toggle() {
     model.value = !model.value;
-};
+}
 </script>
 
 <style scoped>
@@ -33,7 +26,7 @@ const toggle = () => {
 
     &.inactive {
         background: transparent;
-        opacity: 0.3;
+        color: var(--color-content-litest);
     }
 }
 </style>

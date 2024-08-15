@@ -4,9 +4,7 @@
         @click="toggleSort()"
     >
         <div class="sort-content">
-            <FontAwesomeIcon
-                :icon="sortIcon"
-            />
+            <FontAwesomeIcon :icon="sortIcon" />
             <slot />
         </div>
     </SButton>
@@ -20,8 +18,6 @@ import { ESortDirection } from "@/components/design/lib/type";
 
 const model = defineModel<ESortDirection>();
 
-
-
 const sortIcon = computed(() => {
     switch (model.value) {
     case ESortDirection.DOWN:
@@ -30,8 +26,6 @@ const sortIcon = computed(() => {
         return ["fas", "sort"];
     case ESortDirection.UP:
         return ["fas", "sort-up"];
-    default:
-        return ["fas", "sort"];
     }
 });
 
@@ -48,14 +42,13 @@ function toggleSort() {
         break;
     }
 }
-
 </script>
 
 <style scoped>
 .sort-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0 var(--lenght-radius-s);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 var(--lenght-radius-s);
 }
 </style>
