@@ -209,6 +209,7 @@ onMounted(async () => {
         gap: var(--length-gap-m);
         max-width: 612px;
         width: 100%;
+        align-items: flex-end;
 
         .input {
             width: 100%;
