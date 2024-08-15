@@ -8,7 +8,7 @@ import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 
 const SchemaRequest = Type.Object({
-    limit: Type.Number({ default: 20, maximum: 100, minimum: 1 }),
+    limit: Type.Number({ default: 32, maximum: 256, minimum: 1 }),
     search: Type.Optional(Type.String()),
     skip: Type.Number({ default: 0, minimum: 0 })
 });

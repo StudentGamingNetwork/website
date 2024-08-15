@@ -152,7 +152,7 @@ async function updateSearch() {
         isSearching.value = true;
     }
     const result = await AssociationService.search({
-        limit: 50,
+        limit: 128,
         search: searchInput.value,
         skip: 0
     });

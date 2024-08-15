@@ -98,6 +98,11 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         required: true,
         type: String
     }
+}, {
+    collation: {
+        locale: "fr",
+        strength: 1
+    }
 });
 
 userSchema.index(
