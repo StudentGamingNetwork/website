@@ -237,7 +237,6 @@ onMounted(async () => {
 
     .filter-region-wrapper {
         display: flex;
-        flex-direction: row;
         flex-wrap: wrap;
         gap: var(--length-gap-m);
         max-width: 980px;

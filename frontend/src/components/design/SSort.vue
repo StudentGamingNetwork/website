@@ -49,6 +49,6 @@ function toggleSort() {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0 var(--lenght-radius-s);
+    gap: var(--lenght-radius-s);
 }
 </style>
