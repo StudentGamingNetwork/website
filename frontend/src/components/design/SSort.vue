@@ -1,6 +1,6 @@
 <template>
     <SButton
-        primary
+        outlined
         @click="toggleSort()"
     >
         <div class="sort-content">

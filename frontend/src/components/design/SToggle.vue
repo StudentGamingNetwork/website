@@ -1,12 +1,11 @@
 <template>
     <SButton
-        :outline="!model"
-        :primary="model"
+        class="button"
+        :class="{inactive: !model}"
+        outlined
         @click="toggle"
-    > 
-        <div>
-            {{ displayedName }}
-        </div>
+    >
+        {{ displayedName }}
     </SButton>
 </template>
 
@@ -26,3 +25,15 @@ const toggle = () => {
     model.value = !model.value;
 };
 </script>
+
+<style scoped>
+.button {
+    --color-button-border: var(--color-background-2);
+    background: var(--color-background-1);
+
+    &.inactive {
+        background: transparent;
+        opacity: 0.3;
+    }
+}
+</style>

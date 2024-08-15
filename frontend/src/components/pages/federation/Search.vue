@@ -15,12 +15,12 @@
             </SSort>
         </div>
         <div class="filter-region-wrapper">
-            <SBadge
-                v-for="key in Object.keys(regions)"
+            <SToggle
+                v-for="key in Object.keys(visibleRegions)"
                 :id="key"
                 :key="key"
                 ref="filtresRegion"
-                v-model="regions[key]"
+                v-model="visibleRegions[key]"
             />
         </div>
         <div
@@ -54,23 +54,20 @@
                 :key="association._id"
                 :association="association"
             />
-        </div>  
+        </div>
         <div
             v-else
             class="search-result-wrapper"
         >
-            <template v-for="(associationsEntities, region) in regionSortedAssociations">
-                <template v-if="regions[region as string]">
-                    <div 
-                        :key="region"
-                        class="title"
-                    >
-                        <h2>{{ AssociationService.getRegionName(region) }}</h2>
-                    </div>
-                    <div 
-                        :key="region"
-                        class="search-result"
-                    >
+            <template
+                v-for="(associationsEntities, region) in regionSortedAssociations"
+                :key="region"
+            >
+                <div class="title">
+                    <h2>{{ AssociationService.getRegionName(region) }}</h2>
+                </div>
+                <template v-if="visibleRegions[region as string]">
+                    <div class="search-result">
                         <SAssociationCard
                             v-for="association in associationsEntities"
                             :key="association._id"
@@ -89,30 +86,30 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
 import SSort from "@/components/design/SSort.vue";
-import SBadge from "@/components/design/SBadge.vue";
+import SToggle from "@/components/design/SToggle.vue";
 import SAssociationCard from "@/components/pages/federation/AssociationCard.vue";
 import * as AssociationService from "@/services/association";
 import { TAssociation } from "@/modules/association";
 import { ESortDirection } from "@/components/design/lib/type";
 
 type TBasicAssociation = {
-  _id: string;
-  name: string;
-  federation: {
-    region: string;
-  };
-  logo: string;
-  networks: {
-    discord: string;
-    facebook: string;
-    instagram: string;
-    twitch: string;
-    twitter: string;
-    website: string;
-  };
-  school: {
+    _id: string;
     name: string;
-  };
+    federation: {
+        region: string;
+    };
+    logo: string;
+    networks: {
+        discord: string;
+        facebook: string;
+        instagram: string;
+        twitch: string;
+        twitter: string;
+        website: string;
+    };
+    school: {
+        name: string;
+    };
 };
 
 const isSearching = ref(true);
@@ -123,35 +120,33 @@ const associations = ref([] as Array<TBasicAssociation>);
 const debounceSearch = debounce(updateSearch, 500);
 
 // Filtres
-const regions = reactive(Object.fromEntries(
+const visibleRegions = reactive(Object.fromEntries(
     Object.keys(AssociationService.regionNames)
         .filter((key) => key !== "none")
         .map((key) => [key, true])
 ));
 
 const filteredAssociations = computed(() => associations.value
-    .filter((association) =>
-        regions[association.federation.region]
-    )
+    .filter((association) => visibleRegions[association.federation.region])
 );
 
 // Tri
 const regionSort = ref(ESortDirection.NONE);
 
 const sortedAssociations = computed(() => {
-    if (regionSort.value === ESortDirection.NONE){
-        return associations.value;
+    if (regionSort.value === ESortDirection.NONE) {
+        return filteredAssociations.value;
     }
-    return associations.value.toSorted((a,b) => {
+    return filteredAssociations.value.toSorted((a, b) => {
         return a.federation.region.localeCompare(b.federation.region) * (regionSort.value === ESortDirection.UP ? 1 : -1);
     });
 });
 
 const regionSortedAssociations = computed(() => {
-    const sorted = {} as { [key: string]: Array<TAssociation> };
+    const sorted: Record<string, Array<TAssociation>> = {};
 
-    for (const association of sortedAssociations.value){
-        if (!sorted[association.federation.region]){
+    for (const association of sortedAssociations.value) {
+        if (!sorted[association.federation.region]) {
             sorted[association.federation.region] = [];
         }
         sorted[association.federation.region].push(association);
@@ -184,94 +179,94 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .title {
-  flex-grow: 1;
+    flex-grow: 1;
 
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+        padding: 0;
 
-    background: var(--gradient);
-    display: inline-block;
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    text-shadow: 0 0 16px var(--color-primary-lite);
-  }
+        background: var(--gradient);
+        display: inline-block;
+        color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text;
+        text-shadow: 0 0 16px var(--color-primary-lite);
+    }
 }
 
 .search-layout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 64px;
-
-  .search-input-wrapper {
     display: flex;
-    flex-direction: row;
-    gap: var(--length-gap-m);
-    max-width: 612px;
-    width: 100%;
-
-    .input {
-      width: 100%;
-
-      &::v-deep(.input) {
-        width: 100%;
-      }
-    }
-
-    .button {
-      background-color: var(--color-content-litest);
-    }
-  }
-
-  .empty,
-  .loading {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 100%;
-    gap: var(--length-gap-m);
-    margin: var(--length-margin-l) 0;
-
-    .icon {
-      width: 64px;
-      height: 64px;
-      color: var(--color-content-litest);
-    }
-
-    .description {
-      text-align: center;
-      color: var(--color-content-liter);
-    }
-  }
-
-  .filter-region-wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--length-gap-m);
-    width: 100%;
     justify-content: center;
-  }
-
-  .search-result {
-    display: grid;
-    gap: var(--length-gap-xl);
-    width: 100%;
-    grid-template-columns: repeat(auto-fill, 256px);
-    justify-content: center;
-  }
-
-  .search-result-wrapper {
-    display: flex;
     flex-direction: column;
-    gap: var(--length-gap-xl);
-    width: 100%;
-    justify-content: center;
-  }
+    gap: 64px;
+
+    .search-input-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: var(--length-gap-m);
+        max-width: 612px;
+        width: 100%;
+
+        .input {
+            width: 100%;
+
+            &::v-deep(.input) {
+                width: 100%;
+            }
+        }
+
+        .button {
+            background-color: var(--color-content-litest);
+        }
+    }
+
+    .empty,
+    .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: var(--length-gap-m);
+        margin: var(--length-margin-l) 0;
+
+        .icon {
+            width: 64px;
+            height: 64px;
+            color: var(--color-content-litest);
+        }
+
+        .description {
+            text-align: center;
+            color: var(--color-content-liter);
+        }
+    }
+
+    .filter-region-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--length-gap-m);
+        max-width: 980px;
+        justify-content: center;
+    }
+
+    .search-result {
+        display: grid;
+        gap: var(--length-gap-xl);
+        width: 100%;
+        grid-template-columns: repeat(auto-fill, 256px);
+        justify-content: center;
+    }
+
+    .search-result-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--length-gap-xl);
+        width: 100%;
+        justify-content: center;
+    }
 }
 </style>
