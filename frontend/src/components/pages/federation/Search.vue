@@ -1,59 +1,92 @@
 <template>
-  <div class="search-layout">
-    <div class="search-input-wrapper">
-      <SInput
-        v-model="searchInput"
-        class="input"
-        title="Chercher une association..."
-      >
-        <template #suffix>
-          <FontAwesomeIcon :icon="['fas', 'search']" />
-        </template>
-      </SInput>
-      <SSort ref="regionSort" sort_field="Région" />
-    </div>
-    <div v-if="isSearching" class="loading">
-      <FontAwesomeIcon class="icon" :icon="['fas', 'spinner']" spin />
-    </div>
-    <div v-else-if="associations.length === 0" class="empty">
-      <FontAwesomeIcon class="icon" :icon="['fas', 'frown']" />
-      <div class="description">Aucune association trouvée...</div>
-    </div>
-    <div class="filter-region-wrapper">
-      <SBadge ref="filtresRegion" v-for="region in regions" :name="region" />
-    </div>
-    <div v-if="regionSort?.sortCount == 1" class="search-result">
-      <SAssociationCard
-        v-for="association in associations.filter((a) =>
-          isRegionActive(a.federation.region)
-        )"
-        :key="association._id"
-        :association="association"
-      />
-    </div>
-    <div v-else class="search-result-wrapper">
-      <template
-        v-for="(associations, region) in regionSortedAssociations"
-        class="search-result-region"
-      >
-        <template
-          v-if="isRegionActive(String(region))"
-          :class="{ hidden: isRegionActive(String(region)) }"
-        >
-          <div class="title">
-            <h2>{{ region }}</h2>
-          </div>
-          <div class="search-result">
-            <SAssociationCard
-              v-for="association in associations"
-              :key="association._id"
-              :association="association"
+    <div class="search-layout">
+        <div class="search-input-wrapper">
+            <SInput
+                v-model="searchInput"
+                class="input"
+                title="Chercher une association..."
+            >
+                <template #suffix>
+                    <FontAwesomeIcon :icon="['fas', 'search']" />
+                </template>
+            </SInput>
+            <SSort
+                ref="regionSort"
+                sort_field="Région"
             />
-          </div>
-        </template>
-      </template>
+        </div>
+        <div
+            v-if="isSearching"
+            class="loading"
+        >
+            <FontAwesomeIcon
+                class="icon"
+                :icon="['fas', 'spinner']"
+                spin
+            />
+        </div>
+        <div
+            v-else-if="associations.length === 0"
+            class="empty"
+        >
+            <FontAwesomeIcon
+                class="icon"
+                :icon="['fas', 'frown']"
+            />
+            <div class="description">
+                Aucune association trouvée...
+            </div>
+        </div>
+        <div class="filter-region-wrapper">
+            <SBadge
+                v-for="region in regions"
+                :key="region"
+                ref="filtresRegion"
+                :displayed-name="region"
+            />
+        </div>
+        <div
+            v-if="regionSort?.sortCount == 1"
+            class="search-result"
+        >
+            <SAssociationCard
+                v-for="association in associations.filter((a) =>
+                    isRegionActive(a.federation.region)
+                )"
+                :key="association._id"
+                :association="association"
+            />
+        </div>  
+        <div
+            v-else
+            class="search-result-wrapper"
+        >
+            <template
+                v-for="(associationsEntities, region) in regionSortedAssociations"
+            >
+                <template
+                    v-if="isRegionActive(String(region))"
+                >
+                    <div 
+                        :key="region"
+                        class="title"
+                    >
+                        <h2>{{ region }}</h2>
+                    </div>
+                    <div 
+                        :key="region"
+                        class="search-result"
+                    >
+                        <SAssociationCard
+                            v-for="association in associationsEntities"
+                            :key="association._id"
+                            :association="association"
+                        />
+                    </div>
+                </template>
+            </template>
+        </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -61,10 +94,11 @@ import { defineComponent, onMounted, ref, watch, computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
-import SSort from "@/components/design/Sort.vue";
-import SBadge from "@/components/design/Badge.vue";
+import SSort from "@/components/design/SSort.vue";
+import SBadge from "@/components/design/SBadge.vue";
 import SAssociationCard from "@/components/pages/federation/AssociationCard.vue";
 import * as AssociationService from "@/services/association";
+import { TAssociation } from "@/modules/association";
 
 type TBasicAssociation = {
   _id: string;
@@ -87,123 +121,120 @@ type TBasicAssociation = {
 };
 
 export default defineComponent({
-  name: "SFederationSearch",
-  components: {
-    FontAwesomeIcon,
-    SAssociationCard,
-    SInput,
-    SSort,
-    SBadge,
-  },
-  setup() {
-    const isSearching = ref(true);
-    const searchInput = ref("");
+    name: "SFederationSearch",
+    components: {
+        FontAwesomeIcon,
+        SAssociationCard,
+        SBadge,
+        SInput,
+        SSort
+    },
+    setup() {
+        const isSearching = ref(true);
+        const searchInput = ref("");
 
-    const associations = ref([] as Array<TBasicAssociation>);
+        const associations = ref([] as Array<TBasicAssociation>);
 
-    const debounceSearch = debounce(updateSearch, 500);
+        const debounceSearch = debounce(updateSearch, 500);
 
-    // Filtres
-    const regions = AssociationService.regionNames;
-    delete regions["none"]; // Inutile pour les filtres
+        // Filtres
+        const regions = AssociationService.regionNames;
+        delete regions["none"]; // Inutile pour les filtres
 
-    const filtresRegion = ref([] as Array<typeof SBadge>);
+        const filtresRegion = ref([] as Array<typeof SBadge>);
 
-    function isRegionActive(region: string): boolean {
-      let isActive = false;
-      const fullRegion =
+        function isRegionActive(region: string): boolean {
+            let isActive = false;
+            const fullRegion =
         AssociationService.getRegionName(region) === "Aucune région"
-          ? region
-          : AssociationService.getRegionName(region);
-      filtresRegion.value.forEach((filtre) => {
-        if (filtre.displayedName === fullRegion) {
-          isActive = filtre.active;
+            ? region
+            : AssociationService.getRegionName(region);
+            filtresRegion.value.forEach((filtre) => {
+                if (filtre.displayedName === fullRegion) {
+                    isActive = filtre.active;
+                }
+            });
+            return isActive;
         }
-      });
-      return isActive;
-    }
 
-    // Tri
-    const regionSort = ref<null | { sortCount: number }>(null);
+        // Tri
+        const regionSort = ref<null | { sortCount: number }>(null);
 
-    const sortedAssociations = computed(() => {
-      if (!regionSort.value) return associations.value; // Si regionSort n'est pas défini, retourne le tableau original
+        const sortedAssociations = computed(() => {
+            if (!regionSort.value) return associations.value; // Si regionSort n'est pas défini, retourne le tableau original
 
-      let sorted = [...associations.value];
-      const temp = regionSort.value as { sortCount: number };
-      if (temp.sortCount === 0) {
-        // Tri décroissant
-        sorted.sort((a, b) =>
-          b.federation.region.localeCompare(a.federation.region)
-        );
-      } else if (temp.sortCount === 2) {
-        // Tri croissant
-        sorted.sort((a, b) =>
-          a.federation.region.localeCompare(b.federation.region)
-        );
-      }
-      // Si regionSort.value === 2, aucun tri n'est appliqué, donc retourne le tableau tel quel
-      return sorted;
-    });
+            const sorted = [...associations.value];
+            const temp = regionSort.value as { sortCount: number };
+            if (temp.sortCount === 0) {
+                // Tri décroissant
+                sorted.sort((a, b) =>
+                    b.federation.region.localeCompare(a.federation.region)
+                );
+            }
+            else if (temp.sortCount === 2) {
+                // Tri croissant
+                sorted.sort((a, b) =>
+                    a.federation.region.localeCompare(b.federation.region)
+                );
+            }
+            // Si regionSort.value === 2, aucun tri n'est appliqué, donc retourne le tableau tel quel
+            return sorted;
+        });
 
-    const regionSortedAssociations = computed(() => {
-      let sorted = {} as { [key: string]: Array<TBasicAssociation> };
+        const regionSortedAssociations = computed(() => {
+            let sorted = {} as { [key: string]: Array<TAssociation> };
 
-      sorted = sortedAssociations.value.reduce((acc, association) => {
-        if (
-          !acc[AssociationService.getRegionName(association.federation.region)]
-        ) {
-          acc[AssociationService.getRegionName(association.federation.region)] =
+            sorted = sortedAssociations.value.reduce((acc, association) => {
+                if (
+                    !acc[AssociationService.getRegionName(association.federation.region)]
+                ) {
+                    acc[AssociationService.getRegionName(association.federation.region)] =
             [];
+                }
+                acc[
+                    AssociationService.getRegionName(association.federation.region)
+                ].push(association as TAssociation);
+                return acc;
+            }, {} as { [key: string]: Array<TAssociation> });
+
+            return sorted;
+        });
+
+        watch(() => searchInput.value, debounceSearch);
+
+        async function updateSearch() {
+            if (associations.value.length === 0) {
+                isSearching.value = true;
+            }
+            const result = await AssociationService.search({
+                limit: 50,
+                search: searchInput.value,
+                skip: 0
+            });
+
+            associations.value = result.associations;
+            isSearching.value = false;
         }
-        acc[
-          AssociationService.getRegionName(association.federation.region)
-        ].push(association);
-        return acc;
-      }, {} as { [key: string]: Array<TBasicAssociation> });
 
-      return sorted;
-    });
+        onMounted(async () => {
+            await updateSearch();
+        });
 
-    watch(() => searchInput.value, debounceSearch);
-
-    async function updateSearch() {
-      if (associations.value.length === 0) {
-        isSearching.value = true;
-      }
-      const result = await AssociationService.search({
-        limit: 50,
-        search: searchInput.value,
-        skip: 0,
-      });
-
-      associations.value = result.associations;
-      isSearching.value = false;
+        return {
+            associations,
+            filtresRegion,
+            isRegionActive,
+            isSearching,
+            regions,
+            regionSort,
+            regionSortedAssociations,
+            searchInput
+        };
     }
-
-    onMounted(async () => {
-      await updateSearch();
-    });
-
-    return {
-      associations,
-      isSearching,
-      searchInput,
-      regions,
-      filtresRegion,
-      isRegionActive,
-      regionSort,
-      regionSortedAssociations,
-    };
-  },
 });
 </script>
 
 <style scoped lang="scss">
-.hidden {
-  display: none;
-}
-
 .title {
   flex-grow: 1;
 
@@ -293,13 +324,6 @@ export default defineComponent({
     gap: var(--length-gap-xl);
     width: 100%;
     justify-content: center;
-
-    .search-result-region {
-      display: flex;
-      flex-direction: column;
-      gap: var(--length-gap-xl);
-      width: 100%;
-    }
   }
 }
 </style>
