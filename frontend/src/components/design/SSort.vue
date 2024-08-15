@@ -7,29 +7,23 @@
             <FontAwesomeIcon
                 :icon="sortIcon"
             />
-            {{ props.sortField }}
+            <slot />
         </div>
     </SButton>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, defineExpose } from "vue";
+import { computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SButton from "@/components/design/forms/Button.vue";
 import { ESortDirection } from "@/components/design/lib/type";
 
-const sortCount = ref(ESortDirection.NONE);
+const model = defineModel<ESortDirection>();
 
-const props = defineProps({
-    sortField: {
-        default: "Région",
-        required: true,
-        type: String
-    }
-});
+
 
 const sortIcon = computed(() => {
-    switch (sortCount.value) {
+    switch (model.value) {
     case ESortDirection.DOWN:
         return ["fas", "sort-down"];
     case ESortDirection.NONE:
@@ -42,10 +36,19 @@ const sortIcon = computed(() => {
 });
 
 function toggleSort() {
-    sortCount.value = (sortCount.value + 1) % 3;
+    switch (model.value) {
+    case ESortDirection.DOWN:
+        model.value = ESortDirection.UP;
+        break;
+    case ESortDirection.NONE:
+        model.value = ESortDirection.DOWN;
+        break;
+    case ESortDirection.UP:
+        model.value = ESortDirection.NONE;
+        break;
+    }
 }
 
-defineExpose({ sortCount });
 </script>
 
 <style scoped>

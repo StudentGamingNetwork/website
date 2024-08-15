@@ -10,10 +10,9 @@
                     <FontAwesomeIcon :icon="['fas', 'search']" />
                 </template>
             </SInput>
-            <SSort
-                ref="regionSort"
-                sort-field="Région"
-            />
+            <SSort v-model="regionSort">
+                Région
+            </SSort>
         </div>
         <div class="filter-region-wrapper">
             <SBadge
@@ -47,7 +46,7 @@
             </div>
         </div>
         <div
-            v-if="regionSort?.sortCount == 1"
+            v-if="regionSort === ESortDirection.NONE"
             class="search-result"
         >
             <SAssociationCard
@@ -66,7 +65,7 @@
                         :key="region"
                         class="title"
                     >
-                        <h2>{{ region }}</h2>
+                        <h2>{{ AssociationService.getRegionName(region) }}</h2>
                     </div>
                     <div 
                         :key="region"
@@ -94,6 +93,7 @@ import SBadge from "@/components/design/SBadge.vue";
 import SAssociationCard from "@/components/pages/federation/AssociationCard.vue";
 import * as AssociationService from "@/services/association";
 import { TAssociation } from "@/modules/association";
+import { ESortDirection } from "@/components/design/lib/type";
 
 type TBasicAssociation = {
   _id: string;
@@ -136,45 +136,26 @@ const filteredAssociations = computed(() => associations.value
 );
 
 // Tri
-const regionSort = ref<null | { sortCount: number }>(null);
+const regionSort = ref(ESortDirection.NONE);
 
 const sortedAssociations = computed(() => {
-    if (!regionSort.value) return associations.value; // Si regionSort n'est pas défini, retourne le tableau original
-
-    const sorted = [...associations.value];
-    const temp = regionSort.value as { sortCount: number };
-
-    if (temp.sortCount === 0) {
-        // Tri décroissant
-        sorted.sort((a, b) =>
-            b.federation.region.localeCompare(a.federation.region)
-        );
+    if (regionSort.value === ESortDirection.NONE){
+        return associations.value;
     }
-    else if (temp.sortCount === 2) {
-        // Tri croissant
-        sorted.sort((a, b) =>
-            a.federation.region.localeCompare(b.federation.region)
-        );
-    }
-    // Si regionSort.value === 2, aucun tri n'est appliqué, donc retourne le tableau tel quel
-    return sorted;
+    return associations.value.toSorted((a,b) => {
+        return a.federation.region.localeCompare(b.federation.region) * (regionSort.value === ESortDirection.UP ? 1 : -1);
+    });
 });
 
 const regionSortedAssociations = computed(() => {
-    let sorted = {} as { [key: string]: Array<TAssociation> };
+    const sorted = {} as { [key: string]: Array<TAssociation> };
 
-    sorted = sortedAssociations.value.reduce((acc, association) => {
-        if (
-            !acc[AssociationService.getRegionName(association.federation.region)]
-        ) {
-            acc[AssociationService.getRegionName(association.federation.region)] =
-            [];
+    for (const association of sortedAssociations.value){
+        if (!sorted[association.federation.region]){
+            sorted[association.federation.region] = [];
         }
-        acc[
-            AssociationService.getRegionName(association.federation.region)
-        ].push(association as TAssociation);
-        return acc;
-    }, {} as { [key: string]: Array<TAssociation> });
+        sorted[association.federation.region].push(association);
+    }
 
     return sorted;
 });
