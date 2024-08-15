@@ -1,32 +1,28 @@
 <template>
     <SButton
-        :outline="!active"
-        :primary="active"
+        :outline="!model"
+        :primary="model"
         @click="toggle"
     > 
         <div>
-            {{ props.displayedName }}
+            {{ displayedName }}
         </div>
     </SButton>
 </template>
 
 <script setup lang="ts">
-import { ref, defineExpose } from "vue";
+import { computed } from "vue";
 import SButton from "@/components/design/forms/Button.vue";
+import { getRegionName } from "@/services/association";
 
 const props = defineProps<{
-    displayedName: string;
+    id: string;
 }>();
 
-const active = ref(true);
-const displayedName = ref(props.displayedName);
-
+const model = defineModel<boolean>();
+const displayedName = computed(() => getRegionName(props.id));
 
 const toggle = () => {
-    active.value = !active.value;
+    model.value = !model.value;
 };
-
-defineExpose({
-    active,displayedName
-});
 </script>

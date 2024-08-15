@@ -16,12 +16,7 @@
 import { computed, ref, defineExpose } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SButton from "@/components/design/forms/Button.vue";
-
-enum ESortDirection {
-    DOWN = 0,
-    NONE = 1,
-    UP = 2
-}
+import { ESortDirection } from "@/components/design/lib/type";
 
 const sortCount = ref(ESortDirection.NONE);
 

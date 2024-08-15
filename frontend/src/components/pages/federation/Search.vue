@@ -12,7 +12,16 @@
             </SInput>
             <SSort
                 ref="regionSort"
-                sort_field="Région"
+                sort-field="Région"
+            />
+        </div>
+        <div class="filter-region-wrapper">
+            <SBadge
+                v-for="key in Object.keys(regions)"
+                :id="key"
+                :key="key"
+                ref="filtresRegion"
+                v-model="regions[key]"
             />
         </div>
         <div
@@ -37,22 +46,12 @@
                 Aucune association trouvée...
             </div>
         </div>
-        <div class="filter-region-wrapper">
-            <SBadge
-                v-for="region in regions"
-                :key="region"
-                ref="filtresRegion"
-                :displayed-name="region"
-            />
-        </div>
         <div
             v-if="regionSort?.sortCount == 1"
             class="search-result"
         >
             <SAssociationCard
-                v-for="association in associations.filter((a) =>
-                    isRegionActive(a.federation.region)
-                )"
+                v-for="association in filteredAssociations"
                 :key="association._id"
                 :association="association"
             />
@@ -61,12 +60,8 @@
             v-else
             class="search-result-wrapper"
         >
-            <template
-                v-for="(associationsEntities, region) in regionSortedAssociations"
-            >
-                <template
-                    v-if="isRegionActive(String(region))"
-                >
+            <template v-for="(associationsEntities, region) in regionSortedAssociations">
+                <template v-if="regions[region as string]">
                     <div 
                         :key="region"
                         class="title"
@@ -89,8 +84,8 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref, watch, computed } from "vue";
+<script lang="ts" setup>
+import { onMounted, ref, watch, computed, reactive } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
@@ -120,118 +115,90 @@ type TBasicAssociation = {
   };
 };
 
-export default defineComponent({
-    name: "SFederationSearch",
-    components: {
-        FontAwesomeIcon,
-        SAssociationCard,
-        SBadge,
-        SInput,
-        SSort
-    },
-    setup() {
-        const isSearching = ref(true);
-        const searchInput = ref("");
+const isSearching = ref(true);
+const searchInput = ref("");
 
-        const associations = ref([] as Array<TBasicAssociation>);
+const associations = ref([] as Array<TBasicAssociation>);
 
-        const debounceSearch = debounce(updateSearch, 500);
+const debounceSearch = debounce(updateSearch, 500);
 
-        // Filtres
-        const regions = AssociationService.regionNames;
-        delete regions["none"]; // Inutile pour les filtres
+// Filtres
+const regions = reactive(Object.fromEntries(
+    Object.keys(AssociationService.regionNames)
+        .filter((key) => key !== "none")
+        .map((key) => [key, true])
+));
 
-        const filtresRegion = ref([] as Array<typeof SBadge>);
+const filteredAssociations = computed(() => associations.value
+    .filter((association) =>
+        regions[association.federation.region]
+    )
+);
 
-        function isRegionActive(region: string): boolean {
-            let isActive = false;
-            const fullRegion =
-        AssociationService.getRegionName(region) === "Aucune région"
-            ? region
-            : AssociationService.getRegionName(region);
-            filtresRegion.value.forEach((filtre) => {
-                if (filtre.displayedName === fullRegion) {
-                    isActive = filtre.active;
-                }
-            });
-            return isActive;
-        }
+// Tri
+const regionSort = ref<null | { sortCount: number }>(null);
 
-        // Tri
-        const regionSort = ref<null | { sortCount: number }>(null);
+const sortedAssociations = computed(() => {
+    if (!regionSort.value) return associations.value; // Si regionSort n'est pas défini, retourne le tableau original
 
-        const sortedAssociations = computed(() => {
-            if (!regionSort.value) return associations.value; // Si regionSort n'est pas défini, retourne le tableau original
+    const sorted = [...associations.value];
+    const temp = regionSort.value as { sortCount: number };
 
-            const sorted = [...associations.value];
-            const temp = regionSort.value as { sortCount: number };
-            if (temp.sortCount === 0) {
-                // Tri décroissant
-                sorted.sort((a, b) =>
-                    b.federation.region.localeCompare(a.federation.region)
-                );
-            }
-            else if (temp.sortCount === 2) {
-                // Tri croissant
-                sorted.sort((a, b) =>
-                    a.federation.region.localeCompare(b.federation.region)
-                );
-            }
-            // Si regionSort.value === 2, aucun tri n'est appliqué, donc retourne le tableau tel quel
-            return sorted;
-        });
-
-        const regionSortedAssociations = computed(() => {
-            let sorted = {} as { [key: string]: Array<TAssociation> };
-
-            sorted = sortedAssociations.value.reduce((acc, association) => {
-                if (
-                    !acc[AssociationService.getRegionName(association.federation.region)]
-                ) {
-                    acc[AssociationService.getRegionName(association.federation.region)] =
-            [];
-                }
-                acc[
-                    AssociationService.getRegionName(association.federation.region)
-                ].push(association as TAssociation);
-                return acc;
-            }, {} as { [key: string]: Array<TAssociation> });
-
-            return sorted;
-        });
-
-        watch(() => searchInput.value, debounceSearch);
-
-        async function updateSearch() {
-            if (associations.value.length === 0) {
-                isSearching.value = true;
-            }
-            const result = await AssociationService.search({
-                limit: 50,
-                search: searchInput.value,
-                skip: 0
-            });
-
-            associations.value = result.associations;
-            isSearching.value = false;
-        }
-
-        onMounted(async () => {
-            await updateSearch();
-        });
-
-        return {
-            associations,
-            filtresRegion,
-            isRegionActive,
-            isSearching,
-            regions,
-            regionSort,
-            regionSortedAssociations,
-            searchInput
-        };
+    if (temp.sortCount === 0) {
+        // Tri décroissant
+        sorted.sort((a, b) =>
+            b.federation.region.localeCompare(a.federation.region)
+        );
     }
+    else if (temp.sortCount === 2) {
+        // Tri croissant
+        sorted.sort((a, b) =>
+            a.federation.region.localeCompare(b.federation.region)
+        );
+    }
+    // Si regionSort.value === 2, aucun tri n'est appliqué, donc retourne le tableau tel quel
+    return sorted;
 });
+
+const regionSortedAssociations = computed(() => {
+    let sorted = {} as { [key: string]: Array<TAssociation> };
+
+    sorted = sortedAssociations.value.reduce((acc, association) => {
+        if (
+            !acc[AssociationService.getRegionName(association.federation.region)]
+        ) {
+            acc[AssociationService.getRegionName(association.federation.region)] =
+            [];
+        }
+        acc[
+            AssociationService.getRegionName(association.federation.region)
+        ].push(association as TAssociation);
+        return acc;
+    }, {} as { [key: string]: Array<TAssociation> });
+
+    return sorted;
+});
+
+watch(() => searchInput.value, debounceSearch);
+
+async function updateSearch() {
+    if (associations.value.length === 0) {
+        isSearching.value = true;
+    }
+    const result = await AssociationService.search({
+        limit: 50,
+        search: searchInput.value,
+        skip: 0
+    });
+
+    associations.value = result.associations;
+    isSearching.value = false;
+}
+
+onMounted(async () => {
+    await updateSearch();
+});
+
 </script>
 
 <style scoped lang="scss">
