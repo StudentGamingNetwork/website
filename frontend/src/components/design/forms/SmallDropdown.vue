@@ -143,6 +143,7 @@ export default defineComponent({
     border: 2px solid var(--color-background-2);
     box-sizing: border-box;
     overflow: hidden;
+    z-index:50;
 
     ul {
         margin: 0;

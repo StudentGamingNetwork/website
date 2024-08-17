@@ -5,14 +5,12 @@
             class="details"
         >
             <template v-if="isOwner">
-                <SModalSectionTitle>
-                    Profil de l'association
-                </SModalSectionTitle>
+                <SModalSectionTitle> Profil de l'association </SModalSectionTitle>
                 <SModalSection>
                     <SAvatarPicker
                         title="Logo"
                         :url="logoUrl"
-                        @fileChange="uploadLogo"
+                        @file-change="uploadLogo"
                     />
                     <SInput
                         v-model="association.name"
@@ -35,17 +33,18 @@
                         v-model="association.tag"
                         :modified="association.tag !== associationStore.tag"
                         title="TAG"
-                        :validators="[InputValidators.Length({min:2, max:4}), InputValidators.OnlyLettersAndNumbers()]"
+                        :validators="[
+                            InputValidators.Length({ min: 2, max: 4 }),
+                            InputValidators.OnlyLettersAndNumbers(),
+                        ]"
                         @enter="sendUpdate"
                     />
                     <SModalSectionDescription>
-                        Le tag de votre association sera visible devant les pseudos de vos membres participants à des
-                        tournois.
+                        Le tag de votre association sera visible devant les pseudos de vos
+                        membres participants à des tournois.
                     </SModalSectionDescription>
                 </SModalSection>
-                <SModalSectionTitle>
-                    École
-                </SModalSectionTitle>
+                <SModalSectionTitle> École </SModalSectionTitle>
                 <SModalSection>
                     <SInput
                         v-model="association.school.name"
@@ -56,25 +55,31 @@
                     />
                     <SInput
                         v-model="association.school.address"
-                        :modified="association.school.address !== associationStore.school.address"
+                        :modified="
+                            association.school.address !== associationStore.school.address
+                        "
                         title="Adresse de l'école"
                         @enter="sendUpdate"
                     />
                     <SInput
                         v-model="association.school.studentsNumber"
-                        :modified="association.school.studentsNumber !== associationStore.school.studentsNumber"
+                        :modified="
+                            association.school.studentsNumber !==
+                                associationStore.school.studentsNumber
+                        "
                         title="Nombre d'étudiants de l'école"
                         type="number"
                         @enter="sendUpdate"
                     />
                 </SModalSection>
-                <SModalSectionTitle>
-                    Réseaux
-                </SModalSectionTitle>
+                <SModalSectionTitle> Réseaux </SModalSectionTitle>
                 <SModalSection>
                     <SInput
                         v-model="association.networks.facebook"
-                        :modified="association.networks.facebook !== associationStore.networks.facebook"
+                        :modified="
+                            association.networks.facebook !==
+                                associationStore.networks.facebook
+                        "
                         title="Facebook"
                         type="url"
                         :validators="[InputValidators.Url()]"
@@ -82,7 +87,9 @@
                     />
                     <SInput
                         v-model="association.networks.twitter"
-                        :modified="association.networks.twitter !== associationStore.networks.twitter"
+                        :modified="
+                            association.networks.twitter !== associationStore.networks.twitter
+                        "
                         title="Twitter"
                         type="url"
                         :validators="[InputValidators.Url()]"
@@ -90,7 +97,9 @@
                     />
                     <SInput
                         v-model="association.networks.twitch"
-                        :modified="association.networks.twitch !== associationStore.networks.twitch"
+                        :modified="
+                            association.networks.twitch !== associationStore.networks.twitch
+                        "
                         title="Twitch"
                         type="url"
                         :validators="[InputValidators.Url()]"
@@ -98,7 +107,10 @@
                     />
                     <SInput
                         v-model="association.networks.instagram"
-                        :modified="association.networks.instagram !== associationStore.networks.instagram"
+                        :modified="
+                            association.networks.instagram !==
+                                associationStore.networks.instagram
+                        "
                         title="Instagram"
                         type="url"
                         :validators="[InputValidators.Url()]"
@@ -106,7 +118,9 @@
                     />
                     <SInput
                         v-model="association.networks.website"
-                        :modified="association.networks.website !== associationStore.networks.website"
+                        :modified="
+                            association.networks.website !== associationStore.networks.website
+                        "
                         title="Website"
                         type="url"
                         :validators="[InputValidators.Url()]"
@@ -114,37 +128,42 @@
                     />
                     <SInput
                         v-model="association.networks.discord"
-                        :modified="association.networks.discord !== associationStore.networks.discord"
+                        :modified="
+                            association.networks.discord !== associationStore.networks.discord
+                        "
                         title="Discord"
                         type="url"
                         :validators="[InputValidators.Url()]"
                         @enter="sendUpdate"
                     />
                 </SModalSection>
-                <SModalSectionTitle>
-                    Paramètres
-                </SModalSectionTitle>
+                <SModalSectionTitle> Paramètres </SModalSectionTitle>
                 <SModalSection>
                     <SInput
                         v-model="association.settings.slug"
-                        :modified="association.settings.slug !== associationStore.settings.slug"
+                        :modified="
+                            association.settings.slug !== associationStore.settings.slug
+                        "
                         title="Slug"
                         :validators="[InputValidators.Slug()]"
                         @enter="sendUpdate"
                     />
                     <SModalSectionDescription>
-                        Le slug est l'identifiant unique de votre association. Votre page d'association sera disponible à
-                        cette adresse :<br><em><SCopier
+                        Le slug est l'identifiant unique de votre association. Votre page
+                        d'association sera disponible à cette adresse :<br><em><SCopier
                             class="copier"
                             :content="slugUrl"
-                        >{{ slugUrl }}</SCopier></em>
+                        >{{
+                            slugUrl
+                        }}</SCopier></em>
                     </SModalSectionDescription>
                     <SInputCopier
                         :content="association.settings.invitationCode"
                         title="Code d'invitation"
                     />
                     <SModalSectionDescription>
-                        Vous devez partager ce code aux membres qui souhaitent rejoindre votre association.
+                        Vous devez partager ce code aux membres qui souhaitent rejoindre
+                        votre association.
                     </SModalSectionDescription>
                 </SModalSection>
                 <SModalSeparator />
@@ -155,15 +174,14 @@
                 >
                     Sauvegarder les changements
                 </SButton>
-                <SModalSectionTitle>
-                    Danger zone
-                </SModalSectionTitle>
+                <SModalSectionTitle> Danger zone </SModalSectionTitle>
                 <SModalSection>
                     <div class="buttons">
                         <SButton
                             danger
-                            disabled
+                            :disabled="associationStore.users.members.length === 1"
                             outlined
+                            @click="openTransferOwnershipAssociationModal"
                         >
                             Céder l'association
                         </SButton>
@@ -177,8 +195,10 @@
                         </SButton>
                     </div>
                     <SModalSectionDescription>
-                        Il est préférable de céder l'association à quelqu'un plutôt que de la supprimer.
-                        Vous ne pouvez supprimer l'association que si vous êtes seul dans celle-ci, sinon contactez votre responsable de région SGN.
+                        Il est préférable de céder l'association à quelqu'un plutôt que de
+                        la supprimer. Vous ne pouvez supprimer l'association que si vous
+                        êtes seul dans celle-ci, sinon contactez votre responsable de région
+                        SGN.
                     </SModalSectionDescription>
                 </SModalSection>
             </template>
@@ -193,16 +213,14 @@
                     <FontAwesomeIcon
                         v-else
                         class="icon"
-                        :icon="['fas','users']"
+                        :icon="['fas', 'users']"
                     />
                     <div class="description">
                         Vous faites partie de l'association<br>
                         <strong>{{ associationStore.name }}</strong>
                     </div>
                 </div>
-                <SModalSectionTitle>
-                    Danger zone
-                </SModalSectionTitle>
+                <SModalSectionTitle> Danger zone </SModalSectionTitle>
                 <SModalSection>
                     <SButton
                         danger
@@ -249,7 +267,7 @@
             <div class="empty">
                 <FontAwesomeIcon
                     class="icon"
-                    :icon="['fas','frown']"
+                    :icon="['fas', 'frown']"
                 />
                 <div class="description">
                     Vous n'êtes dans aucune association...
@@ -258,10 +276,12 @@
                     Vous pouvez <span
                         class="link"
                         @click="join"
-                    >rejoindre la vôtre</span><br>(en demandant le code d'invitation à son responsable)<br>ou en <span
+                    >rejoindre la vôtre</span><br>(en demandant le code d'invitation à son responsable)<br>ou
+                    en <span
                         class="link"
                         @click="startCreating"
-                    >créer une</span> si vous la représentez.
+                    >créer une</span> si vous
+                    la représentez.
                 </div>
             </div>
         </template>
@@ -308,18 +328,39 @@ export default defineComponent({
         const router = useRouter();
         const isCreating = ref(false);
 
-        const association = reactive(cloneDeep(pick(
-            associationStore.$state,
-            ["_id", "mail", "name", "school", "networks", "tag", "settings", "logo"]
-        ))) as Partial<Association.TAssociation>;
+        const association = reactive(
+            cloneDeep(
+                pick(associationStore.$state, [
+                    "_id",
+                    "mail",
+                    "name",
+                    "school",
+                    "networks",
+                    "tag",
+                    "settings",
+                    "logo"
+                ])
+            )
+        ) as Partial<Association.TAssociation>;
 
         watch(
             () => associationStore.$state,
             () => {
-                merge(association, cloneDeep(pick(
-                    associationStore.$state,
-                    ["_id", "mail", "name", "school", "networks", "tag", "settings", "logo"]
-                )));
+                merge(
+                    association,
+                    cloneDeep(
+                        pick(associationStore.$state, [
+                            "_id",
+                            "mail",
+                            "name",
+                            "school",
+                            "networks",
+                            "tag",
+                            "settings",
+                            "logo"
+                        ])
+                    )
+                );
             },
             { deep: true }
         );
@@ -355,13 +396,16 @@ export default defineComponent({
             });
         };
 
-        const deleteAssociation = async() => {
+        const deleteAssociation = async () => {
             if (confirm("Êtes-vous sûr de vouloir supprimer l'association ?")) {
                 await associationStore.delete();
             }
         };
+        const openTransferOwnershipAssociationModal = async () => {
+            stateStore.modalOpen("ownership");
+        };
 
-        const leaveAssociation = async() => {
+        const leaveAssociation = async () => {
             if (confirm("Êtes-vous sûr de vouloir quitter l'association ?")) {
                 await associationStore.leave();
             }
@@ -387,11 +431,15 @@ export default defineComponent({
         };
 
         const slugUrl = computed(() => {
-            return `${ window.location.origin }/association/${ association.settings?.slug || "{votre slug}" }`;
+            return `${ window.location.origin }/association/${
+                association.settings?.slug || "{votre slug}"
+            }`;
         });
 
         const invitationCode = computed(() => {
-            return `${ window.location.origin }/association/${ association.settings?.slug || association._id }/join/${ association.settings?.invitationCode || "" }`;
+            return `${ window.location.origin }/association/${
+                association.settings?.slug || association._id
+            }/join/${ association.settings?.invitationCode || "" }`;
         });
 
         const isOwner = computed(() => {
@@ -413,6 +461,7 @@ export default defineComponent({
             join,
             leaveAssociation,
             logoUrl,
+            openTransferOwnershipAssociationModal,
             sendUpdate,
             slugUrl,
             startCreating,
@@ -424,59 +473,60 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .association {
-    .buttons {
-        display: flex;
-        gap: var(--length-gap-m);
+  .buttons {
+    display: flex;
+    gap: var(--length-gap-m);
+  }
+
+  .copier:hover {
+    color: var(--color-primary-lite);
+  }
+
+  .empty,
+  .current {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: var(--length-gap-m);
+    margin-top: var(--length-margin-l);
+
+    .icon {
+      width: 64px;
+      height: 64px;
+      color: var(--color-content-litest);
     }
 
-    .copier:hover {
-        color: var(--color-primary-lite);
+    .logo {
+      width: 192px;
+      height: 192px;
+      object-fit: contain;
     }
 
-    .empty, .current {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        gap: var(--length-gap-m);
-        margin-top: var(--length-margin-l);
+    .description {
+      text-align: center;
+      color: var(--color-content-liter);
 
-        .icon {
-            width: 64px;
-            height: 64px;
-            color: var(--color-content-litest);
-        }
-
-        .logo {
-            width: 192px;
-            height: 192px;
-            object-fit: contain;
-        }
-
-        .description {
-            text-align: center;
-            color: var(--color-content-liter);
-
-            strong {
-                color: var(--color-content);
-                font-weight: 600;
-            }
-        }
-
-        .action {
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--color-content-liter);
-
-            .link {
-                color: var(--color-content);
-                cursor: pointer;
-
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-        }
+      strong {
+        color: var(--color-content);
+        font-weight: 600;
+      }
     }
+
+    .action {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--color-content-liter);
+
+      .link {
+        color: var(--color-content);
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
 </style>

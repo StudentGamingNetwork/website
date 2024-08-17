@@ -41,7 +41,7 @@
                 class="dropdown"
                 model-value="none"
                 :options="roles"
-                @update:modelValue="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
+                @update:model-value="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
             />
         </div>
         <div class="informations">
