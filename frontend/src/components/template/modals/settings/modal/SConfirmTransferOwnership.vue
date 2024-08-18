@@ -43,12 +43,12 @@ const stateStore = State.useStore();
 
 const input = ref();
 
-const transferOwnershipAssociation = async () => {    
+async function transferOwnershipAssociation() {    
     if (confirm("Êtes-vous sûr de vouloir céder l'association ?")) {
         await associationStore.transferOwnership(input.value);
         stateStore.modalOpen("settings");
     }
-};
+}
     
 </script>
 
