@@ -127,7 +127,7 @@ import * as UserService from "@/services/user";
 import { TCompleteUser } from "@/modules/user";
 import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
 import * as AdminService from "@/services/admin";
-import { ERoles, ECertificateStatus } from "@/services/user";
+import { ERoles } from "@/services/user";
 import { Toast } from "@/modules";
 
 export default defineComponent({
@@ -293,7 +293,7 @@ export default defineComponent({
                 border: 1px solid var(--color-info);
                 border-radius: var(--lenght-radius-base);
                 padding: 0 var(--length-padding-xs);
-                display: flex;;
+                display: flex;
                 align-items: center;
                 gap: var(--length-gap-xs);
                 text-wrap: nowrap;
