@@ -26,6 +26,17 @@
         <div class="roles">
             <ul>
                 <li
+                    v-if="user.student.status === 'validated'"
+                    class="certificat"
+                >
+                    Certificat validé
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fas', 'times']"
+                        @click="unvalidateCertificate()"
+                    />
+                </li>
+                <li
                     v-for="role in user.roles"
                     :key="role"
                 >
@@ -41,7 +52,7 @@
                 class="dropdown"
                 model-value="none"
                 :options="roles"
-                @update:modelValue="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
+                @update:model-value="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
             />
         </div>
         <div class="informations">
@@ -110,12 +121,13 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { assign } from "lodash";
 import SCard from "@/components/design/Card.vue";
 import * as UserService from "@/services/user";
 import { TCompleteUser } from "@/modules/user";
 import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
 import * as AdminService from "@/services/admin";
-import { ERoles } from "@/services/user";
+import { ERoles, ECertificateStatus } from "@/services/user";
 import { Toast } from "@/modules";
 
 export default defineComponent({
@@ -174,6 +186,19 @@ export default defineComponent({
             tournament: "Tournoi"
         };
 
+        async function unvalidateCertificate() {
+            const response = await Toast.testRequest(async () => {
+                console.log(props.user._id);
+                return await AdminService.userCertificate({ _id: props.user._id, status: "processing" });
+            });
+
+            if (response?.success) {
+                if (response.user) {
+                    assign(props.user, response.user);
+                }
+            }
+        }
+
         async function userUpdate(update: {_id: string; role: {name: ERoles; modification: "add" | "remove"}}) {
             if (update.role.name === "none") {
                 return;
@@ -194,6 +219,7 @@ export default defineComponent({
             certificateUrl,
             roles,
             studentStatus,
+            unvalidateCertificate,
             userUpdate
         };
     }
@@ -267,9 +293,10 @@ export default defineComponent({
                 border: 1px solid var(--color-info);
                 border-radius: var(--lenght-radius-base);
                 padding: 0 var(--length-padding-xs);
-                display: flex;
+                display: flex;;
                 align-items: center;
                 gap: var(--length-gap-xs);
+                text-wrap: nowrap;
 
                 .icon {
                     cursor: pointer;
@@ -278,7 +305,14 @@ export default defineComponent({
                         color: var(--color-content);
                     }
                 }
+
+                &.certificat {
+                    background: var(--color-success-background);
+                    color: var(--color-success-content);
+                    border-color: var(--color-success);
+                }
             }
+
         }
 
         .dropdown {
