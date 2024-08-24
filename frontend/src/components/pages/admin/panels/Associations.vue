@@ -105,7 +105,9 @@ export default defineComponent({
         }
 
         onMounted(async () => {
-            await updateSearch();
+            await router.push(`/${ String(router.currentRoute.value.name) }/0`).then(() => {
+                updateSearch();
+            }); 
         });
 
         return {

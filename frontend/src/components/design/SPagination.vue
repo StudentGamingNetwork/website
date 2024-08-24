@@ -4,7 +4,7 @@
             v-for="number in range(0, Math.ceil(props.arrayLength / displayed))"
             :key="number"
             class="button"
-            :class="{ offset: number === number ? 'active' : '' }"
+            :class="{ active: router.currentRoute.value.params.page as unknown as number == number }"
             outlined
             @click="updatePagination(number)"
         >
@@ -20,8 +20,6 @@ import { range } from "lodash";
 import SButton from "@/components/design/forms/Button.vue";
 
 const router = useRouter();
-const offset = router.currentRoute.value.params.page;
-const fullPath = router.currentRoute.value.name;
 
 const emit = defineEmits(["offset"]);
 
@@ -32,7 +30,7 @@ const props = defineProps<{
 
 
 function updatePagination(newOffset: number) {
-    router.push(`/${ fullPath }/${ newOffset }`).then(() => {
+    router.push(`/${ String(router.currentRoute.value.name) }/${ newOffset }`).then(() => {
         emit("offset");
     }); 
 }
@@ -42,6 +40,7 @@ function updatePagination(newOffset: number) {
 <style scoped>
 .button {
     width: 40px;
+    border-color: var( --color-content-softest);
 }
 .offset {
     display: flex;
@@ -50,7 +49,8 @@ function updatePagination(newOffset: number) {
     gap: var(--length-gap-s);
 
     .active {
-        background-color: var(--color-content-soft);
+        background-color: var(--color-background-2);
+        border-color: var(--color-content-soft);
     }
 }
 </style>
