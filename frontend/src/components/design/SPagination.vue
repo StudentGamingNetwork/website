@@ -1,7 +1,7 @@
 <template>
     <div class="offset">
         <SButton
-            v-for="number in range(1, Math.ceil(props.arrayLength / displayed))"
+            v-for="number in range(0, Math.ceil(props.arrayLength / displayed))"
             :key="number"
             class="button"
             :class="{ offset: number === number ? 'active' : '' }"
