@@ -40,27 +40,37 @@
             :model-value="association"
         />
     </div>
+    <SPagination
+        :array-length="numberOfAssociations"
+        :displayed="displayed"
+        @offset="updateSearch"
+    />
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
+import { useRouter } from "vue-router";
 import SInput from "@/components/design/forms/Input.vue";
 import * as AdminService from "@/services/admin";
 import SCard from "@/components/design/Card.vue";
 import SCopier from "@/components/design/forms/Copier.vue";
 import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
 import SAdminAssociationCard, { TAdminAssociation } from "@/components/pages/admin/panels/AssociationCard.vue";
+import SPagination from "@/components/design/SPagination.vue";
+
 
 export default defineComponent({
     name: "SAdminPanelAssociations",
-    components: { FontAwesomeIcon, SAdminAssociationCard, SCard, SCopier, SInput, SSmallDropdown },
+    components: { FontAwesomeIcon, SAdminAssociationCard, SCard, SCopier, SInput, SPagination,SSmallDropdown },
     setup() {
+        const router = useRouter();
         const searchInput = ref("");
         const isSearching = ref(true);
         const associations = ref([] as Array<TAdminAssociation>);
-
+        const numberOfAssociations = ref(0);
+        const displayed = ref(5);
         const debounceSearch = debounce(updateSearch, 500);
 
         watch(
@@ -72,10 +82,22 @@ export default defineComponent({
             if (associations.value.length === 0) {
                 isSearching.value = true;
             }
-            const result = await AdminService.associationSearch({
+
+            const offset = Number.isInteger(Number(router.currentRoute.value.params.page as string)) ? router.currentRoute.value.params.page as string : "0";
+
+            numberOfAssociations.value = await AdminService.associationSearch({
                 limit: 100,
                 search: searchInput.value,
                 skip: 0
+            })
+                .then((value) => {
+                    return value.associations.length;
+                });
+
+            const result = await AdminService.associationSearch({
+                limit: 100,
+                search: searchInput.value,
+                skip: searchInput.value === "" ? Number(offset) * displayed.value : 0
             });
 
             associations.value = result.associations;
@@ -88,8 +110,11 @@ export default defineComponent({
 
         return {
             associations,
+            displayed,
             isSearching,
-            searchInput
+            numberOfAssociations,
+            searchInput,
+            updateSearch
         };
     }
 });

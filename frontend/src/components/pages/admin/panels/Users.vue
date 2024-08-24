@@ -46,15 +46,22 @@
             />
         </transition-group>
     </div>
+    <SPagination
+        :array-length="numberOfUsers"
+        :displayed="displayed"
+        @offset="updateSearch"
+    />
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
+import { useRouter } from "vue-router";
 import * as AdminService from "@/services/admin";
 import SInput from "@/components/design/forms/Input.vue";
 import SAdminUserCard from "@/components/pages/admin/panels/UserCard.vue";
+import SPagination from "@/components/design/SPagination.vue";
 
 type TAdminUser = {
     _id: string;
@@ -78,13 +85,16 @@ type TAdminUser = {
 
 export default defineComponent({
     name: "SAdminPanelUsers",
-    components: { FontAwesomeIcon, SAdminUserCard, SInput },
+    components: { FontAwesomeIcon, SAdminUserCard, SInput, SPagination },
     setup() {
+        const router = useRouter();
         const searchInput = ref("");
         const isSearching = ref(true);
         const users = ref([] as Array<TAdminUser>);
-        const displayed= ref(0);
+        const numberOfUsers = ref(0);
+        const displayed = ref(5);
         const debounceSearch = debounce(updateSearch, 500);
+
 
         watch(
             () => searchInput.value,
@@ -95,14 +105,26 @@ export default defineComponent({
             if (users.value.length === 0) {
                 isSearching.value = true;
             }
-            const result = await AdminService.userSearch({
+            
+            const offset = Number.isInteger(Number(router.currentRoute.value.params.page as string)) ? router.currentRoute.value.params.page as string : "0";
+
+            numberOfUsers.value = await AdminService.userSearch({
                 limit: 100,
                 search: searchInput.value,
                 skip: 0
+            })
+                .then((value) => {
+                    return value.users.length;
+                });
+
+            const result = await AdminService.userSearch({
+                limit: displayed.value,
+                search: searchInput.value,
+                skip: searchInput.value === "" ? Number(offset) * displayed.value : 0
             });
 
             users.value = result.users;
-            displayed.value = result.displayed
+            displayed.value = result.displayed;
             isSearching.value = false;
         }
 
@@ -111,11 +133,12 @@ export default defineComponent({
         });
 
         return {
+            displayed,
             isSearching,
+            numberOfUsers,
             searchInput,
             updateSearch,
-            users,
-            displayed
+            users
         };
     }
 });

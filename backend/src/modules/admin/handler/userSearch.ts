@@ -14,8 +14,8 @@ const SchemaRequest = Type.Object({
 type TSchemaRequest = Static<typeof SchemaRequest>;
 
 const UserSearchResponse = Type.Object({
-    users: Type.Array(TypeAdminUser),
-    displayed: Type.Number()
+    displayed: Type.Number(),
+    users: Type.Array(TypeAdminUser)
 });
 
 type TUserSearchResponse = Static<typeof UserSearchResponse>;
@@ -36,11 +36,11 @@ export async function register(server: FastifyInstance): Promise<void> {
             UserLib.assertRoles(user, [ERoles.Member]);
 
             const users = await userSearch(request.query);
-            const displayed = 2;
+            const displayed = 5;
 
             reply.send({
-                users,
-                displayed
+                displayed,
+                users
             });
         }
     );
