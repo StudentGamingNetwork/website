@@ -39,9 +39,9 @@
         <SButton
            
             class="button"
-            :disabled="model === Math.ceil(arrayLength / displayed)"
+            :disabled="model === Math.ceil(length / displayed)"
             outlined
-            @click="() => {if (model !== Math.ceil(arrayLength / displayed)) updatePagination(model + 1)}"
+            @click="() => {if (model !== Math.ceil(length / displayed)) updatePagination(model + 1)}"
         >
             <span class="center">></span>
         </SButton>
@@ -49,7 +49,7 @@
            
             class="button"
             outlined
-            @click="updatePagination(Math.ceil(arrayLength / displayed))"
+            @click="updatePagination(Math.ceil(length / displayed))"
         >
             <span class="center">>></span>
         </SButton>
@@ -67,8 +67,8 @@ const model = defineModel({
 });
 
 const props = defineProps<{
-    arrayLength: number;
     displayed: number;
+    length: number;
 }>();
 
 
@@ -79,7 +79,7 @@ function updatePagination(newOffset: number) {
 
 const computedButtons = computed(() => {
     const buttons = [1];
-    const numberOfPage = ref(Math.ceil(props.arrayLength / props.displayed));
+    const numberOfPage = ref(Math.ceil(props.length / props.displayed));
 
     if (numberOfPage.value < 7) {
         for (let i = 2; i <= numberOfPage.value; i++) {

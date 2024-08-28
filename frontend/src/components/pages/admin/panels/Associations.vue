@@ -42,8 +42,8 @@
     </div>
     <SPagination
         v-model="currentPage"
-        :array-length="numberOfAssociations"
         :displayed="displayed"
+        :length="numberOfAssociations"
     />
 </template>
 

@@ -48,8 +48,8 @@
     </div>
     <SPagination
         v-model="currentPage"
-        :array-length="numberOfUsers"
         :displayed="displayed"
+        :length="numberOfUsers"
     />
 </template>
 
