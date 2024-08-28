@@ -6,7 +6,7 @@ import { TypeAdminUser } from "@/modules/user/type";
 import { userSearch } from "@/modules/admin/lib/search";
 
 const SchemaRequest = Type.Object({
-    limit: Type.Number({ default: 20, maximum: 100, minimum: 1 }),
+    limit: Type.Number({ default: 20, maximum: 10000, minimum: 1 }),
     search: Type.Optional(Type.String()),
     skip: Type.Number({ default: 0, minimum: 0 })
 });
@@ -36,7 +36,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             UserLib.assertRoles(user, [ERoles.Member]);
 
             const users = await userSearch(request.query);
-            const displayed = 5;
+            const displayed = 64;
 
             reply.send({
                 displayed,

@@ -42,6 +42,7 @@
     </div>
     <SPagination
         :array-length="numberOfAssociations"
+        :current-page="currentPage"
         :displayed="displayed"
         @offset="updateSearch"
     />
@@ -70,12 +71,20 @@ export default defineComponent({
         const isSearching = ref(true);
         const associations = ref([] as Array<TAdminAssociation>);
         const numberOfAssociations = ref(0);
-        const displayed = ref(5);
+        const displayed = ref(64);
         const debounceSearch = debounce(updateSearch, 500);
+        const currentPage = ref(Number(router.currentRoute.value.params.page));
 
         watch(
             () => searchInput.value,
             debounceSearch
+        );
+
+        watch(
+            () => router.currentRoute.value.params.page,
+            (newPage) => {
+                currentPage.value = Number(newPage);
+            }
         );
 
         async function updateSearch() {
@@ -86,7 +95,7 @@ export default defineComponent({
             const offset = Number.isInteger(Number(router.currentRoute.value.params.page as string)) ? router.currentRoute.value.params.page as string : "0";
 
             numberOfAssociations.value = await AdminService.associationSearch({
-                limit: 100,
+                limit: 10000,
                 search: searchInput.value,
                 skip: 0
             })
@@ -95,9 +104,9 @@ export default defineComponent({
                 });
 
             const result = await AdminService.associationSearch({
-                limit: 100,
+                limit: 10000,
                 search: searchInput.value,
-                skip: searchInput.value === "" ? Number(offset) * displayed.value : 0
+                skip: searchInput.value === "" ? (Number(offset) - 1) * displayed.value : 0
             });
 
             associations.value = result.associations;
@@ -105,13 +114,14 @@ export default defineComponent({
         }
 
         onMounted(async () => {
-            await router.push(`/${ String(router.currentRoute.value.name) }/0`).then(() => {
+            await router.push(`/${ String(router.currentRoute.value.name) }/1`).then(() => {
                 updateSearch();
             }); 
         });
 
         return {
             associations,
+            currentPage,
             displayed,
             isSearching,
             numberOfAssociations,

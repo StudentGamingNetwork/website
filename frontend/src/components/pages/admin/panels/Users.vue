@@ -48,6 +48,7 @@
     </div>
     <SPagination
         :array-length="numberOfUsers"
+        :current-page="currentPage"
         :displayed="displayed"
         @offset="updateSearch"
     />
@@ -91,14 +92,21 @@ export default defineComponent({
         const searchInput = ref("");
         const isSearching = ref(true);
         const users = ref([] as Array<TAdminUser>);
-        const numberOfUsers = ref(0);
-        const displayed = ref(5);
+        const numberOfUsers = ref<number>();
+        const displayed = ref(64);
         const debounceSearch = debounce(updateSearch, 500);
-
+        const currentPage = ref(Number(router.currentRoute.value.params.page));
 
         watch(
             () => searchInput.value,
             debounceSearch
+        );
+
+        watch(
+            () => router.currentRoute.value.params.page,
+            (newPage) => {
+                currentPage.value = Number(newPage);
+            }
         );
 
         async function updateSearch() {
@@ -106,10 +114,8 @@ export default defineComponent({
                 isSearching.value = true;
             }
             
-            const offset = Number.isInteger(Number(router.currentRoute.value.params.page as string)) ? router.currentRoute.value.params.page as string : "0";
-
             numberOfUsers.value = await AdminService.userSearch({
-                limit: 100,
+                limit: 1000,
                 search: searchInput.value,
                 skip: 0
             })
@@ -120,7 +126,7 @@ export default defineComponent({
             const result = await AdminService.userSearch({
                 limit: displayed.value,
                 search: searchInput.value,
-                skip: searchInput.value === "" ? Number(offset) * displayed.value : 0
+                skip: searchInput.value === "" ? (Number(currentPage.value) - 1) * displayed.value : 0
             });
 
             users.value = result.users;
@@ -129,12 +135,13 @@ export default defineComponent({
         }
 
         onMounted(async () => {
-            await router.push(`/${ String(router.currentRoute.value.name) }/0`).then(() => {
+            await router.push(`/${ String(router.currentRoute.value.name) }/1`).then(() => {
                 updateSearch();
             }); 
         });
 
         return {
+            currentPage,
             displayed,
             isSearching,
             numberOfUsers,
