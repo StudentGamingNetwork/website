@@ -47,10 +47,9 @@
         </transition-group>
     </div>
     <SPagination
+        v-model="currentPage"
         :array-length="numberOfUsers"
-        :current-page="currentPage"
         :displayed="displayed"
-        @offset="updateSearch"
     />
 </template>
 
@@ -58,7 +57,6 @@
 import { defineComponent, onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
-import { useRouter } from "vue-router";
 import * as AdminService from "@/services/admin";
 import SInput from "@/components/design/forms/Input.vue";
 import SAdminUserCard from "@/components/pages/admin/panels/UserCard.vue";
@@ -88,14 +86,13 @@ export default defineComponent({
     name: "SAdminPanelUsers",
     components: { FontAwesomeIcon, SAdminUserCard, SInput, SPagination },
     setup() {
-        const router = useRouter();
         const searchInput = ref("");
         const isSearching = ref(true);
         const users = ref([] as Array<TAdminUser>);
         const numberOfUsers = ref<number>();
         const displayed = ref(64);
         const debounceSearch = debounce(updateSearch, 500);
-        const currentPage = ref(Number(router.currentRoute.value.params.page));
+        const currentPage = ref<number>(1);
 
         watch(
             () => searchInput.value,
@@ -103,10 +100,8 @@ export default defineComponent({
         );
 
         watch(
-            () => router.currentRoute.value.params.page,
-            (newPage) => {
-                currentPage.value = Number(newPage);
-            }
+            () => currentPage.value,
+            updateSearch
         );
 
         async function updateSearch() {
@@ -126,7 +121,7 @@ export default defineComponent({
             const result = await AdminService.userSearch({
                 limit: displayed.value,
                 search: searchInput.value,
-                skip: searchInput.value === "" ? (Number(currentPage.value) - 1) * displayed.value : 0
+                skip: searchInput.value === "" ? (currentPage.value - 1) * displayed.value : 0
             });
 
             users.value = result.users;
@@ -135,9 +130,7 @@ export default defineComponent({
         }
 
         onMounted(async () => {
-            await router.push(`/${ String(router.currentRoute.value.name) }/1`).then(() => {
-                updateSearch();
-            }); 
+            await updateSearch();
         });
 
         return {
@@ -145,6 +138,7 @@ export default defineComponent({
             displayed,
             isSearching,
             numberOfUsers,
+            offset: currentPage,
             searchInput,
             updateSearch,
             users

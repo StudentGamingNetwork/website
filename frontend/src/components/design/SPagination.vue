@@ -11,9 +11,9 @@
         <SButton
            
             class="button"
-            :disabled="currentPage === 1"
+            :disabled="model === 1"
             outlined
-            @click="() =>{if(currentPage !== 1) updatePagination(currentPage - 1)}"
+            @click="() =>{if(model !== 1) updatePagination(model - 1)}"
         >
             <span class="center"><</span>
         </SButton>
@@ -24,7 +24,7 @@
             <SButton
                 v-if="number!==0"
                 class="button"
-                :class="{ active: router.currentRoute.value.params.page as unknown as number == number }"
+                :class="{ active: model == number }"
                 outlined
                 @click="updatePagination(number)"
             >
@@ -39,9 +39,9 @@
         <SButton
            
             class="button"
-            :disabled="currentPage === Math.ceil(arrayLength / displayed)"
+            :disabled="model === Math.ceil(arrayLength / displayed)"
             outlined
-            @click="() => {if (currentPage !== Math.ceil(arrayLength / displayed)) updatePagination(currentPage + 1)}"
+            @click="() => {if (model !== Math.ceil(arrayLength / displayed)) updatePagination(model + 1)}"
         >
             <span class="center">></span>
         </SButton>
@@ -58,25 +58,22 @@
 
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
 import SButton from "@/components/design/forms/Button.vue";
 
-const router = useRouter();
-
-const emit = defineEmits(["offset"]);
+const model = defineModel({
+    default: 1,
+    type: Number
+});
 
 const props = defineProps<{
     arrayLength: number;
-    currentPage: number;
     displayed: number;
 }>();
 
 
 function updatePagination(newOffset: number) {
-    router.push(`/${ String(router.currentRoute.value.name) }/${ newOffset }`).then(() => {
-        emit("offset");
-    }); 
+    model.value = newOffset; 
 }
 
 
@@ -91,16 +88,16 @@ const computedButtons = computed(() => {
         return buttons;
     }
 
-    if (props.currentPage <= 4) {
+    if (model.value <= 4) {
         buttons.push(2, 3, 4, 5, 0, numberOfPage.value);
         return buttons;
     }
 
-    if (props.currentPage >= numberOfPage.value - 3) {
+    if (model.value >= numberOfPage.value - 3) {
         buttons.push(0, numberOfPage.value - 4, numberOfPage.value - 3, numberOfPage.value - 2, numberOfPage.value - 1, numberOfPage.value);
         return buttons;
     }
-    buttons.push(0, props.currentPage - 1, props.currentPage, props.currentPage + 1, 0, numberOfPage.value);
+    buttons.push(0, model.value - 1, model.value , model.value + 1, 0, numberOfPage.value);
     return buttons;
 });
 
