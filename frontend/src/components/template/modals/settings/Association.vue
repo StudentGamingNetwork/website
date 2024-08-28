@@ -402,7 +402,17 @@ export default defineComponent({
             }
         };
         const openTransferOwnershipAssociationModal = async () => {
-            stateStore.modalOpen("ownership");
+            const targetOwnership = prompt("Entrez l'email de l'utilisateur à qui transférer cette association (cet utilisateur doit être membre de l'association)");
+
+            if (!targetOwnership) {
+                return;
+            }
+
+            if (!confirm(`Êtes-vous sûr de vouloir transférer l'association à ${ targetOwnership } ?`)) {
+                return;
+            }
+
+            await associationStore.transferOwnership(targetOwnership);
         };
 
         const leaveAssociation = async () => {

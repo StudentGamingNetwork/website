@@ -16,7 +16,6 @@
             />
         </div>
     </SModal>
-    <SConfirmTransferOwnership />
 </template>
 
 <script lang="ts">
@@ -28,11 +27,10 @@ import SPublicProfil from "@/components/template/modals/settings/PublicProfil.vu
 import SGameProfil from "@/components/template/modals/settings/GameProfil.vue";
 import SAccount from "@/components/template/modals/settings/Account.vue";
 import SAssociation from "@/components/template/modals/settings/Association.vue";
-import SConfirmTransferOwnership from "@/components/template/modals/settings/modal/SConfirmTransferOwnership.vue";
 
 export default defineComponent({
     name: "SModalSettings",
-    components: { SAccount, SConfirmTransferOwnership, SGameProfil, SModal, SModalMenu },
+    components: { SAccount, SGameProfil, SModal, SModalMenu },
     setup() {
         const menuOptions: Array<TMenuOption> = [
             { id: "public", name: "Profil public", component: SPublicProfil, icon: "user" },

@@ -7,7 +7,7 @@ import UserModel from "@/modules/user/model";
 
 
 const SchemaRequest = Type.Object({
-    newOwnerEmail: Type.String({ minLength: 1 })
+    newOwnerEmail: Type.String({ format: "email" })
 });
 
 type TSchemaRequest = Static<typeof SchemaRequest>;
@@ -38,7 +38,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const association = await AssociationLib.getOwningAssociation(request);
 
             if (association.users.owner.toString() !== user.id) {
-                throw new httpErrors.Unauthorized();
+                throw new httpErrors.Unauthorized("Vous n'êtes pas le propriétaire de cette association.");
             }
 
             if (!association.users.members.includes(newOwner?.id)) {
