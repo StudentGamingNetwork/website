@@ -121,7 +121,6 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { assign } from "lodash";
 import SCard from "@/components/design/Card.vue";
 import * as UserService from "@/services/user";
 import { TCompleteUser } from "@/modules/user";
@@ -188,14 +187,11 @@ export default defineComponent({
 
         async function unvalidateCertificate() {
             const response = await Toast.testRequest(async () => {
-                console.log(props.user._id);
                 return await AdminService.userCertificate({ _id: props.user._id, status: "processing" });
             });
 
-            if (response?.success) {
-                if (response.user) {
-                    assign(props.user, response.user);
-                }
+            if (response?.success && response.user){
+                props.user.student.status = "processing";
             }
         }
 
