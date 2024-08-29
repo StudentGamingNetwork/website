@@ -49,6 +49,16 @@ export const useStore = defineStore({
                 await userStore.init();
             }
         },
+        async transferOwnership(newOwnerEmail: string) {
+            const response = await Toast.testRequest(async () => {
+                return await AssociationService.transferOwnership(newOwnerEmail);
+            });
+
+            if (response?.success) {
+                const userStore = User.useStore();
+                await userStore.init();
+            }
+        },
         async update(association: Record<string, any>) {
             association.school.studentsNumber = parseInt(association.school.studentsNumber);
             const response = await Toast.testRequest(async () => {
