@@ -32,20 +32,19 @@ export async function register(server: FastifyInstance): Promise<void> {
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
-            
-            const newOwner = await UserModel.findOne({ mail: request.body.newOwnerEmail }).exec();
-
             const association = await AssociationLib.getOwningAssociation(request);
 
             if (association.users.owner.toString() !== user.id) {
                 throw new httpErrors.Unauthorized("Vous n'êtes pas le propriétaire de cette association.");
             }
 
-            if (!association.users.members.includes(newOwner?.id)) {
+            const newOwner = await UserModel.findOne({ mail: request.body.newOwnerEmail }).exec();
+
+            if (!newOwner || !association.users.members.includes(newOwner.id)) {
                 throw new httpErrors.Forbidden("L'utilisateur ne fait pas parti de l'association.");
             }
 
-            association.users.owner = newOwner?.id;
+            association.users.owner = newOwner.id;
 
             await association.save();
 
