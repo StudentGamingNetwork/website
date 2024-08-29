@@ -87,22 +87,17 @@ export default defineComponent({
                 isSearching.value = true;
             }
 
-            numberOfAssociations.value = await AdminService.associationSearch({
-                limit: 10000,
-                search: searchInput.value,
-                skip: 0
-            })
-                .then((value) => {
-                    return value.associations.length;
-                });
-
+        
             const result = await AdminService.associationSearch({
-                limit: 10000,
+                limit: 64,
                 search: searchInput.value,
                 skip: searchInput.value === "" ? (currentPage.value - 1) * displayed.value : 0
             });
 
             associations.value = result.associations;
+            numberOfAssociations.value = result.total;
+            displayed.value = result.displayed;
+
             isSearching.value = false;
         }
 

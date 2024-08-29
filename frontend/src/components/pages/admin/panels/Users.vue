@@ -109,15 +109,6 @@ export default defineComponent({
                 isSearching.value = true;
             }
             
-            numberOfUsers.value = await AdminService.userSearch({
-                limit: 1000,
-                search: searchInput.value,
-                skip: 0
-            })
-                .then((value) => {
-                    return value.users.length;
-                });
-
             const result = await AdminService.userSearch({
                 limit: displayed.value,
                 search: searchInput.value,
@@ -125,7 +116,9 @@ export default defineComponent({
             });
 
             users.value = result.users;
+            numberOfUsers.value = result.total;
             displayed.value = result.displayed;
+           
             isSearching.value = false;
         }
 

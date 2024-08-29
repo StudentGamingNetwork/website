@@ -1,12 +1,12 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UserLib from "../../user/lib";
-import { ERoles } from "@/modules/user/model";
+import UserModel, { ERoles } from "@/modules/user/model";
 import { TypeAdminUser } from "@/modules/user/type";
 import { userSearch } from "@/modules/admin/lib/search";
 
 const SchemaRequest = Type.Object({
-    limit: Type.Number({ default: 20, maximum: 10000, minimum: 1 }),
+    limit: Type.Number({ default: 20, maximum: 100, minimum: 1 }),
     search: Type.Optional(Type.String()),
     skip: Type.Number({ default: 0, minimum: 0 })
 });
@@ -15,6 +15,7 @@ type TSchemaRequest = Static<typeof SchemaRequest>;
 
 const UserSearchResponse = Type.Object({
     displayed: Type.Number(),
+    total: Type.Number(),
     users: Type.Array(TypeAdminUser)
 });
 
@@ -37,9 +38,11 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const users = await userSearch(request.query);
             const displayed = 64;
+            const total = await UserModel.countDocuments();
 
             reply.send({
                 displayed,
+                total,
                 users
             });
         }

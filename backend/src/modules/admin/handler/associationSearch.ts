@@ -8,7 +8,7 @@ import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 
 const SchemaRequest = Type.Object({
-    limit: Type.Number({ default: 20, maximum: 10000, minimum: 1 }),
+    limit: Type.Number({ default: 20, maximum: 100, minimum: 1 }),
     search: Type.Optional(Type.String()),
     skip: Type.Number({ default: 0, minimum: 0 })
 });
@@ -25,7 +25,9 @@ const SchemaResponse = Type.Object({
                 })
             }
         )
-    )
+    ),
+    displayed: Type.Number(),
+    total: Type.Number()
 });
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
@@ -45,16 +47,19 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
             UserLib.assertRoles(user, [ERoles.Member]);
 
-            const associations = await associationSearch(request.query);
+            const { associations, total } = await associationSearch(request.query);
+            const displayed = 64;
 
             reply.send({
-                associations
+                associations,
+                displayed,
+                total
             });
         }
     );
 }
 
-async function associationSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }): Promise<Array<IAssociationDocument>> {
+async function associationSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }): Promise<{associations: Array<IAssociationDocument>; total: number}> {
 
     const findParameters = {} as Record<string, any>;
 
@@ -67,10 +72,14 @@ async function associationSearch({ limit, search, skip }: { limit: number; searc
         ];
     }
 
-    return AssociationModel.find(findParameters)
+    const total = await AssociationModel.countDocuments(findParameters).exec();
+    
+    const associations = await AssociationModel.find(findParameters)
         .sort({ "name": 1 })
         .skip(skip)
         .limit(limit)
         .populate("users.owner")
         .exec();
+
+    return { associations: associations, total: total };
 }
