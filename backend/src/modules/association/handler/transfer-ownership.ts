@@ -47,7 +47,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             association.users.owner = newOwner?.id;
 
-            association.save();
+            await association.save();
 
             reply.send({
                 message: "Vous avez cédé les droits de cette association.",

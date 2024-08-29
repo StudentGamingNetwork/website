@@ -483,60 +483,60 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .association {
-  .buttons {
-    display: flex;
-    gap: var(--length-gap-m);
-  }
-
-  .copier:hover {
-    color: var(--color-primary-lite);
-  }
-
-  .empty,
-  .current {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: var(--length-gap-m);
-    margin-top: var(--length-margin-l);
-
-    .icon {
-      width: 64px;
-      height: 64px;
-      color: var(--color-content-litest);
+    .buttons {
+        display: flex;
+        gap: var(--length-gap-m);
     }
 
-    .logo {
-      width: 192px;
-      height: 192px;
-      object-fit: contain;
+    .copier:hover {
+        color: var(--color-primary-lite);
     }
 
-    .description {
-      text-align: center;
-      color: var(--color-content-liter);
+    .empty,
+    .current {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: var(--length-gap-m);
+        margin-top: var(--length-margin-l);
 
-      strong {
-        color: var(--color-content);
-        font-weight: 600;
-      }
-    }
-
-    .action {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--color-content-liter);
-
-      .link {
-        color: var(--color-content);
-        cursor: pointer;
-
-        &:hover {
-          text-decoration: underline;
+        .icon {
+            width: 64px;
+            height: 64px;
+            color: var(--color-content-litest);
         }
-      }
+
+        .logo {
+            width: 192px;
+            height: 192px;
+            object-fit: contain;
+        }
+
+        .description {
+            text-align: center;
+            color: var(--color-content-liter);
+
+            strong {
+                color: var(--color-content);
+                font-weight: 600;
+            }
+        }
+
+        .action {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--color-content-liter);
+
+            .link {
+                color: var(--color-content);
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
     }
-  }
 }
 </style>
