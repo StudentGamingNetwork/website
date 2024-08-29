@@ -26,6 +26,17 @@
         <div class="roles">
             <ul>
                 <li
+                    v-if="user.student.status === 'validated'"
+                    class="certificat"
+                >
+                    Certificat validé
+                    <FontAwesomeIcon
+                        class="icon"
+                        :icon="['fas', 'times']"
+                        @click="unvalidateCertificate()"
+                    />
+                </li>
+                <li
                     v-for="role in user.roles"
                     :key="role"
                 >
@@ -41,7 +52,7 @@
                 class="dropdown"
                 model-value="none"
                 :options="roles"
-                @update:modelValue="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
+                @update:model-value="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
             />
         </div>
         <div class="informations">
@@ -174,6 +185,16 @@ export default defineComponent({
             tournament: "Tournoi"
         };
 
+        async function unvalidateCertificate() {
+            const response = await Toast.testRequest(async () => {
+                return await AdminService.userCertificate({ _id: props.user._id, status: "processing" });
+            });
+
+            if (response?.success && response.user){
+                props.user.student.status = "processing";
+            }
+        }
+
         async function userUpdate(update: {_id: string; role: {name: ERoles; modification: "add" | "remove"}}) {
             if (update.role.name === "none") {
                 return;
@@ -194,6 +215,7 @@ export default defineComponent({
             certificateUrl,
             roles,
             studentStatus,
+            unvalidateCertificate,
             userUpdate
         };
     }
@@ -270,6 +292,7 @@ export default defineComponent({
                 display: flex;
                 align-items: center;
                 gap: var(--length-gap-xs);
+                text-wrap: nowrap;
 
                 .icon {
                     cursor: pointer;
@@ -278,7 +301,14 @@ export default defineComponent({
                         color: var(--color-content);
                     }
                 }
+
+                &.certificat {
+                    background: var(--color-success-background);
+                    color: var(--color-success-content);
+                    border-color: var(--color-success);
+                }
             }
+
         }
 
         .dropdown {
