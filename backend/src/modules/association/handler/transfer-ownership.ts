@@ -31,13 +31,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         "/transfer-ownership",
         { schema },
         async (request, reply) => {
-            const user = await UserLib.getUser(request);
             const association = await AssociationLib.getOwningAssociation(request);
-
-            if (association.users.owner.toString() !== user.id) {
-                throw new httpErrors.Unauthorized("Vous n'êtes pas le propriétaire de cette association.");
-            }
-
             const newOwner = await UserModel.findOne({ mail: request.body.newOwnerEmail }).exec();
 
             if (!newOwner || !association.users.members.includes(newOwner.id)) {
