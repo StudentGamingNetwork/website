@@ -54,7 +54,7 @@
 
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import SButton from "@/components/design/forms/Button.vue";
 
 const model = defineModel({
@@ -77,25 +77,24 @@ function updatePagination(newOffset: number) {
 
 const computedButtons = computed(() => {
     const buttons = [1];
-    const numberOfPage = ref(props.total);
 
-    if (numberOfPage.value < 7) {
-        for (let i = 2; i <= numberOfPage.value; i++) {
+    if (props.total < 7) {
+        for (let i = 2; i <= props.total; i++) {
             buttons.push(i);
         }
         return buttons;
     }
 
     if (model.value <= 4) {
-        buttons.push(2, 3, 4, 5, 0, numberOfPage.value);
+        buttons.push(2, 3, 4, 5, 0, props.total);
         return buttons;
     }
 
-    if (model.value >= numberOfPage.value - 3) {
-        buttons.push(0, numberOfPage.value - 4, numberOfPage.value - 3, numberOfPage.value - 2, numberOfPage.value - 1, numberOfPage.value);
+    if (model.value >= props.total - 3) {
+        buttons.push(0, props.total - 4, props.total - 3, props.total - 2, props.total - 1, props.total);
         return buttons;
     }
-    buttons.push(0, model.value - 1, model.value , model.value + 1, 0, numberOfPage.value);
+    buttons.push(0, model.value - 1, model.value , model.value + 1, 0, props.total);
     return buttons;
 });
 
