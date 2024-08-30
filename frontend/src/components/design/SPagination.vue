@@ -1,21 +1,19 @@
 <template>
     <div class="offset">
         <SButton
-           
             class="button"
             outlined
             @click="updatePagination(1)"
         >
-            <span class="center"><<</span>
+            <span class="center">&lt;&lt;</span>
         </SButton>
         <SButton
-           
             class="button"
             :disabled="model === 1"
             outlined
-            @click="() =>{if(model !== 1) updatePagination(model - 1)}"
+            @click="updatePagination(model - 1)"
         >
-            <span class="center"><</span>
+            <span class="center">&lt;</span>
         </SButton>
         <template
             v-for="number in computedButtons"
@@ -28,7 +26,7 @@
                 outlined
                 @click="updatePagination(number)"
             >
-                {{ number }}
+                <span class="center">{{ number }}</span>
             </SButton>
             <span
                 v-else
@@ -37,21 +35,19 @@
         </template>
        
         <SButton
-           
             class="button"
-            :disabled="model === Math.ceil(length / displayed)"
+            :disabled="model === total"
             outlined
-            @click="() => {if (model !== Math.ceil(length / displayed)) updatePagination(model + 1)}"
+            @click="updatePagination(model + 1)"
         >
-            <span class="center">></span>
+            <span class="center">&gt;</span>
         </SButton>
         <SButton
-           
             class="button"
             outlined
-            @click="updatePagination(Math.ceil(length / displayed))"
+            @click="updatePagination(total)"
         >
-            <span class="center">>></span>
+            <span class="center">&gt;&gt;</span>
         </SButton>
     </div>
 </template>
@@ -67,19 +63,21 @@ const model = defineModel({
 });
 
 const props = defineProps<{
-    displayed: number;
-    length: number;
+    total: number;
 }>();
 
 
 function updatePagination(newOffset: number) {
+    if (newOffset < 1 || newOffset > props.total) {
+        return;
+    }
     model.value = newOffset; 
 }
 
 
 const computedButtons = computed(() => {
     const buttons = [1];
-    const numberOfPage = ref(Math.ceil(props.length / props.displayed));
+    const numberOfPage = ref(props.total);
 
     if (numberOfPage.value < 7) {
         for (let i = 2; i <= numberOfPage.value; i++) {
@@ -114,10 +112,10 @@ const computedButtons = computed(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
+    width: var(--length-gap-l);
 }
 .button {
-    width: 40px;
+    width: var(--length-gap-xl);
     border-color: var( --color-content-softest);
 }
 .offset {

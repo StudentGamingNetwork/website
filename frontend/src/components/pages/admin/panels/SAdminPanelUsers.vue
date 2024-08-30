@@ -38,7 +38,7 @@
             name="user-list"
         >
             <SAdminUserCard
-                v-for="(user, index) in users.slice(0, displayed)"
+                v-for="user of users"
                 :key="user._id"
                 class="user"
                 :user="user"
@@ -49,18 +49,19 @@
     <SPagination
         v-model="currentPage"
         :displayed="displayed"
-        :length="numberOfUsers"
+        :total="Math.ceil(numberOfUsers/displayed)"
     />
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+<script lang="ts" setup>
+import { onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import * as AdminService from "@/services/admin";
 import SInput from "@/components/design/forms/Input.vue";
-import SAdminUserCard from "@/components/pages/admin/panels/UserCard.vue";
+import SAdminUserCard from "@/components/pages/admin/panels/SAdminUserCard.vue";
 import SPagination from "@/components/design/SPagination.vue";
+
 
 type TAdminUser = {
     _id: string;
@@ -82,62 +83,48 @@ type TAdminUser = {
     username: string;
 }
 
-export default defineComponent({
-    name: "SAdminPanelUsers",
-    components: { FontAwesomeIcon, SAdminUserCard, SInput, SPagination },
-    setup() {
-        const searchInput = ref("");
-        const isSearching = ref(true);
-        const users = ref([] as Array<TAdminUser>);
-        const numberOfUsers = ref<number>();
-        const displayed = ref(64);
-        const debounceSearch = debounce(updateSearch, 500);
-        const currentPage = ref<number>(1);
 
-        watch(
-            () => searchInput.value,
-            debounceSearch
-        );
+const searchInput = ref("");
+const isSearching = ref(true);
+const users = ref([] as Array<TAdminUser>);
+const numberOfUsers = ref(0);
+const displayed = ref(64);
+const debounceSearch = debounce(updateSearch, 500);
+const currentPage = ref<number>(1);
 
-        watch(
-            () => currentPage.value,
-            updateSearch
-        );
-
-        async function updateSearch() {
-            if (users.value.length === 0) {
-                isSearching.value = true;
-            }
-            
-            const result = await AdminService.userSearch({
-                limit: displayed.value,
-                search: searchInput.value,
-                skip: searchInput.value === "" ? (currentPage.value - 1) * displayed.value : 0
-            });
-
-            users.value = result.users;
-            numberOfUsers.value = result.total;
-            displayed.value = result.displayed;
-           
-            isSearching.value = false;
-        }
-
-        onMounted(async () => {
-            await updateSearch();
-        });
-
-        return {
-            currentPage,
-            displayed,
-            isSearching,
-            numberOfUsers,
-            offset: currentPage,
-            searchInput,
-            updateSearch,
-            users
-        };
+watch(
+    () => searchInput.value,
+    () => {
+        debounceSearch();
+        currentPage.value = 1;
     }
+);
+
+watch(
+    () => currentPage.value,
+    updateSearch
+);
+
+async function updateSearch() {
+    if (users.value.length === 0) {
+        isSearching.value = true;
+    }
+    const result = await AdminService.userSearch({
+        limit: displayed.value,
+        search: searchInput.value,
+        skip: (currentPage.value - 1) * displayed.value
+    });
+
+    users.value = result.users;
+    numberOfUsers.value = result.total;
+           
+    isSearching.value = false;
+}
+
+onMounted(async () => {
+    await updateSearch();
 });
+
 </script>
 
 <style scoped lang="scss">

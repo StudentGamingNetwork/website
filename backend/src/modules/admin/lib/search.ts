@@ -23,3 +23,21 @@ export async function userSearch({ limit, search, skip }: { limit: number; searc
         .populate("association")
         .exec();
 }
+
+export async function userSearchTotal({ search }: {search?: string}): Promise<number> {
+
+    const findParameters = {} as Record<string, any>;
+
+    if (search) {
+        const searchRegex = new RegExp(escapeRegExp(search), "gi");
+
+        findParameters.$or = [
+            { "student.name": searchRegex },
+            { "username": searchRegex },
+            { "mail": searchRegex },
+            { "platforms.discord": searchRegex }
+        ];
+    }
+
+    return UserModel.find(findParameters).countDocuments().exec();
+}

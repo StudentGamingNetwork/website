@@ -41,7 +41,7 @@
                 class="dropdown"
                 model-value="none"
                 :options="roles"
-                @update:modelValue="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
+                @update:model-value="userUpdate({_id: user._id, role: {name: $event, modification: 'add'}})"
             />
         </div>
         <div class="informations">
@@ -107,8 +107,8 @@
     </SCard>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import * as UserService from "@/services/user";
@@ -118,86 +118,67 @@ import * as AdminService from "@/services/admin";
 import { ERoles } from "@/services/user";
 import { Toast } from "@/modules";
 
-export default defineComponent({
-    name: "SAdminUserCard",
-    components: { FontAwesomeIcon, SCard, SSmallDropdown },
-    props: {
-        user: {
-            required: true,
-            type: Object as PropType<TCompleteUser>
-        }
-    },
-    emits: ["update"],
-    setup(props, context) {
-        const certificateType = computed(() => {
-            const certificate = props.user.student.certificate;
+const props = defineProps<{ user: TCompleteUser }>();
+const emit = defineEmits(["update"]);
+    
+const certificateType = computed(() => {
+    const certificate = props.user.student.certificate;
 
-            if (certificate.endsWith(".webp")) {
-                return "webp";
-            }
-
-            if (certificate.endsWith(".pdf")) {
-                return "pdf";
-            }
-
-            return "unknown";
-        });
-
-        const certificateUrl = computed(() => {
-            return UserService.getCertificateUrl({ id: props.user._id, certificate: props.user.student.certificate });
-        });
-
-        const studentStatus = computed(() => {
-            switch (props.user.student.status) {
-            case "processing":
-                return "En cours de validation";
-            case "validated":
-                return "Validé";
-            case "rejected":
-                return "Rejeté";
-            }
-            return "Aucun certificat";
-        });
-
-        const avatarUrl = computed(() => {
-            return UserService.getAvatarUrl({ id: props.user._id, avatar: props.user.avatar });
-        });
-
-        const roles = {
-            none: "Ajouter un role",
-            admin: "Admin",
-            council: "Conseil",
-            federation: "Fédération",
-            member: "Membre",
-            office: "Bureau",
-            partnership: "Partenariat",
-            tournament: "Tournoi"
-        };
-
-        async function userUpdate(update: {_id: string; role: {name: ERoles; modification: "add" | "remove"}}) {
-            if (update.role.name === "none") {
-                return;
-            }
-
-            const response = await Toast.testRequest(async () => {
-                return await AdminService.userUpdate(update);
-            });
-
-            if (response?.success) {
-                await context.emit("update");
-            }
-        }
-
-        return {
-            avatarUrl,
-            certificateType,
-            certificateUrl,
-            roles,
-            studentStatus,
-            userUpdate
-        };
+    if (certificate.endsWith(".webp")) {
+        return "webp";
     }
+
+    if (certificate.endsWith(".pdf")) {
+        return "pdf";
+    }
+
+    return "unknown";
 });
+
+const certificateUrl = computed(() => {
+    return UserService.getCertificateUrl({ id: props.user._id, certificate: props.user.student.certificate });
+});
+
+const studentStatus = computed(() => {
+    switch (props.user.student.status) {
+    case "processing":
+        return "En cours de validation";
+    case "validated":
+        return "Validé";
+    case "rejected":
+        return "Rejeté";
+    }
+    return "Aucun certificat";
+});
+
+const avatarUrl = computed(() => {
+    return UserService.getAvatarUrl({ id: props.user._id, avatar: props.user.avatar });
+});
+
+const roles = {
+    none: "Ajouter un role",
+    admin: "Admin",
+    council: "Conseil",
+    federation: "Fédération",
+    member: "Membre",
+    office: "Bureau",
+    partnership: "Partenariat",
+    tournament: "Tournoi"
+};
+
+async function userUpdate(update: {_id: string; role: {name: ERoles; modification: "add" | "remove"}}) {
+    if (update.role.name.toString() === "none") {
+        return;
+    }
+
+    const response = await Toast.testRequest(async () => {
+        return await AdminService.userUpdate(update);
+    });
+
+    if (response?.success) {
+        emit("update");
+    }
+}
 </script>
 
 <style scoped lang="scss">
