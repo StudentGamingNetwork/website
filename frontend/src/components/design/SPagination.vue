@@ -2,6 +2,7 @@
     <div class="offset">
         <SButton
             class="button"
+            :disabled="model === 1"
             outlined
             @click="updatePagination(1)"
         >
@@ -28,10 +29,14 @@
             >
                 <span class="center">{{ number }}</span>
             </SButton>
-            <span
+            <SButton
                 v-else
-                class="spacer"
-            >. . .</span>
+                class="button"
+                disabled
+                outlined
+            >
+                <span class="center">...</span>
+            </SButton>
         </template>
        
         <SButton
@@ -44,6 +49,7 @@
         </SButton>
         <SButton
             class="button"
+            :disabled="model === total"
             outlined
             @click="updatePagination(total)"
         >

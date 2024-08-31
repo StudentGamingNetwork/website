@@ -24,7 +24,7 @@ export async function userSearch({ limit, search, skip }: { limit: number; searc
         .exec();
 }
 
-export async function userSearchTotal({ search }: {search?: string}): Promise<number> {
+export async function userSearchTotal({ search }: { search?: string }) {
 
     const findParameters = {} as Record<string, any>;
 

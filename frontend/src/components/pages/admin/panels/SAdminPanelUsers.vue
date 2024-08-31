@@ -48,8 +48,7 @@
     </div>
     <SPagination
         v-model="currentPage"
-        :displayed="displayed"
-        :total="Math.ceil(numberOfUsers/displayed)"
+        :total="Math.ceil(numberOfUsers/MAX_ROWS_PER_PAGE)"
     />
 </template>
 
@@ -62,6 +61,7 @@ import SInput from "@/components/design/forms/Input.vue";
 import SAdminUserCard from "@/components/pages/admin/panels/SAdminUserCard.vue";
 import SPagination from "@/components/design/SPagination.vue";
 
+const MAX_ROWS_PER_PAGE = 64;
 
 type TAdminUser = {
     _id: string;
@@ -88,7 +88,6 @@ const searchInput = ref("");
 const isSearching = ref(true);
 const users = ref([] as Array<TAdminUser>);
 const numberOfUsers = ref(0);
-const displayed = ref(64);
 const debounceSearch = debounce(updateSearch, 500);
 const currentPage = ref<number>(1);
 
@@ -110,9 +109,9 @@ async function updateSearch() {
         isSearching.value = true;
     }
     const result = await AdminService.userSearch({
-        limit: displayed.value,
+        limit: MAX_ROWS_PER_PAGE,
         search: searchInput.value,
-        skip: (currentPage.value - 1) * displayed.value
+        skip: (currentPage.value - 1) * MAX_ROWS_PER_PAGE
     });
 
     users.value = result.users;

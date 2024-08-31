@@ -56,7 +56,7 @@ export async function register(server: FastifyInstance): Promise<void> {
     );
 }
 
-async function associationSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }): Promise<{associations: Array<IAssociationDocument>; total: number}> {
+async function associationSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }) {
 
     const findParameters = {} as Record<string, any>;
 
@@ -68,7 +68,7 @@ async function associationSearch({ limit, search, skip }: { limit: number; searc
             { "school.name": searchRegex }
         ];
     }
-    
+
     const associations = await AssociationModel.find(findParameters)
         .sort({ "name": 1 })
         .skip(skip)

@@ -42,8 +42,7 @@
     </div>
     <SPagination
         v-model="currentPage"
-        :displayed="displayed"
-        :total="Math.ceil(numberOfAssociations/displayed)"
+        :total="Math.ceil(numberOfAssociations/MAX_ROWS_PER_PAGE)"
     />
 </template>
 
@@ -56,12 +55,12 @@ import * as AdminService from "@/services/admin";
 import SAdminAssociationCard, { TAdminAssociation } from "@/components/pages/admin/panels/SAdminAssociationCard.vue";
 import SPagination from "@/components/design/SPagination.vue";
 
+const MAX_ROWS_PER_PAGE = 64;
 
 const searchInput = ref("");
 const isSearching = ref(true);
 const associations = ref([] as Array<TAdminAssociation>);
 const numberOfAssociations = ref(0);
-const displayed = ref(64);
 const debounceSearch = debounce(updateSearch, 500);
 const currentPage = ref<number>(1);
 
@@ -84,9 +83,9 @@ async function updateSearch() {
     }
 
     const result = await AdminService.associationSearch({
-        limit: displayed.value,
+        limit: MAX_ROWS_PER_PAGE,
         search: searchInput.value,
-        skip: (currentPage.value - 1) * displayed.value
+        skip: (currentPage.value - 1) * MAX_ROWS_PER_PAGE
     });
 
     associations.value = result.associations;
