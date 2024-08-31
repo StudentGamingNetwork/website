@@ -135,6 +135,7 @@ export const useStore = defineStore({
         student: {
             name: "",
             certificate: "",
+            rejectReason: "",
             schoolName: "",
             status: "undefined"
         },

@@ -31,6 +31,7 @@ export interface IUser {
     student: {
         name?: string;
         certificate?: string;
+        rejectReason?: string;
         schoolName?: string;
         status?: EStudentStatus;
         year?: number;
@@ -75,6 +76,9 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
             type: String
         },
         certificate: {
+            type: String
+        },
+        rejectReason: {
             type: String
         },
         schoolName: {

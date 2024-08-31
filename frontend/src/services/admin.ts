@@ -6,7 +6,7 @@ export async function userSearch(query: { limit: number; search: string; skip: n
     return result.data;
 }
 
-export async function userCertificate(update: { _id?: string; status?: string }): Promise<any> {
+export async function userCertificate(update: { _id?: string; message?: string, status?: string }): Promise<any> {
     const result = await ApiService.post("/admin/user/certificate", update);
     return result.data;
 }

@@ -7,7 +7,7 @@
             <SAvatarPicker
                 title="Photo de profil"
                 :url="avatarUrl"
-                @fileChange="uploadAvatar"
+                @file-change="uploadAvatar"
             />
             <SInput
                 v-model="username"
@@ -57,10 +57,19 @@
                     Il est préférable de rejoindre une association plutôt que de renseigner votre école manuellement.
                 </SModalSectionDescription>
             </template>
-            <SCertificatePicker
-                :url="certificateUrl"
-                @fileChange="uploadCertificate"
-            />
+            <div class="certificate">
+                <SCertificatePicker
+                    :url="certificateUrl"
+                    @file-change="uploadCertificate"
+                />
+                <SButton
+                    v-if="userStore.student.rejectReason.length !== 0"
+                    outlined
+                    @click="showCertificateRejectionReason"
+                >
+                    Voir la raison
+                </SButton>
+            </div>
             <div class="status">
                 <span class="soft">État:</span>
                 <span
@@ -169,6 +178,10 @@ export default defineComponent({
             await userStore.uploadCertificate(file);
         };
 
+        function showCertificateRejectionReason() {
+            alert(userStore.student.rejectReason);
+        }
+
         return {
             associationStore,
             avatarUrl,
@@ -176,6 +189,7 @@ export default defineComponent({
             hasUpdate,
             InputValidators,
             sendUpdate,
+            showCertificateRejectionReason,
             student,
             uploadAvatar,
             uploadCertificate,
@@ -201,6 +215,15 @@ export default defineComponent({
             &.error {
                 color: var(--color-error-content);
             }
+        }
+    }
+
+    .certificate {
+        display: flex;
+        gap: var(--length-gap-m);
+
+        @media (max-width: 1099px) {
+            flex-direction: column;
         }
     }
 

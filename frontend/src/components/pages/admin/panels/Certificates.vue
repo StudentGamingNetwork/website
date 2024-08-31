@@ -119,9 +119,15 @@ export default defineComponent({
         });
 
         async function validate(validated: boolean) {
+            const message = ref("");
+           
+            if (!validated){
+                message.value = prompt("Entrez un message de rejet : (optionnel)") || "";
+            }
+
             const response = await Toast.testRequest(async () => {
                 const status = validated ? "validated" : "rejected";
-                return await AdminService.userCertificate({ _id: user._id, status });
+                return await AdminService.userCertificate({ _id: user._id, message: message.value, status });
             });
 
             if (response?.success) {
