@@ -8,7 +8,7 @@ import { TypeAdminUser } from "@/modules/user/type";
 
 const SchemaRequest = Type.Object({
     _id: Type.Optional(Type.String()),
-    message: Type.Optional(Type.String()),
+    reason: Type.Optional(Type.String()),
     status: Type.Optional(Type.Enum(EStudentStatus))
 });
 
@@ -49,7 +49,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 }
 
                 student.student.status = request.body.status;
-                student.student.rejectReason = request.body.message;
+                student.student.rejectReason = request.body.reason;
                 
                 await student.save();
 

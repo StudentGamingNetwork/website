@@ -49,14 +49,22 @@
                 >
                     Valider
                 </SButton>
-                <SButton
-                    class="button"
-                    danger
-                    outlined
-                    @click="validate(false)"
+                <STooltip
+                    v-for="(reason, key) in denialReasons"
+                    :key="key"
+                    nowrap
+                    :tooltip-text="reason"
+                    top
                 >
-                    Rejeter
-                </SButton>
+                    <SButton
+                        class="button"
+                        danger
+                        outlined
+                        @click="validate(false, reason)"
+                    >
+                        {{ key }}
+                    </SButton>
+                </STooltip>
             </SCard>
         </template>
     </div>
@@ -74,10 +82,20 @@ import SCard from "@/components/design/Card.vue";
 import * as UserService from "@/services/user";
 import SButton from "@/components/design/forms/Button.vue";
 import { Toast } from "@/modules";
+import STooltip from "@/components/design/STooltip.vue";
+
+const denialReasons = {
+    "Expiré": "Ce certificat ne semble pas valide pour cette année",
+    "Format": "Ce n'est pas un certificat de scolarité ou une carte étudiante",
+    "Illisible": "Ce certificat est illisible",
+    "Lycée": "Ce certificat semble provenir d'un lycée, or less lycéens ne sont pas considérés comme des étudiants",
+    "Mineur": "Les mineurs ne sont pas acceptés dans les compétitions du SGN",
+    "Rejeter": ""
+};
 
 export default defineComponent({
     name: "SAdminPanelCertificates",
-    components: { FontAwesomeIcon, SAdminUserCard, SButton, SCard },
+    components: { FontAwesomeIcon, SAdminUserCard, SButton, SCard, STooltip },
     setup() {
         const isSearching = ref(true);
         const user = reactive({} as Partial<TUser>);
@@ -118,16 +136,15 @@ export default defineComponent({
             return UserService.getCertificateUrl({ id: user._id, certificate: user.student.certificate });
         });
 
-        async function validate(validated: boolean) {
-            const message = ref("");
+        async function validate(validated: boolean, reason: string = "") {
            
-            if (!validated){
-                message.value = prompt("Entrez un message de rejet : (optionnel)") || "";
+            if (!validated && !reason) {
+                reason = prompt("Entrez un message de rejet : (optionnel)") || "";
             }
 
             const response = await Toast.testRequest(async () => {
                 const status = validated ? "validated" : "rejected";
-                return await AdminService.userCertificate({ _id: user._id, message: message.value, status });
+                return await AdminService.userCertificate({ _id: user._id, reason, status });
             });
 
             if (response?.success) {
@@ -144,6 +161,7 @@ export default defineComponent({
         return {
             certificateType,
             certificateUrl,
+            denialReasons,
             isSearching,
             user,
             validate
@@ -191,6 +209,7 @@ export default defineComponent({
         display: flex;
         justify-content: space-between;
         gap: var(--length-gap-m);
+        overflow: visible;
 
         .button {
             width: 120px;
