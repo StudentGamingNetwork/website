@@ -52,6 +52,9 @@ importers:
       mongoose:
         specifier: ^7.1.0
         version: 7.8.0(@aws-sdk/credential-providers@3.631.0(@aws-sdk/client-sso-oidc@3.631.0(@aws-sdk/client-sts@3.631.0)))
+      nodemailer:
+        specifier: ^6.9.14
+        version: 6.9.14
       sharp:
         specifier: ^0.32.1
         version: 0.32.6
@@ -2704,6 +2707,10 @@ packages:
 
   node-releases@2.0.18:
     resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==}
+
+  nodemailer@6.9.14:
+    resolution: {integrity: sha512-Dobp/ebDKBvz91sbtRKhcznLThrKxKt97GI2FAlAyy+fk19j73Uz3sBXolVtmcXjaorivqsbbbjDY+Jkt4/bQA==}
+    engines: {node: '>=6.0.0'}
 
   nodemon@2.0.22:
     resolution: {integrity: sha512-B8YqaKMmyuCO7BowF1Z1/mkPqLk6cs/l63Ojtd6otKjMx47Dq1utxfRxcavH1I7VSaL8n5BUaoutadnsX3AAVQ==}
@@ -6795,6 +6802,8 @@ snapshots:
   node-addon-api@6.1.0: {}
 
   node-releases@2.0.18: {}
+
+  nodemailer@6.9.14: {}
 
   nodemon@2.0.22:
     dependencies:

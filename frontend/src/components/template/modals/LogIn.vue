@@ -75,11 +75,26 @@
                     </SButton>
                 </div>
             </div>
-            <div
-                class="link"
-                @click="stateStore.modalOpen('signup')"
-            >
-                Pas encore de compte ?
+            <div class="login appart">
+                <div
+                    class="link local"
+                    @click="stateStore.modalOpen('signup')"
+                >
+                    Pas encore de compte ?
+                </div>
+                <div class="separator">
+                    <div class="line" />
+                    <div class="text">
+                        or
+                    </div>
+                    <div class="line" />
+                </div>
+                <div
+                    class="link local"
+                    @click="passwordForgotten"
+                >
+                    Mot de passe oublié ?
+                </div>
             </div>
         </div>
     </SModal>
@@ -124,11 +139,20 @@ export default defineComponent({
             }
         }
 
+        async function passwordForgotten() {
+            const answer = prompt("Entrez votre adresse mail liée à votre compte SGN") || "";
+            
+            await Toast.testRequest(async () => {
+                return await UserService.passwordForgotten({ mail: answer });
+            });
+        }
+
         return {
             login,
             LogoGoogleSignIn,
             mail,
             password,
+            passwordForgotten,
             stateStore,
             waitingForResponse
         };
@@ -240,5 +264,11 @@ export default defineComponent({
             opacity: 1;
         }
     }
+    
+    .appart {
+        place-content: space-evenly;
+        text-align: center;
+    }
+
 }
 </style>
