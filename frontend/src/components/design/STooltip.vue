@@ -50,7 +50,7 @@ defineProps({
 
     .tooltiptext {
         position: absolute;
-        visibility: hidden;
+        display: none;
 
         background-color: var(--color-background-2);
         padding: var(--length-padding-xs) var(--length-padding-s);
@@ -89,7 +89,7 @@ defineProps({
     }
 
     &:hover .tooltiptext {
-        visibility: visible;
+        display: inline-block;
     }
 }
 
