@@ -78,3 +78,8 @@ export function getCertificateUrl(user: { id: string; certificate: string }): st
 
     return `${ Config.backendUrl }/upload/user/${ user.id }/${ user.certificate }`;
 }
+
+export async function passwordForgotten({ mail }: { mail: string }): Promise<any> {
+    const result = await ApiService.post("/user/passwordForgotten", { mail });
+    return result.data;
+}
