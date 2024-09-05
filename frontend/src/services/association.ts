@@ -27,6 +27,11 @@ export async function search(query: { limit: number; search: string; skip: numbe
     return result.data;
 }
 
+export async function transferOwnership(newOwnerEmail: string): Promise<any> {
+    const result = await ApiService.post("/association/transfer-ownership", { newOwnerEmail });
+    return result.data;
+}
+
 export async function update(association: Record<string, string>): Promise<any> {
     const result = await ApiService.post("/association/update", association);
     return result.data;

@@ -46,15 +46,22 @@
             />
         </transition-group>
     </div>
+    <SPagination
+        v-model="currentPage"
+        :total="Math.ceil(numberOfUsers/MAX_ROWS_PER_PAGE)"
+    />
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+<script lang="ts" setup>
+import { onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import * as AdminService from "@/services/admin";
 import SInput from "@/components/design/forms/Input.vue";
-import SAdminUserCard from "@/components/pages/admin/panels/UserCard.vue";
+import SAdminUserCard from "@/components/pages/admin/panels/SAdminUserCard.vue";
+import SPagination from "@/components/design/SPagination.vue";
+
+const MAX_ROWS_PER_PAGE = 64;
 
 type TAdminUser = {
     _id: string;
@@ -76,47 +83,47 @@ type TAdminUser = {
     username: string;
 }
 
-export default defineComponent({
-    name: "SAdminPanelUsers",
-    components: { FontAwesomeIcon, SAdminUserCard, SInput },
-    setup() {
-        const searchInput = ref("");
-        const isSearching = ref(true);
-        const users = ref([] as Array<TAdminUser>);
 
-        const debounceSearch = debounce(updateSearch, 500);
+const searchInput = ref("");
+const isSearching = ref(true);
+const users = ref([] as Array<TAdminUser>);
+const numberOfUsers = ref(0);
+const debounceSearch = debounce(updateSearch, 500);
+const currentPage = ref<number>(1);
 
-        watch(
-            () => searchInput.value,
-            debounceSearch
-        );
-
-        async function updateSearch() {
-            if (users.value.length === 0) {
-                isSearching.value = true;
-            }
-            const result = await AdminService.userSearch({
-                limit: 100,
-                search: searchInput.value,
-                skip: 0
-            });
-
-            users.value = result.users;
-            isSearching.value = false;
-        }
-
-        onMounted(async () => {
-            await updateSearch();
-        });
-
-        return {
-            isSearching,
-            searchInput,
-            updateSearch,
-            users
-        };
+watch(
+    () => searchInput.value,
+    () => {
+        debounceSearch();
+        currentPage.value = 1;
     }
+);
+
+watch(
+    () => currentPage.value,
+    updateSearch
+);
+
+async function updateSearch() {
+    if (users.value.length === 0) {
+        isSearching.value = true;
+    }
+    const result = await AdminService.userSearch({
+        limit: MAX_ROWS_PER_PAGE,
+        search: searchInput.value,
+        skip: (currentPage.value - 1) * MAX_ROWS_PER_PAGE
+    });
+
+    users.value = result.users;
+    numberOfUsers.value = result.total;
+           
+    isSearching.value = false;
+}
+
+onMounted(async () => {
+    await updateSearch();
 });
+
 </script>
 
 <style scoped lang="scss">

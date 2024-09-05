@@ -26,9 +26,9 @@ import BackgroundAdmin from "@/assets/images/backgrounds/admin.png";
 import SPageHead from "@/components/template/PageHead.vue";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";
 import SSelector from "@/components/design/Selector.vue";
-import SAdminPanelUsers from "@/components/pages/admin/panels/Users.vue";
-import SAdminPanelAssociations from "@/components/pages/admin/panels/Associations.vue";
-import SAdminPanelCertificates from "@/components/pages/admin/panels/Certificates.vue";
+import SAdminPanelUsers from "@/components/pages/admin/panels/SAdminPanelUsers.vue";
+import SAdminPanelAssociations from "@/components/pages/admin/panels/SAdminPanelAssociations.vue";
+import SAdminPanelCertificates from "@/components/pages/admin/panels/SAdminPanelCertificates.vue";
 
 export default defineComponent({
     name: "SAdminLayout",
