@@ -145,6 +145,11 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
             type: Mongo.Schema.Types.ObjectId
         }
     }
+}, {
+    collation: {
+        locale: "fr",
+        strength: 1
+    }
 });
 
 associationSchema.index(
