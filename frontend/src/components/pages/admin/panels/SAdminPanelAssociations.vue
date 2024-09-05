@@ -40,59 +40,64 @@
             :model-value="association"
         />
     </div>
+    <SPagination
+        v-model="currentPage"
+        :total="Math.ceil(numberOfAssociations/MAX_ROWS_PER_PAGE)"
+    />
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+<script lang="ts" setup>
+import { onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
 import * as AdminService from "@/services/admin";
-import SCard from "@/components/design/Card.vue";
-import SCopier from "@/components/design/forms/Copier.vue";
-import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
-import SAdminAssociationCard, { TAdminAssociation } from "@/components/pages/admin/panels/AssociationCard.vue";
+import SAdminAssociationCard, { TAdminAssociation } from "@/components/pages/admin/panels/SAdminAssociationCard.vue";
+import SPagination from "@/components/design/SPagination.vue";
 
-export default defineComponent({
-    name: "SAdminPanelAssociations",
-    components: { FontAwesomeIcon, SAdminAssociationCard, SCard, SCopier, SInput, SSmallDropdown },
-    setup() {
-        const searchInput = ref("");
-        const isSearching = ref(true);
-        const associations = ref([] as Array<TAdminAssociation>);
+const MAX_ROWS_PER_PAGE = 64;
 
-        const debounceSearch = debounce(updateSearch, 500);
+const searchInput = ref("");
+const isSearching = ref(true);
+const associations = ref([] as Array<TAdminAssociation>);
+const numberOfAssociations = ref(0);
+const debounceSearch = debounce(updateSearch, 500);
+const currentPage = ref<number>(1);
 
-        watch(
-            () => searchInput.value,
-            debounceSearch
-        );
-
-        async function updateSearch() {
-            if (associations.value.length === 0) {
-                isSearching.value = true;
-            }
-            const result = await AdminService.associationSearch({
-                limit: 100,
-                search: searchInput.value,
-                skip: 0
-            });
-
-            associations.value = result.associations;
-            isSearching.value = false;
-        }
-
-        onMounted(async () => {
-            await updateSearch();
-        });
-
-        return {
-            associations,
-            isSearching,
-            searchInput
-        };
+watch(
+    () => searchInput.value,
+    () => {
+        debounceSearch();
+        currentPage.value = 1;
     }
+);
+
+watch(
+    () => currentPage.value,
+    updateSearch
+);
+
+async function updateSearch() {
+    if (associations.value.length === 0) {
+        isSearching.value = true;
+    }
+
+    const result = await AdminService.associationSearch({
+        limit: MAX_ROWS_PER_PAGE,
+        search: searchInput.value,
+        skip: (currentPage.value - 1) * MAX_ROWS_PER_PAGE
+    });
+
+    associations.value = result.associations;
+    numberOfAssociations.value = result.total;
+
+    isSearching.value = false;
+}
+
+onMounted(async () => {
+    await updateSearch();
 });
+
 </script>
 
 <style scoped lang="scss">
