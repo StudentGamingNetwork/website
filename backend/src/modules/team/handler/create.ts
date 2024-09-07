@@ -62,7 +62,9 @@ export async function register(server: FastifyInstance): Promise<void> {
                 ],
                 owner: user._id,
                 settings: {
+                    coachInvitationCode: TeamLib.generateInvitationCode(),
                     invitationCode: TeamLib.generateInvitationCode()
+
                 },
                 state: {
                     ready: false,
