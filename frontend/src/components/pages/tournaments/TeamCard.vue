@@ -191,7 +191,12 @@
                 <SInputCopier
                     v-if="isTeamBased"
                     :content="team.settings.invitationCode"
-                    title="Code d'invitation"
+                    title="Code d'invitation joueur"
+                />
+                <SInputCopier
+                    v-if="isTeamBased"
+                    :content="team.settings.coachInvitationCode"
+                    title="Code d'invitation coach"
                 />
                 <SButton
                     danger
@@ -230,8 +235,17 @@
                                 <span class="gradient">{{ member.user.association.tag }}</span>
                             </router-link>
                             {{ member.user.username }}
-                            <span class="info">
+                            <span
+                                v-if="member.role === 'Player'"
+                                class="info"
+                            >
                                 (<span :class="{error: !member.username}">{{ member.username || "ID manquant" }}</span>)
+                            </span>
+                            <span
+                                v-else
+                                class="info"
+                            >
+                                ({{ member.role }})
                             </span>
                             <div
                                 v-if="isOwner && member.user._id !== team.owner"
@@ -413,24 +427,24 @@ export default defineComponent({
             return props.tournament.game.team.playersNumber > 1;
         });
 
-        function isMemberReady(member: { user: User.TCompleteUser; username: string }): boolean {
+        function isMemberReady(member: { role: string; user: User.TCompleteUser; username: string }): boolean {
             if (!member.username) {
                 return false;
             }
 
-            if (!member.user.platforms.discord) {
+            if (!member.user.platforms.discord && member.role === "Player") {
                 return false;
             }
 
-            if (!member.user.student.name) {
+            if (!member.user.student.name && member.role === "Player") {
                 return false;
             }
 
-            if (!(member.user.student.schoolName || member.user.association)) {
+            if (!(member.user.student.schoolName || member.user.association) && member.role === "Player") {
                 return false;
             }
 
-            if (member.user.student.status !== "validated") {
+            if (member.user.student.status !== "validated" && member.role === "Player") {
                 return false;
             }
 

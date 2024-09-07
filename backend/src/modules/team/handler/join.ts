@@ -50,7 +50,8 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             const team = await TeamModel.findOne({
-                "settings.invitationCode": request.body.invitationCode.trim().toUpperCase(),
+                $or: [{ "settings.coachInvitationCode": request.body.invitationCode.trim().toUpperCase() },
+                    { "settings.invitationCode": request.body.invitationCode.trim().toUpperCase() }],
                 tournament: tournament._id
             });
 
@@ -58,15 +59,23 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
             }
 
-            if (team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
+            const invitationJoueur = team.settings.invitationCode === request.body.invitationCode.trim().toUpperCase();
+
+            if (invitationJoueur && team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
                 throw new httpErrors.NotFound("Cette équipe est déjà complète");
             }
 
+            if (!invitationJoueur && team.members.some(member => member.role === "coach")) {
+                throw new httpErrors.NotFound("Cette équipe possède déjà un coach");
+            }
+            
+            
             team.members.push({
+                role: invitationJoueur ? "Player" : "Coach",
                 user: user._id,
                 username: ""
             });
-
+            
             await team.save();
 
             reply.send({

@@ -208,7 +208,7 @@
             </div>
             <SCertificatePicker
                 :url="certificateUrl"
-                @fileChange="uploadCertificate"
+                @file-change="uploadCertificate"
             />
             <div class="status">
                 <span class="soft">État :</span>

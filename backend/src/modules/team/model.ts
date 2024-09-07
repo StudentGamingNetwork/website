@@ -2,12 +2,14 @@ import Mongo from "@/database";
 
 export interface ITeam {
     members: Array<{
+        role: string;
         user: Mongo.Schema.Types.ObjectId;
         username: string;
     }>;
     owner: Mongo.Schema.Types.ObjectId;
     settings: {
         name: string;
+        coachInvitationCode: string;
         invitationCode: string;
         tag: string;
     };
@@ -24,6 +26,9 @@ export interface ITeamDocument extends ITeam, Mongo.Document {
 
 const teamSchema: Mongo.Schema = new Mongo.Schema({
     members: [{
+        role: { 
+            default: "Player",
+            type: String },
         user: {
             ref: "user",
             type: Mongo.Schema.Types.ObjectId
@@ -37,6 +42,7 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
     },
     settings: {
         name: String,
+        coachInvitationCode: String,
         invitationCode: String,
         tag: String
     },
