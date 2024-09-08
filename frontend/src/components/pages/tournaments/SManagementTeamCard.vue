@@ -45,6 +45,7 @@
             </div>
         </div>
         <table class="members-table">
+            <span>Joueurs</span>
             <tr
                 v-for="member of team.members"
                 :key="member.user._id"
@@ -54,7 +55,7 @@
                         <img
                             v-if="member.user.avatar"
                             alt="avatar"
-                            :src="getUserAvatarUrl({id:member.user._id, avatar:member.user.avatar})"
+                            :src="UserService.getAvatarUrl({id:member.user._id, avatar:member.user.avatar})"
                         >
                         <FontAwesomeIcon
                             v-else
@@ -130,12 +131,93 @@
                     </template>
                 </td>
             </tr>
+            <span>Staff</span>
+            <tr
+                v-for="(staff, staffIndex) of team.staff"
+                :key="staff.user._id"
+            >
+                <td>
+                    <div class="avatar">
+                        <img
+                            v-if="staff.user.avatar"
+                            alt="avatar"
+                            :src="UserService.getAvatarUrl({id:staff.user._id, avatar:staff.user.avatar})"
+                        >
+                        <FontAwesomeIcon
+                            v-else
+                            class="icon"
+                            :icon="['fas', 'user']"
+                        />
+                    </div>
+                </td>
+                <td>
+                    <router-link
+                        v-if="staff.user.association?.tag"
+                        class="tag"
+                        :to="'/association/' + (staff.user.association.settings?.slug || staff.user.association._id)"
+                    >
+                        <span class="gradient">{{ staff.user.association.tag }}</span>
+                    </router-link>
+                    {{ staff.user.username }}
+                    <span class="info">
+                        (<span :class="{error: !staff.user.username}">{{ staff.username || "ID manquant" }}</span>)
+                    </span>
+                    <div
+                        v-if="isOwner && staff.user._id !== team.owner"
+                        class="kick"
+                        @click="kickMember(staffIndex,'staff')"
+                    >
+                        Expulser
+                    </div>
+                </td>
+                <td>
+                    {{ staff.user.student.name || staff.username }}
+                    <span class="info">({{
+                        staff.role
+                    }})</span>
+                </td>
+                <td>
+                    <div class="contact">
+                        <span
+                            class="certificate"
+                            title="Certificat étudiant"
+                        >
+                            <FontAwesomeIcon :icon="['fas', 'id-card']" />
+                        </span>
+                        <SCopier
+                            class="button"
+                            :content="staff.user.mail"
+                        >
+                            <FontAwesomeIcon :icon="['fas', 'envelope']" />
+                        </SCopier>
+                        <SCopier
+                            class="button"
+                            :class="{error: !staff.user.platforms.discord}"
+                            :content="staff.user.platforms.discord"
+                        >
+                            <FontAwesomeIcon :icon="['fab', 'discord']" />
+                        </SCopier>
+                    </div>
+                </td>
+                <td>
+                    <template v-if="isMemberReady(staff)">
+                        <SValidator :valid="true">
+                            Prêt
+                        </SValidator>
+                    </template>
+                    <template v-else>
+                        <SValidator :valid="false">
+                            Incomplet
+                        </SValidator>
+                    </template>
+                </td>
+            </tr>
         </table>
     </SCard>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
+<script lang="ts" setup>
+import { PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { Team, Toast, User } from "@/modules";
 import SCard from "@/components/design/Card.vue";
@@ -144,66 +226,57 @@ import SCopier from "@/components/design/forms/Copier.vue";
 import * as UserService from "@/services/user";
 import * as AdminService from "@/services/admin";
 
-export default defineComponent({
-    name: "STournamentManagementTeamCard",
-    components: { FontAwesomeIcon, SCard, SCopier, SValidator },
-    props: {
-        team: {
-            required: true,
-            type: Object as PropType<Team.TTeam>
-        }
-    },
-    emits: ["update"],
-    setup(props, context) {
-        function isMemberReady(member: { user: User.TCompleteUser; username: string }): boolean {
-            if (!member.username) {
-                return false;
-            }
 
-            if (!member.user.platforms.discord) {
-                return false;
-            }
-
-            if (!member.user.student.name) {
-                return false;
-            }
-
-            if (!(member.user.student.schoolName || member.user.association)) {
-                return false;
-            }
-
-            if (member.user.student.status !== "validated") {
-                return false;
-            }
-
-            return true;
-        }
-
-        async function updateTeam(update: { _id: string; validated?: boolean }) {
-            const response = await Toast.testRequest(async () => {
-                return await AdminService.teamManage(update);
-            });
-
-            if (response?.success) {
-                context.emit("update");
-            }
-        }
-
-        async function exportTeam(team: { _id: string }) {
-            await Toast.testRequest(async () => {
-                return await AdminService.teamExport(team);
-            });
-        }
-
-        return {
-            exportTeam,
-            getUserAvatarUrl: UserService.getAvatarUrl,
-            getUserCertificateUrl: UserService.getCertificateUrl,
-            isMemberReady,
-            updateTeam
-        };
+defineProps({
+    team: {
+        required: true,
+        type: Object as PropType<Team.TTeam>
     }
 });
+
+const emit = defineEmits(["update"]);
+
+   
+function isMemberReady(member: { role: string | undefined; user: User.TCompleteUser; username: string }): boolean {
+    if (!member.username && !member.role) {
+        return false;
+    }
+
+    if (!member.user.platforms.discord) {
+        return false;
+    }
+
+    if (!member.user.student.name) {
+        return false;
+    }
+
+    if (!(member.user.student.schoolName || member.user.association) && !member.role) {
+        return false;
+    }
+
+    if (member.user.student.status !== "validated" && !member.role) {
+        return false;
+    }
+
+    return true;
+}
+
+async function updateTeam(update: { _id: string; validated?: boolean }) {
+    const response = await Toast.testRequest(async () => {
+        return await AdminService.teamManage(update);
+    });
+
+    if (response?.success) {
+        emit("update");
+    }
+}
+
+async function exportTeam(team: { _id: string }) {
+    await Toast.testRequest(async () => {
+        return await AdminService.teamExport(team);
+    });
+}
+
 </script>
 
 <style scoped lang="scss">

@@ -13,6 +13,7 @@ export type TTournament = {
     game: {
         name: string;
         team: {
+            coachNumber: number;
             maxTeams: number;
             playersNumber: number;
             subscribed: number;
@@ -50,6 +51,7 @@ export function makeObject(tournament: Partial<TTournament>): TTournament {
         game: {
             name: "",
             team: {
+                coachNumber: 0,
                 playersNumber: 0,
                 substitutesNumber: 0
             }

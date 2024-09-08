@@ -3,7 +3,6 @@ import { TCompleteUser } from "@/modules/user";
 export type TTeam = {
     _id: string;
     members: Array<{
-        role: string;
         user: TCompleteUser;
         username: string;
     }>;
@@ -14,6 +13,11 @@ export type TTeam = {
         invitationCode: string;
         tag: string;
     };
+    staff: Array<{
+        role: string;
+        user: TCompleteUser;
+        username: string;
+    }>;
     state: {
         ready: boolean;
         validated: boolean;

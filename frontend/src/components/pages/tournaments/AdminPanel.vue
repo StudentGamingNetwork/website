@@ -11,7 +11,7 @@
                 :icon="['fas', 'trophy']"
                 title="Logo"
                 :url="logoUrl"
-                @fileChange="uploadLogo"
+                @file-change="uploadLogo"
             />
             <SInput
                 v-model="tournament.name"
@@ -97,6 +97,13 @@
                 v-model="tournament.game.team.substitutesNumber"
                 :modified="tournament.game.team.substitutesNumber !== savedTournament.game.team.substitutesNumber"
                 title="Nombre de remplaçants par équipe"
+                type="number"
+                @enter="sendUpdate"
+            />
+            <SInput
+                v-model="tournament.game.team.coachNumber"
+                :modified="tournament.game.team.coachNumber !== savedTournament.game.team.coachNumber"
+                title="Nombre de coach par équipe"
                 type="number"
                 @enter="sendUpdate"
             />

@@ -3,7 +3,6 @@ import { Type } from "@sinclair/typebox";
 const Team = {
     _id: Type.String(),
     members: Type.Array(Type.Object({
-        role: Type.String(),
         user: Type.String(),
         username: Type.String()
     })),
@@ -14,6 +13,11 @@ const Team = {
         invitationCode: Type.Optional(Type.String()),
         tag: Type.Optional(Type.String())
     }),
+    staff: Type.Array(Type.Object({
+        role: Type.String(),
+        user: Type.String(),
+        username: Type.String()
+    })),
     state: Type.Object({
         ready: Type.Boolean(),
         validated: Type.Boolean()
@@ -73,6 +77,11 @@ export const TypeCompleteTeam = Type.Object({
     ...Team,
     members: Type.Array(Type.Object({
         kick: Type.Optional(Type.Boolean()),
+        user: Type.Object(TeamUser),
+        username: Type.String()
+    })),
+    staff: Type.Array(Type.Object({
+        kick: Type.Optional(Type.Boolean()),
         role: Type.String(),
         user: Type.Object(TeamUser),
         username: Type.String()
@@ -83,8 +92,13 @@ export const TypeCompleteTeamAdmin = Type.Object({
     ...Team,
     members: Type.Array(Type.Object({
         kick: Type.Optional(Type.Boolean()),    
-        role: Type.String(),
         user: Type.Object(TeamUserAdmin),
+        username: Type.String()
+    })),
+    staff: Type.Array(Type.Object({
+        kick: Type.Optional(Type.Boolean()),
+        role: Type.String(),
+        user: Type.Object(TeamUser),
         username: Type.String()
     }))
 });

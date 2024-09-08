@@ -26,7 +26,7 @@
         >
             <div>Prêt à rejoindre l'arène ?</div>
             <div class="buttons">
-                <template v-if="isTeamBased">
+                <template v-if="isTeamBased || !isCoachingStaffFull">
                     <SButton
                         primary
                         @click="createTeam"
@@ -74,8 +74,16 @@
                     @enter="sendUpdate"
                 />
                 <SInput
-                    v-model="team.members[playerIndex].username"
-                    :modified="team.members[playerIndex].username !== savedTeam.members[playerIndex].username"
+                    v-if="isStaff"
+                    v-model="team.staff[memberIndex].username"
+                    :modified="team.staff[memberIndex].username !== savedTeam.staff[memberIndex].username"
+                    :title="tournament.game.username"
+                    @enter="sendUpdate"
+                />
+                <SInput
+                    v-else
+                    v-model="team.members[memberIndex].username"
+                    :modified="team.members[memberIndex].username !== savedTeam.members[memberIndex].username"
                     :title="tournament.game.username"
                     @enter="sendUpdate"
                 />
@@ -135,7 +143,10 @@
                         >
                             TAG d'équipe
                         </SValidator>
-                        <SValidator :valid="!!savedTeam.members[playerIndex].username">
+                        <SValidator
+                            v-if="!isStaff"
+                            :valid="!!savedTeam.members[memberIndex].username"
+                        >
                             Identifiant de jeu
                         </SValidator>
                         <SValidator
@@ -149,13 +160,19 @@
                         <SValidator :valid="!!userStore.platforms.discord">
                             Identifiant Discord*
                         </SValidator>
-                        <SValidator :valid="!!(userStore.association || userStore.student.schoolName)">
+                        <SValidator
+                            v-if="!isStaff"
+                            :valid="!!(userStore.association || userStore.student.schoolName)"
+                        >
                             Nom d'école*
                         </SValidator>
                         <SValidator :valid="!!userStore.student.name">
                             Nom et prénom*
                         </SValidator>
-                        <SValidator :valid="userStore.student.status === 'validated'">
+                        <SValidator
+                            v-if="!isStaff"
+                            :valid="userStore.student.status === 'validated'"
+                        >
                             Certificat étudiant*
                         </SValidator>
                     </div>
@@ -166,24 +183,33 @@
                         @click="stateStore.modalOpen('settings')"
                     >paramètres</span> de votre profil.
                 </SModalSectionDescription>
-                <div
-                    v-if="isTeamBased"
-                    class="validators-column"
-                >
-                    <div
-                        v-for="(number, index) in Math.max(tournament.game.team.playersNumber, team.members.length)"
-                        :key="index"
-                    >
-                        <template v-if="team.members[index]">
-                            <SValidator :valid="isMemberReady(team.members[index])">
-                                Joueur {{ number }} : <strong>{{ team.members[index].user.username }}</strong> ({{ isMemberReady(team.members[index]) ? "prêt" : "incomplet" }})
+                <div class="validators">
+                    <div class="validators-column">
+                        <div
+                            v-for="(number, index) in Math.max(tournament.game.team.playersNumber, team.members.length)"
+                            :key="index"
+                        >
+                            <template v-if="team.members[index]">
+                                <SValidator :valid="isMemberReady(team.members[index])">
+                                    Joueur {{ number }} : <strong>{{ team.members[index].user.username }}</strong> ({{ isMemberReady(team.members[index]) ? "prêt" : "incomplet" }})
+                                </SValidator>
+                            </template>
+                            <template v-else>
+                                <SValidator :valid="false">
+                                    Joueur manquant
+                                </SValidator>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="validators-column">
+                        <div
+                            v-for="(staff) in team.staff"
+                            :key="staff.user._id"
+                        >
+                            <SValidator :valid="isMemberReady(staff)">
+                                {{ staff.role }} : <strong>{{ staff.user.username }}</strong> ({{ isMemberReady(staff) ? "prêt" : "incomplet" }})
                             </SValidator>
-                        </template>
-                        <template v-else>
-                            <SValidator :valid="false">
-                                Joueur manquant
-                            </SValidator>
-                        </template>
+                        </div>
                     </div>
                 </div>
             </SModalSection>
@@ -194,7 +220,7 @@
                     title="Code d'invitation joueur"
                 />
                 <SInputCopier
-                    v-if="isTeamBased"
+                    v-if="!isCoachingStaffFull"
                     :content="team.settings.coachInvitationCode"
                     title="Code d'invitation coach"
                 />
@@ -208,8 +234,9 @@
             </div>
             <div class="members">
                 <table class="members-table">
+                    <span>Joueurs</span>
                     <tr
-                        v-for="(member, memberIndex) of team.members"
+                        v-for="(member, index) of team.members"
                         :key="member.user._id"
                     >
                         <td>
@@ -217,7 +244,7 @@
                                 <img
                                     v-if="member.user.avatar"
                                     alt="avatar"
-                                    :src="getUserAvatarUrl({id:member.user._id, avatar:member.user.avatar})"
+                                    :src="UserService.getAvatarUrl({id:member.user._id, avatar:member.user.avatar})"
                                 >
                                 <FontAwesomeIcon
                                     v-else
@@ -235,22 +262,13 @@
                                 <span class="gradient">{{ member.user.association.tag }}</span>
                             </router-link>
                             {{ member.user.username }}
-                            <span
-                                v-if="member.role === 'Player'"
-                                class="info"
-                            >
+                            <span class="info">
                                 (<span :class="{error: !member.username}">{{ member.username || "ID manquant" }}</span>)
-                            </span>
-                            <span
-                                v-else
-                                class="info"
-                            >
-                                ({{ member.role }})
                             </span>
                             <div
                                 v-if="isOwner && member.user._id !== team.owner"
                                 class="kick"
-                                @click="kickMember(memberIndex)"
+                                @click="kickMember(index)"
                             >
                                 Expulser
                             </div>
@@ -298,16 +316,97 @@
                             </template>
                         </td>
                     </tr>
+                    <span>Staff</span>
+                    <tr
+                        v-for="(staff, staffIndex) of team.staff"
+                        :key="staff.user._id"
+                    >
+                        <td>
+                            <div class="avatar">
+                                <img
+                                    v-if="staff.user.avatar"
+                                    alt="avatar"
+                                    :src="UserService.getAvatarUrl({id:staff.user._id, avatar:staff.user.avatar})"
+                                >
+                                <FontAwesomeIcon
+                                    v-else
+                                    class="icon"
+                                    :icon="['fas', 'user']"
+                                />
+                            </div>
+                        </td>
+                        <td>
+                            <router-link
+                                v-if="staff.user.association?.tag"
+                                class="tag"
+                                :to="'/association/' + (staff.user.association.settings?.slug || staff.user.association._id)"
+                            >
+                                <span class="gradient">{{ staff.user.association.tag }}</span>
+                            </router-link>
+                            {{ staff.user.username }}
+                            <span class="info">
+                                (<span :class="{error: !staff.user.username}">{{ staff.username || "ID manquant" }}</span>)
+                            </span>
+                            <div
+                                v-if="isOwner && staff.user._id !== team.owner"
+                                class="kick"
+                                @click="kickMember(staffIndex,'staff')"
+                            >
+                                Expulser
+                            </div>
+                        </td>
+                        <td>
+                            {{ staff.user.student.name || staff.username }}
+                            <span class="info">({{
+                                staff.role
+                            }})</span>
+                        </td>
+                        <td>
+                            <div class="contact">
+                                <span
+                                    class="certificate"
+                                    title="Certificat étudiant"
+                                >
+                                    <FontAwesomeIcon :icon="['fas', 'id-card']" />
+                                </span>
+                                <SCopier
+                                    class="button"
+                                    :content="staff.user.mail"
+                                >
+                                    <FontAwesomeIcon :icon="['fas', 'envelope']" />
+                                </SCopier>
+                                <SCopier
+                                    class="button"
+                                    :class="{error: !staff.user.platforms.discord}"
+                                    :content="staff.user.platforms.discord"
+                                >
+                                    <FontAwesomeIcon :icon="['fab', 'discord']" />
+                                </SCopier>
+                            </div>
+                        </td>
+                        <td>
+                            <template v-if="isMemberReady(staff)">
+                                <SValidator :valid="true">
+                                    Prêt
+                                </SValidator>
+                            </template>
+                            <template v-else>
+                                <SValidator :valid="false">
+                                    Incomplet
+                                </SValidator>
+                            </template>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
     </SCard>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType, reactive, ref } from "vue";
+<script lang="ts" setup>
+import { computed, PropType, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { assign, cloneDeep, findIndex, isMatch } from "lodash";
+import { assign, cloneDeep, isMatch } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import * as TeamService from "@/services/team";
@@ -324,232 +423,220 @@ import SCopier from "@/components/design/forms/Copier.vue";
 import SInputCopier from "@/components/design/forms/InputCopier.vue";
 import * as UserService from "@/services/user";
 
-export default defineComponent({
-    name: "STeamCard",
-    components: {
-        FontAwesomeIcon,
-        SButton,
-        SCard,
-        SCopier,
-        SInput,
-        SInputCopier,
-        SModalSection,
-        SModalSectionDescription,
-        SModalSectionTitle,
-        SSectionTitle,
-        SValidator
-    },
-    props: {
-        tournament: {
-            required: true,
-            type: Object as PropType<Tournament.TTournament>
-        }
-    },
-    async setup(props) {
-        const router = useRouter();
-        const userStore = User.useStore();
-        const stateStore = State.useStore();
-        const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
-
-        const savedTeam = reactive(Team.Lib.makeObject({}));
-        const team = reactive<Team.TTeam>(cloneDeep(savedTeam));
-
-        const isConnected = computed(() => {
-            return !!userStore._id;
-        });
-
-        const hasTeam = computed(() => {
-            return !!team._id;
-        });
-
-        const isOwner = computed(() => {
-            return userStore._id === team.owner;
-        });
-
-        const playerIndex = computed(() => {
-            return findIndex(team.members, ["user._id", userStore._id]);
-        });
-
-        await updateTeam();
-
-        const hasChanged = computed(() => {
-            return !isMatch(savedTeam, team);
-        });
-
-        const markReady = async() => {
-            team.state.ready = true;
-            await sendUpdate();
-        };
-
-        const markUnready = async() => {
-            team.state.ready = false;
-            await sendUpdate();
-        };
-
-        const sendUpdate = async () => {
-            if (!hasChanged.value) {
-                return;
-            }
-
-            const response = await Toast.testRequest(async () => {
-                return await TeamService.update(team);
-            });
-
-            if (response?.success) {
-                await updateTeam();
-            }
-        };
-
-        const isTeamReady = computed(() => {
-
-            if (team.members.length < props.tournament.game.team.playersNumber) {
-                return false;
-            }
-
-            for (const member of team.members) {
-                if (!isMemberReady(member)) {
-                    return false;
-                }
-            }
-
-            if (isTeamBased.value && !savedTeam.settings.name) {
-                return false;
-            }
-
-            if (isTeamBased.value && !savedTeam.settings.tag) {
-                return false;
-            }
-
-            return true;
-        });
-
-        const isTeamBased = computed(() => {
-            return props.tournament.game.team.playersNumber > 1;
-        });
-
-        function isMemberReady(member: { role: string; user: User.TCompleteUser; username: string }): boolean {
-            if (!member.username) {
-                return false;
-            }
-
-            if (!member.user.platforms.discord && member.role === "Player") {
-                return false;
-            }
-
-            if (!member.user.student.name && member.role === "Player") {
-                return false;
-            }
-
-            if (!(member.user.student.schoolName || member.user.association) && member.role === "Player") {
-                return false;
-            }
-
-            if (member.user.student.status !== "validated" && member.role === "Player") {
-                return false;
-            }
-
-            return true;
-        }
-
-        async function updateTeam() {
-            if (!isConnected.value) {
-                return;
-            }
-            const teamApi = await TeamService.get(tournamentSlug.value);
-
-            assign(savedTeam, teamApi);
-            assign(team, cloneDeep(savedTeam));
-
-            if (!teamApi._id) {
-                team._id = "";
-            }
-        }
-
-        async function joinTeam() {
-            const invitationCode = prompt("Entrez le code d'invitation de l'équipe. Vous pouvez le demander au chef d'équipe, il est de la forme XXXX-XXXX-XXXX-XXXX.");
-
-            if (!invitationCode) {
-                return;
-            }
-
-            const response = await Toast.testRequest(async () => {
-                return await TeamService.join(tournamentSlug.value, invitationCode || "");
-            });
-
-            if (response?.success) {
-                await updateTeam();
-            }
-        }
-
-        async function createTeam() {
-            const response = await Toast.testRequest(async () => {
-                return await TeamService.create(tournamentSlug.value);
-            });
-
-            if (response?.success) {
-                await updateTeam();
-            }
-        }
-
-        async function deleteTeam() {
-            const message = isOwner.value ?
-                "Êtes-vous sûr de vouloir supprimer l'équipe ? Les membres invités en seront exclus." :
-                "Êtes-vous sûr de vouloir quitter cette équipe ?";
-
-            if (!confirm(message)) {
-                return;
-            }
-
-            const response = await Toast.testRequest(async () => {
-                return await TeamService.remove(tournamentSlug.value);
-            });
-
-            if (response?.success) {
-                await updateTeam();
-            }
-        }
-
-        async function kickMember(memberIndex: number) {
-            if (!confirm("Êtes-vous sûr de vouloir expulser ce membre de votre équipe ?")) {
-                return;
-            }
-
-            team.members[memberIndex].kick = true;
-
-            const response = await Toast.testRequest(async () => {
-                return await TeamService.update(team);
-            });
-
-            if (response?.success) {
-                await updateTeam();
-            }
-        }
-
-        return {
-            createTeam,
-            deleteTeam,
-            getUserAvatarUrl: UserService.getAvatarUrl,
-            hasChanged,
-            hasTeam,
-            InputValidators,
-            isConnected,
-            isMemberReady,
-            isOwner,
-            isTeamBased,
-            isTeamReady,
-            joinTeam,
-            kickMember,
-            markReady,
-            markUnready,
-            playerIndex,
-            savedTeam,
-            sendUpdate,
-            stateStore,
-            team,
-            userStore
-        };
+const props = defineProps({
+    tournament: {
+        required: true,
+        type: Object as PropType<Tournament.TTournament>
     }
 });
+
+
+const router = useRouter();
+const userStore = User.useStore();
+const stateStore = State.useStore();
+const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
+
+const savedTeam = reactive(Team.Lib.makeObject({}));
+const team = reactive<Team.TTeam>(cloneDeep(savedTeam));
+
+const isConnected = computed(() => {
+    return !!userStore._id;
+});
+
+const hasTeam = computed(() => {
+    return !!team._id;
+});
+
+const isOwner = computed(() => {
+    return userStore._id === team.owner;
+});
+
+const isStaff = computed(() => {
+    for (const staff of team.staff) {
+        if (staff.user._id === userStore._id) {
+            return true;
+        }
+    }
+    return false;
+});
+
+const memberIndex = computed(() => {       
+    if (isStaff.value) {
+        for (const [index, staff] of team.staff.entries()) {
+            if (staff.user._id === userStore._id) {
+                return index;
+            }
+        }
+    }
+    else {
+        for (const [index, player] of team.members.entries()) {
+            if (player.user._id === userStore._id) {
+                return index;
+            }
+        }
+    }
+    return -1;
+});
+
+await updateTeam();
+
+const hasChanged = computed(() => {
+    return !isMatch(savedTeam, team);
+});
+
+const markReady = async() => {
+    team.state.ready = true;
+    await sendUpdate();
+};
+
+const markUnready = async() => {
+    team.state.ready = false;
+    await sendUpdate();
+};
+
+const sendUpdate = async () => {
+    if (!hasChanged.value) {
+        return;
+    }
+
+    const response = await Toast.testRequest(async () => {
+        return await TeamService.update(team);
+    });
+
+    if (response?.success) {
+        await updateTeam();
+    }
+};
+
+const isTeamReady = computed(() => {
+
+    if (team.members.length < props.tournament.game.team.playersNumber) {
+        return false;
+    }
+
+    for (const member of team.members) {
+        if (!isMemberReady(member)) {
+            return false;
+        }
+    }
+
+    if (isTeamBased.value && !savedTeam.settings.name) {
+        return false;
+    }
+
+    if (isTeamBased.value && !savedTeam.settings.tag) {
+        return false;
+    }
+
+    return true;
+});
+
+const isTeamBased = computed(() => {
+    return props.tournament.game.team.playersNumber > 1;
+});
+
+const isCoachingStaffFull = computed(() => {
+    return props.tournament.game.team.coachNumber === team.staff.filter((staff) => staff.role === "Coach").length;
+});
+
+function isMemberReady(member: { role: string | undefined; user: User.TCompleteUser; username: string }): boolean {
+    if (!member.username && !member.role) {
+        return false;
+    }
+
+    if (!member.user.platforms.discord) {
+        return false;
+    }
+
+    if (!member.user.student.name) {
+        return false;
+    }
+
+    if (!(member.user.student.schoolName || member.user.association) && !member.role) {
+        return false;
+    }
+
+    if (member.user.student.status !== "validated" && !member.role) {
+        return false;
+    }
+
+    return true;
+}
+
+async function updateTeam() {
+    if (!isConnected.value) {
+        return;
+    }
+    const teamApi = await TeamService.get(tournamentSlug.value);
+    assign(savedTeam, teamApi);
+    assign(team, cloneDeep(savedTeam));
+
+    if (!teamApi._id) {
+        team._id = "";
+    }
+}
+
+async function joinTeam() {
+    const invitationCode = prompt("Entrez le code d'invitation de l'équipe. Vous pouvez le demander au chef d'équipe, il est de la forme XXXX-XXXX-XXXX-XXXX.");
+
+    if (!invitationCode) {
+        return;
+    }
+
+    const response = await Toast.testRequest(async () => {
+        return await TeamService.join(tournamentSlug.value, invitationCode || "");
+    });
+
+    if (response?.success) {
+        await updateTeam();
+    }
+}
+
+async function createTeam() {
+    const response = await Toast.testRequest(async () => {
+        return await TeamService.create(tournamentSlug.value);
+    });
+
+    if (response?.success) {
+        await updateTeam();
+    }
+}
+
+async function deleteTeam() {
+    const message = isOwner.value ?
+        "Êtes-vous sûr de vouloir supprimer l'équipe ? Les membres invités en seront exclus." :
+        "Êtes-vous sûr de vouloir quitter cette équipe ?";
+
+    if (!confirm(message)) {
+        return;
+    }
+
+    const response = await Toast.testRequest(async () => {
+        return await TeamService.remove(tournamentSlug.value);
+    });
+
+    if (response?.success) {
+        await updateTeam();
+    }
+}
+
+async function kickMember(memberIndex: number, type: "staff" | "members" = "members") {
+    if (!confirm("Êtes-vous sûr de vouloir expulser ce membre de votre équipe ?")) {
+        return;
+    }
+    
+    team[type][memberIndex].kick = true;
+        
+    const response = await Toast.testRequest(async () => {
+        return await TeamService.update(team);
+    });
+
+    if (response?.success) {
+        await updateTeam();
+    }
+}
+
+        
 </script>
 
 <style scoped lang="scss">

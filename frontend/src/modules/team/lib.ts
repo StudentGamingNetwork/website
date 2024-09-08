@@ -12,6 +12,7 @@ export function makeObject(team: Partial<TTeam>): TTeam {
             invitationCode: "",
             tag: ""
         },
+        staff: [],
         state: {
             ready: false,
             validated: false

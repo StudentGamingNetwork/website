@@ -35,7 +35,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const team = await TeamModel.findOne({
                 _id: request.body._id,
-                "members.user": user._id
+                $or: [{ "members.user": user._id }, { "staff.user": user._id }]
             });
 
             if (!team) {
@@ -62,16 +62,43 @@ export async function register(server: FastifyInstance): Promise<void> {
                     }
                 }
 
+                for (const teamMember of request.body.staff) {
+                    if (teamMember.kick && teamMember.user._id !== team.owner.toString()) {
+                        team.staff = team.staff.filter((member) => member.user.toString() !== teamMember.user._id);
+                    }
+                }
+
                 team.state.ready = request.body.state.ready;
             }
 
-            const currentMember = find(request.body.members, ["user._id", user._id.toString()]);
-            const memberIndex = findIndex(team.members, ["user._id", user._id]);
+            let currentMember = undefined;
+            let memberIndex = undefined;
+            let isStaff = true;
 
-            if (currentMember) {
+            for (let index = 0; index < request.body.members.length; index++) {
+                if (request.body.members[index].user._id === user._id.toString()) {
+                    currentMember = request.body.members[index];
+                    memberIndex = index;
+                    isStaff = false;
+                }
+            }
+
+            if (isStaff){
+                for (let index = 0; index < request.body.staff.length; index++) {
+                    if (request.body.staff[index].user._id === user._id.toString()) {
+                        currentMember = request.body.staff[index];
+                        memberIndex = index;
+                    }
+                }
+            }
+            
+            if (!isStaff && currentMember){
                 team.members[memberIndex].username = currentMember.username;
             }
 
+            if (isStaff && currentMember){
+                team.staff[memberIndex].username = currentMember.username;
+            }
             await team.save();
 
             reply.send({

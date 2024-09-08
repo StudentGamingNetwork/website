@@ -65,16 +65,24 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Cette équipe est déjà complète");
             }
 
-            if (!invitationJoueur && team.members.some(member => member.role === "coach")) {
-                throw new httpErrors.NotFound("Cette équipe possède déjà un coach");
+            if (!invitationJoueur && team.staff.filter((staff) => staff.role === "Coach").length >= tournament.game.team.coachNumber) {
+                throw new httpErrors.NotFound("Cette équipe ne peut plus accueillir de coach");
             }
             
-            
-            team.members.push({
-                role: invitationJoueur ? "Player" : "Coach",
-                user: user._id,
-                username: ""
-            });
+            if (invitationJoueur){
+                team.members.push({
+                    user: user._id,
+                    username: ""
+                });
+            }
+
+            if (!invitationJoueur) {
+                team.staff.push({
+                    role: "Coach",
+                    user: user._id,
+                    username: ""
+                });
+            }
             
             await team.save();
 

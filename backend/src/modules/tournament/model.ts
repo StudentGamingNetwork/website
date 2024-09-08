@@ -12,6 +12,7 @@ export interface ITournament {
     game: {
         name: string;
         team: {
+            coachNumber: number;
             maxTeams: number;
             playersNumber: number;
             subscribed: number;
@@ -54,6 +55,7 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
     game: {
         name: String,
         team: {
+            coachNumber: Number,
             maxTeams: Number,
             playersNumber: Number,
             subscribed: Number,

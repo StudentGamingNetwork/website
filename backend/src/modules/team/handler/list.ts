@@ -65,6 +65,12 @@ export async function register(server: FastifyInstance): Promise<void> {
                         path: "association"
                     }
                 })
+                .populate({
+                    path: "staff.user",
+                    populate: {
+                        path: "association"
+                    }
+                })
                 .exec();
 
             reply.send(teams);

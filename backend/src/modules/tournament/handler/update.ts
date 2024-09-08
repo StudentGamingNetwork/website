@@ -55,6 +55,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament.informations.rulesUrl = request.body.informations?.rulesUrl || "";
                 tournament.game.name = request.body.game?.name || "";
                 tournament.game.username = request.body.game?.username || "";
+                tournament.game.team.coachNumber = request.body.game?.team.coachNumber || 0;
                 tournament.game.team.playersNumber = request.body.game?.team.playersNumber || 0;
                 tournament.game.team.substitutesNumber = request.body.game?.team.substitutesNumber || 0;
                 tournament.game.team.maxTeams = request.body.game?.team.maxTeams || 0;
@@ -62,6 +63,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament.dates.start = request.body.dates?.start || "";
                 tournament.dates.playDays = request.body.dates?.playDays || "";
                 tournament.dates.final = request.body.dates?.final || "";
+                
             }
 
             if (!isUndefined(request.body.state?.public)) {
