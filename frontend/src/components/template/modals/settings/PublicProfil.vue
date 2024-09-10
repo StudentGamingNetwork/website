@@ -62,13 +62,6 @@
                     :url="certificateUrl"
                     @file-change="uploadCertificate"
                 />
-                <SButton
-                    v-if="userStore.student.rejectReason.length !== 0"
-                    outlined
-                    @click="showCertificateRejectionReason"
-                >
-                    Voir la raison
-                </SButton>
             </div>
             <div class="status">
                 <span class="soft">État:</span>
@@ -83,7 +76,13 @@
                 <span
                     v-else-if="userStore.student.status === 'rejected'"
                     class="main error"
-                ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté (veuillez en fournir un autre)</span>
+                ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté (veuillez en fournir un autre).
+                    <span
+                        v-if="userStore.student.rejectReason.length !== 0"
+                        class="link"
+                        @click="showCertificateRejectionReason"
+                    >Voir la raison.</span>
+                </span>
                 <span
                     v-else
                     class="main"
@@ -232,5 +231,9 @@ export default defineComponent({
         max-width: 100%;
         text-align: left;
     }
+     .link {
+            cursor: pointer;
+            text-decoration: underline;
+        }
 }
 </style>

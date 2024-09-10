@@ -49,22 +49,25 @@
                 >
                     Valider
                 </SButton>
-                <STooltip
+                <template
                     v-for="(reason, key) in denialReasons"
                     :key="key"
-                    nowrap
-                    :tooltip-text="reason"
-                    top
                 >
-                    <SButton
-                        class="button"
-                        danger
-                        outlined
-                        @click="validate(false, reason)"
+                    <STooltip
+                        no-wrap
+                        :tooltip-text="reason"
+                        top
                     >
-                        {{ key }}
-                    </SButton>
-                </STooltip>
+                        <SButton
+                            class="button"
+                            danger
+                            outlined
+                            @click="validate(false, reason)"
+                        >
+                            {{ key }}
+                        </SButton>
+                    </STooltip>
+                </template>
             </SCard>
         </template>
     </div>
@@ -83,6 +86,7 @@ import * as UserService from "@/services/user";
 import SButton from "@/components/design/forms/Button.vue";
 import { Toast } from "@/modules";
 import STooltip from "@/components/design/STooltip.vue";
+
 
 const denialReasons = {
     "Expiré": "Ce certificat ne semble pas valide pour cette année",
@@ -209,7 +213,6 @@ export default defineComponent({
         display: flex;
         justify-content: space-between;
         gap: var(--length-gap-m);
-        overflow: visible;
 
         .button {
             width: 120px;
