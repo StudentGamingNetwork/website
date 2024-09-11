@@ -227,12 +227,12 @@ import * as UserService from "@/services/user";
 import * as AdminService from "@/services/admin";
 
 
-defineProps({
+defineProps<{
     team: {
         required: true,
-        type: Object as PropType<Team.TTeam>
+        type: Team.TTeam
     }
-});
+}>();
 
 const emit = defineEmits(["update"]);
 

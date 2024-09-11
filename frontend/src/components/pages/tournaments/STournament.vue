@@ -75,12 +75,12 @@ import { Markdown, Tournament } from "@/modules";
 import * as TournamentService from "@/services/tournament";
 
 
-const props = defineProps({
+const props = defineProps<{
     tournament: {
         required: true,
-        type: Object as PropType<Tournament.TTournament>
+        type: Tournament.TTournament
     }
-});
+}>();
 
 
 const makePlural = (value: number, name: string) => {
