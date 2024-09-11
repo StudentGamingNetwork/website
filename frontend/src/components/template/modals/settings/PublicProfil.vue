@@ -231,9 +231,9 @@ export default defineComponent({
         max-width: 100%;
         text-align: left;
     }
-     .link {
-            cursor: pointer;
-            text-decoration: underline;
-        }
+    .link {
+        cursor: pointer;
+        text-decoration: underline;
+    }
 }
 </style>

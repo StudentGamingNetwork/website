@@ -29,20 +29,9 @@ import { ref } from "vue";
 import { useFloating, shift, offset, Placement } from "@floating-ui/vue";
 
 const props = defineProps<{
-    bottom?: boolean;
-    bottomEnd?: boolean;
-    bottomStart?: boolean;
-    left?: boolean;
-    leftEnd?: boolean;
-    leftStart?: boolean;
-    noWrap?: boolean;
-    right?: boolean;
-    rightEnd?: boolean;
-    rightStart?: boolean;
+    noWrap: boolean;
+    placement: Placement;
     tooltipText: string;
-    top?: boolean;
-    topEnd?: boolean;
-    topStart?: boolean
 }>();
 
 
@@ -55,25 +44,11 @@ const { floatingStyles } = useFloating(reference, floating, {
         offset(10),
         shift()
     ],
-    placement: placementSelectionner(),
+    placement: props.placement,
     strategy: "absolute"
     
 });
 
-function placementSelectionner() : Placement {
-    if (props.top) return "top";
-    if (props.topStart) return "top-start";
-    if (props.topEnd) return "top-end";
-    if (props.bottomStart) return "bottom-start";
-    if (props.bottomEnd) return "bottom-end";
-    if (props.left) return "left";
-    if (props.leftStart) return "left-start";
-    if (props.leftEnd) return "left-end";
-    if (props.right) return "right";
-    if (props.rightStart) return "right-start";
-    if (props.rightEnd) return "right-end";
-    return "bottom";
-}
 
 </script>
 
