@@ -26,7 +26,7 @@
         >
             <div>Prêt à rejoindre l'arène ?</div>
             <div class="buttons">
-                <template v-if="isTeamBased || !isCoachingStaffFull">
+                <template v-if="isTeamBased || !isCoachingStaffFull || !isManagingStaffFull">
                     <SButton
                         primary
                         @click="createTeam"
@@ -212,8 +212,8 @@
                             v-for="(staff) in team.staff"
                             :key="staff.user._id"
                         >
-                            <SValidator :valid="isMemberReady(staff)">
-                                {{ staff.role }} : <strong>{{ staff.user.username }}</strong> ({{ isMemberReady(staff) ? "prêt" : "incomplet" }})
+                            <SValidator :valid="isMemberReady(staff, true)">
+                                {{ staff.role }} : <strong>{{ staff.user.username }}</strong> ({{ isMemberReady(staff, true) ? "prêt" : "incomplet" }})
                             </SValidator>
                         </div>
                     </div>
@@ -229,6 +229,11 @@
                     v-if="!isCoachingStaffFull"
                     :content="team.settings.coachInvitationCode"
                     title="Code d'invitation coach"
+                />
+                <SInputCopier
+                    v-if="!isManagingStaffFull"
+                    :content="team.settings.managerInvitationCode"
+                    title="Code d'invitation manager"
                 />
                 <SButton
                     danger
@@ -364,7 +369,7 @@
                         <td>
                             {{ staff.user.student.name || staff.username }}
                             <span class="info">({{
-                                staff.role
+                                staffIndex
                             }})</span>
                         </td>
                         <td>
@@ -385,13 +390,13 @@
                                     class="button"
                                     :class="{error: !staff.user.platforms.discord}"
                                     :content="staff.user.platforms.discord"
-                                >
+                                > 
                                     <FontAwesomeIcon :icon="['fab', 'discord']" />
                                 </SCopier>
                             </div>
                         </td>
                         <td>
-                            <template v-if="isMemberReady(staff)">
+                            <template v-if="isMemberReady(staff, true)">
                                 <SValidator :valid="true">
                                     Prêt
                                 </SValidator>
@@ -459,8 +464,8 @@ const isOwner = computed(() => {
 });
 
 const isStaff = computed(() => {
-    for (const staff of team.staff) {
-        if (staff.user._id === userStore._id) {
+    for (const pole in team.staff) {
+        if (team.staff[pole].user._id === userStore._id) {
             return true;
         }
     }
@@ -469,9 +474,9 @@ const isStaff = computed(() => {
 
 const memberIndex = computed(() => {       
     if (isStaff.value) {
-        for (const [index, staff] of team.staff.entries()) {
-            if (staff.user._id === userStore._id) {
-                return index;
+        for (const pole in team.staff) {
+            if (team.staff[pole].user._id === userStore._id) {
+                return pole;
             }
         }
     }
@@ -543,11 +548,21 @@ const isTeamBased = computed(() => {
 });
 
 const isCoachingStaffFull = computed(() => {
-    return props.tournament.game.team.coachNumber === team.staff.filter((staff) => staff.role === "Coach").length;
+    if (!team.staff.coach) {
+        return false;
+    }
+    return team.staff.coach.user !== undefined;
 });
 
-function isMemberReady(member: { role: string | undefined; user: User.TCompleteUser; username: string }): boolean {
-    if (!member.username && !member.role) {
+const isManagingStaffFull = computed(() => {
+    if (!team.staff.manager) {
+        return false;
+    }
+    return team.staff.manager.user !== undefined;
+});
+
+function isMemberReady(member: { user: User.TCompleteUser; username: string }, isStaff = false): boolean {
+    if (!member.username) {
         return false;
     }
 
@@ -555,15 +570,15 @@ function isMemberReady(member: { role: string | undefined; user: User.TCompleteU
         return false;
     }
 
-    if (!member.user.student.name) {
+    if (!member.user.student.name && !isStaff) {
         return false;
     }
 
-    if (!(member.user.student.schoolName || member.user.association) && !member.role) {
+    if (!(member.user.student.schoolName || member.user.association) && !isStaff) {
         return false;
     }
 
-    if (member.user.student.status !== "validated" && !member.role) {
+    if (member.user.student.status !== "validated" && !isStaff) {
         return false;
     }
 
@@ -717,6 +732,8 @@ async function kickMember(memberIndex: number, type: "staff" | "members" = "memb
             align-items: flex-end;
             justify-content: space-between;
             gap: var(--length-gap-m);
+            flex-wrap: wrap;
+            
 
             @media (max-width: 999px) {
                 flex-direction: column;

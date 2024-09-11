@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import { find, findIndex } from "lodash";
 import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import { TypeCompleteTeam } from "@/modules/team/type";
@@ -35,7 +34,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const team = await TeamModel.findOne({
                 _id: request.body._id,
-                $or: [{ "members.user": user._id }, { "staff.user": user._id }]
+                $or: [{ "members.user": user._id }, { "staff.coach.user": user._id }, { "staff.manager.user": user._id }]
             });
 
             if (!team) {
@@ -62,10 +61,12 @@ export async function register(server: FastifyInstance): Promise<void> {
                     }
                 }
 
-                for (const teamMember of request.body.staff) {
-                    if (teamMember.kick && teamMember.user._id !== team.owner.toString()) {
-                        team.staff = team.staff.filter((member) => member.user.toString() !== teamMember.user._id);
-                    }
+                if (request.body.staff.coach && request.body.staff.coach.kick && request.body.staff.coach.user._id !== team.owner.toString()){
+                    team.staff.coach.user = "";
+                }
+
+                if (request.body.staff.manager && request.body.staff.manager.kick && request.body.staff.coach.user._id !== team.owner.toString()){
+                    team.staff.manager.user = "";
                 }
 
                 team.state.ready = request.body.state.ready;
@@ -83,22 +84,29 @@ export async function register(server: FastifyInstance): Promise<void> {
                 }
             }
 
-            if (isStaff){
-                for (let index = 0; index < request.body.staff.length; index++) {
-                    if (request.body.staff[index].user._id === user._id.toString()) {
-                        currentMember = request.body.staff[index];
-                        memberIndex = index;
-                    }
+
+            if (isStaff) {
+                if (request.body.staff.coach.user._id === user._id.toString()) {
+                    currentMember = request.body.staff.coach;
+                    memberIndex = "coach";
+                }
+                else {
+                    currentMember = request.body.staff.manager;
+                    memberIndex = "manager"; 
+                }
+            }
+
+
+            if (currentMember) {
+                if (isStaff){
+                    team.staff[memberIndex].username = currentMember.username;
+                }
+                else {
+                    team.members[memberIndex].username = currentMember.username;
+                   
                 }
             }
             
-            if (!isStaff && currentMember){
-                team.members[memberIndex].username = currentMember.username;
-            }
-
-            if (isStaff && currentMember){
-                team.staff[memberIndex].username = currentMember.username;
-            }
             await team.save();
 
             reply.send({

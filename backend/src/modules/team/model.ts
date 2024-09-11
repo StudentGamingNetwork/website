@@ -10,14 +10,23 @@ export interface ITeam {
         name: string;
         coachInvitationCode: string;
         invitationCode: string;
+<<<<<<< HEAD
         logo: string;
+=======
+        managerInvitationCode: string;
+>>>>>>> 32b1d6a (Tweaked the UI and patched the tournament staff functionnality)
         tag: string;
     };
-    staff: Array<{
-        role: string;
-        user: Mongo.Schema.Types.ObjectId;
-        username: string;
-    }>;
+    staff: {
+        coach: {
+            user: Mongo.Schema.Types.ObjectId;
+            username: string;
+        };
+        manager: {
+            user: Mongo.Schema.Types.ObjectId;
+            username: string;
+        };
+    };
     state: {
         ready: boolean;
         validated: boolean;
@@ -47,16 +56,25 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
         coachInvitationCode: String,
         invitationCode: String,
         logo: String,
+        managerInvitationCode: String,
         tag: String
     },
-    staff: [{
-        role: String,
-        user: {
-            ref: "user",
-            type: Mongo.Schema.Types.ObjectId
+    staff: {
+        coach: {
+            user: {
+                ref: "user",
+                type: Mongo.Schema.Types.ObjectId
+            },
+            username: String
         },
-        username: String
-    }],
+        manager: {
+            user: {
+                ref: "user",
+                type: Mongo.Schema.Types.ObjectId
+            },
+            username: String
+        }
+    },
     state: {
         ready: Boolean,
         validated: Boolean

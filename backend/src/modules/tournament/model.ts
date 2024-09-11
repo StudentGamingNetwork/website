@@ -12,7 +12,8 @@ export interface ITournament {
     game: {
         name: string;
         team: {
-            coachNumber: number;
+            coachEnabled: boolean;
+            managerEnabled: boolean;
             maxTeams: number;
             playersNumber: number;
             subscribed: number;
@@ -55,7 +56,8 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
     game: {
         name: String,
         team: {
-            coachNumber: Number,
+            coachEnabled: Boolean,
+            managerEnabled: Boolean,
             maxTeams: Number,
             playersNumber: Number,
             subscribed: Number,
