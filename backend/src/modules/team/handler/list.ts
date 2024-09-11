@@ -59,18 +59,22 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const teams = await TeamModel
                 .find(findParameters)
-                .populate({
+                .populate([{
+                    path: "staff.manager.user",
+                    populate: {
+                        path: "association"
+                    }
+                }, {
+                    path: "staff.coach.user",
+                    populate: {
+                        path: "association"
+                    }
+                }, {
                     path: "members.user",
                     populate: {
                         path: "association"
                     }
-                })
-                .populate({
-                    path: "staff.user",
-                    populate: {
-                        path: "association"
-                    }
-                })
+                }])
                 .exec();
 
             reply.send(teams);

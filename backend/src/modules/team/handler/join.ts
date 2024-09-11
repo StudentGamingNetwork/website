@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
+import { ca } from "date-fns/locale";
 import * as UserLib from "@/modules/user/lib";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
@@ -41,7 +42,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
 
             const previousTeam = await TeamModel.findOne({
-                "members.user": user._id,
+                $or: [{ "members.user": user._id }, { "staff.coach.user": user._id }, { "staff.manager.user": user._id }],
                 tournament: tournament._id
             });
 
@@ -51,6 +52,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const team = await TeamModel.findOne({
                 $or: [{ "settings.coachInvitationCode": request.body.invitationCode.trim().toUpperCase() },
+                    { "settings.managerInvitationCode": request.body.invitationCode.trim().toUpperCase() },
                     { "settings.invitationCode": request.body.invitationCode.trim().toUpperCase() }],
                 tournament: tournament._id
             });
@@ -59,29 +61,47 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
             }
 
-            const invitationJoueur = team.settings.invitationCode === request.body.invitationCode.trim().toUpperCase();
+            let invitationType;
 
-            if (invitationJoueur && team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
+            switch (request.body.invitationCode.trim().toUpperCase()) {
+            case team.settings.invitationCode:
+                invitationType = "player";
+                break;
+            case team.settings.coachInvitationCode:
+                invitationType = "coach";
+                break;
+            case team.settings.managerInvitationCode:
+                invitationType = "manager";
+                break;           
+            }
+
+            if (invitationType === "player" && team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
                 throw new httpErrors.NotFound("Cette équipe est déjà complète");
             }
 
-            if (!invitationJoueur && team.staff.filter((staff) => staff.role === "Coach").length >= tournament.game.team.coachNumber) {
+            else if (invitationType === "coach" && team.staff.coach.user !== undefined) {
                 throw new httpErrors.NotFound("Cette équipe ne peut plus accueillir de coach");
             }
+
+            else if (invitationType === "manager" && team.staff.manager.user !== undefined) {
+                throw new httpErrors.NotFound("Cette équipe ne peut plus accueillir de manager");
+            }
             
-            if (invitationJoueur){
+            if (invitationType === "player") {
                 team.members.push({
                     user: user._id,
                     username: ""
                 });
             }
 
-            if (!invitationJoueur) {
-                team.staff.push({
-                    role: "Coach",
-                    user: user._id,
-                    username: ""
-                });
+            else if (invitationType === "coach") {
+                team.staff.coach.user = user._id;
+                team.staff.coach.username = "";
+            }
+
+            else if (invitationType === "manager") {
+                team.staff.manager.user = user._id;
+                team.staff.manager.username = "";
             }
             
             await team.save();

@@ -10,6 +10,7 @@ export function makeObject(team: Partial<TTeam>): TTeam {
             name: "",
             coachInvitationCode: "",
             invitationCode: "",
+            managerInvitationCode: "",
             tag: ""
         },
         staff: [],

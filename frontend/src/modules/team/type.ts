@@ -11,13 +11,19 @@ export type TTeam = {
         name: string;
         coachInvitationCode: string;
         invitationCode: string;
+        managerInvitationCode: string;
         tag: string;
     };
-    staff: Array<{
-        role: string;
-        user: TCompleteUser;
-        username: string;
-    }>;
+    staff:{
+        coach?:{
+            user: TCompleteUser;
+            username: string;
+        };
+        manager?: {
+            user: TCompleteUser;
+            username: string;
+        };
+    };
     state: {
         ready: boolean;
         validated: boolean;

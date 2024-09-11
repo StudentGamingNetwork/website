@@ -33,21 +33,25 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
 
             const team = await TeamModel.findOne({
-                $or: [{ "members.user": user._id }, { "staff.user": user._id }],
+                $or: [{ "members.user": user._id }, { "staff.coach.user": user._id }, { "staff.manager.user": user._id }],
                 tournament: tournament._id
             })
-                .populate({
+                .populate([{
+                    path: "staff.manager.user",
+                    populate: {
+                        path: "association"
+                    }
+                }, {
+                    path: "staff.coach.user",
+                    populate: {
+                        path: "association"
+                    }
+                }, {
                     path: "members.user",
                     populate: {
                         path: "association"
                     }
-                })
-                .populate({
-                    path: "staff.user",
-                    populate: {
-                        path: "association"
-                    }
-                })
+                }])
                 .exec();
 
             if (!team) {

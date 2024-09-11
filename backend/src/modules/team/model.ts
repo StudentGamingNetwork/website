@@ -10,13 +10,19 @@ export interface ITeam {
         name: string;
         coachInvitationCode: string;
         invitationCode: string;
+        managerInvitationCode: string;
         tag: string;
     };
-    staff: Array<{
-        role: string;
-        user: Mongo.Schema.Types.ObjectId;
-        username: string;
-    }>;
+    staff: {
+        coach: {
+            user: Mongo.Schema.Types.ObjectId;
+            username: string;
+        };
+        manager: {
+            user: Mongo.Schema.Types.ObjectId;
+            username: string;
+        };
+    };
     state: {
         ready: boolean;
         validated: boolean;
@@ -45,16 +51,25 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
         name: String,
         coachInvitationCode: String,
         invitationCode: String,
+        managerInvitationCode: String,
         tag: String
     },
-    staff: [{
-        role: String,
-        user: {
-            ref: "user",
-            type: Mongo.Schema.Types.ObjectId
+    staff: {
+        coach: {
+            user: {
+                ref: "user",
+                type: Mongo.Schema.Types.ObjectId
+            },
+            username: String
         },
-        username: String
-    }],
+        manager: {
+            user: {
+                ref: "user",
+                type: Mongo.Schema.Types.ObjectId
+            },
+            username: String
+        }
+    },
     state: {
         ready: Boolean,
         validated: Boolean

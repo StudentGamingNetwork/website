@@ -11,13 +11,19 @@ const Team = {
         name: Type.Optional(Type.String()),
         coachInvitationCode: Type.Optional(Type.String()),
         invitationCode: Type.Optional(Type.String()),
+        managerInvitationCode: Type.Optional(Type.String()),
         tag: Type.Optional(Type.String())
     }),
-    staff: Type.Array(Type.Object({
-        role: Type.String(),
-        user: Type.String(),
-        username: Type.String()
-    })),
+    staff: Type.Object({
+        coach: Type.Optional(Type.Object({
+            user: Type.String(),
+            username: Type.String()
+        })),
+        manager: Type.Optional(Type.Object({
+            user: Type.String(),
+            username: Type.String()
+        }))
+    }),
     state: Type.Object({
         ready: Type.Boolean(),
         validated: Type.Boolean()
@@ -80,25 +86,37 @@ export const TypeCompleteTeam = Type.Object({
         user: Type.Object(TeamUser),
         username: Type.String()
     })),
-    staff: Type.Array(Type.Object({
-        kick: Type.Optional(Type.Boolean()),
-        role: Type.String(),
-        user: Type.Object(TeamUser),
-        username: Type.String()
-    }))
+    staff: Type.Object({
+        coach: Type.Optional(Type.Object({
+            kick: Type.Optional(Type.Boolean()),
+            user: Type.Object(TeamUser),
+            username: Type.String()
+        })),
+        manager: Type.Optional(Type.Object({
+            kick: Type.Optional(Type.Boolean()),
+            user: Type.Object(TeamUser),
+            username: Type.String()
+        }))
+    })
 });
 
 export const TypeCompleteTeamAdmin = Type.Object({
     ...Team,
     members: Type.Array(Type.Object({
-        kick: Type.Optional(Type.Boolean()),    
+        kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUserAdmin),
         username: Type.String()
     })),
-    staff: Type.Array(Type.Object({
-        kick: Type.Optional(Type.Boolean()),
-        role: Type.String(),
-        user: Type.Object(TeamUser),
-        username: Type.String()
-    }))
+    staff: Type.Object({
+        coach: Type.Optional(Type.Object({
+            kick: Type.Optional(Type.Boolean()),
+            user: Type.Object(TeamUser),
+            username: Type.String()
+        })),
+        manager: Type.Optional(Type.Object({
+            kick: Type.Optional(Type.Boolean()),
+            user: Type.Object(TeamUser),
+            username: Type.String()
+        }))
+    })
 });

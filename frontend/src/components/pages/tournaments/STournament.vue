@@ -107,8 +107,12 @@ const team = computed(() => {
         string += ` + *${ makePlural(props.tournament.game.team.substitutesNumber, "remplaçant") }*`;
     }
 
-    if (props.tournament.game.team.coachNumber) {
-        string += ` jusqu'à *${ makePlural(props.tournament.game.team.coachNumber, "coach") }*`;
+    if (props.tournament.game.team.coachEnabled) {
+        string += ` et *1 coach*`;
+    }
+
+    if (props.tournament.game.team.managerEnabled) {
+        string += ` et *1 manager*`;
     }
 
     return string;
