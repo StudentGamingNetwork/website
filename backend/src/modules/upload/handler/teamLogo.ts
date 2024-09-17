@@ -60,7 +60,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             });
 
             if (team.settings.logo) {
-                UploadLib.deleteFile(`upload/tournament/${ team.id }/${ team.settings.logo }`);
+                UploadLib.deleteFile(`upload/team/${ team.id }/${ team.settings.logo }`);
             }
 
             team.settings.logo = fileName;
