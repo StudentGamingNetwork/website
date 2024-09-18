@@ -39,7 +39,7 @@ export async function uploadLogo({ file }: { file: File }, id: string): Promise<
     const formData = new FormData();
     formData.append("file", file);
 
-    const result = await ApiService.post(`/team/upload/logo/${ id }`, formData, {
+    const result = await ApiService.post(`/team/${ id }/upload/logo`, formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
