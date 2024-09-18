@@ -56,6 +56,12 @@
             <SSectionTitle>Votre équipe</SSectionTitle>
             <SModalSection class="settings">
                 <SModalSectionTitle>Paramètre de l'équipe</SModalSectionTitle>
+                <SAvatarPicker
+                    :icon="['fas', 'trophy']"
+                    title="Logo"
+                    :url="logoUrl"
+                    @file-change="uploadLogo"
+                />
                 <SInput
                     v-if="isTeamBased"
                     v-model="team.settings.name"
@@ -309,11 +315,13 @@ import * as InputValidators from "@/utils/validators";
 import SCopier from "@/components/design/forms/Copier.vue";
 import SInputCopier from "@/components/design/forms/InputCopier.vue";
 import * as UserService from "@/services/user";
+import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 
 export default defineComponent({
     name: "STeamCard",
     components: {
         FontAwesomeIcon,
+        SAvatarPicker,
         SButton,
         SCard,
         SCopier,
@@ -356,6 +364,13 @@ export default defineComponent({
             return findIndex(team.members, ["user._id", userStore._id]);
         });
 
+        const logoUrl = computed(() => {
+            if (!team.settings?.logo) {
+                return "";
+            }
+            return TeamService.getLogoUrl({ id: team._id, logo: team.settings.logo });
+        });
+
         await updateTeam();
 
         const hasChanged = computed(() => {
@@ -383,6 +398,16 @@ export default defineComponent({
 
             if (response?.success) {
                 await updateTeam();
+            }
+        };
+
+        const uploadLogo = async (file: File) => {
+            const response = await Toast.testRequest(async () => {
+                return await TeamService.uploadLogo({ file }, team._id);
+            });
+
+            if (response?.success) {
+                team.settings.logo = response.logo;
             }
         };
 
@@ -525,6 +550,7 @@ export default defineComponent({
             isTeamReady,
             joinTeam,
             kickMember,
+            logoUrl,
             markReady,
             markUnready,
             playerIndex,
@@ -532,6 +558,7 @@ export default defineComponent({
             sendUpdate,
             stateStore,
             team,
+            uploadLogo,
             userStore
         };
     }

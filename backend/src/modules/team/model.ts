@@ -9,6 +9,7 @@ export interface ITeam {
     settings: {
         name: string;
         invitationCode: string;
+        logo: string;
         tag: string;
     };
     state: {
@@ -38,6 +39,7 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
     settings: {
         name: String,
         invitationCode: String,
+        logo: String,
         tag: String
     },
     state: {

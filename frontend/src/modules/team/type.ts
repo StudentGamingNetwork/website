@@ -10,6 +10,7 @@ export type TTeam = {
     settings: {
         name: string;
         invitationCode: string;
+        logo: string;
         tag: string;
     };
     state: {

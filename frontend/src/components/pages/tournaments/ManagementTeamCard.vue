@@ -1,6 +1,18 @@
 <template>
     <SCard class="management-team-card">
         <div class="team-head">
+            <div class="logo">
+                <img
+                    v-if="team.settings.logo"
+                    alt="avatar"
+                    :src="TeamService.getLogoUrl({id:team._id, logo:team.settings.logo})"
+                >
+                <FontAwesomeIcon
+                    v-else
+                    class="icon"
+                    :icon="['fas', 'people-group']"
+                />
+            </div>
             <div class="name">
                 <span
                     v-if="team.settings.tag"
@@ -143,6 +155,7 @@ import SValidator from "@/components/design/forms/Validator.vue";
 import SCopier from "@/components/design/forms/Copier.vue";
 import * as UserService from "@/services/user";
 import * as AdminService from "@/services/admin";
+import * as TeamService from "@/services/team";
 
 export default defineComponent({
     name: "STournamentManagementTeamCard",
@@ -200,6 +213,7 @@ export default defineComponent({
             getUserAvatarUrl: UserService.getAvatarUrl,
             getUserCertificateUrl: UserService.getCertificateUrl,
             isMemberReady,
+            TeamService,
             updateTeam
         };
     }
@@ -216,6 +230,30 @@ export default defineComponent({
     .team-head {
         display: flex;
         justify-content: space-between;
+
+        .logo {
+            grid-area: avatar;
+            height: 50px;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: var(--length-margin-s);
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            .icon {
+                width: 50px;
+                height: 50px;
+                color: var(--color-content-litest);
+            }
+        }
 
         .status {
             display: flex;

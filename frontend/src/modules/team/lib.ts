@@ -9,6 +9,7 @@ export function makeObject(team: Partial<TTeam>): TTeam {
         settings: {
             name: "",
             invitationCode: "",
+            logo: "",
             tag: ""
         },
         state: {
