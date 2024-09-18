@@ -3,14 +3,13 @@ import * as Fastify from "fastify";
 import cors from "cors";
 import fastifyMiddie from "@fastify/middie";
 import fastifyMultipart from "@fastify/multipart";
+import { CronJob } from "cron";
 import { closeDatabase, connectDatabase } from "@/database";
 import APIHandler from "@/api";
 import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
 import PageHandler from "@/page";
-import * as cron from "@/cronjob";
-
-
+import { dumpDatabase, removeOldDumps } from "@/utils/database";
 //import NotFoundHandler from "@/notFound";
 
 async function init() {
@@ -54,5 +53,19 @@ process.on("SIGINT", async function() {
     process.exit(1);
 });
 
-cron.dumpDatabaseJob.start();
-cron.deleteOldDumpJob.start();
+
+const dumpDatabaseJob = new CronJob(
+    "0 0 0 * * *",
+    dumpDatabase,
+    null,
+    true, 
+    "Europe/Paris"
+);
+
+const deleteOldDumpJob = new CronJob(
+    "0 30 0 * * *",
+    removeOldDumps,
+    null,
+    true, 
+    "Europe/Paris"
+);
