@@ -54,18 +54,19 @@ process.on("SIGINT", async function() {
 });
 
 
-const dumpDatabaseJob = new CronJob(
-    "0 0 0 * * *",
-    dumpDatabase,
-    null,
-    true, 
-    "Europe/Paris"
-);
 
-const deleteOldDumpJob = new CronJob(
-    "0 30 0 * * *",
-    removeOldDumps,
-    null,
-    true, 
-    "Europe/Paris"
-);
+const dumpDatabaseJob = CronJob.from({
+    start: true, 
+    cronTime: "0 0 4 * * *",
+    onComplete: null,
+    onTick: dumpDatabase,
+    timeZone: "Europe/Paris"
+});
+
+const deleteOldDumpJob = CronJob.from({
+    start: true, 
+    cronTime: "0 30 4 * * *",
+    onComplete: null,
+    onTick: removeOldDumps,
+    timeZone: "Europe/Paris"
+});
