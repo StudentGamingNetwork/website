@@ -49,14 +49,25 @@
                 >
                     Valider
                 </SButton>
-                <SButton
-                    class="button"
-                    danger
-                    outlined
-                    @click="validate(false)"
+                <template
+                    v-for="(reason, key) in denialReasons"
+                    :key="key"
                 >
-                    Rejeter
-                </SButton>
+                    <STooltip
+                        no-wrap
+                        :tooltip-text="reason"
+                        top
+                    >
+                        <SButton
+                            class="button"
+                            danger
+                            outlined
+                            @click="validate(false, reason)"
+                        >
+                            {{ key }}
+                        </SButton>
+                    </STooltip>
+                </template>
             </SCard>
         </template>
     </div>
@@ -74,6 +85,17 @@ import SCard from "@/components/design/Card.vue";
 import * as UserService from "@/services/user";
 import SButton from "@/components/design/forms/Button.vue";
 import { Toast } from "@/modules";
+import STooltip from "@/components/design/STooltip.vue";
+
+
+const denialReasons = {
+    "Expiré": "Ce certificat ne semble pas valide pour cette année",
+    "Format": "Ce n'est pas un certificat de scolarité ou une carte étudiante",
+    "Illisible": "Ce certificat est illisible",
+    "Lycée": "Ce certificat semble provenir d'un lycée, or less lycéens ne sont pas considérés comme des étudiants",
+    "Mineur": "Les mineurs ne sont pas acceptés dans les compétitions du SGN",
+    "Rejeter": ""
+};
 
 
 const isSearching = ref(true);
@@ -97,6 +119,7 @@ onMounted(async () => {
     isSearching.value = false;
 });
 
+
 const certificateType = computed(() => {
     const certificate = user.student.certificate;
 
@@ -115,10 +138,15 @@ const certificateUrl = computed(() => {
     return UserService.getCertificateUrl({ id: user._id, certificate: user.student.certificate });
 });
 
-async function validate(validated: boolean) {
+async function validate(validated: boolean, reason: string = "") {
+           
+    if (!validated && !reason) {
+        reason = prompt("Entrez un message de rejet : (optionnel)") || "";
+    }
+
     const response = await Toast.testRequest(async () => {
         const status = validated ? "validated" : "rejected";
-        return await AdminService.userCertificate({ _id: user._id, status });
+        return await AdminService.userCertificate({ _id: user._id, reason, status });
     });
 
     if (response?.success) {

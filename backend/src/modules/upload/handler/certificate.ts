@@ -56,6 +56,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             user.student.certificate = fileName;
             user.student.status = EStudentStatus.Processing;
+            user.student.rejectReason = "";
             await user.save();
 
             reply.send({

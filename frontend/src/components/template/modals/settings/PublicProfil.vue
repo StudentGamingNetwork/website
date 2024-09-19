@@ -7,7 +7,7 @@
             <SAvatarPicker
                 title="Photo de profil"
                 :url="avatarUrl"
-                @fileChange="uploadAvatar"
+                @file-change="uploadAvatar"
             />
             <SInput
                 v-model="username"
@@ -57,10 +57,12 @@
                     Il est préférable de rejoindre une association plutôt que de renseigner votre école manuellement.
                 </SModalSectionDescription>
             </template>
-            <SCertificatePicker
-                :url="certificateUrl"
-                @fileChange="uploadCertificate"
-            />
+            <div class="certificate">
+                <SCertificatePicker
+                    :url="certificateUrl"
+                    @file-change="uploadCertificate"
+                />
+            </div>
             <div class="status">
                 <span class="soft">État:</span>
                 <span
@@ -74,7 +76,13 @@
                 <span
                     v-else-if="userStore.student.status === 'rejected'"
                     class="main error"
-                ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté (veuillez en fournir un autre)</span>
+                ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté (veuillez en fournir un autre).
+                    <span
+                        v-if="userStore.student.rejectReason.length !== 0"
+                        class="link"
+                        @click="showCertificateRejectionReason"
+                    >Voir la raison.</span>
+                </span>
                 <span
                     v-else
                     class="main"
@@ -169,6 +177,10 @@ export default defineComponent({
             await userStore.uploadCertificate(file);
         };
 
+        function showCertificateRejectionReason() {
+            alert(userStore.student.rejectReason);
+        }
+
         return {
             associationStore,
             avatarUrl,
@@ -176,6 +188,7 @@ export default defineComponent({
             hasUpdate,
             InputValidators,
             sendUpdate,
+            showCertificateRejectionReason,
             student,
             uploadAvatar,
             uploadCertificate,
@@ -204,10 +217,23 @@ export default defineComponent({
         }
     }
 
+    .certificate {
+        display: flex;
+        gap: var(--length-gap-m);
+
+        @media (max-width: 1099px) {
+            flex-direction: column;
+        }
+    }
+
     .certificate-input {
         width: 320px;
         max-width: 100%;
         text-align: left;
+    }
+    .link {
+        cursor: pointer;
+        text-decoration: underline;
     }
 }
 </style>

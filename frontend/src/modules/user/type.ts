@@ -10,6 +10,7 @@ export type TUser = {
     student: {
         name: string;
         certificate: string;
+        rejectReason: string;
         schoolName: string;
         status: string;
     };
