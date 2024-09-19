@@ -25,7 +25,8 @@ const SchemaResponse = Type.Object({
                 })
             }
         )
-    )
+    ),
+    total: Type.Number()
 });
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
@@ -45,16 +46,17 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
             UserLib.assertRoles(user, [ERoles.Member]);
 
-            const associations = await associationSearch(request.query);
+            const { associations, total } = await associationSearch(request.query);
 
             reply.send({
-                associations
+                associations,
+                total
             });
         }
     );
 }
 
-async function associationSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }): Promise<Array<IAssociationDocument>> {
+async function associationSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }) {
 
     const findParameters = {} as Record<string, any>;
 
@@ -67,10 +69,14 @@ async function associationSearch({ limit, search, skip }: { limit: number; searc
         ];
     }
 
-    return AssociationModel.find(findParameters)
+    const associations = await AssociationModel.find(findParameters)
         .sort({ "name": 1 })
         .skip(skip)
         .limit(limit)
         .populate("users.owner")
         .exec();
+
+    const total = await AssociationModel.find(findParameters).countDocuments().exec();
+
+    return { associations: associations, total: total };
 }

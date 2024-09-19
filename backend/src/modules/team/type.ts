@@ -10,6 +10,7 @@ const Team = {
     settings: Type.Object({
         name: Type.Optional(Type.String()),
         invitationCode: Type.Optional(Type.String()),
+        logo: Type.Optional(Type.String()),
         tag: Type.Optional(Type.String())
     }),
     state: Type.Object({

@@ -7,7 +7,7 @@
             <img
                 v-if="association.logo"
                 alt="logo"
-                :src="getLogoUrl({id:association._id, logo:association.logo})"
+                :src="AssociationService.getLogoUrl({id:association._id, logo:association.logo})"
             >
             <FontAwesomeIcon
                 v-else
@@ -80,8 +80,8 @@
         <div class="region">
             <SSmallDropdown
                 :model-value="association.federation.region"
-                :options="regionNames"
-                @update:modelValue="updateAssociation({ region: $event })"
+                :options="AssociationService.regionNames"
+                @update:model-value="updateAssociation({ region: $event })"
             />
         </div>
         <div class="owner">
@@ -193,8 +193,8 @@
     </SCard>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+<script lang="ts" setup>
+import { ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { isUndefined } from "lodash";
 import SCard from "@/components/design/Card.vue";
@@ -203,6 +203,7 @@ import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
 import SCopier from "@/components/design/forms/Copier.vue";
 import { Toast } from "@/modules";
 import * as AdminService from "@/services/admin";
+
 
 export type TAdminAssociation = {
     _id: string;
@@ -241,45 +242,29 @@ export type TAdminAssociation = {
     };
 }
 
-export default defineComponent({
-    name: "SAdminAssociationCard",
-    components: { FontAwesomeIcon, SCard, SCopier, SSmallDropdown },
-    props: {
-        modelValue: {
-            required: true,
-            type: Object as PropType<TAdminAssociation>
+const props = defineProps<{ modelValue: TAdminAssociation}>();
+
+const association = ref(props.modelValue);
+
+async function updateAssociation({ isValidated, region }: { isValidated?: boolean; region?: string }) {
+    const response = await Toast.testRequest(async () => {
+        return AdminService.associationUpdate({
+            _id: association.value._id,
+            isValidated,
+            region
+        });
+    });
+
+    if (response?.success) {
+        if (!isUndefined(isValidated)) {
+            association.value.federation.isValidated = isValidated;
         }
-    },
-    setup(props) {
-        const association = ref(props.modelValue);
-
-        async function updateAssociation({ isValidated, region }: { isValidated?: boolean; region?: string }) {
-            const response = await Toast.testRequest(async () => {
-                return AdminService.associationUpdate({
-                    _id: association.value._id,
-                    isValidated,
-                    region
-                });
-            });
-
-            if (response?.success) {
-                if (!isUndefined(isValidated)) {
-                    association.value.federation.isValidated = isValidated;
-                }
-                if (region) {
-                    association.value.federation.region = region;
-                }
-            }
+        if (region) {
+            association.value.federation.region = region;
         }
-
-        return {
-            association,
-            getLogoUrl: AssociationService.getLogoUrl,
-            regionNames: AssociationService.regionNames,
-            updateAssociation
-        };
     }
-});
+}
+
 </script>
 
 <style scoped lang="scss">
