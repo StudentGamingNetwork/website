@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as Bcrypt from "bcryptjs";
+import httpErrors from "http-errors";
 import * as UserLib from "../lib";
 import UserModel from "../model";
 import UserConfig from "@/modules/user/config";
@@ -27,7 +28,7 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.post<{ Body: TUserPasswordForgotten; Response: TUserPasswordForgottenResponse }>(
-        "/passwordForgotten",
+        "/reset-password",
         { schema },
         async (request, reply) => {
             
@@ -35,22 +36,21 @@ export async function register(server: FastifyInstance): Promise<void> {
                 mail: request.body.mail
             });
 
-            if (user) {
-              
-                const newPassword = generatePassword();
-                
-                const passwordSalt = Bcrypt.genSaltSync(UserConfig.login.saltRound);
-                user.password = Bcrypt.hashSync(newPassword, passwordSalt);
-
-                user.save();
-
-                await UserLib.sendMail(
-                    process.env.NO_REPLY_EMAIL,
-                    user.mail,
-                    "Réinitialisation du mot de passe",
-                    `Votre mot de passe a été réinitialisé. Votre nouveau mot de passe est : ${ newPassword }`
-                );
+            if (!user) {
+                throw new httpErrors.NotFound("Aucun compte n'a été trouvé avec cette adresse mail.");
             }
+            const newPassword = generatePassword();
+                
+            const passwordSalt = Bcrypt.genSaltSync(UserConfig.login.saltRound);
+            user.password = Bcrypt.hashSync(newPassword, passwordSalt);
+
+            user.save();
+            await UserLib.sendMail(
+                user.mail,
+                "Réinitialisation du mot de passe",
+                `Votre mot de passe a été réinitialisé. Votre nouveau mot de passe est : ${ newPassword }`
+            );
+            
 
             reply.send({
                 message: "Si le compte existe, un mail a été envoyé à l'addresse lié.",
@@ -61,9 +61,11 @@ export async function register(server: FastifyInstance): Promise<void> {
 }
 
 
-function generatePassword() {
-    const length = Math.floor(Math.random() * 24) + 8;
+function generatePassword() { 
+    const length = 24;
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    
-    return Array.from({ length }, () => charset.charAt(Math.floor(Math.random() * charset.length))).join("");
+    return Array.from({ length }, () => 
+        charset
+            .charAt(Math.floor(Math.random() * charset.length))
+    ).join("");
 }

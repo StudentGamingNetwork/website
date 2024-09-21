@@ -41,11 +41,17 @@
                         />
                         {{ $t("components.template.modals.login.twitter") }}
                     </SButton>
+                    <div
+                        class="link"
+                        @click="stateStore.modalOpen('signup')"
+                    >
+                        Pas encore de compte ?
+                    </div>
                 </div>
                 <div class="separator">
                     <div class="line" />
                     <div class="text">
-                        or
+                        ou
                     </div>
                     <div class="line" />
                 </div>
@@ -86,14 +92,13 @@
                     <div class="line" />
                     <div class="text">
                         or
+                        <div
+                            class="link"
+                            @click="passwordForgotten"
+                        >
+                            Mot de passe oublié ?
+                        </div>
                     </div>
-                    <div class="line" />
-                </div>
-                <div
-                    class="link local"
-                    @click="passwordForgotten"
-                >
-                    Mot de passe oublié ?
                 </div>
             </div>
         </div>
@@ -247,6 +252,7 @@ async function passwordForgotten() {
         color: var(--color-primary);
         opacity: 0.5;
         cursor: pointer;
+        align-self: center;
 
         &:hover {
             text-decoration: underline;
