@@ -80,6 +80,6 @@ export function getCertificateUrl(user: { id: string; certificate: string }): st
 }
 
 export async function passwordForgotten({ mail }: { mail: string }): Promise<any> {
-    const result = await ApiService.post("/user/passwordForgotten", { mail });
+    const result = await ApiService.post("/user/reset-password", { mail });
     return result.data;
 }

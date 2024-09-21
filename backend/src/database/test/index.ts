@@ -2,6 +2,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { connectDatabase, closeDatabase } from "@/database";
 import { isTestEnvironment } from "@/utils";
+import { env } from "@/utils/environment";
 
 let mongoServer: MongoMemoryServer;
 
@@ -11,7 +12,7 @@ beforeAll(async () => {
     }
 
     mongoServer = await MongoMemoryServer.create();
-    process.env.DB_URI = mongoServer.getUri();
+    env.DB_URI = mongoServer.getUri();
     await connectDatabase();
 });
 

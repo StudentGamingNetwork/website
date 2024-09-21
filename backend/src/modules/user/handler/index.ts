@@ -5,7 +5,7 @@ import * as PingHandler from "./ping";
 import * as DisconnectHandler from "./disconnect";
 import * as UpdateHandler from "./update";
 import * as UpdatePlatformsHandler from "./updatePlatforms";
-import * as PasswordHandler from "./passwordForgotten";
+import * as PasswordHandler from "./resetPassword";
 import * as UploadAvatar from "@/modules/upload/handler/avatar";
 import * as UploadCertificate from "@/modules/upload/handler/certificate";
 

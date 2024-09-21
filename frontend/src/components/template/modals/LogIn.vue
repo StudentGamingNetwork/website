@@ -41,11 +41,17 @@
                         />
                         Connexion avec Twitter
                     </SButton>
+                    <div
+                        class="link"
+                        @click="stateStore.modalOpen('signup')"
+                    >
+                        Pas encore de compte ?
+                    </div>
                 </div>
                 <div class="separator">
                     <div class="line" />
                     <div class="text">
-                        or
+                        ou
                     </div>
                     <div class="line" />
                 </div>
@@ -73,27 +79,12 @@
                     >
                         Connexion
                     </SButton>
-                </div>
-            </div>
-            <div class="login appart">
-                <div
-                    class="link local"
-                    @click="stateStore.modalOpen('signup')"
-                >
-                    Pas encore de compte ?
-                </div>
-                <div class="separator">
-                    <div class="line" />
-                    <div class="text">
-                        or
+                    <div
+                        class="link"
+                        @click="passwordForgotten"
+                    >
+                        Mot de passe oublié ?
                     </div>
-                    <div class="line" />
-                </div>
-                <div
-                    class="link local"
-                    @click="passwordForgotten"
-                >
-                    Mot de passe oublié ?
                 </div>
             </div>
         </div>
@@ -258,6 +249,7 @@ export default defineComponent({
         color: var(--color-primary);
         opacity: 0.5;
         cursor: pointer;
+        align-self: center;
 
         &:hover {
             text-decoration: underline;
