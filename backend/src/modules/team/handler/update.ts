@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import startOfDay from "date-fns/startOfDay";
+import { EInvitationType } from "@/modules/team/lib";
 import * as UserLib from "@/modules/user/lib";
 import { TypeCompleteTeam } from "@/modules/team/type";
 import TeamModel from "@/modules/team/model";
@@ -60,20 +61,20 @@ export async function register(server: FastifyInstance): Promise<void> {
                         team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
                     }
                 }
+             
 
-                if (request.body.staff.coach && request.body.staff.coach.kick && request.body.staff.coach.user._id !== team.owner.toString()){
-                    team.staff.coach.user = "";
+                if (request.body.staff.coach && request.body.staff.coach.kick && request.body.staff.coach?.user?._id !== team.owner.toString()){
+                    team.staff.coach = {};
                 }
 
-                if (request.body.staff.manager && request.body.staff.manager.kick && request.body.staff.coach.user._id !== team.owner.toString()){
-                    team.staff.manager.user = "";
+                if (request.body.staff.manager && request.body.staff.manager.kick && request.body.staff.manager?.user?._id !== team.owner.toString()){
+                    team.staff.manager = {};
                 }
-
                 team.state.ready = request.body.state.ready;
             }
 
-            let currentMember = undefined;
-            let memberIndex = undefined;
+            let currentMember: string;
+            let memberIndex: number|string;
             let isStaff = true;
 
             for (let index = 0; index < request.body.members.length; index++) {
@@ -86,13 +87,13 @@ export async function register(server: FastifyInstance): Promise<void> {
 
 
             if (isStaff) {
-                if (request.body.staff.coach.user._id === user._id.toString()) {
+                if (request.body.staff.coach?.user._id === user._id.toString()) {
                     currentMember = request.body.staff.coach;
-                    memberIndex = "coach";
+                    memberIndex = EInvitationType.Coach;
                 }
                 else {
                     currentMember = request.body.staff.manager;
-                    memberIndex = "manager"; 
+                    memberIndex = EInvitationType.Manager; 
                 }
             }
 
@@ -106,7 +107,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                    
                 }
             }
-            
+            console.log(team.staff);
             await team.save();
 
             reply.send({

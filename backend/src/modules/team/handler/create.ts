@@ -67,7 +67,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     managerInvitationCode: TeamLib.generateInvitationCode()
 
                 },
-                staff: {},
+                staff: { coach: {}, manager: {} },
                 state: {
                     ready: false,
                     validated: false

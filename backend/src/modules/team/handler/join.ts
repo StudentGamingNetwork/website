@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import { ca } from "date-fns/locale";
+import { EInvitationType } from "@/modules/team/lib";
 import * as UserLib from "@/modules/user/lib";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
@@ -65,41 +65,42 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             switch (request.body.invitationCode.trim().toUpperCase()) {
             case team.settings.invitationCode:
-                invitationType = "player";
+                invitationType = EInvitationType.Player;
                 break;
             case team.settings.coachInvitationCode:
-                invitationType = "coach";
+                invitationType = EInvitationType.Coach;
                 break;
             case team.settings.managerInvitationCode:
-                invitationType = "manager";
+                invitationType = EInvitationType.Manager;
                 break;           
             }
+            
 
-            if (invitationType === "player" && team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
+            if (invitationType === EInvitationType.Player && team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
                 throw new httpErrors.NotFound("Cette équipe est déjà complète");
             }
 
-            else if (invitationType === "coach" && team.staff.coach.user !== undefined) {
+            else if (team.staff.coach.user !== undefined) {
                 throw new httpErrors.NotFound("Cette équipe ne peut plus accueillir de coach");
             }
 
-            else if (invitationType === "manager" && team.staff.manager.user !== undefined) {
+            else if (team.staff.manager.user !== undefined) {
                 throw new httpErrors.NotFound("Cette équipe ne peut plus accueillir de manager");
             }
             
-            if (invitationType === "player") {
+            if (invitationType === EInvitationType.Player) {
                 team.members.push({
                     user: user._id,
                     username: ""
                 });
             }
 
-            else if (invitationType === "coach") {
+            else if (invitationType === EInvitationType.Coach) {
                 team.staff.coach.user = user._id;
                 team.staff.coach.username = "";
             }
 
-            else if (invitationType === "manager") {
+            else if (invitationType === EInvitationType.Manager) {
                 team.staff.manager.user = user._id;
                 team.staff.manager.username = "";
             }

@@ -16,12 +16,12 @@ const Team = {
     }),
     staff: Type.Object({
         coach: Type.Optional(Type.Object({
-            user: Type.String(),
-            username: Type.String()
+            user: Type.Optional(Type.String()),
+            username: Type.Optional(Type.String())
         })),
         manager: Type.Optional(Type.Object({
-            user: Type.String(),
-            username: Type.String()
+            user: Type.Optional(Type.String()),
+            username: Type.Optional(Type.String())
         }))
     }),
     state: Type.Object({
@@ -89,13 +89,13 @@ export const TypeCompleteTeam = Type.Object({
     staff: Type.Object({
         coach: Type.Optional(Type.Object({
             kick: Type.Optional(Type.Boolean()),
-            user: Type.Object(TeamUser),
-            username: Type.String()
+            user: Type.Optional(Type.Object(TeamUser)),
+            username: Type.Optional(Type.String())
         })),
         manager: Type.Optional(Type.Object({
             kick: Type.Optional(Type.Boolean()),
-            user: Type.Object(TeamUser),
-            username: Type.String()
+            user: Type.Optional(Type.Object(TeamUser)),
+            username: Type.Optional(Type.String())
         }))
     })
 });
@@ -110,13 +110,13 @@ export const TypeCompleteTeamAdmin = Type.Object({
     staff: Type.Object({
         coach: Type.Optional(Type.Object({
             kick: Type.Optional(Type.Boolean()),
-            user: Type.Object(TeamUser),
-            username: Type.String()
+            user: Type.Optional(Type.Object(TeamUser)),
+            username: Type.Optional(Type.String())
         })),
         manager: Type.Optional(Type.Object({
             kick: Type.Optional(Type.Boolean()),
-            user: Type.Object(TeamUser),
-            username: Type.String()
+            user: Type.Optional(Type.Object(TeamUser)),
+            username: Type.Optional(Type.String())
         }))
     })
 });
