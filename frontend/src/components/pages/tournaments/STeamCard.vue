@@ -327,7 +327,7 @@
                             </template>
                         </td>
                     </tr>
-                    <span>Staff</span>
+                    <span v-if="team.staff.coach?.user || team.staff.manager?.user">Staff</span>
                     <tr
                         v-for="(staff, staffIndex) of team.staff"
                         :key="staff.user._id"
@@ -548,17 +548,11 @@ const isTeamBased = computed(() => {
 });
 
 const isCoachingStaffFull = computed(() => {
-    if (!team.staff.coach) {
-        return false;
-    }
-    return team.staff.coach.user !== undefined;
+    return team.staff.coach?.user || !props.tournament.game.team.coachEnabled;
 });
 
 const isManagingStaffFull = computed(() => {
-    if (!team.staff.manager) {
-        return false;
-    }
-    return team.staff.manager.user !== undefined;
+    return team.staff.manager?.user || !props.tournament.game.team.managerEnabled;
 });
 
 function isMemberReady(member: { user: User.TCompleteUser; username: string }, isStaff = false): boolean {
