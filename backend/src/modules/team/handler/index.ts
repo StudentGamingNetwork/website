@@ -8,8 +8,8 @@ import * as ListHandler from "./list";
 import * as ManageHandler from "./manage";
 import * as SchoolsHandler from "./schools";
 import * as ExportHAndler from "./export";
+import * as DetailsHandler from "./details";
 import * as UploadLogoHandler from "@/modules/upload/handler/teamLogo";
-
 
 export default async function (server: FastifyInstance): Promise<void> {
     await CreateHandler.register(server);
@@ -22,4 +22,5 @@ export default async function (server: FastifyInstance): Promise<void> {
     await SchoolsHandler.register(server);
     await ExportHAndler.register(server);
     await UploadLogoHandler.register(server);
+    await DetailsHandler.register(server);
 }

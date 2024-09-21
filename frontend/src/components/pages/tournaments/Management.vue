@@ -27,12 +27,17 @@
             </div>
         </div>
         <template v-else>
-            <STournamentManagementTeamCard
-                v-for="team of teams"
+            <router-link    
+                v-for="team of teams" 
                 :key="team._id"
-                :team="team"
-                @update="updateSearch"
-            />
+                class="link"
+                :to="'/tournament/manage/' + team._id"
+            >
+                <STournamentManagementTeamCard
+                    :team="team"
+                    @update="updateSearch"
+                />
+            </router-link>
         </template>
     </div>
 </template>
@@ -125,6 +130,10 @@ export default defineComponent({
             text-align: center;
             color: var(--color-content-liter);
         }
+    }
+
+    .link {
+        text-decoration: none;
     }
 }
 </style>
