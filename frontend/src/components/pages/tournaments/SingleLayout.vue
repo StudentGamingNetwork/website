@@ -25,6 +25,7 @@
             @update:model-value="updateLocalTournament($event)"
         />
         <STournamentManagement v-if="tournamentsPage === 'management'" />
+        <STeamPanelValidation v-if="tournamentsPage === 'details'" />
     </div>
 </template>
 
@@ -40,10 +41,11 @@ import SLoading from "@/components/design/Loading.vue";
 import SSelector from "@/components/design/Selector.vue";
 import STournamentAdminPanel from "@/components/pages/tournaments/AdminPanel.vue";
 import STournamentManagement from "@/components/pages/tournaments/Management.vue";
+import STeamPanelValidation from "@/components/pages/tournaments/STeamPanelValidation.vue";
 
 export default defineComponent({
     name: "STournamentsSingleLayout",
-    components: { SLoading, SSelector, STeamCard, STournament, STournamentAdminPanel, STournamentManagement },
+    components: { SLoading, SSelector, STeamCard, STeamPanelValidation,STournament, STournamentAdminPanel, STournamentManagement },
     async setup() {
         const router = useRouter();
         const userStore = User.useStore();
@@ -54,7 +56,8 @@ export default defineComponent({
         const tournamentsPages = [
             { title: "Équipe", key: "team" },
             { title: "Paramètres", key: "admin" },
-            { title: "Gestion", key: "management" }
+            { title: "Gestion", key: "management" },
+            { title: "Détails", key: "details" }
         ];
 
         onMounted(() => {
