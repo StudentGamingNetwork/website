@@ -27,23 +27,23 @@
             </div>
         </div>
         <template v-else>
-            <router-link    
+            <div    
                 v-for="team of teams" 
                 :key="team._id"
                 class="link"
-                :to="'/tournament/manage/' + team._id"
             >
                 <STournamentManagementTeamCard
                     :team="team"
+                    @click="inspectTeam(team)"
                     @update="updateSearch"
                 />
-            </router-link>
+            </div>
         </template>
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+<script lang="ts" setup>
+import { onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRouter } from "vue-router";
 import { Team } from "@/modules";
@@ -51,58 +51,57 @@ import * as AdminService from "@/services/admin";
 import STournamentManagementTeamCard from "@/components/pages/tournaments/ManagementTeamCard.vue";
 import SSelector from "@/components/design/Selector.vue";
 
-export default defineComponent({
-    name: "STournamentManagement",
-    components: { FontAwesomeIcon, SSelector, STournamentManagementTeamCard },
-    setup() {
-        const router = useRouter();
-        const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
-        const isSearching = ref(true);
-        const teams = ref([] as Array<Team.TTeam>);
 
-        const managementPage = ref("forming");
+defineProps<{ modelValue : ""}>();
 
-        const managementPages = [
-            { title: "En formation", key: "forming" },
-            { title: "Prêtes", key: "ready" },
-            { title: "Validées", key: "validated" }
-        ];
+const emit = defineEmits(["update:modelValue"]);
 
-        watch(
-            () => managementPage.value,
-            async () => {
-                if (managementPage.value !== router.currentRoute.value.params.management) {
-                    await router.push(`/tournament/${ tournamentSlug.value }/management/${ managementPage.value }`);
 
-                    await updateSearch();
-                }
-            });
 
-        onMounted(async () => {
-            const page = router.currentRoute.value.params.management as string;
+const router = useRouter();
+const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
+const isSearching = ref(true);
+const teams = ref([] as Array<Team.TTeam>);
 
-            if (["forming", "ready", "validated"].includes(page)) {
-                managementPage.value = page;
-            }
+const managementPage = ref("forming");
+
+const managementPages = [
+    { title: "En formation", key: "forming" },
+    { title: "Prêtes", key: "ready" },
+    { title: "Validées", key: "validated" }
+];
+
+watch(
+    () => managementPage.value,
+    async () => {
+        if (managementPage.value !== router.currentRoute.value.params.management) {
+            await router.push(`/tournament/${ tournamentSlug.value }/management/${ managementPage.value }`);
 
             await updateSearch();
-        });
-
-        async function updateSearch() {
-            isSearching.value = true;
-            teams.value = await AdminService.teamList(tournamentSlug.value, managementPage.value);
-            isSearching.value = false;
         }
+    });
 
-        return {
-            isSearching,
-            managementPage,
-            managementPages,
-            teams,
-            updateSearch
-        };
+onMounted(async () => {
+    const page = router.currentRoute.value.params.management as string;
+
+    if (["forming", "ready", "validated"].includes(page)) {
+        managementPage.value = page;
     }
+
+    await updateSearch();
 });
+
+async function updateSearch() {
+    isSearching.value = true;
+    teams.value = await AdminService.teamList(tournamentSlug.value, managementPage.value);
+    isSearching.value = false;
+}
+
+async function inspectTeam(team: Team.TTeam) {
+    await router.push(`/tournament/${ tournamentSlug.value }/team/${ team._id }`);
+    emit("update:modelValue", "details");
+}
+
 </script>
 
 <style scoped lang="scss">

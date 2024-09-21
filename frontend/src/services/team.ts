@@ -30,8 +30,8 @@ export async function join(tournamentSlug: string, invitationCode: string): Prom
     return result.data;
 }
 
-export async function remove(tournamentSlug: string): Promise<any> {
-    const result = await ApiService.delete(`/team/delete/${ tournamentSlug }`);
+export async function remove(tournamentSlug: string, teamId?: string): Promise<any> {
+    const result = await ApiService.delete(`/team/delete/${ tournamentSlug }/${ teamId }`);
     return result.data;
 }
 
