@@ -24,8 +24,14 @@
             @update="updateTournament"
             @update:model-value="updateLocalTournament($event)"
         />
-        <STournamentManagement v-if="tournamentsPage === 'management'" />
-        <STeamPanelValidation v-if="tournamentsPage === 'details'" />
+        <STournamentManagement 
+            v-if="tournamentsPage === 'management'"
+            v-model="tournamentsPage" 
+        />
+        <STeamPanelValidation
+            v-if="tournamentsPage === 'details'"
+            :tournament="tournament"
+        />
     </div>
 </template>
 
@@ -40,7 +46,7 @@ import STeamCard from "@/components/pages/tournaments/STeamCard.vue";
 import SLoading from "@/components/design/Loading.vue";
 import SSelector from "@/components/design/Selector.vue";
 import STournamentAdminPanel from "@/components/pages/tournaments/AdminPanel.vue";
-import STournamentManagement from "@/components/pages/tournaments/Management.vue";
+import STournamentManagement from "@/components/pages/tournaments/STournamentManagement.vue";
 import STeamPanelValidation from "@/components/pages/tournaments/STeamPanelValidation.vue";
 
 export default defineComponent({

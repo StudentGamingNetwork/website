@@ -6,6 +6,7 @@ import * as UserLib from "@/modules/user/lib";
 import { TypeCompleteTeam } from "@/modules/team/type";
 import TeamModel from "@/modules/team/model";
 import TournamentModel from "@/modules/tournament/model";
+import { ERoles } from "@/modules/user/model";
 
 const SchemaRequest = TypeCompleteTeam;
 
@@ -51,9 +52,10 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Forbidden("Vous ne pouvez pas modifier votre équipe une fois que le tournoi a commencé.");
             }
 
-            if (team.owner.toString() === user._id.toString()){
+            if (team.owner.toString() === user._id.toString() || user.roles.includes(ERoles.Tournament)) {
                 team.settings.name = request.body.settings.name || "";
                 team.settings.tag = request.body.settings.tag || "";
+                team.settings.logo = request.body.settings.logo || "";
 
                 for (const teamMember of request.body.members) {
                     if (teamMember.kick && teamMember.user._id !== team.owner.toString()) {

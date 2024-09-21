@@ -5,9 +5,11 @@ import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import * as TournamentLib from "@/modules/tournament/lib";
 import TeamModel from "@/modules/team/model";
+import { ERoles } from "@/modules/user/model";
 
 const SchemaRequest = Type.Object({
-    slug: Type.String({ minLength: 1 })
+    slug: Type.String({ minLength: 1 }),
+    teamId: Type.Optional(Type.String({ minLength: 1 }))
 });
 
 type TSchemaRequest = Static<typeof SchemaRequest>;
@@ -28,13 +30,13 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.delete<{ Params: TSchemaRequest; Response: TSchemaResponse }>(
-        "/delete/:slug",
+        "/delete/:slug/:teamId",
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
             const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
 
-            const team = await TeamModel.findOne({
+            const team = request.params.teamId ? await TeamModel.findById(request.params.teamId) : await TeamModel.findOne({
                 $or: [{ "members.user": user._id },{ "staff.coach.user": user._id },{ "staff.manager.user": user._id }],
                 tournament: tournament._id
             });
@@ -47,7 +49,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Forbidden("Vous ne pouvez pas supprimer votre équipe une fois que le tournoi a commencé.");
             }
 
-            if (team.owner.toString() === user._id.toString()) {
+            if (team.owner.toString() === user._id.toString() || user.roles.includes(ERoles.Tournament)) {
                 if (team.state.validated) {
                     tournament.game.team.subscribed--;
                     await tournament.save();

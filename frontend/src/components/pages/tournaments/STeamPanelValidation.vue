@@ -21,95 +21,36 @@
             Aucune équipe en attente de validation.
         </div>
     </div>
-    <!--<SCard
+    <SCard
         v-else
         class="team-card"
     >
         <div
-            v-if="!isConnected"
-            class="empty"
-        >
-            <div>Pour participer à ce tournoi, vous devez d'abord vous inscrire ou vous connecter.</div>
-            <div class="buttons">
-                <SButton
-                    primary
-                    @click="stateStore.modalOpen('signup')"
-                >
-                    Inscription
-                </SButton>
-                <SButton
-                    outlined
-                    @click="stateStore.modalOpen('login')"
-                >
-                    Connexion
-                </SButton>
-            </div>
-        </div>
-        <div
-            v-else-if="!hasTeam"
-            class="empty"
-        >
-            <div>Prêt à rejoindre l'arène ?</div>
-            <div class="buttons">
-                <template v-if="isTeamBased">
-                    <SButton
-                        primary
-                        @click="createTeam"
-                    >
-                        Créer une équipe
-                    </SButton>
-                    <SButton
-                        outlined
-                        @click="joinTeam"
-                    >
-                        Rejoindre une équipe
-                    </SButton>
-                </template>
-                <SButton
-                    v-else
-                    primary
-                    @click="createTeam"
-                >
-                    Participer au tournoi
-                </SButton>
-            </div>
-        </div>
-        <div
-            v-else
             class="team"
         >
-            <SSectionTitle>Votre équipe</SSectionTitle>
+            <SSectionTitle>{{ team.settings.name }}</SSectionTitle>
             <SModalSection class="settings">
                 <SModalSectionTitle>Paramètre de l'équipe</SModalSectionTitle>
                 <SAvatarPicker
                     :icon="['fas', 'trophy']"
                     title="Logo"
                     :url="logoUrl"
-                    @file-change="uploadLogo"
+                    @click.prevent="deleteLogo"
                 />
                 <SInput
-                    v-if="isTeamBased"
                     v-model="team.settings.name"
-                    :disabled="!isOwner"
                     :modified="team.settings.name !== savedTeam.settings.name"
                     title="Nom d'équipe"
                     @enter="sendUpdate"
                 />
                 <SInput
-                    v-if="isTeamBased"
                     v-model="team.settings.tag"
-                    :disabled="!isOwner"
                     :modified="team.settings.tag !== savedTeam.settings.tag"
                     title="TAG d'équipe"
                     :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
                     @enter="sendUpdate"
                 />
-                <SInput
-                    v-model="team.members[playerIndex].username"
-                    :modified="team.members[playerIndex].username !== savedTeam.members[playerIndex].username"
-                    :title="tournament.game.username"
-                    @enter="sendUpdate"
-                />
+
                 <div class="buttons">
                     <SButton
                         class="button"
@@ -120,29 +61,12 @@
                         Sauvegarder
                     </SButton>
                     <SButton
-                        v-if="!team.state.ready"
-                        class="button"
-                        :disabled="!isTeamReady"
+                        v-if="team.members.length === 1"
+                        danger
                         outlined
-                        @click="markReady"
+                        @click="deleteTeam"
                     >
-                        Marquer prêt
-                    </SButton>
-                    <SButton
-                        v-else-if="!team.state.validated"
-                        class="button"
-                        outlined
-                        @click="markUnready"
-                    >
-                        En attente
-                    </SButton>
-                    <SButton
-                        v-else
-                        class="button"
-                        disabled
-                        outlined
-                    >
-                        Équipe validée
+                        Dissoudre l'équipe
                     </SButton>
                 </div>
                 <SModalSectionDescription>
@@ -154,25 +78,13 @@
                 <SModalSectionTitle>Checklist</SModalSectionTitle>
                 <div class="validators">
                     <div class="validators-column">
-                        <SValidator
-                            v-if="isTeamBased"
-                            :valid="!!savedTeam.settings.name"
-                        >
+                        <SValidator :valid="!!team.settings.name">
                             Nom d'équipe
                         </SValidator>
-                        <SValidator
-                            v-if="isTeamBased"
-                            :valid="!!savedTeam.settings.tag"
-                        >
+                        <SValidator :valid="!!team.settings.tag">
                             TAG d'équipe
                         </SValidator>
-                        <SValidator :valid="!!savedTeam.members[playerIndex].username">
-                            Identifiant de jeu
-                        </SValidator>
-                        <SValidator
-                            v-if="isTeamBased"
-                            :valid="savedTeam.members.length >= tournament.game.team.playersNumber"
-                        >
+                        <SValidator :valid="team.members.length >= tournament.game.team.playersNumber">
                             Équipe complète
                         </SValidator>
                     </div>
@@ -197,10 +109,7 @@
                         @click="stateStore.modalOpen('settings')"
                     >paramètres</span> de votre profil.
                 </SModalSectionDescription>
-                <div
-                    v-if="isTeamBased"
-                    class="validators-column"
-                >
+                <div class="validators-column">
                     <div
                         v-for="(number, index) in Math.max(tournament.game.team.playersNumber, team.members.length)"
                         :key="index"
@@ -219,17 +128,27 @@
                 </div>
             </SModalSection>
             <div class="actions">
-                <SInputCopier
-                    v-if="isTeamBased"
-                    :content="team.settings.invitationCode"
-                    title="Code d'invitation"
-                />
                 <SButton
-                    danger
+                    class="button"
                     outlined
-                    @click="deleteTeam"
+                    @click="sendUpdate"
                 >
-                    {{ isOwner ? (isTeamBased ? "Dissoudre l'équipe" : "Quitter le tournoi") : "Quitter l'équipe" }}
+                    Ajouter un joueur
+                </SButton>
+                <SButton
+                    class="button"
+                    outlined
+                    @click="sendUpdate"
+                >
+                    Ajouter un coach
+                </SButton>
+                <SButton
+                    class="button"
+                    :disabled="tournament.game.team."
+                    outlined
+                    @click="sendUpdate"
+                >
+                    Ajouter un manager
                 </SButton>
             </div>
             <div class="members">
@@ -265,7 +184,6 @@
                                 (<span :class="{error: !member.username}">{{ member.username || "ID manquant" }}</span>)
                             </span>
                             <div
-                                v-if="isOwner && member.user._id !== team.owner"
                                 class="kick"
                                 @click="kickMember(memberIndex)"
                             >
@@ -318,7 +236,7 @@
                 </table>
             </div>
         </div>
-    </SCard>-->
+    </SCard>
 </template>
 
 <script lang="ts" setup>
@@ -355,7 +273,7 @@ const teamId = ref(router.currentRoute.value.params.management as string);
 const userStore = User.useStore();
 
 const savedTeam = reactive(Team.Lib.makeObject({}));
-let team = reactive<Team.TTeam>(cloneDeep(savedTeam));
+const team = reactive<Team.TTeam>(cloneDeep(savedTeam));
 
 
 const isConnected = computed(() => {
@@ -364,15 +282,15 @@ const isConnected = computed(() => {
 
 
 onMounted(async () => {
-
+    console.log("mounted");
     const response = await TeamService.details(tournamentSlug.value, teamId.value);
 
     if (response.success){
-        team = response.team;
+        Object.assign(team, response.team);
     }
     
     await router.push(`/tournament/${ tournamentSlug.value }/details/${ team._id }`);
-
+    
     isSearching.value = false;
     
 });
@@ -384,7 +302,7 @@ const logoUrl = computed(() => {
     return TeamService.getLogoUrl({ id: team._id, logo: team.settings.logo });
 });
 
-
+await updateTeam();
 
 const hasChanged = computed(() => {
     return !isMatch(savedTeam, team);
@@ -414,15 +332,14 @@ const sendUpdate = async () => {
     }
 };
 
-const uploadLogo = async (file: File) => {
-    const response = await Toast.testRequest(async () => {
-        return await TeamService.uploadLogo({ file }, team._id);
-    });
-
-    if (response?.success) {
-        team.settings.logo = response.logo;
+function deleteLogo(){
+    const answer = confirm("Êtes-vous sûr de vouloir supprimer le logo de l'équipe ?");
+  
+    if (answer){
+        team.settings.logo = "";
+        sendUpdate();
     }
-};
+}
 
 const isTeamReady = computed(() => {
 
@@ -479,8 +396,9 @@ async function updateTeam() {
     if (!isConnected.value) {
         return;
     }
-    const teamApi = await TeamService.get(tournamentSlug.value, teamId.value);
-
+    const result = await TeamService.details(tournamentSlug.value,team._id);
+    const teamApi = result.team; 
+   
     assign(savedTeam, teamApi);
     assign(team, cloneDeep(savedTeam));
 
@@ -489,43 +407,14 @@ async function updateTeam() {
     }
 }
 
-async function joinTeam() {
-    const invitationCode = prompt("Entrez le code d'invitation de l'équipe. Vous pouvez le demander au chef d'équipe, il est de la forme XXXX-XXXX-XXXX-XXXX.");
-
-    if (!invitationCode) {
-        return;
-    }
-
-    const response = await Toast.testRequest(async () => {
-        return await TeamService.join(tournamentSlug.value, invitationCode || "");
-    });
-
-    if (response?.success) {
-        await updateTeam();
-    }
-}
-
-async function createTeam() {
-    const response = await Toast.testRequest(async () => {
-        return await TeamService.create(tournamentSlug.value);
-    });
-
-    if (response?.success) {
-        await updateTeam();
-    }
-}
-
 async function deleteTeam() {
-    const message = isOwner.value ?
-        "Êtes-vous sûr de vouloir supprimer l'équipe ? Les membres invités en seront exclus." :
-        "Êtes-vous sûr de vouloir quitter cette équipe ?";
 
-    if (!confirm(message)) {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer l'équipe ? Les membres invités en seront exclus.")) {
         return;
     }
 
     const response = await Toast.testRequest(async () => {
-        return await TeamService.remove(tournamentSlug.value);
+        return await TeamService.remove(tournamentSlug.value, team._id);
     });
 
     if (response?.success) {
@@ -654,7 +543,7 @@ async function kickMember(memberIndex: number) {
         .buttons {
             display: flex;
             gap: var(--length-gap-m);
-            width: 318px;
+            width: 400px;
 
             .button {
                 flex-grow: 1;
@@ -723,11 +612,11 @@ async function kickMember(memberIndex: number) {
                 }
 
                 &:nth-child(2) {
-                    width: 35%;
+                    width: 40%;
                 }
 
                 &:nth-child(3) {
-                    width: 40%;
+                    width: 35%;
                 }
 
                 &:nth-child(4) {
