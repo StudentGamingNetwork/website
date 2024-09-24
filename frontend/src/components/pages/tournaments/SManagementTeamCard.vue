@@ -229,7 +229,6 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { Team, Toast, User } from "@/modules";
 import SCard from "@/components/design/Card.vue";
@@ -241,10 +240,7 @@ import * as TeamService from "@/services/team";
 
 
 defineProps<{
-    team: {
-        required: true,
-        type: Team.TTeam
-    }
+    team: Team.TTeam
 }>();
 
 const emit = defineEmits(["update"]);

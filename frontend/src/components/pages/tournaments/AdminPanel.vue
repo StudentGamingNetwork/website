@@ -104,14 +104,12 @@
                 v-model="tournament.game.team.coachEnabled"
                 :modified="tournament.game.team.coachEnabled !== savedTournament.game.team.coachEnabled"
                 title="Possibilité d'avoir un coach dans l'équipe"
-                type="checkbox"
                 @enter="sendUpdate"
             />
             <SCheckbox
                 v-model="tournament.game.team.managerEnabled"
                 :modified="tournament.game.team.managerEnabled !== savedTournament.game.team.managerEnabled"
                 title="Possibilité d'avoir un manager dans l'équipe"
-                type="checkbox"
                 @enter="sendUpdate"
             />
             <SInput
@@ -175,7 +173,6 @@
 import { computed, defineComponent, PropType, reactive, watch } from "vue";
 import { assign, isMatch } from "lodash";
 import { useRouter } from "vue-router";
-import { type } from "../../../modules/association/index";
 import SCard from "@/components/design/Card.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
 import SModalSection from "@/components/design/modal/Section.vue";
@@ -254,13 +251,9 @@ export default defineComponent({
             return TournamentService.getLogoUrl({ id: tournament._id, logo: tournament.settings.logo });
         });
 
-        const hasChanged = computed(() => {
-            return !isMatch(props.savedTournament, tournament);
-        });
+        const hasChanged = computed(() => !isMatch(props.savedTournament, tournament));
 
-        const widgetUrl = computed(() => {
-            return getWidgetUrl({ id: tournament._id });
-        });
+        const widgetUrl = computed(() => getWidgetUrl({ id: tournament._id }));
 
         const sendUpdate = async () => {
             if (!hasChanged.value) {

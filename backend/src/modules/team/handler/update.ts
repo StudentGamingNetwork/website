@@ -107,7 +107,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                    
                 }
             }
-            console.log(team.staff);
+
             await team.save();
 
             reply.send({

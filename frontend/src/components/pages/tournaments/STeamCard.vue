@@ -451,17 +451,11 @@ const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
 const savedTeam = reactive(Team.Lib.makeObject({}));
 const team = reactive<Team.TTeam>(cloneDeep(savedTeam));
 
-const isConnected = computed(() => {
-    return !!userStore._id;
-});
+const isConnected = computed(() => !!userStore._id);
 
-const hasTeam = computed(() => {
-    return !!team._id;
-});
+const hasTeam = computed(() => !!team._id);
 
-const isOwner = computed(() => {
-    return userStore._id === team.owner;
-});
+const isOwner = computed(() => userStore._id === team.owner);
 
 const isStaff = computed(() => {
     for (const pole in team.staff) {
@@ -492,9 +486,7 @@ const memberIndex = computed(() => {
 
 await updateTeam();
 
-const hasChanged = computed(() => {
-    return !isMatch(savedTeam, team);
-});
+const hasChanged = computed(() => !isMatch(savedTeam, team));
 
 const markReady = async() => {
     team.state.ready = true;
@@ -543,17 +535,11 @@ const isTeamReady = computed(() => {
     return true;
 });
 
-const isTeamBased = computed(() => {
-    return props.tournament.game.team.playersNumber > 1;
-});
+const isTeamBased = computed(() => props.tournament.game.team.playersNumber > 1);
 
-const isCoachingStaffFull = computed(() => {
-    return team.staff.coach?.user || !props.tournament.game.team.coachEnabled;
-});
+const isCoachingStaffFull = computed(() => team.staff.coach?.user || !props.tournament.game.team.coachEnabled);
 
-const isManagingStaffFull = computed(() => {
-    return team.staff.manager?.user || !props.tournament.game.team.managerEnabled;
-});
+const isManagingStaffFull = computed(() => team.staff.manager?.user || !props.tournament.game.team.managerEnabled);
 
 function isMemberReady(member: { user: User.TCompleteUser; username: string }, isStaff = false): boolean {
     if (!member.username) {
