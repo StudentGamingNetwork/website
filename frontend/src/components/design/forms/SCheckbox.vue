@@ -5,12 +5,10 @@
         </div>
         <div class="input">
             <input
-                :checked="modelValue"
+                v-model="model"
                 :class="{ modified }"
                 :disabled="disabled"
                 type="checkbox"
-                :value="modelValue"
-                @input="emit('update:modelValue', $event.target.checked)"
                 @keydown="processKeyDown"
             >
             <span class="checkmark" />
@@ -29,10 +27,6 @@ defineProps<{
         default: false,
         type: boolean
     },
-    modelValue: {
-        default: false,
-        type: boolean
-    },
     modified: {
         default: false,
         type: boolean
@@ -42,8 +36,8 @@ defineProps<{
         type: boolean
     },
 }>();
-
-const emit = defineEmits(["update:modelValue", "enter"]);
+const emit = defineEmits(["enter"]);
+const model = defineModel<boolean>();
 
 function processKeyDown(event: KeyboardEvent) {
     if (event.key === "Enter") {
