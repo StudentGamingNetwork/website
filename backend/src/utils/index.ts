@@ -7,7 +7,7 @@ export { Cookie };
 
 config();
 
-const environment: string = env.NODE_ENV || "development";
+const environment: string = env.NODE_ENV;
 
 export const isDevEnvironment = (environment === "development");
 export const isTestEnvironment = (environment === "test");
