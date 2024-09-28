@@ -63,7 +63,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 }
              
 
-                if (request.body.staff.coach && request.body.staff.coach.kick && request.body.staff.coach?.user?._id !== team.owner.toString()){
+                if (request.body.staff.coach?.kick && request.body.staff.coach.user?._id !== team.owner.toString()){
                     team.staff.coach = {};
                 }
 
@@ -75,38 +75,27 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             let currentMember: string;
             let memberIndex: number|string;
-            let isStaff = true;
 
-            for (let index = 0; index < request.body.members.length; index++) {
-                if (request.body.members[index].user._id === user._id.toString()) {
-                    currentMember = request.body.members[index];
+            for (const [index, member] of request.body.members.entries()) {
+                if (member.user._id === user._id.toString()) {
+                    currentMember = member;
                     memberIndex = index;
-                    isStaff = false;
                 }
             }
-
-
-            if (isStaff) {
-                if (request.body.staff.coach?.user._id === user._id.toString()) {
-                    currentMember = request.body.staff.coach;
-                    memberIndex = EInvitationType.Coach;
-                }
-                else {
-                    currentMember = request.body.staff.manager;
-                    memberIndex = EInvitationType.Manager; 
-                }
-            }
-
 
             if (currentMember) {
-                if (isStaff){
-                    team.staff[memberIndex].username = currentMember.username;
-                }
-                else {
-                    team.members[memberIndex].username = currentMember.username;
-                   
-                }
+                team.members[memberIndex].username = currentMember.username;
             }
+
+            if (request.body.staff.coach?.user._id === user._id.toString()) {
+                team.staff.coach.username = request.body.staff.coach.username;
+            }
+
+            if (request.body.staff.manager?.user._id === user._id.toString()) {
+                team.staff.manager.username = request.body.staff.manager.username;
+            }
+            
+
 
             await team.save();
 

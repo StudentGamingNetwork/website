@@ -63,50 +63,36 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
             }
 
-            let invitationType;
 
             switch (invitationCode) {
-            case team.settings.invitationCode:
-                invitationType = EInvitationType.Player;
-                break;
-            case team.settings.coachInvitationCode:
-                invitationType = EInvitationType.Coach;
-                break;
-            case team.settings.managerInvitationCode:
-                invitationType = EInvitationType.Manager;
-                break;           
+                case team.settings.invitationCode:
+                    if (team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber){
+                        throw new httpErrors.Forbidden("Cette équipe est déjà complète");
+                    }
+                    team.members.push({
+                        user: user._id,
+                        username: ""
+                    });
+                    break;
+
+                case team.settings.coachInvitationCode:
+                    if (team.staff.coach.user){
+                        throw new httpErrors.Forbidden("Cette équipe ne peut plus accueillir de coach");
+                    }
+                    team.staff.coach.user = user._id;
+                    team.staff.coach.username = "";
+                    break;
+                
+                case team.settings.managerInvitationCode:
+                    if (team.staff.manager.user) {
+                        throw new httpErrors.Forbidden("Cette équipe ne peut plus accueillir de manager");
+                    }
+
+                    team.staff.manager.user = user._id;
+                    team.staff.manager.username = "";
+                    break;           
             }
             
-
-            if (invitationType === EInvitationType.Player) {
-                if (team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber){
-                    throw new httpErrors.Forbidden("Cette équipe est déjà complète");
-                }
-                team.members.push({
-                    user: user._id,
-                    username: ""
-                });
-            }
-            
-
-            else if (invitationType === EInvitationType.Coach) {
-                if (team.staff.coach.user){
-                    throw new httpErrors.Forbidden("Cette équipe ne peut plus accueillir de coach");
-                }
-
-                team.staff.coach.user = user._id;
-                team.staff.coach.username = "";
-            }
-
-            else if (invitationType === EInvitationType.Manager) {
-                if (team.staff.manager.user) {
-                    throw new httpErrors.Forbidden("Cette équipe ne peut plus accueillir de manager");
-                }
-
-                team.staff.manager.user = user._id;
-                team.staff.manager.username = "";
-            }
-       
             await team.save();
 
             reply.send({
