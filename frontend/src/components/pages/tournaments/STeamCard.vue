@@ -81,15 +81,15 @@
                 />
                 <SInput
                     v-if="isStaff"
-                    v-model="team.staff[memberIndex].username"
-                    :modified="team.staff[memberIndex].username !== savedTeam.staff[memberIndex].username"
+                    v-model="team.staff[staffType].username"
+                    :modified="team.staff[staffType].username !== savedTeam.staff[staffType].username"
                     :title="tournament.game.username"
                     @enter="sendUpdate"
                 />
                 <SInput
                     v-else
-                    v-model="team.members[memberIndex].username"
-                    :modified="team.members[memberIndex].username !== savedTeam.members[memberIndex].username"
+                    v-model="team.members[playerIndex].username"
+                    :modified="team.members[playerIndex].username !== savedTeam.members[playerIndex].username"
                     :title="tournament.game.username"
                     @enter="sendUpdate"
                 />
@@ -151,7 +151,7 @@
                         </SValidator>
                         <SValidator
                             v-if="!isStaff"
-                            :valid="!!savedTeam.members[memberIndex].username"
+                            :valid="!!savedTeam.members[playerIndex].username"
                         >
                             Identifiant de jeu
                         </SValidator>
@@ -212,8 +212,8 @@
                             v-for="(staff) in team.staff"
                             :key="staff.user._id"
                         >
-                            <SValidator :valid="isMemberReady(staff, true)">
-                                {{ staff.role }} : <strong>{{ staff.user.username }}</strong> ({{ isMemberReady(staff, true) ? "prêt" : "incomplet" }})
+                            <SValidator :valid="isMemberReady(staff)">
+                                {{ staff.role }} : <strong>{{ staff.user.username }}</strong> ({{ isMemberReady(staff) ? "prêt" : "incomplet" }})
                             </SValidator>
                         </div>
                     </div>
@@ -329,7 +329,7 @@
                     </tr>
                     <span v-if="team.staff.coach?.user || team.staff.manager?.user">Staff</span>
                     <tr
-                        v-for="(staff, staffIndex) of team.staff"
+                        v-for="(staff, staffRole) of team.staff"
                         :key="staff.user._id"
                     >
                         <td>
@@ -361,7 +361,7 @@
                             <div
                                 v-if="isOwner && staff.user._id !== team.owner"
                                 class="kick"
-                                @click="kickMember(staffIndex,'staff')"
+                                @click="kickMember(staffRole,'staff')"
                             >
                                 Expulser
                             </div>
@@ -369,7 +369,7 @@
                         <td>
                             {{ staff.user.student.name || staff.username }}
                             <span class="info">({{
-                                staffIndex
+                                staffRole
                             }})</span>
                         </td>
                         <td>
@@ -396,7 +396,7 @@
                             </div>
                         </td>
                         <td>
-                            <template v-if="isMemberReady(staff, true)">
+                            <template v-if="isMemberReady(staff)">
                                 <SValidator :valid="true">
                                     Prêt
                                 </SValidator>
@@ -457,28 +457,21 @@ const hasTeam = computed(() => !!team._id);
 
 const isOwner = computed(() => userStore._id === team.owner);
 
-const isStaff = computed(() => {
+const staffType = computed(() => {
     for (const pole in team.staff) {
-        if (team.staff[pole].user._id === userStore._id) {
-            return true;
+        if (team.staff[pole].user._id === userStore._id) {     
+            return pole;
         }
     }
-    return false;
+    return "";
 });
 
-const memberIndex = computed(() => {       
-    if (isStaff.value) {
-        for (const pole in team.staff) {
-            if (team.staff[pole].user._id === userStore._id) {
-                return pole;
-            }
-        }
-    }
-    else {
-        for (const [index, player] of team.members.entries()) {
-            if (player.user._id === userStore._id) {
-                return index;
-            }
+const isStaff = computed(() => staffType.value !== "");
+
+const playerIndex = computed(() => {       
+    for (const [index, player] of team.members.entries()) {
+        if (player.user._id === userStore._id) {
+            return index;
         }
     }
     return -1;
@@ -541,7 +534,7 @@ const isCoachingStaffFull = computed(() => team.staff.coach?.user || !props.tour
 
 const isManagingStaffFull = computed(() => team.staff.manager?.user || !props.tournament.game.team.managerEnabled);
 
-function isMemberReady(member: { user: User.TCompleteUser; username: string }, isStaff = false): boolean {
+function isMemberReady(member: { user: User.TCompleteUser; username: string }): boolean {
     if (!member.username) {
         return false;
     }
@@ -550,15 +543,15 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }, i
         return false;
     }
 
-    if (!member.user.student.name && !isStaff) {
+    if (!member.user.student.name && !isStaff.value) {
         return false;
     }
 
-    if (!(member.user.student.schoolName || member.user.association) && !isStaff) {
+    if (!(member.user.student.schoolName || member.user.association) && !isStaff.value) {
         return false;
     }
 
-    if (member.user.student.status !== "validated" && !isStaff) {
+    if (member.user.student.status !== "validated" && !isStaff.value) {
         return false;
     }
 
