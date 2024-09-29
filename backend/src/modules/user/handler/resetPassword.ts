@@ -1,14 +1,15 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
-import * as Bcrypt from "bcryptjs";
 import httpErrors from "http-errors";
 import * as UserLib from "../lib";
 import UserModel from "../model";
-import UserConfig from "@/modules/user/config";
+import TokenModel from "@/modules/token/model";
+import { generateToken } from "@/modules/token/libs/index";
 
 const UserPasswordForgotten = Type.Object({
-    mail: Type.String({ format: "email" })
+    mail: Type.Optional(Type.String({ format: "email" }))
 });
+
 
 type TUserPasswordForgotten = Static<typeof UserPasswordForgotten>;
 
@@ -26,6 +27,7 @@ const schema = {
     }
 };
 
+
 export async function register(server: FastifyInstance): Promise<void> {
     server.post<{ Body: TUserPasswordForgotten; Response: TUserPasswordForgottenResponse }>(
         "/reset-password",
@@ -39,16 +41,19 @@ export async function register(server: FastifyInstance): Promise<void> {
             if (!user) {
                 throw new httpErrors.NotFound("Aucun compte n'a été trouvé avec cette adresse mail.");
             }
-            const newPassword = generatePassword();
-                
-            const passwordSalt = await Bcrypt.genSalt(UserConfig.login.saltRound);
-            user.password = await Bcrypt.hash(newPassword, passwordSalt);
 
-            user.save();
+            const date = new Date();
+            const passwordToken = await TokenModel.create({
+                expirationDate: date.setDate(date.getDate() + 3),
+                token: await generateToken(),
+                used: false,
+                user: user._id
+            });
+
             await UserLib.sendMail(
                 user.mail,
                 "Réinitialisation du mot de passe",
-                `Votre mot de passe a été réinitialisé. Votre nouveau mot de passe est : ${ newPassword }`
+                `Cliquez sur ce <a href='https://sgnw.fr/reset-password/${ passwordToken.token }'>lien</a> pour réinitialiser votre mot de passe.<br/>Ce lien sera valide pendant 3 jours.`
             );
             
 
@@ -58,14 +63,4 @@ export async function register(server: FastifyInstance): Promise<void> {
             });
         }
     );
-}
-
-
-function generatePassword() { 
-    const length = 24;
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    return Array.from({ length }, () => 
-        charset
-            .charAt(Math.floor(Math.random() * charset.length))
-    ).join("");
 }
