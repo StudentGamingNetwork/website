@@ -44,17 +44,17 @@ export async function register(server: FastifyInstance): Promise<void> {
             } as Record<string, any>;
 
             switch (request.params.management){
-            case "forming":
-                findParameters["state.ready"] = false;
-                findParameters["state.validated"] = false;
-                break;
-            case "ready":
-                findParameters["state.ready"] = true;
-                findParameters["state.validated"] = false;
-                break;
-            case "validated":
-                findParameters["state.validated"] = true;
-                break;
+                case "forming":
+                    findParameters["state.ready"] = false;
+                    findParameters["state.validated"] = false;
+                    break;
+                case "ready":
+                    findParameters["state.ready"] = true;
+                    findParameters["state.validated"] = false;
+                    break;
+                case "validated":
+                    findParameters["state.validated"] = true;
+                    break;
             }
 
             const teams = await TeamModel

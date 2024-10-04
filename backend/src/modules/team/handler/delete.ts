@@ -35,7 +35,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
 
             const team = await TeamModel.findOne({
-                "members.user": user._id,
+                $or: [{ "members.user": user._id },{ "staff.coach.user": user._id },{ "staff.manager.user": user._id }],
                 tournament: tournament._id
             });
 
@@ -57,6 +57,15 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
             else {
                 team.members = team.members.filter((member) => member.user.toString() !== user._id.toString());
+                
+                if (team.staff.coach.user?.toString() === user._id.toString()) {
+                    team.staff.coach = {};
+                }
+
+                if (team.staff.manager.user?.toString() === user._id.toString()) {
+                    team.staff.manager = {};
+                }
+
                 await team.save();
             }
 
