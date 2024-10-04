@@ -3,9 +3,10 @@ import * as fs from "fs";
 import * as Fastify from "fastify";
 import * as TournamentLib from "@/modules/tournament/lib";
 import * as AssociationLib from "@/modules/association/lib";
+import { env } from "@/utils/environment";
 
 const pageTemplate = fs.readFileSync(path.join(__dirname, "../../frontend/dist/index.html")).toString();
-const origin = process.env.CORS_ORIGIN;
+const origin = env.CORS_ORIGIN;
 
 export default async function (server: Fastify.FastifyInstance): Promise<void> {
     server.get("*", async (request, reply) => {

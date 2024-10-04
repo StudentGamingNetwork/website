@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import DonationModel from "@/modules/overlay/models/donation";
+import { env } from "@/utils/environment";
 
 const SchemaResponse = Type.Object({
     message: Type.String(),
@@ -42,7 +43,7 @@ const schema = {
     }
 };
 
-const overlayApiKey = process.env.OVERLAY_API as string;
+const overlayApiKey = env.OVERLAY_API as string;
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.post<{ Body: TSchemaBody; Querystring: TSchemaQueryString; Response: TSchemaResponse }>(
