@@ -63,7 +63,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament.dates.subscriptionClose = request.body.dates?.subscriptionClose ? new Date(request.body.dates.subscriptionClose) : undefined;
                 tournament.dates.start = request.body.dates?.start || "";
                 tournament.dates.playDays = request.body.dates?.playDays || "";
-                tournament.dates.final = request.body.dates?.final || ""; 
+                tournament.dates.final = request.body.dates?.final || "";
             }
 
             if (!isUndefined(request.body.state?.public)) {
