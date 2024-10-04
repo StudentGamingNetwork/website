@@ -13,6 +13,7 @@ const Tournament = {
     game: Type.Object({
         name: Type.Optional(Type.String()),
         team: Type.Object({
+            coachNumber: Type.Optional(Type.Number()),
             maxTeams: Type.Optional(Type.Number()),
             playersNumber: Type.Optional(Type.Number()),
             subscribed: Type.Number(),

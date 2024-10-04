@@ -13,6 +13,7 @@ export function makeObject(team: Partial<TTeam>): TTeam {
             logo: "",
             tag: ""
         },
+        staff: [],
         state: {
             ready: false,
             validated: false

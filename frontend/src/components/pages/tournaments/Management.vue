@@ -43,7 +43,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRouter } from "vue-router";
 import { Team } from "@/modules";
 import * as AdminService from "@/services/admin";
-import STournamentManagementTeamCard from "@/components/pages/tournaments/ManagementTeamCard.vue";
+import STournamentManagementTeamCard from "@/components/pages/tournaments/SManagementTeamCard.vue";
 import SSelector from "@/components/design/Selector.vue";
 
 export default defineComponent({
