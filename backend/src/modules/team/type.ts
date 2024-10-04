@@ -109,15 +109,15 @@ export const TypeCompleteTeamAdmin = Type.Object({
         username: Type.String()
     })),
     staff: Type.Object({
-        coach: Type.Optional(Type.Object({
+        coach: Type.Object({
             kick: Type.Optional(Type.Boolean()),
             user: Type.Optional(Type.Object(TeamUser)),
             username: Type.Optional(Type.String())
-        })),
-        manager: Type.Optional(Type.Object({
+        }),
+        manager: Type.Object({
             kick: Type.Optional(Type.Boolean()),
             user: Type.Optional(Type.Object(TeamUser)),
             username: Type.Optional(Type.String())
-        }))
+        })
     })
 });

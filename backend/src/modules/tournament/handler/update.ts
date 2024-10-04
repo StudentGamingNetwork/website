@@ -55,16 +55,15 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament.informations.rulesUrl = request.body.informations?.rulesUrl || "";
                 tournament.game.name = request.body.game?.name || "";
                 tournament.game.username = request.body.game?.username || "";
-                tournament.game.team.coachEnabled = request.body.game?.team.coachEnabled;
-                tournament.game.team.managerEnabled = request.body.game?.team.managerEnabled;
+                tournament.game.team.coachEnabled = request.body.game?.team.coachEnabled || false;
+                tournament.game.team.managerEnabled = request.body.game?.team.managerEnabled || false;
                 tournament.game.team.playersNumber = request.body.game?.team.playersNumber || 0;
                 tournament.game.team.substitutesNumber = request.body.game?.team.substitutesNumber || 0;
                 tournament.game.team.maxTeams = request.body.game?.team.maxTeams || 0;
                 tournament.dates.subscriptionClose = request.body.dates?.subscriptionClose ? new Date(request.body.dates.subscriptionClose) : undefined;
                 tournament.dates.start = request.body.dates?.start || "";
                 tournament.dates.playDays = request.body.dates?.playDays || "";
-                tournament.dates.final = request.body.dates?.final || "";
-                
+                tournament.dates.final = request.body.dates?.final || ""; 
             }
 
             if (!isUndefined(request.body.state?.public)) {

@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import { EInvitationType } from "@/modules/team/lib";
 import * as UserLib from "@/modules/user/lib";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
