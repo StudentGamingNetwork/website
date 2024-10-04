@@ -1,6 +1,11 @@
 import ApiService from "@/services/api";
 import Config from "@/services/config";
 
+export async function addTeamMember(tournamentId: string, teamId: string, mail: string, role: string): Promise<any> {
+    const result = await ApiService.post(`/team/add/member/${ tournamentId }`, { mail, role, teamId });
+    return result.data;
+}
+
 export async function create(tournamentSlug: string): Promise<any> {
     const result = await ApiService.post(`/team/create/${ tournamentSlug }`, {});
     return result.data;
