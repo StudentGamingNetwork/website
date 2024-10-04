@@ -11,10 +11,14 @@ export interface ITeam {
         coachInvitationCode: string;
         invitationCode: string;
 <<<<<<< HEAD
+<<<<<<< HEAD
         logo: string;
 =======
         managerInvitationCode: string;
 >>>>>>> 32b1d6a (Tweaked the UI and patched the tournament staff functionnality)
+=======
+        managerInvitationCode: string;
+>>>>>>> 03d2f695cb00737b0c2ee543cfac0d13284241dd
         tag: string;
     };
     staff: {
