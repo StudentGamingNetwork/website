@@ -448,10 +448,6 @@ import SInputCopier from "@/components/design/forms/InputCopier.vue";
 import * as UserService from "@/services/user";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 03d2f695cb00737b0c2ee543cfac0d13284241dd
 const props = defineProps({
     tournament: {
         required: true,
@@ -459,10 +455,6 @@ const props = defineProps({
     }
 });
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 03d2f695cb00737b0c2ee543cfac0d13284241dd
 const router = useRouter();
 const userStore = User.useStore();
 const stateStore = State.useStore();
