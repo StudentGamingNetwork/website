@@ -32,18 +32,21 @@
             <SModalSection class="settings">
                 <SModalSectionTitle>Paramètre de l'équipe</SModalSectionTitle>
                 <SAvatarPicker
+                    class="delete-logo"
                     :icon="['fas', 'trophy']"
                     title="Logo"
                     :url="logoUrl"
-                    @click.prevent="deleteLogo"
+                    @click.capture.stop="deleteLogo"
                 />
                 <SInput
+                    v-if="isTeamBased"
                     v-model="team.settings.name"
                     :modified="team.settings.name !== savedTeam.settings.name"
                     title="Nom d'équipe"
                     @enter="sendUpdate"
                 />
                 <SInput
+                    v-if="isTeamBased"
                     v-model="team.settings.tag"
                     :modified="team.settings.tag !== savedTeam.settings.tag"
                     title="TAG d'équipe"
@@ -78,28 +81,23 @@
                 <SModalSectionTitle>Checklist</SModalSectionTitle>
                 <div class="validators">
                     <div class="validators-column">
-                        <SValidator :valid="!!team.settings.name">
+                        <SValidator
+                            v-if="isTeamBased"
+                            :valid="!!savedTeam.settings.name"
+                        >
                             Nom d'équipe
                         </SValidator>
-                        <SValidator :valid="!!team.settings.tag">
+                        <SValidator
+                            v-if="isTeamBased"
+                            :valid="!!savedTeam.settings.tag"
+                        >
                             TAG d'équipe
                         </SValidator>
-                        <SValidator :valid="team.members.length >= tournament.game.team.playersNumber">
+                        <SValidator
+                            v-if="isTeamBased"
+                            :valid="team.members.length >= tournament.game.team.playersNumber"
+                        >
                             Équipe complète
-                        </SValidator>
-                    </div>
-                    <div class="validators-column">
-                        <SValidator :valid="!!userStore.platforms.discord">
-                            Identifiant Discord*
-                        </SValidator>
-                        <SValidator :valid="!!(userStore.association || userStore.student.schoolName)">
-                            Nom d'école*
-                        </SValidator>
-                        <SValidator :valid="!!userStore.student.name">
-                            Nom et prénom*
-                        </SValidator>
-                        <SValidator :valid="userStore.student.status === 'validated'">
-                            Certificat étudiant*
                         </SValidator>
                     </div>
                 </div>
@@ -131,22 +129,21 @@
                 <SButton
                     class="button"
                     outlined
-                    @click="sendUpdate"
+                    @click="addTeamMember('player')"
                 >
                     Ajouter un joueur
                 </SButton>
                 <SButton
                     class="button"
                     outlined
-                    @click="sendUpdate"
+                    @click="addTeamMember('coach')"
                 >
                     Ajouter un coach
                 </SButton>
                 <SButton
                     class="button"
-                    :disabled="tournament.game.team."
                     outlined
-                    @click="sendUpdate"
+                    @click="addTeamMember('manager')"
                 >
                     Ajouter un manager
                 </SButton>
@@ -240,13 +237,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, onMounted, PropType, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { assign, cloneDeep, findIndex, isMatch } from "lodash";
+import { assign, cloneDeep, isMatch } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import * as TeamService from "@/services/team";
-import { User, State, Toast, Team, Tournament } from "@/modules";
+import { User, Toast, Team, Tournament } from "@/modules";
 import SButton from "@/components/design/forms/Button.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SModalSection from "@/components/design/modal/Section.vue";
@@ -256,7 +253,6 @@ import SModalSectionDescription from "@/components/design/modal/SectionDescripti
 import SSectionTitle from "@/components/design/SectionTitle.vue";
 import * as InputValidators from "@/utils/validators";
 import SCopier from "@/components/design/forms/Copier.vue";
-import SInputCopier from "@/components/design/forms/InputCopier.vue";
 import * as UserService from "@/services/user";
 import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
 
@@ -282,7 +278,6 @@ const isConnected = computed(() => {
 
 
 onMounted(async () => {
-    console.log("mounted");
     const response = await TeamService.details(tournamentSlug.value, teamId.value);
 
     if (response.success){
@@ -308,15 +303,6 @@ const hasChanged = computed(() => {
     return !isMatch(savedTeam, team);
 });
 
-const markReady = async() => {
-    team.state.ready = true;
-    await sendUpdate();
-};
-
-const markUnready = async() => {
-    team.state.ready = false;
-    await sendUpdate();
-};
 
 const sendUpdate = async () => {
     if (!hasChanged.value) {
@@ -340,29 +326,6 @@ function deleteLogo(){
         sendUpdate();
     }
 }
-
-const isTeamReady = computed(() => {
-
-    if (team.members.length < props.tournament.game.team.playersNumber) {
-        return false;
-    }
-
-    for (const member of team.members) {
-        if (!isMemberReady(member)) {
-            return false;
-        }
-    }
-
-    if (isTeamBased.value && !savedTeam.settings.name) {
-        return false;
-    }
-
-    if (isTeamBased.value && !savedTeam.settings.tag) {
-        return false;
-    }
-
-    return true;
-});
 
 const isTeamBased = computed(() => {
     return props.tournament.game.team.playersNumber > 1;
@@ -390,6 +353,22 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }): 
     }
 
     return true;
+}
+
+async function addTeamMember(role: string){
+    const playerMail = prompt("Entrez l'email du joueur à ajouter à l'équipe :");
+
+    if (!playerMail) {
+        return;
+    }
+
+    const response = await Toast.testRequest(async () => {
+        return await TeamService.addTeamMember(props.tournament._id, team._id, playerMail, role);
+    });
+
+    if (response?.success){
+        await updateTeam();
+    }
 }
 
 async function updateTeam() {
@@ -483,6 +462,14 @@ async function kickMember(memberIndex: number) {
 
         .settings {
             grid-area: settings;
+
+            .delete-logo {
+                cursor: pointer;
+
+                &:hover{
+                    filter:grayscale(100%) brightness(0.6);
+                }
+            }
         }
 
         .checklist {

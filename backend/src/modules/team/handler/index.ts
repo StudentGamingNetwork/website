@@ -9,6 +9,7 @@ import * as ManageHandler from "./manage";
 import * as SchoolsHandler from "./schools";
 import * as ExportHAndler from "./export";
 import * as DetailsHandler from "./details";
+import * as AddTeamMemberHandler from "./addMember";
 import * as UploadLogoHandler from "@/modules/upload/handler/teamLogo";
 
 export default async function (server: FastifyInstance): Promise<void> {
@@ -23,4 +24,5 @@ export default async function (server: FastifyInstance): Promise<void> {
     await ExportHAndler.register(server);
     await UploadLogoHandler.register(server);
     await DetailsHandler.register(server);
+    await AddTeamMemberHandler.register(server);
 }
