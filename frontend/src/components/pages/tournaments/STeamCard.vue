@@ -495,6 +495,9 @@ await updateTeam();
 const hasChanged = computed(() => !isMatch(savedTeam, team));
 
 const markReady = async() => {
+    if (!isTeamReady.value){
+        return;
+    }
     team.state.ready = true;
     await sendUpdate();
 };
