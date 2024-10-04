@@ -13,7 +13,7 @@ export function makeObject(team: Partial<TTeam>): TTeam {
             managerInvitationCode: "",
             tag: ""
         },
-        staff: [],
+        staff: { coach: {}, manager: {} },
         state: {
             ready: false,
             validated: false

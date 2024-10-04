@@ -150,6 +150,12 @@
                             Identifiant de jeu
                         </SValidator>
                         <SValidator
+                            v-else
+                            :valid="!!savedTeam.staff[staffType].username"
+                        >
+                            Identifiant de jeu
+                        </SValidator>
+                        <SValidator
                             v-if="isTeamBased"
                             :valid="savedTeam.members.length >= tournament.game.team.playersNumber"
                         >
@@ -203,11 +209,14 @@
                     </div>
                     <div class="validators-column">
                         <div
-                            v-for="(staff) in team.staff"
-                            :key="staff.user._id"
+                            v-for="(staff, staffRole) in team.staff"
+                            :key="staffRole"
                         >
-                            <SValidator :valid="isMemberReady(staff)">
-                                {{ staff.role }} : <strong>{{ staff.user.username }}</strong> ({{ isMemberReady(staff) ? "prêt" : "incomplet" }})
+                            <SValidator
+                                v-if="staff?.user"
+                                :valid="isMemberReady(staff, true)"
+                            >
+                                {{ staffRole }} : <strong>{{ staff.user.username }}</strong> ({{ isMemberReady(staff, true) ? "prêt" : "incomplet" }})
                             </SValidator>
                         </div>
                     </div>
@@ -239,7 +248,7 @@
             </div>
             <div class="members">
                 <table class="members-table">
-                    <span>Joueurs</span>
+                    <span class="title">Joueurs</span>
                     <tr
                         v-for="(member, index) of team.members"
                         :key="member.user._id"
@@ -321,87 +330,91 @@
                             </template>
                         </td>
                     </tr>
-                    <span v-if="team.staff.coach?.user || team.staff.manager?.user">Staff</span>
-                    <tr
-                        v-for="(staff, staffRole) of team.staff"
-                        :key="staff.user._id"
-                    >
-                        <td>
-                            <div class="avatar">
-                                <img
-                                    v-if="staff.user.avatar"
-                                    alt="avatar"
-                                    :src="UserService.getAvatarUrl({id:staff.user._id, avatar:staff.user.avatar})"
-                                >
-                                <FontAwesomeIcon
-                                    v-else
-                                    class="icon"
-                                    :icon="['fas', 'user']"
-                                />
-                            </div>
-                        </td>
-                        <td>
-                            <router-link
-                                v-if="staff.user.association?.tag"
-                                class="tag"
-                                :to="'/association/' + (staff.user.association.settings?.slug || staff.user.association._id)"
-                            >
-                                <span class="gradient">{{ staff.user.association.tag }}</span>
-                            </router-link>
-                            {{ staff.user.username }}
-                            <span class="info">
-                                (<span :class="{error: !staff.user.username}">{{ staff.username || "ID manquant" }}</span>)
-                            </span>
-                            <div
-                                v-if="isOwner && staff.user._id !== team.owner"
-                                class="kick"
-                                @click="kickMember(staffRole,'staff')"
-                            >
-                                Expulser
-                            </div>
-                        </td>
-                        <td>
-                            {{ staff.user.student.name || staff.username }}
-                            <span class="info">({{
-                                staffRole
-                            }})</span>
-                        </td>
-                        <td>
-                            <div class="contact">
-                                <span
-                                    class="certificate"
-                                    title="Certificat étudiant"
-                                >
-                                    <FontAwesomeIcon :icon="['fas', 'id-card']" />
-                                </span>
-                                <SCopier
-                                    class="button"
-                                    :content="staff.user.mail"
-                                >
-                                    <FontAwesomeIcon :icon="['fas', 'envelope']" />
-                                </SCopier>
-                                <SCopier
-                                    class="button"
-                                    :class="{error: !staff.user.platforms.discord}"
-                                    :content="staff.user.platforms.discord"
-                                > 
-                                    <FontAwesomeIcon :icon="['fab', 'discord']" />
-                                </SCopier>
-                            </div>
-                        </td>
-                        <td>
-                            <template v-if="isMemberReady(staff)">
-                                <SValidator :valid="true">
-                                    Prêt
-                                </SValidator>
+                    <template v-if="team.staff.coach?.user || team.staff.manager?.user">
+                        <span class="title">Staff</span>
+                        <tr
+                            v-for="(staff, staffRole) of team.staff"
+                            :key="staffRole"
+                        >
+                            <template v-if="staff?.user">
+                                <td>
+                                    <div class="avatar">
+                                        <img
+                                            v-if="staff.user.avatar"
+                                            alt="avatar"
+                                            :src="UserService.getAvatarUrl({id:staff.user._id, avatar:staff.user.avatar})"
+                                        >
+                                        <FontAwesomeIcon
+                                            v-else
+                                            class="icon"
+                                            :icon="['fas', 'user']"
+                                        />
+                                    </div>
+                                </td>
+                                <td>
+                                    <router-link
+                                        v-if="staff.user.association?.tag"
+                                        class="tag"
+                                        :to="'/association/' + (staff.user.association.settings?.slug || staff.user.association._id)"
+                                    >
+                                        <span class="gradient">{{ staff.user.association.tag }}</span>
+                                    </router-link>
+                                    {{ staff.user.username }}
+                                    <span class="info">
+                                        (<span :class="{error: !staff.user.username}">{{ staff.username || "ID manquant" }}</span>)
+                                    </span>
+                                    <div
+                                        v-if="isOwner && staff.user._id !== team.owner"
+                                        class="kick"
+                                        @click="kickMember(staffRole,'staff')"
+                                    >
+                                        Expulser
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ staff.user.student.name || staff.username }}
+                                    <span class="info">({{
+                                        staffRole
+                                    }})</span>
+                                </td>
+                                <td>
+                                    <div class="contact">
+                                        <span
+                                            class="certificate"
+                                            title="Certificat étudiant"
+                                        >
+                                            <FontAwesomeIcon :icon="['fas', 'id-card']" />
+                                        </span>
+                                        <SCopier
+                                            class="button"
+                                            :content="staff.user.mail"
+                                        >
+                                            <FontAwesomeIcon :icon="['fas', 'envelope']" />
+                                        </SCopier>
+                                        <SCopier
+                                            class="button"
+                                            :class="{error: !staff.user.platforms.discord}"
+                                            :content="staff.user.platforms.discord"
+                                        > 
+                                            <FontAwesomeIcon :icon="['fab', 'discord']" />
+                                        </SCopier>
+                                    </div>
+                                </td>
+                                <td>
+                                    <template v-if="isMemberReady(staff,true)">
+                                        <SValidator :valid="true">
+                                            Prêt
+                                        </SValidator>
+                                    </template>
+                                    <template v-else>
+                                        <SValidator :valid="false">
+                                            Incomplet
+                                        </SValidator>
+                                    </template>
+                                </td>
                             </template>
-                            <template v-else>
-                                <SValidator :valid="false">
-                                    Incomplet
-                                </SValidator>
-                            </template>
-                        </td>
-                    </tr>
+                        </tr>
+                    </template>
                 </table>
             </div>
         </div>
@@ -451,10 +464,11 @@ const hasTeam = computed(() => !!team._id);
 const isOwner = computed(() => userStore._id === team.owner);
 
 const staffType = computed(() => {
-    for (const pole in team.staff) {
-        if (team.staff[pole].user._id === userStore._id) {     
-            return pole;
-        }
+    if (team.staff.coach?.user?._id === userStore._id) {
+        return "coach";
+    }
+    if (team.staff.manager?.user?._id === userStore._id) {
+        return "manager";
     }
     return "";
 });
@@ -527,7 +541,7 @@ const isCoachingStaffFull = computed(() => team.staff.coach?.user || !props.tour
 
 const isManagingStaffFull = computed(() => team.staff.manager?.user || !props.tournament.game.team.managerEnabled);
 
-function isMemberReady(member: { user: User.TCompleteUser; username: string }): boolean {
+function isMemberReady(member: { user: User.TCompleteUser; username: string }, isStaff = false): boolean {
     if (!member.username) {
         return false;
     }
@@ -536,15 +550,15 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }): 
         return false;
     }
 
-    if (!member.user.student.name && !isStaff.value) {
+    if (!member.user.student.name && !isStaff) {
         return false;
     }
 
-    if (!(member.user.student.schoolName || member.user.association) && !isStaff.value) {
+    if (!(member.user.student.schoolName || member.user.association) && !isStaff) {
         return false;
     }
 
-    if (member.user.student.status !== "validated" && !isStaff.value) {
+    if (member.user.student.status !== "validated" && !isStaff) {
         return false;
     }
 
@@ -890,6 +904,16 @@ async function kickMember(memberIndex: number, type: "staff" | "members" = "memb
                     content: "]";
                     color: var(--color-content-softer);
                 }
+            }
+
+            .title{
+                display: flex;
+                justify-items: center;
+                align-items: center;
+                pointer-events: none;
+                font-size: 0.9rem;
+                opacity: 0.5;
+                font-weight: 600;
             }
         }
     }

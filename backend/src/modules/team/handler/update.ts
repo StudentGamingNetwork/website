@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import startOfDay from "date-fns/startOfDay";
-import { EInvitationType } from "@/modules/team/lib";
 import * as UserLib from "@/modules/user/lib";
 import { TypeCompleteTeam } from "@/modules/team/type";
 import TeamModel from "@/modules/team/model";
@@ -87,16 +86,14 @@ export async function register(server: FastifyInstance): Promise<void> {
                 team.members[memberIndex].username = currentMember.username;
             }
 
-            if (request.body.staff.coach?.user._id === user._id.toString()) {
+            if (request.body.staff.coach?.user?._id === user._id.toString()) {
                 team.staff.coach.username = request.body.staff.coach.username;
             }
 
-            if (request.body.staff.manager?.user._id === user._id.toString()) {
+            if (request.body.staff.manager?.user?._id === user._id.toString()) {
                 team.staff.manager.username = request.body.staff.manager.username;
             }
             
-
-
             await team.save();
 
             reply.send({
