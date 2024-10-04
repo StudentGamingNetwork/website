@@ -84,6 +84,6 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
         required: true,
         type: Mongo.Schema.Types.ObjectId
     }
-});
+},{ minimize: false });
 
 export default Mongo.model<ITeamDocument>("team", teamSchema);
