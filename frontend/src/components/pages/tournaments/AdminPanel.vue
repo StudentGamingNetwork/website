@@ -11,7 +11,7 @@
                 :icon="['fas', 'trophy']"
                 title="Logo"
                 :url="logoUrl"
-                @fileChange="uploadLogo"
+                @file-change="uploadLogo"
             />
             <SInput
                 v-model="tournament.name"
@@ -100,6 +100,18 @@
                 type="number"
                 @enter="sendUpdate"
             />
+            <SCheckbox
+                v-model="tournament.game.team.coachEnabled"
+                :modified="tournament.game.team.coachEnabled !== savedTournament.game.team.coachEnabled"
+                title="Possibilité d'avoir un coach dans l'équipe"
+                @enter="sendUpdate"
+            />
+            <SCheckbox
+                v-model="tournament.game.team.managerEnabled"
+                :modified="tournament.game.team.managerEnabled !== savedTournament.game.team.managerEnabled"
+                title="Possibilité d'avoir un manager dans l'équipe"
+                @enter="sendUpdate"
+            />
             <SInput
                 v-model="tournament.game.team.maxTeams"
                 :modified="tournament.game.team.maxTeams !== savedTournament.game.team.maxTeams"
@@ -175,6 +187,7 @@ import { ERoles } from "@/services/user";
 import SInputCopier from "@/components/design/forms/InputCopier.vue";
 import { getWidgetUrl } from "@/services/tournament";
 import STextarea from "@/components/design/forms/Textarea.vue";
+import SCheckbox from "@/components/design/forms/SCheckbox.vue";
 
 export default defineComponent({
     name: "STournamentAdminPanel",
@@ -182,6 +195,7 @@ export default defineComponent({
         SAvatarPicker,
         SButton,
         SCard,
+        SCheckbox,
         SInput,
         SInputCopier,
         SModalSection,
@@ -237,19 +251,14 @@ export default defineComponent({
             return TournamentService.getLogoUrl({ id: tournament._id, logo: tournament.settings.logo });
         });
 
-        const hasChanged = computed(() => {
-            return !isMatch(props.savedTournament, tournament);
-        });
+        const hasChanged = computed(() => !isMatch(props.savedTournament, tournament));
 
-        const widgetUrl = computed(() => {
-            return getWidgetUrl({ id: tournament._id });
-        });
+        const widgetUrl = computed(() => getWidgetUrl({ id: tournament._id }));
 
         const sendUpdate = async () => {
             if (!hasChanged.value) {
                 return;
             }
-
             const response = await Toast.testRequest(async () => {
                 return await TournamentService.update(tournament, tournament._id);
             });

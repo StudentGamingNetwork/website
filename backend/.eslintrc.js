@@ -30,7 +30,7 @@ module.exports = {
         "eol-last": ["error", "always"],
         "eqeqeq": ["error", "always"],
         "import/order": ["error"],
-        "indent": ["error", 4],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "key-spacing": ["error"],
         "keyword-spacing": ["error"],
         "no-multi-spaces": ["error"],

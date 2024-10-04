@@ -52,7 +52,7 @@ import { useRouter } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SPageHead from "@/components/template/PageHead.vue";
 import BackgroundTournaments from "@/assets/images/backgrounds/tournaments.png";
-import STournament from "@/components/pages/tournaments/Tournament.vue";
+import STournament from "@/components/pages/tournaments/STournament.vue";
 import SSelector from "@/components/design/Selector.vue";
 import { Toast, User, Tournament } from "@/modules";
 import SBaseLayout from "@/components/pages/BaseLayout.vue";

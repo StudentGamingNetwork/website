@@ -9,9 +9,21 @@ const Team = {
     owner: Type.String(),
     settings: Type.Object({
         name: Type.Optional(Type.String()),
+        coachInvitationCode: Type.Optional(Type.String()),
         invitationCode: Type.Optional(Type.String()),
         logo: Type.Optional(Type.String()),
+        managerInvitationCode: Type.Optional(Type.String()),
         tag: Type.Optional(Type.String())
+    }),
+    staff: Type.Object({
+        coach: Type.Object({
+            user: Type.Optional(Type.String()),
+            username: Type.Optional(Type.String())
+        }),
+        manager: Type.Object({
+            user: Type.Optional(Type.String()),
+            username: Type.Optional(Type.String())
+        })
     }),
     state: Type.Object({
         ready: Type.Boolean(),
@@ -74,7 +86,19 @@ export const TypeCompleteTeam = Type.Object({
         kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUser),
         username: Type.String()
-    }))
+    })),
+    staff: Type.Object({
+        coach: Type.Object({
+            kick: Type.Optional(Type.Boolean()),
+            user: Type.Optional(Type.Object(TeamUser)),
+            username: Type.Optional(Type.String())
+        }),
+        manager: Type.Object({
+            kick: Type.Optional(Type.Boolean()),
+            user: Type.Optional(Type.Object(TeamUser)),
+            username: Type.Optional(Type.String())
+        })
+    })
 });
 
 export const TypeCompleteTeamAdmin = Type.Object({
@@ -83,5 +107,17 @@ export const TypeCompleteTeamAdmin = Type.Object({
         kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUserAdmin),
         username: Type.String()
-    }))
+    })),
+    staff: Type.Object({
+        coach: Type.Object({
+            kick: Type.Optional(Type.Boolean()),
+            user: Type.Optional(Type.Object(TeamUser)),
+            username: Type.Optional(Type.String())
+        }),
+        manager: Type.Object({
+            kick: Type.Optional(Type.Boolean()),
+            user: Type.Optional(Type.Object(TeamUser)),
+            username: Type.Optional(Type.String())
+        })
+    })
 });

@@ -8,9 +8,21 @@ export interface ITeam {
     owner: Mongo.Schema.Types.ObjectId;
     settings: {
         name: string;
+        coachInvitationCode: string;
         invitationCode: string;
         logo: string;
+        managerInvitationCode: string;
         tag: string;
+    };
+    staff: {
+        coach: {
+            user: Mongo.Schema.Types.ObjectId;
+            username: string;
+        };
+        manager: {
+            user: Mongo.Schema.Types.ObjectId;
+            username: string;
+        };
     };
     state: {
         ready: boolean;
@@ -38,9 +50,27 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
     },
     settings: {
         name: String,
+        coachInvitationCode: String,
         invitationCode: String,
         logo: String,
+        managerInvitationCode: String,
         tag: String
+    },
+    staff: {
+        coach: {
+            user: {
+                ref: "user",
+                type: Mongo.Schema.Types.ObjectId
+            },
+            username: String
+        },
+        manager: {
+            user: {
+                ref: "user",
+                type: Mongo.Schema.Types.ObjectId
+            },
+            username: String
+        }
     },
     state: {
         ready: Boolean,
@@ -51,6 +81,6 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
         required: true,
         type: Mongo.Schema.Types.ObjectId
     }
-});
+},{ minimize: false });
 
 export default Mongo.model<ITeamDocument>("team", teamSchema);

@@ -8,10 +8,13 @@ export function makeObject(team: Partial<TTeam>): TTeam {
         owner: "",
         settings: {
             name: "",
+            coachInvitationCode: "",
             invitationCode: "",
             logo: "",
+            managerInvitationCode: "",
             tag: ""
         },
+        staff: { coach: {}, manager: {} },
         state: {
             ready: false,
             validated: false

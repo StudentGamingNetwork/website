@@ -25,11 +25,11 @@
             <ul class="description">
                 <li
                     v-if="tournament.informations?.prizes"
-                    v-html="markdownProcess(tournament.informations?.prizes)"
+                    v-html="Markdown.process(tournament.informations?.prizes)"
                 />
                 <li
                     v-if="team"
-                    v-html="markdownProcess(team)"
+                    v-html="Markdown.process(team)"
                 />
                 <li>
                     <strong>{{ teamNumberText }}</strong> inscrite{{ tournament.game.team.subscribed > 1 ? 's' : '' }}
@@ -67,77 +67,74 @@
     </SCard>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+<script lang="ts" setup>
+import { computed, PropType } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import { Markdown, Tournament } from "@/modules";
 import * as TournamentService from "@/services/tournament";
 
-export default defineComponent({
-    name: "STournament",
-    components: { FontAwesomeIcon, SCard },
-    props: {
-        tournament: {
-            required: true,
-            type: Object as PropType<Tournament.TTournament>
-        }
-    },
-    setup(props) {
-        const makePlural = (value: number, name: string) => {
-            return (value > 1) ? `${ value } ${ name }s` : `${ value } ${ name }`;
-        };
 
-        const teamNumberText = computed(() => {
-            if (!props.tournament.game.team.subscribed) {
-                return "Aucune équipe";
-            }
-            else {
-                return makePlural(props.tournament.game.team.subscribed, "équipe");
-            }
-        });
+const props = defineProps<{
+    tournament: {
+        required: true,
+        type: Tournament.TTournament
+    }
+}>();
 
-        const team = computed(() => {
-            if (!props.tournament.game || !props.tournament.game.team.playersNumber) {
-                return "";
-            }
 
-            let string = `*${ makePlural(props.tournament.game.team.playersNumber, "joueur") }* par équipe`;
+const makePlural = (value: number, name: string) => {
+    return (value > 1) ? `${ value } ${ name }s` : `${ value } ${ name }`;
+};
 
-            if (props.tournament.game.team.substitutesNumber) {
-                string += ` + *${ makePlural(props.tournament.game.team.substitutesNumber, "remplaçant") }*`;
-            }
-
-            return string;
-        });
-
-        const logoUrl = computed(() => {
-            return TournamentService.getLogoUrl({ id: props.tournament._id, logo: props.tournament.settings.logo });
-        });
-
-        const subscriptionDateText = computed(() => {
-            if (!props.tournament.dates?.subscriptionClose) {
-                return "";
-            }
-
-            const date = new Date(props.tournament.dates.subscriptionClose);
-
-            const days = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
-            const months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-
-            return `${ days[date.getDay()] } ${ date.getDate() } ${ months[date.getMonth()] }`;
-        });
-
-        return {
-            logoUrl,
-            makePlural,
-            markdownProcess: Markdown.process,
-            subscriptionDateText,
-            team,
-            teamNumberText
-        };
+const teamNumberText = computed(() => {
+    if (!props.tournament.game.team.subscribed) {
+        return "Aucune équipe";
+    }
+    else {
+        return makePlural(props.tournament.game.team.subscribed, "équipe");
     }
 });
+
+const team = computed(() => {
+    if (!props.tournament.game || !props.tournament.game.team.playersNumber) {
+        return "";
+    }
+
+    let string = `*${ makePlural(props.tournament.game.team.playersNumber, "joueur") }* par équipe`;
+
+    if (props.tournament.game.team.substitutesNumber) {
+        string += ` + *${ makePlural(props.tournament.game.team.substitutesNumber, "remplaçant") }*`;
+    }
+
+    if (props.tournament.game.team.coachEnabled) {
+        string += ` et *1 coach*`;
+    }
+
+    if (props.tournament.game.team.managerEnabled) {
+        string += ` et *1 manager*`;
+    }
+
+    return string;
+});
+
+const logoUrl = computed(() => {
+    return TournamentService.getLogoUrl({ id: props.tournament._id, logo: props.tournament.settings.logo });
+});
+
+const subscriptionDateText = computed(() => {
+    if (!props.tournament.dates?.subscriptionClose) {
+        return "";
+    }
+
+    const date = new Date(props.tournament.dates.subscriptionClose);
+
+    const days = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+    const months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+
+    return `${ days[date.getDay()] } ${ date.getDate() } ${ months[date.getMonth()] }`;
+});
+
 </script>
 
 <style scoped lang="scss">

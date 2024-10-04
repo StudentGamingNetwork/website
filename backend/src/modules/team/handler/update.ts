@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import { find, findIndex } from "lodash";
 import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import { TypeCompleteTeam } from "@/modules/team/type";
@@ -35,7 +34,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const team = await TeamModel.findOne({
                 _id: request.body._id,
-                "members.user": user._id
+                $or: [{ "members.user": user._id }, { "staff.coach.user": user._id }, { "staff.manager.user": user._id }]
             });
 
             if (!team) {
@@ -61,17 +60,40 @@ export async function register(server: FastifyInstance): Promise<void> {
                         team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
                     }
                 }
+             
 
+                if (request.body.staff.coach?.kick && request.body.staff.coach.user?._id !== team.owner.toString()){
+                    team.staff.coach = {};
+                }
+
+                if (request.body.staff.manager && request.body.staff.manager.kick && request.body.staff.manager?.user?._id !== team.owner.toString()){
+                    team.staff.manager = {};
+                }
                 team.state.ready = request.body.state.ready;
             }
 
-            const currentMember = find(request.body.members, ["user._id", user._id.toString()]);
-            const memberIndex = findIndex(team.members, ["user._id", user._id]);
+            let currentMember: string;
+            let memberIndex: number|string;
+
+            for (const [index, member] of request.body.members.entries()) {
+                if (member.user._id === user._id.toString()) {
+                    currentMember = member;
+                    memberIndex = index;
+                }
+            }
 
             if (currentMember) {
                 team.members[memberIndex].username = currentMember.username;
             }
 
+            if (request.body.staff.coach?.user?._id === user._id.toString()) {
+                team.staff.coach.username = request.body.staff.coach.username;
+            }
+
+            if (request.body.staff.manager?.user?._id === user._id.toString()) {
+                team.staff.manager.username = request.body.staff.manager.username;
+            }
+            
             await team.save();
 
             reply.send({
