@@ -25,7 +25,7 @@
                 <div
                     v-if="team.state.validated"
                     class="chip validated"
-                    @click="updateTeam({_id: team._id, validated:!team.state.validated})"
+                    @click.stop="updateTeam({_id: team._id, validated:!team.state.validated})"
                 >
                     <FontAwesomeIcon
                         class="icon"
@@ -36,7 +36,7 @@
                 <div
                     v-else
                     class="chip verification"
-                    @click="updateTeam({_id: team._id, validated:!team.state.validated})"
+                    @click.stop="updateTeam({_id: team._id, validated:!team.state.validated})"
                 >
                     <FontAwesomeIcon
                         class="icon"
@@ -153,7 +153,7 @@
                     v-for="(staff, staffRole) of team.staff"
                     :key="staffRole"
                 >
-                    <template v-if="staff.user">
+                    <template v-if="staff?.user">
                         <td>
                             <div class="avatar">
                                 <img
@@ -238,7 +238,6 @@
 
 <script lang="ts" setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { computed } from "vue";
 import { Team, Toast, User } from "@/modules";
 import SCard from "@/components/design/Card.vue";
 import SValidator from "@/components/design/forms/Validator.vue";

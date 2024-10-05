@@ -1,6 +1,11 @@
 import ApiService from "@/services/api";
 import Config from "@/services/config";
 
+export async function addTeamMember(tournamentId: string, teamId: string, mail: string, role: string): Promise<any> {
+    const result = await ApiService.post(`/team/add/member/${ tournamentId }`, { mail, role, teamId });
+    return result.data;
+}
+
 export async function create(tournamentSlug: string): Promise<any> {
     const result = await ApiService.post(`/team/create/${ tournamentSlug }`, {});
     return result.data;
@@ -20,13 +25,18 @@ export function getLogoUrl(team: { id: string; logo: string }): string {
     return `${ Config.backendUrl }/upload/team/${ team.id }/${ team.logo }`;
 }
 
+export async function details(tournamentSlug: string, teamId?: string): Promise<any> {
+    const result = await ApiService.post(`/team/details`, { _id: teamId, slug: tournamentSlug });
+    return result.data;
+}
+
 export async function join(tournamentSlug: string, invitationCode: string): Promise<any> {
     const result = await ApiService.post(`/team/join/${ tournamentSlug }`, { invitationCode });
     return result.data;
 }
 
-export async function remove(tournamentSlug: string): Promise<any> {
-    const result = await ApiService.delete(`/team/delete/${ tournamentSlug }`);
+export async function remove(tournamentSlug: string, teamId?: string): Promise<any> {
+    const result = await ApiService.delete(`/team/delete/${ tournamentSlug }/${ teamId }`);
     return result.data;
 }
 

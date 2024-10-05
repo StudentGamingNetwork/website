@@ -6,7 +6,8 @@ import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
 
 const SchemaParams = Type.Object({
-    slug: Type.String()
+    slug: Type.String(),
+    teamId: Type.Optional(Type.String())
 });
 
 type TSchemaParams = Static<typeof SchemaParams>;

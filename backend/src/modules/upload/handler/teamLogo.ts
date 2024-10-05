@@ -41,7 +41,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
 
             if (team.owner.toString() !== user.id) {
-                UserLib.assertRoles(user, [ERoles.Tournament]);
+                throw new httpErrors.Forbidden("Vous n'êtes pas autorisé à modifier ce logo.");
             }
 
             const files = await request.saveRequestFiles({
