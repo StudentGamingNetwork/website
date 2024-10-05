@@ -76,7 +76,7 @@ export default defineComponent({
         watch(
             () => tournamentsPage.value,
             async () => {
-                if (tournamentsPage.value !== router.currentRoute.value.params.page) {
+                if (tournamentsPage.value !== router.currentRoute.value.params.page && tournamentsPage.value !== "details") {
                     await router.push(`/tournament/${ slug.value }/${ tournamentsPage.value }`);
                 }
             });

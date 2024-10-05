@@ -278,16 +278,16 @@ const isConnected = computed(() => {
 
 
 onMounted(async () => {
+    if (!teamId.value){
+        await updateTeam();
+    }
+    
     const response = await TeamService.details(tournamentSlug.value, teamId.value);
-
     if (response.success){
         Object.assign(team, response.team);
     }
     
-    await router.push(`/tournament/${ tournamentSlug.value }/details/${ team._id }`);
-    
     isSearching.value = false;
-    
 });
 
 const logoUrl = computed(() => {
@@ -297,7 +297,6 @@ const logoUrl = computed(() => {
     return TeamService.getLogoUrl({ id: team._id, logo: team.settings.logo });
 });
 
-await updateTeam();
 
 const hasChanged = computed(() => {
     return !isMatch(savedTeam, team);
@@ -356,7 +355,7 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }): 
 }
 
 async function addTeamMember(role: string){
-    const playerMail = prompt("Entrez l'email du joueur à ajouter à l'équipe :");
+    const playerMail = prompt(`Entrez l'email du ${ role === "player" ? "joueur" : role } à ajouter à l'équipe :`);
 
     if (!playerMail) {
         return;

@@ -45,7 +45,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             const previousTeam = await TeamModel.findOne({
-                "members.user": user._id,
+                $or: [{ "members.user": user._id },{ "staff.coach.user": user._id },{ "staff.manager.user": user._id }],
                 tournament: request.params.tournamentId
             });
 
@@ -64,14 +64,40 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
             }
 
-            if (request.body.role === "player" && team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
-                throw new httpErrors.NotFound("Cette équipe est déjà complète");
-            }
+            switch (request.body.role) {
+                case "player":
+                    if (request.body.role === "player" && team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
+                        throw new httpErrors.NotFound("Cette équipe est déjà complète");
+                    }
+                    team.members.push({
+                        user: user._id,
+                        username: ""
+                    });
+                    break;
 
-            team.members.push({
-                user: user._id,
-                username: ""
-            });
+                case "coach":
+                    if (team.staff.coach.user) {
+                        throw new httpErrors.NotFound("Cette équipe a déjà un coach");
+                    }
+                    team.staff.coach = {
+                        user: user._id,
+                        username: ""
+                    };
+                    break;
+                    
+                case "manager":
+                    if (team.staff.manager.user) {
+                        throw new httpErrors.NotFound("Cette équipe a déjà un manager");
+                    }
+                    team.staff.manager = {
+                        user: user._id,
+                        username: ""
+                    };
+                    break;
+            }
+    
+
+            
 
             await team.save();
 

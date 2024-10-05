@@ -36,6 +36,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         "/details",
         { schema },
         async (request, reply) => {
+
             const user = await UserLib.getUser(request);
 
             UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
@@ -48,14 +49,15 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             if (request.body._id) {
                 const team = await TeamModel.findById(request.body._id)
-                    .populate({ path: "members.user", populate: { path: "association" } })
+                    .populate({ 
+                        path: "members.user",
+                        populate: { path: "association" } 
+                    })
                     .exec();
 
                 if (!team) {
                     throw new httpErrors.NotFound("Aucune équipe trouvée");
                 }
-
-               
                 response.team = team as any;
             }
 

@@ -238,7 +238,6 @@
 
 <script lang="ts" setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { computed } from "vue";
 import { Team, Toast, User } from "@/modules";
 import SCard from "@/components/design/Card.vue";
 import SValidator from "@/components/design/forms/Validator.vue";

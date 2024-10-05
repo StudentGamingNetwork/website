@@ -34,8 +34,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
 
             const team = await TeamModel.findOne({
-                _id: request.body._id,
-                $or: [{ "members.user": user._id }, { "staff.coach.user": user._id }, { "staff.manager.user": user._id }]
+                _id: request.body._id
             });
 
             if (!team) {

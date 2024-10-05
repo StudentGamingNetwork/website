@@ -56,8 +56,6 @@ defineProps<{ modelValue : ""}>();
 
 const emit = defineEmits(["update:modelValue"]);
 
-
-
 const router = useRouter();
 const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
 const isSearching = ref(true);
@@ -98,7 +96,7 @@ async function updateSearch() {
 }
 
 async function inspectTeam(team: Team.TTeam) {
-    await router.push(`/tournament/${ tournamentSlug.value }/team/${ team._id }`);
+    await router.push(`/tournament/${ tournamentSlug.value }/details/${ team._id }`);
     emit("update:modelValue", "details");
 }
 
