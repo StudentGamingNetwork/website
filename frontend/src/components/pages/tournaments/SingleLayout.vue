@@ -51,7 +51,7 @@ import STeamPanelValidation from "@/components/pages/tournaments/STeamPanelValid
 
 export default defineComponent({
     name: "STournamentsSingleLayout",
-    components: { SLoading, SSelector, STeamCard, STeamPanelValidation,STournament, STournamentAdminPanel, STournamentManagement },
+    components: { SLoading, SSelector, STeamCard, STeamPanelValidation, STournament, STournamentAdminPanel, STournamentManagement },
     async setup() {
         const router = useRouter();
         const userStore = User.useStore();
