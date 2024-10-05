@@ -25,7 +25,7 @@
                 <div
                     v-if="team.state.validated"
                     class="chip validated"
-                    @click="updateTeam({_id: team._id, validated:!team.state.validated})"
+                    @click.stop="updateTeam({_id: team._id, validated:!team.state.validated})"
                 >
                     <FontAwesomeIcon
                         class="icon"
@@ -36,7 +36,7 @@
                 <div
                     v-else
                     class="chip verification"
-                    @click="updateTeam({_id: team._id, validated:!team.state.validated})"
+                    @click.stop="updateTeam({_id: team._id, validated:!team.state.validated})"
                 >
                     <FontAwesomeIcon
                         class="icon"

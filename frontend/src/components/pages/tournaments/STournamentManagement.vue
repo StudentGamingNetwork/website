@@ -73,8 +73,6 @@ watch(
     () => managementPage.value,
     async () => {
         if (managementPage.value !== router.currentRoute.value.params.management) {
-            await router.push(`/tournament/${ tournamentSlug.value }/management/${ managementPage.value }`);
-
             await updateSearch();
         }
     });

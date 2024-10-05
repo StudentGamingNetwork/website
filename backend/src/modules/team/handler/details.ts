@@ -64,18 +64,30 @@ export async function register(server: FastifyInstance): Promise<void> {
             else {
                 const teamCount = await TeamModel.count({
                     $or: [
-                        { "state.ready": false },
-                        { "state.validated": false }
+                        { $and: [
+                            { "state.ready": false },
+                            { "state.validated": false }
+                        ] },
+                        { $and: [
+                            { "state.ready": true },
+                            { "state.validated": false }
+                        ] }
                     ],
                     tournament: tournament._id
                 });
                 const randomCount = Math.floor(Math.random() * teamCount);
 
-                const team = await TeamModel
-                    .findOne({
+                const teams = await TeamModel
+                    .find({
                         $or: [
-                            { "state.ready": false },
-                            { "state.validated": false }
+                            { $and: [
+                                { "state.ready": false },
+                                { "state.validated": false }
+                            ] },
+                            { $and: [
+                                { "state.ready": true },
+                                { "state.validated": false }
+                            ] }
                         ],
                         tournament: tournament._id
                     })
@@ -86,7 +98,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     })
                     .exec();
 
-                response.team = team as any;
+                response.team = teams[0] as any;
             }
 
             reply.send(response);
