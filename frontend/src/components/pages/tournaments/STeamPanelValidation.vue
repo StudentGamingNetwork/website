@@ -284,7 +284,8 @@ onMounted(async () => {
     
     const response = await TeamService.details(tournamentSlug.value, teamId.value);
     if (response.success){
-        Object.assign(team, response.team);
+        Object.assign(savedTeam, response.team);
+        assign(team, cloneDeep(savedTeam));
     }
     
     isSearching.value = false;
