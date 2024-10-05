@@ -153,7 +153,7 @@
                     v-for="(staff, staffRole) of team.staff"
                     :key="staffRole"
                 >
-                    <template v-if="staff.user">
+                    <template v-if="staff?.user">
                         <td>
                             <div class="avatar">
                                 <img
