@@ -9,7 +9,7 @@ import { ERoles } from "@/modules/user/model";
 
 const SchemaRequest = Type.Object({
     slug: Type.String({ minLength: 1 }),
-    teamId: Type.Optional(Type.String({ default: "" }))
+    teamId: Type.Optional(Type.String())
 });
 
 type TSchemaRequest = Static<typeof SchemaRequest>;
@@ -36,7 +36,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
             const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
 
-            const team = request.params.teamId ? await TeamModel.findById(request.params.teamId) : await TeamModel.findOne({
+            const team = request.params.teamId !== "undefined" ? await TeamModel.findById(request.params.teamId) : await TeamModel.findOne({
                 $or: [{ "members.user": user._id },{ "staff.coach.user": user._id },{ "staff.manager.user": user._id }],
                 tournament: tournament._id
             });

@@ -95,10 +95,17 @@ export async function register(server: FastifyInstance): Promise<void> {
                         tournament: tournament._id
                     })
                     .skip(randomCount)
-                    .populate({ 
-                        path: "members.user",
-                        populate: { path: "association" } 
-                    })
+                    .populate([
+                        { 
+                            path: "members.user",
+                            populate: { path: "association" } 
+                        }, {
+                            path: "staff.coach.user"
+                        },
+                        {
+                            path: "staff.manager.user"
+                        }
+                    ])
                     .exec();
 
                 response.team = teams[0] as any;
