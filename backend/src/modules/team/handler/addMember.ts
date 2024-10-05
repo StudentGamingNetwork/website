@@ -60,6 +60,10 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const tournament = await TournamentModel.findById(request.params.tournamentId);
 
+            if (!tournament) {
+                throw new httpErrors.NotFound("Aucun tournoi trouvé.");
+            }
+
             if (!team) {
                 throw new httpErrors.NotFound("Aucune équipe trouvée.");
             }
@@ -76,6 +80,9 @@ export async function register(server: FastifyInstance): Promise<void> {
                     break;
 
                 case "coach":
+                    if (!tournament.game.team.coachEnabled){
+                        throw new httpErrors.Forbidden("Les coachs ne sont pas activés pour ce tournoi");
+                    }
                     if (team.staff.coach.user) {
                         throw new httpErrors.NotFound("Cette équipe a déjà un coach");
                     }
@@ -84,8 +91,11 @@ export async function register(server: FastifyInstance): Promise<void> {
                         username: ""
                     };
                     break;
-                    
+
                 case "manager":
+                    if (!tournament.game.team.managerEnabled){
+                        throw new httpErrors.Forbidden("Les managers ne sont pas activés pour ce tournoi");
+                    }
                     if (team.staff.manager.user) {
                         throw new httpErrors.NotFound("Cette équipe a déjà un manager");
                     }
@@ -96,9 +106,6 @@ export async function register(server: FastifyInstance): Promise<void> {
                     break;
             }
     
-
-            
-
             await team.save();
 
             reply.send({

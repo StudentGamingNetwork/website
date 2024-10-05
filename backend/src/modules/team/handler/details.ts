@@ -49,10 +49,13 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             if (request.body._id) {
                 const team = await TeamModel.findById(request.body._id)
-                    .populate({ 
-                        path: "members.user",
-                        populate: { path: "association" } 
-                    })
+                    .populate([
+                        { 
+                            path: "members.user",
+                            populate: { path: "association" } 
+                        }, 
+                        { path: "staff.coach.user" }, 
+                        { path: "staff.manager.user" }])
                     .exec();
 
                 if (!team) {

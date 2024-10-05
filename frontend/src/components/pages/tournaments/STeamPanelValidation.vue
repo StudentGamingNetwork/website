@@ -127,6 +127,7 @@
             </SModalSection>
             <div class="actions">
                 <SButton
+                    v-if="team.members.length < tournament.game.team.playersNumber+tournament.game.team.substitutesNumber"
                     class="button"
                     outlined
                     @click="addTeamMember('player')"
@@ -134,6 +135,7 @@
                     Ajouter un joueur
                 </SButton>
                 <SButton
+                    v-if="tournament.game.team.coachEnabled"
                     class="button"
                     outlined
                     @click="addTeamMember('coach')"
@@ -141,6 +143,7 @@
                     Ajouter un coach
                 </SButton>
                 <SButton
+                    v-if="tournament.game.team.managerEnabled"
                     class="button"
                     outlined
                     @click="addTeamMember('manager')"
@@ -181,6 +184,7 @@
                                 (<span :class="{error: !member.username}">{{ member.username || "ID manquant" }}</span>)
                             </span>
                             <div
+                                v-if="member.user._id !== team.owner"
                                 class="kick"
                                 @click="kickMember(memberIndex)"
                             >
@@ -375,13 +379,14 @@ async function updateTeam() {
     if (!isConnected.value) {
         return;
     }
-    const result = await TeamService.details(tournamentSlug.value,team._id);
+
+    const result = await TeamService.details(tournamentSlug.value,team?._id);
     const teamApi = result.team; 
    
     assign(savedTeam, teamApi);
     assign(team, cloneDeep(savedTeam));
 
-    if (!teamApi._id) {
+    if (!teamApi?._id) {
         team._id = "";
     }
 }
@@ -391,7 +396,6 @@ async function deleteTeam() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer l'équipe ? Les membres invités en seront exclus.")) {
         return;
     }
-
     const response = await Toast.testRequest(async () => {
         return await TeamService.remove(tournamentSlug.value, team._id);
     });
