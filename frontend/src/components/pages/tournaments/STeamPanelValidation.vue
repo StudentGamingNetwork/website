@@ -135,7 +135,7 @@
                     Ajouter un joueur
                 </SButton>
                 <SButton
-                    v-if="tournament.game.team.coachEnabled"
+                    v-if="tournament.game.team.coachEnabled && !team.staff.coach?.user"
                     class="button"
                     outlined
                     @click="addTeamMember('coach')"
@@ -143,7 +143,7 @@
                     Ajouter un coach
                 </SButton>
                 <SButton
-                    v-if="tournament.game.team.managerEnabled"
+                    v-if="tournament.game.team.managerEnabled && !team.staff.manager?.user"
                     class="button"
                     outlined
                     @click="addTeamMember('manager')"
@@ -153,6 +153,7 @@
             </div>
             <div class="members">
                 <table class="members-table">
+                    <span class="title">Joueurs</span>
                     <tr
                         v-for="(member, memberIndex) of team.members"
                         :key="member.user._id"
@@ -199,13 +200,21 @@
                         </td>
                         <td>
                             <div class="contact">
-                                <span
+                                <a
                                     class="certificate"
-                                    :class="{error: ['rejected', 'undefined'].includes(member.user.student.status), warning: member.user.student.status === 'processing'}"
-                                    title="Certificat étudiant"
+                                    :class="{error: member.user.student.status === 'undefined',rejected: member.user.student.status === 'rejected', warning: member.user.student.status === 'processing'}"
+                                    :href="'/admin/certificates/'+member.user._id"
+                                    target="_blank"
+                                    :title="'Certificat étudiant ('+member.user.student.status+')'"
                                 >
-                                    <FontAwesomeIcon :icon="['fas', 'id-card']" />
-                                </span>
+                                    <span
+                                        class="certificate"
+                                        :class="{error: ['rejected', 'undefined'].includes(member.user.student.status), warning: member.user.student.status === 'processing'}"
+                                        title="Certificat étudiant"
+                                    >
+                                        <FontAwesomeIcon :icon="['fas', 'id-card']" />
+                                    </span>
+                                </a>
                                 <SCopier
                                     class="button"
                                     :content="member.user.mail"
@@ -234,6 +243,90 @@
                             </template>
                         </td>
                     </tr>
+                    <template v-if="team.staff.coach?.user || team.staff.manager?.user">
+                        <span class="title">Staff</span>
+                        <tr
+                            v-for="(staff, staffRole) of team.staff"
+                            :key="staffRole"
+                        >
+                            <template v-if="staff?.user">
+                                <td>
+                                    <div class="avatar">
+                                        <img
+                                            v-if="staff.user.avatar"
+                                            alt="avatar"
+                                            :src="UserService.getAvatarUrl({id:staff.user._id, avatar:staff.user.avatar})"
+                                        >
+                                        <FontAwesomeIcon
+                                            v-else
+                                            class="icon"
+                                            :icon="['fas', 'user']"
+                                        />
+                                    </div>
+                                </td>
+                                <td>
+                                    <router-link
+                                        v-if="staff.user.association?.tag"
+                                        class="tag"
+                                        :to="'/association/' + (staff.user.association.settings?.slug || staff.user.association._id)"
+                                    >
+                                        <span class="gradient">{{ staff.user.association.tag }}</span>
+                                    </router-link>
+                                    {{ staff.user.username }}
+                                    <span class="info">
+                                        (<span :class="{error: !staff.user.username}">{{ staff.username || "ID manquant" }}</span>)
+                                    </span>
+                                    <div
+                                        class="kick"
+                                        @click="kickMember(staffRole,'staff')"
+                                    >
+                                        Expulser
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ staff.user.student.name || staff.username }}
+                                    <span class="info">({{
+                                        staffRole
+                                    }})</span>
+                                </td>
+                                <td>
+                                    <div class="contact">
+                                        <span
+                                            class="certificate"
+                                            title="Certificat étudiant"
+                                        >
+                                            <FontAwesomeIcon :icon="['fas', 'id-card']" />
+                                        </span>
+                                        <SCopier
+                                            class="button"
+                                            :content="staff.user.mail"
+                                        >
+                                            <FontAwesomeIcon :icon="['fas', 'envelope']" />
+                                        </SCopier>
+                                        <SCopier
+                                            class="button"
+                                            :class="{error: !staff.user.platforms.discord}"
+                                            :content="staff.user.platforms.discord"
+                                        > 
+                                            <FontAwesomeIcon :icon="['fab', 'discord']" />
+                                        </SCopier>
+                                    </div>
+                                </td>
+                                <td>
+                                    <template v-if="isMemberReady(staff,true)">
+                                        <SValidator :valid="true">
+                                            Prêt
+                                        </SValidator>
+                                    </template>
+                                    <template v-else>
+                                        <SValidator :valid="false">
+                                            Incomplet
+                                        </SValidator>
+                                    </template>
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
                 </table>
             </div>
         </div>
@@ -405,13 +498,13 @@ async function deleteTeam() {
     }
 }
 
-async function kickMember(memberIndex: number) {
-    if (!confirm("Êtes-vous sûr de vouloir expulser ce membre de votre équipe ?")) {
+async function kickMember(memberIndex: number, type: "staff" | "members" = "members") {
+    if (!confirm("Êtes-vous sûr de vouloir expulser ce membre de cette équipe ?")) {
         return;
     }
-
-    team.members[memberIndex].kick = true;
-
+    
+    team[type][memberIndex].kick = true;
+        
     const response = await Toast.testRequest(async () => {
         return await TeamService.update(team);
     });
@@ -420,7 +513,6 @@ async function kickMember(memberIndex: number) {
         await updateTeam();
     }
 }
-
       
 </script>
 
@@ -692,6 +784,16 @@ async function kickMember(memberIndex: number) {
                     content: "]";
                     color: var(--color-content-softer);
                 }
+            }
+
+            .title{
+                display: flex;
+                justify-items: center;
+                align-items: center;
+                pointer-events: none;
+                font-size: 0.9rem;
+                opacity: 0.5;
+                font-weight: 600;
             }
         }
     }
