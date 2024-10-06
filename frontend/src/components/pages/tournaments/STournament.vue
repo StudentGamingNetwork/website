@@ -62,9 +62,9 @@
                     <span class="type">Finale :</span>
                     {{ tournament.dates?.final }}
                 </li>
-                <li v-if="tournament.informations.important.message">
+                <li v-if="tournament.informations?.important?.message">
                     <a
-                        v-if="tournament.informations.important.externalLink"
+                        v-if="tournament.informations?.important?.externalLink"
                         class="important"
                         :href="tournament.informations.important.externalLink"
                         target="_blank"
