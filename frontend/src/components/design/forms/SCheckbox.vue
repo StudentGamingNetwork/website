@@ -59,8 +59,7 @@ function processKeyDown(event: KeyboardEvent) {
         justify-items: center;
         align-items: center;
         pointer-events: none;
-        font-weight: 600;
-        margin-top: 22px;
+        font-weight: 600;  
     }
 
     .input {

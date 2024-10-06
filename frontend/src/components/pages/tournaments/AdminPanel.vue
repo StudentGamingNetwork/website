@@ -37,6 +37,18 @@
                 title="Lien du règlement"
                 @enter="sendUpdate"
             />
+            <SInput
+                v-model="tournament.informations.important.message"
+                :modified="tournament.informations.important.message !== savedTournament.informations.important.message"
+                title="Information importante"
+                @enter="sendUpdate"
+            />
+            <SInput
+                v-model="tournament.informations.important.externalLink"
+                :modified="tournament.informations.important.externalLink !== savedTournament.informations.important.externalLink"
+                title="Lien externe de l'information importante"
+                @enter="sendUpdate"
+            />
             <div class="buttons">
                 <SButton
                     class="button"
