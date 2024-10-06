@@ -51,6 +51,10 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Forbidden("Vous ne pouvez pas modifier votre équipe une fois que le tournoi a commencé.");
             }
 
+            if (team.state.validated) {
+                throw new httpErrors.Forbidden(`Vous ne pouvez pas modifier votre équipe une fois qu'elle a été validée.`);
+            }
+
             if (team.owner.toString() === user._id.toString() || user.roles.includes(ERoles.Tournament)) {
                 team.settings.name = request.body.settings.name || "";
                 team.settings.tag = request.body.settings.tag || "";
