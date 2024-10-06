@@ -64,11 +64,16 @@
                 </li>
                 <li v-if="tournament.informations.important.message">
                     <a
+                        v-if="tournament.informations.important.externalLink"
                         class="important"
                         :href="tournament.informations.important.externalLink"
                         target="_blank"
                         @click.stop
                     ><span>{{ tournament.informations.important.message }}</span></a>
+                    <span
+                        v-else
+                        class="important"
+                    >{{ tournament.informations.important.message }}</span>
                 </li>
             </ul>
         </div>
