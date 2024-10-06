@@ -22,6 +22,10 @@ export interface ITournament {
         username: string;
     };
     informations: {
+        important: {
+            externalLink: string;
+            message: string;
+        };
         prizes: string;
         rulesUrl: string;
     };
@@ -66,6 +70,10 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
         username: String
     },
     informations: {
+        important: {
+            externalLink: String,
+            message: String
+        },
         prizes: String,
         rulesUrl: String
     },

@@ -23,6 +23,10 @@ export type TTournament = {
         username: string;
     };
     informations: {
+        important: {
+            externalLink: string;
+            message: string;
+        };
         prizes: string;
         rulesUrl: string;
     };
@@ -59,6 +63,10 @@ export function makeObject(tournament: Partial<TTournament>): TTournament {
             }
         },
         informations: {
+            important: {
+                externalLink: "",
+                message: ""
+            },
             prizes: "",
             rulesUrl: ""
         },

@@ -53,6 +53,8 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament.settings.toornament = request.body.settings?.toornament || "";
                 tournament.informations.prizes = request.body.informations?.prizes || "";
                 tournament.informations.rulesUrl = request.body.informations?.rulesUrl || "";
+                tournament.informations.important.message = request.body.informations?.important?.message || "";
+                tournament.informations.important.externalLink = request.body.informations?.important?.externalLink || "";
                 tournament.game.name = request.body.game?.name || "";
                 tournament.game.username = request.body.game?.username || "";
                 tournament.game.team.coachEnabled = request.body.game?.team.coachEnabled || false;

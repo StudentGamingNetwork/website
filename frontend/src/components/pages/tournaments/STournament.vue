@@ -62,13 +62,21 @@
                     <span class="type">Finale :</span>
                     {{ tournament.dates?.final }}
                 </li>
+                <li v-if="tournament.informations.important.message">
+                    <a
+                        class="important"
+                        :href="tournament.informations.important.externalLink"
+                        target="_blank"
+                        @click.stop
+                    ><span>{{ tournament.informations.important.message }}</span></a>
+                </li>
             </ul>
         </div>
     </SCard>
 </template>
 
 <script lang="ts" setup>
-import { computed, PropType } from "vue";
+import { computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import { Markdown, Tournament } from "@/modules";
@@ -262,6 +270,11 @@ const subscriptionDateText = computed(() => {
             .type {
                 font-weight: 400;
                 color: var(--color-content-softer);
+            }
+
+            .important {
+                text-decoration-color: var(--color-error-content);
+                color: var(--color-error-content);
             }
         }
     }

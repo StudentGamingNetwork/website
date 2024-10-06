@@ -23,6 +23,10 @@ const Tournament = {
         username: Type.Optional(Type.String())
     }),
     informations: Type.Object({
+        important: Type.Optional(Type.Object({
+            externalLink: Type.String(),
+            message: Type.String()
+        })),
         prizes: Type.String(),
         rulesUrl: Type.String()
     }),
