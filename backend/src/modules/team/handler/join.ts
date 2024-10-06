@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
+import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
@@ -47,6 +48,10 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             if (previousTeam) {
                 throw new httpErrors.Forbidden("Vous êtes déjà dans une équipe");
+            }
+            
+            if (tournament.dates.subscriptionClose && tournament.dates.subscriptionClose < startOfDay(new Date())) {
+                throw new httpErrors.Forbidden("Vous ne pouvez pas rejoindre d'équipe une fois que le tournoi a commencé.");
             }
 
             const invitationCode = request.body.invitationCode.trim().toUpperCase();
