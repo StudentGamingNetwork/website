@@ -479,13 +479,6 @@ const staffType = computed(() => {
     return "";
 });
 
-const schoolName = computed(() => (member: User.TCompleteUser) => {
-    if (member?.student?.schoolName) {
-        return `${ member.student?.schoolName }${ member.association?.school?.name ? ` - ${ member.association?.school?.name }` : "" }`;
-    }
-    return "École manquante";
-});
-
 const isStaff = computed(() => staffType.value !== "");
 
 const playerIndex = computed(() => {       
@@ -498,6 +491,13 @@ const playerIndex = computed(() => {
 });
 
 await updateTeam();
+
+const schoolName = computed(() => (member: User.TCompleteUser) => {
+    if (member?.student?.schoolName) {
+        return `${ member.student?.schoolName }${ member.association?.school?.name ? ` - ${ member.association?.school?.name }` : "" }`;
+    }
+    return "École manquante";
+});
 
 const hasChanged = computed(() => !isMatch(savedTeam, team));
 
