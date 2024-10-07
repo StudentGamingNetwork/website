@@ -99,7 +99,7 @@
                 <td>
                     {{ member.user.student.name }}
                     <span class="info">(<span
-                        :class="{error: !(member.user.student.schoolName || member.user.association)}"
+                        :class="{error: !(member.user.student.schoolName)}"
                     >{{
                         schoolName(member.user)
                     }}</span>)</span>

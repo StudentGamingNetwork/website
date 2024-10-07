@@ -295,7 +295,7 @@
                         </td>
                         <td>
                             {{ member.user.student.name }}
-                            <span class="info">(<span :class="{error: !(member.user.student.schoolName || member.user.association)}">{{
+                            <span class="info">(<span :class="{error: !(member.user.student.schoolName)}">{{
                                 schoolName(member.user)
                             }}</span>)</span>
                         </td>
