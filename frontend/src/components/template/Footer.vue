@@ -38,6 +38,19 @@
                     </li>
                 </ul>
             </div>
+            <div class="legal">
+                <h2>Légal</h2>
+                <ul>
+                    <li
+                        v-for="legal of legals"
+                        :key="legal.key"
+                    >
+                        <router-link :to="legal.link">
+                            {{ legal.title }}
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
             <ul class="networks">
                 <li
                     v-for="network of networks"
@@ -72,6 +85,11 @@ export default defineComponent({
     setup() {
         return {
             currentYear: new Date().getFullYear(),
+            legals: [
+                { title: "Mentions légales", key: "legalNotice", link: "/legal" },
+                { title: "Conditions générales d'utilisation", key: "legalTerms", link: "/legal/terms" },
+                { title: "Politique de confidentialité", key: "legalPrivacy", link: "/legal/privacy" }
+            ],
             links: [
                 { title: "Fédération", key: "federation", link: "/federation" },
                 { title: "Tournois", key: "tournaments", link: "/tournaments" },
@@ -130,7 +148,7 @@ footer {
         }
     }
 
-    .links, .partners {
+    .links, .partners, .legal {
         h2 {
             font-size: 1.25rem;
             font-weight: 600;
