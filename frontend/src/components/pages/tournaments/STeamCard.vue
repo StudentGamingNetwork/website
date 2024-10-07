@@ -295,8 +295,8 @@
                         </td>
                         <td>
                             {{ member.user.student.name }}
-                            <span class="info">(<span :class="{error: !(member.user.association || member.user.student.schoolName)}">{{
-                                member.user.association?.school.name || member.user.student.schoolName || "École manquante"
+                            <span class="info">(<span :class="{error: !(member.user.student.schoolName)}">{{
+                                schoolName(member.user)
                             }}</span>)</span>
                         </td>
                         <td>
@@ -491,6 +491,13 @@ const playerIndex = computed(() => {
 });
 
 await updateTeam();
+
+const schoolName = computed(() => (member: User.TCompleteUser) => {
+    if (member?.student?.schoolName) {
+        return `${ member.student?.schoolName }${ member.association?.school?.name ? ` - ${ member.association?.school?.name }` : "" }`;
+    }
+    return "École manquante";
+});
 
 const hasChanged = computed(() => !isMatch(savedTeam, team));
 

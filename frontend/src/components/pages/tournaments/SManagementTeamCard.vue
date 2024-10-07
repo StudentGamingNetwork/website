@@ -99,9 +99,9 @@
                 <td>
                     {{ member.user.student.name }}
                     <span class="info">(<span
-                        :class="{error: !(member.user.association || member.user.student.schoolName)}"
+                        :class="{error: !(member.user.student.schoolName)}"
                     >{{
-                        member.user.association?.school.name || member.user.student.schoolName || "École manquante"
+                        schoolName(member.user)
                     }}</span>)</span>
                 </td>
                 <td>
@@ -238,6 +238,7 @@
 
 <script lang="ts" setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { computed } from "vue";
 import { Team, Toast, User } from "@/modules";
 import SCard from "@/components/design/Card.vue";
 import SValidator from "@/components/design/forms/Validator.vue";
@@ -252,6 +253,13 @@ defineProps<{
 }>();
 
 const emit = defineEmits(["update"]);
+
+const schoolName = computed(() => (member: User.TCompleteUser) => {
+    if (member?.student?.schoolName) {
+        return `${ member.student?.schoolName }${ member.association?.school?.name ? ` - ${ member.association?.school?.name }` : "" }`;
+    }
+    return "École manquante";
+});
 
    
 function isMemberReady(member: {user: User.TCompleteUser; username: string }, isStaff = false): boolean {

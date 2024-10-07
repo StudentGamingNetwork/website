@@ -35,7 +35,7 @@
                 title="Prénom et nom"
                 @enter="sendUpdate"
             />
-            <template v-if="associationStore._id">
+            <!--<template v-if="associationStore._id">
                 <SInput
                     v-model="associationStore.school.name"
                     disabled
@@ -56,7 +56,14 @@
                 <SModalSectionDescription>
                     Il est préférable de rejoindre une association plutôt que de renseigner votre école manuellement.
                 </SModalSectionDescription>
-            </template>
+            </template> -->
+            <SInput
+                v-model="student.schoolName"
+                autocomplete="false"
+                :modified="student.schoolName !== userStore.student.schoolName"
+                title="École"
+                @enter="sendUpdate"
+            />
             <div class="certificate">
                 <SCertificatePicker
                     :url="certificateUrl"

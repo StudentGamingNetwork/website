@@ -194,8 +194,8 @@
                         </td>
                         <td>
                             {{ member.user.student.name }}
-                            <span class="info">(<span :class="{error: !(member.user.association || member.user.student.schoolName)}">{{
-                                member.user.association?.school.name || member.user.student.schoolName || "École manquante"
+                            <span class="info">(<span :class="{error: !(member.user.student.schoolName)}">{{
+                                schoolName(member.user)
                             }}</span>)</span>
                         </td>
                         <td>
@@ -386,6 +386,13 @@ onMounted(async () => {
     }
     
     isSearching.value = false;
+});
+
+const schoolName = computed(() => (member: User.TCompleteUser) => {
+    if (member?.student?.schoolName) {
+        return `${ member.student?.schoolName }${ member.association?.school?.name ? ` - ${ member.association?.school?.name }` : "" }`;
+    }
+    return "École manquante";
 });
 
 const logoUrl = computed(() => {
@@ -695,11 +702,11 @@ async function kickMember(memberIndex: number, type: "staff" | "members" = "memb
                 }
 
                 &:nth-child(2) {
-                    width: 40%;
+                    width: 35%;
                 }
 
                 &:nth-child(3) {
-                    width: 35%;
+                    width: 40%;
                 }
 
                 &:nth-child(4) {
