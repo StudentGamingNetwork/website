@@ -51,6 +51,30 @@ const routes: Array<RouteRecordRaw> = [
         path: "/partners"
     },
     {
+        name: "mentions-legales",
+        component: () => import("@/views/LegalNotice.vue"),
+        meta: {
+            title: "Mentions légales"
+        },
+        path: "/legal"
+    },
+    {
+        name: "condition-utilisation",
+        component: () => import("@/views/LegalTerms.vue"),
+        meta: {
+            title: "Mentions légales"
+        },
+        path: "/legal/terms"
+    },
+    {
+        name: "confidentialite",
+        component: () => import("@/views/LegalPrivacy.vue"),
+        meta: {
+            title: "Politique de confidentialité"
+        },
+        path: "/legal/privacy"
+    },
+    {
         name: "about",
         component: () => import("@/views/About.vue"),
         meta: {
