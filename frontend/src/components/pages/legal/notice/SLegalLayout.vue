@@ -14,7 +14,7 @@
             <p>
                 Le site  <router-link to="/">
                     www.sgnw.fr
-                </router-link>, est édité par: 
+                </router-link> est édité par: 
             </p>
             <p>
                 L’association Student Gaming Network SGN, association loi 1901, immatriculée en Isère sous le numéro W943004443, ayant son siège social au 16 rue Berthe de Boissieux, 38 000 GRENOBLE. 
@@ -26,7 +26,7 @@
                 Directeur de la publication: Monsieur Jules BÉAL, en sa qualité de président de l’Association 
             </p>
             <p>
-                Adresse mail: <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a>
+                Adresse mail: <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a>.
             </p>
 
             <br><br>
@@ -34,7 +34,7 @@
             <p>
                 Le site  <router-link to="/">
                     www.sgnw.fr
-                </router-link>, est hébergé par: 
+                </router-link> est hébergé par: 
             </p>
             <p>
                 La société OVH SAS, immatriculé au RCS sous le numéro 537 407 926, dont le siège social est situé  2, rue Kellermann, 59100 Roubaix. 
@@ -48,7 +48,7 @@
                 Site web: <a
                     href="https://www.ovhcloud.com/fr/"
                     target="_blank"
-                >https://www.ovhcloud.com/fr/</a>
+                >https://www.ovhcloud.com/fr/</a>.
             </p>
         </div>
     </SBaseLayout>

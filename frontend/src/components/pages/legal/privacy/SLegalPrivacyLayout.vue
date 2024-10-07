@@ -14,7 +14,7 @@
             <p>
                 La présente politique de confidentialité s’applique aux traitements de données à caractère personnel effectués à partir des Données récoltés sur le site <router-link to="/">
                     www.sgnw.fr
-                </router-link>, ci-après dénommée « Site ».
+                </router-link> ci-après dénommée « Site ».
             </p>
             <p>Le Site est hébergé par OVH SAS, immatriculé au RCS sous le numéro 537 407 926, dont le siège social est situé  2, rue Kellermann, 59100 Roubaix.</p>
             <p>Les serveurs d’hébergement sur lesquels les données sont traitées et stockées par OVH SAS, situé en France.</p>
@@ -97,7 +97,7 @@
                 <li>Droit de saisir la CNIL</li>
             </ul>
             <p>Pour l’exercice de ses droits, la personne concernée peut adresser un courrier à l’Association, avec un justificatif d’identité ainsi que toute information complémentaire pouvant être utile au traitement de sa demande.</p>
-            <p>Ce courrier doit être envoyé à l’adresse de courrier électronique suivante: <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a></p>
+            <p>Ce courrier doit être envoyé à l’adresse de courrier électronique suivante: <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a>.</p>
             <p>L’Association est en droit de vérifier l’identité et de demander à la personne concernée de lui fournir davantage d’information pour pouvoir répondre à sa demande.</p>
             <p>L’association s’engage à donner suite à la demande dans un délai raisonnable et, en tout état de cause, dans un délai de deux mois à compter de la réception de la demande.</p>
             <br><br>
@@ -106,7 +106,7 @@
             <p>En tout état de cause, l'Editeur du Site est susceptible de vous envoyer des sollicitations commerciales (offres promotionnelles, newsletters...) ainsi que des messages liés au fonctionnement ou à l'administration des Services.</p>
             <p>Si l'Utilisateur s'abonne aux offres et actualités de l'Editeur du Site, des informations sur ces offres lui seront régulièrement communiquées. La seule information nécessaire à leur envoi est l'adresse e-mail de l'Utilisateur. L'indication éventuelle d'autres données est facultative et ne peut être utilisée que pour le contacter personnellement.</p>
             <p>L'Utilisateur ne recevra lesdites offres par e-mail que dans la mesure où il a expressément consenti à leur envoi. Après réception de son consentement, un e-mail de confirmation lui demandant de confirmer une dernière fois son souhait de recevoir les futures offres lui sera envoyé et il n'aura qu'à cliquer sur le lien de confirmation transmis pour valider définitivement son abonnement à ces offres.</p>
-            <p>L'Utilisateur pourra se désabonner à tout moment via le lien fourni ou en envoyant un message à l'adresse électronique suivante : <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a> </p>
+            <p>L'Utilisateur pourra se désabonner à tout moment via le lien fourni ou en envoyant un message à l'adresse électronique suivante : <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a>.</p>
             <p>Après son désabonnement, son adresse e-mail sera immédiatement supprimée des listes de diffusion.</p>
             <br><br>
             <SSectionTitle>ARTICLE 9 - POLITIQUE DES COOKIES</SSectionTitle>
@@ -159,7 +159,7 @@
                 Pour plus d'informations concernant le fonctionnement des cookies, l'Utilisateur peut consulter le site de la CNIL via le lien suivant : <a
                     href="https://www.cnil.fr/fr/cookies-et-autres-traceurs/comment-se-proteger/maitriser-votre-navigateur"
                     target="_blank"
-                >https://www.cnil.fr/fr/cookies-et-autres-traceurs/comment-se-proteger/maitriser-votre-navigateur</a>
+                >https://www.cnil.fr/fr/cookies-et-autres-traceurs/comment-se-proteger/maitriser-votre-navigateur</a>.
             </p>
             <br><br>
             <SSectionTitle>ARTICLE 10 - MODIFICATIONS DE LA POLITIQUE DE CONFIDENTIALITÉ</SSectionTitle>

@@ -39,7 +39,9 @@
                 <strong>Service:</strong>  désigne les prestations de services et/ou produits proposés par l’Association aux Utilisateurs et accessibles à partir du Site. 
             </p>
             <p>
-                <strong>Site:</strong>  site internet accessible à l’adresse : www.sgnw.fr 
+                <strong>Site:</strong>  site internet accessible à l’adresse : <router-link to="/">
+                    www.sgnw.fr
+                </router-link>
             </p>
             <p>
                 <strong>Utilisateur:</strong>  toute personne physique capable, utilisant les Services proposés sur le Site.
@@ -65,7 +67,7 @@
             <p>L’Utilisateur pourra modifier en ligne son mot de passe depuis son Compte. L’Éditeur du Site ne demandera jamais à l’Utilisateur de lui communiquer son mot de passe. En cas de perte et/ou d’oubli du mot de passe, l’Utilisateur pourra en générer un nouveau à partir de la rubrique “mot de passe oublié”. </p>
             <p>En cas d’utilisation frauduleuse des identifiants du fait d’une faute ou négligence imputable à l’Utilisateur, ce dernier sera responsable de tout dommage subi en raison d’une utilisation des Services non conforme aux règles édictées dans les présentes conditions générales.</p>
             <p>L’Utilisateur s’engage à mettre à jour, via son Compte, les informations fournies, en cas de changement dans sa situation. </p>
-            <p>L’Utilisateur pourra demander à tout moment sa désinscription soit directement sur son Compte, soit par mail à: <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a></p>
+            <p>L’Utilisateur pourra demander à tout moment sa désinscription soit directement sur son Compte, soit par mail à: <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a>.</p>
             <p>Toute suppression de Compte, peu importe son motif, entraîne la suppression de toutes informations personnelles de l’Utilisateur.</p>
             <br><br>
             <SSectionTitle>ARTICLE 4 - CARACTÉRISTIQUES DU SITE ET DES SERVICES</SSectionTitle>
@@ -121,7 +123,7 @@
             <h3>10.1. DONNÉES PERSONNELLES</h3>
             <p>L’Éditeur du Site s’engage à réaliser toute collecte, traitement et usage de données à caractère personnel conformément à la législation en vigueur (Loi n°78-17 du 6 janvier 1978 et Règlement (UE) 2016/679 du 27 avril 2016 dit “RGPD”).</p>
             <p>L’Utilisateur a le droit d’être informé et de contrôler la façon dont ses données personnelles sont utilisées. Ainsi l’Utilisateur, après justification de son identité, dispose d’un droit d’accès à ses données, et peut en demander la rectification, la mise à jour ou l’effacement. L’Utilisateur peut également s’opposer à ce que ses données fassent l’objet d’un traitement.</p>
-            <p>Pour exercer ses droits, l’Utilisateur pourra écrire à l’adresse suivante: <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a></p>
+            <p>Pour exercer ses droits, l’Utilisateur pourra écrire à l’adresse suivante: <a href="mailto:contact@sgnw.fr">contact@sgnw.fr</a>.</p>
             <p>En outre, les données à caractère personnel ne peuvent être divulguées à un tiers sauf en cas de consentement de l’Utilisateur, d’une décision judiciaire ou toute autre obligation légale.</p>
             <h3>10.2. COOKIES</h3>
             <p>Lors de la navigation sur le Site ou de son utilisation, l’Utilisateur accepte que l’Éditeur du Site puisse accéder à d’éventuels cookies et les stocker.</p>
