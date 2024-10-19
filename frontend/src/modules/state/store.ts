@@ -13,7 +13,7 @@ export const useStore = defineStore({
         modalOpen(name: string) {
             const userStore = User.useStore();
 
-            if (["login", "signup"].includes(name) && userStore._id) {
+            if (["login", "signup", "twoFactorAuth"].includes(name) && userStore._id) {
 
                 const toastStore = Toast.useStore();
                 toastStore.add({
