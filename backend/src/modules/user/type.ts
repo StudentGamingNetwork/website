@@ -31,7 +31,11 @@ const OwnerFields = {
         rejectReason: Type.Optional(Type.String()),
         schoolName: Type.Optional(Type.String()),
         status: Type.Optional(Type.String())
-    }))
+    })),
+    twoFactorAuth: Type.Optional(Type.Object({
+        enabled: Type.Boolean()
+    })
+    )
 };
 
 const AdminFields = {
