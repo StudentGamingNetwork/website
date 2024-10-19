@@ -33,6 +33,15 @@ export const useStore = defineStore({
                 return;
             }
 
+            const hasValidSession = await Toast.testRequest(async () => {
+                return await TwoFactorAuthService.hasValidSession();
+            }, { onlyError: true });
+
+
+            if (!hasValidSession?.success) {
+                return;
+            }
+
             const response = await Toast.testRequest(async () => {
                 return await UserService.ping();
             }, { onlyError: true });
