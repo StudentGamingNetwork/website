@@ -27,10 +27,6 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const user = await UserLib.getUser(request);
 
-            if (!user) {
-                throw new httpErrors.Unauthorized("Vous devez être connecté pour accéder à cette ressource.");
-            }
-
             if (user.twoFactorAuth?.enabled) {
                 throw new httpErrors.Forbidden("L'authentification à deux facteurs est déjà activée.");
             }
@@ -38,8 +34,8 @@ export async function register(server: FastifyInstance): Promise<void> {
             const [tokenLink,secret] = TokenLib.generateSecret(user.mail);
 
             user.twoFactorAuth = {
-                secret,
-                enabled: true
+                enabled: true,
+                secret
             };
 
             await user.save();
