@@ -2,12 +2,18 @@ import Crypto from "crypto";
 import httpErrors from "http-errors";
 import SessionModel, { ISessionDocument } from "@/modules/session/model";
 
-export async function generate(userId: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
+export async function generate(userId: string, machine: {host: string; userAgent: string}, twoFactorAuth = false): Promise<ISessionDocument> {
     const token = Crypto.randomBytes(32).toString("hex");
 
     const creationDate = new Date();
     const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 365);
+    if (twoFactorAuth){
+        expirationDate.setUTCSeconds(expirationDate.getUTCSeconds() + 20);
+    }
+    else {
+        expirationDate.setDate(expirationDate.getDate() + 365); 
+    }
+    
 
     return SessionModel.create({
         dates: {
@@ -16,6 +22,7 @@ export async function generate(userId: string, machine: {host: string; userAgent
         },
         machine,
         token,
+        twoFactorAuth: twoFactorAuth,
         userId
     });
 }
@@ -44,4 +51,15 @@ export async function assertValidity(userId: string, token: string): Promise<voi
     if (!validity) {
         throw new httpErrors.Unauthorized("Token de connexion non valide ou expiré");
     }
+}
+
+export async function validate(session: ISessionDocument): Promise<void> {
+    const validity = await checkValidity(session.userId, session.token);
+
+    if (!validity) {
+        throw new httpErrors.Unauthorized("Token de connexion non valide ou expiré");
+    }
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 365); 
+    session.dates.expiration = expirationDate;
 }

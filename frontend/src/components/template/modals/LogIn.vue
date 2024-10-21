@@ -114,13 +114,16 @@ export default defineComponent({
             });
             waitingForResponse.value = false;
 
-            if (response?.success) {
+            if (response?.success && !response?.twoFactorAuth) {
                 password.value = "";
                 mail.value = "";
                 stateStore.modalClose();
 
                 const userStore = UserModule.useStore();
                 await userStore.init();
+            }
+            if (response?.success && response?.twoFactorAuth){
+                stateStore.modalOpen("twoFactorAuth");
             }
         }
 

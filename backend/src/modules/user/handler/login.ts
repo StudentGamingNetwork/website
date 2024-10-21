@@ -11,7 +11,8 @@ type TUserLogin = Static<typeof UserLogin>;
 
 const UserLoginResponse = Type.Object({
     message: Type.String(),
-    success: Type.Boolean()
+    success: Type.Boolean(),
+    twoFactorAuth: Type.Boolean()
 });
 
 type TUserLoginResponse = Static<typeof UserLoginResponse>;
@@ -42,8 +43,9 @@ export async function register(server: FastifyInstance): Promise<void> {
                     `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`
                 ]
             }).send({
-                message: "Vous êtes maintenant connecté.",
-                success: true
+                message: session.twoFactorAuth ? "Entrez le token généré dans votre application." : "Vous êtes maintenant connecté.",
+                success: true,
+                twoFactorAuth: session.twoFactorAuth
             });
         }
     );

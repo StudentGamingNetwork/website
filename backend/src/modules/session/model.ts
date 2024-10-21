@@ -10,6 +10,7 @@ export interface ISession {
         userAgent: string;
     };
     token: string;
+    twoFactorAuth: boolean;
     userId: string;
 }
 
@@ -40,6 +41,11 @@ const sessionSchema: Mongo.Schema = new Mongo.Schema({
     token: {
         required: true,
         type: String
+    },
+    twoFactorAuth: {
+        default: false,
+        required: true,
+        type: Boolean
     },
     userId: {
         required: true,
