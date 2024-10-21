@@ -14,8 +14,3 @@ export async function verify(token: string): Promise<any> {
     const result = await ApiService.post("/2fa/verify", { token });
     return result.data;
 }
-
-export async function hasValidSession(): Promise<any> {
-    const result = await ApiService.get("/2fa/validate");
-    return result.data;
-}

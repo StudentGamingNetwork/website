@@ -14,6 +14,7 @@
         "@fortawesome/free-solid-svg-icons": "^6.6.0",
         "@fortawesome/vue-fontawesome": "^3.0.8",
         "@vueuse/core": "^12.7.0",
+        "@vueuse/integrations": "^12.7.0",
         "axios": "^1.7.4",
         "imagemin": "^9.0.0",
         "leaflet": "^1.9.4",

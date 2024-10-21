@@ -27,7 +27,7 @@
                 compte. Lorsque vous l'activez, vous devrez entrer un code de vérification à chaque connexion.
             </SModalSectionDescription>
             <SButton
-                v-if="!userStore.twoFactorAuth.enabled"
+                v-if="!userStore.twoFactorAuth.enabled && !showQR"
                 outlined
                 @click="enableTwoFactorAuth"
             >
@@ -40,10 +40,11 @@
             >
                 Désactiver l'authentification à deux facteurs
             </SButton>
-            <canvas
-                v-show="showCanvas"
-                ref="canvas"
-            />
+            <img
+                v-show="showQR"
+                alt="QR Code"
+                :src="qrcode"
+            >
         </SModalSection>
         <SModalSeparator />
         <SButton
@@ -73,7 +74,7 @@
 
 <script lang="ts" setup>
 import { computed, reactive, ref } from "vue";
-import { toCanvas } from "qrcode";
+import { useQRCode } from "@vueuse/integrations/useQRCode";
 import SButton from "@/components/design/forms/Button.vue";
 import SModalContent from "@/components/design/modal/Content.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
@@ -86,11 +87,12 @@ import * as TFAService from "@/services/twoFactorAuth";
 
 
 const userStore = User.useStore();
-const canvas = ref<HTMLCanvasElement>();
-const showCanvas = ref(false);
+const showQR = ref(false);
+const totpLink = ref("");
+const qrcode = useQRCode(totpLink);
 const password = reactive({
-    new: ref(""),
-    old: ref("")
+    new: "",
+    old: ""
 });
 
 const hasUpdate = computed(() => {
@@ -118,8 +120,8 @@ async function enableTwoFactorAuth() {
         });
 
         if (response?.success) { 
-            showCanvas.value = true;
-            toCanvas(canvas.value, response.tokenLink, () => {});
+            showQR.value = true;
+            totpLink.value = response.tokenLink;
         }
     }
 }
@@ -127,9 +129,14 @@ async function enableTwoFactorAuth() {
 async function disableTwoFactorAuth() {
     const result = confirm("Êtes-vous sûr de vouloir désactiver l'authentification à deux facteurs ?");
     if (result) {
-        await Toast.testRequest(async () => {
+        const response = await Toast.testRequest(async () => {
             return await TFAService.remove();
         });
+
+        if (response?.success) {
+            showQR.value = false;
+            totpLink.value = "";
+        }
     }
 
     await userStore.update({});
