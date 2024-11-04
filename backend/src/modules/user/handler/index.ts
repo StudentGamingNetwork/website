@@ -5,6 +5,8 @@ import * as PingHandler from "./ping";
 import * as DisconnectHandler from "./disconnect";
 import * as UpdateHandler from "./update";
 import * as UpdatePlatformsHandler from "./updatePlatforms";
+import * as PassswordToken from "./resetPassword";
+import * as PasswordChange from "./change-password";
 import * as UploadAvatar from "@/modules/upload/handler/avatar";
 import * as UploadCertificate from "@/modules/upload/handler/certificate";
 
@@ -17,4 +19,6 @@ export default async function (server: FastifyInstance): Promise<void> {
     await UpdatePlatformsHandler.register(server);
     await UploadAvatar.register(server);
     await UploadCertificate.register(server);
+    await PassswordToken.register(server);
+    await PasswordChange.register(server);
 }
