@@ -50,6 +50,8 @@ function processKeyDown(event: KeyboardEvent) {
 <style scoped lang="css">
 .input-wrapper {
     max-width: 100%;
+    display: grid;
+    gap: var(--length-gap-s);
 
     .title {
         font-size: 0.9rem;

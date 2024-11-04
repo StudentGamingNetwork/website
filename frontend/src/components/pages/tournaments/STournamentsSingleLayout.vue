@@ -24,6 +24,10 @@
             @update="updateTournament"
             @update:model-value="updateLocalTournament($event)"
         />
+        <SStageManagement
+            v-if="tournamentsPage === 'stage'"
+            :tournament="tournament"
+        />
         <STournamentManagement 
             v-if="tournamentsPage === 'management'"
             v-model="tournamentsPage" 
@@ -48,6 +52,7 @@ import SSelector from "@/components/design/SSelector.vue";
 import STournamentAdminPanel from "@/components/pages/tournaments/STournamentAdminPanel.vue";
 import STournamentManagement from "@/components/pages/tournaments/STournamentManagement.vue";
 import STeamPanelValidation from "@/components/pages/tournaments/STeamPanelValidation.vue";
+import SStageManagement from "@/components/pages/tournaments/SStageManagement.vue";
 import i18n from "@/locales";
 
 
@@ -60,13 +65,14 @@ const tournamentsPage = ref("team");
 const tournamentsPages = [
     { title: i18n.global.t("components.pages.tournaments.pages.team"), key: "team" },
     { title: i18n.global.t("components.pages.tournaments.pages.admin"), key: "admin" },
+    { title: i18n.global.t("components.pages.tournaments.pages.stage"), key: "stage" },
     { title: i18n.global.t("components.pages.tournaments.pages.management"), key: "management" },
     { title: i18n.global.t("components.pages.tournaments.pages.details"), key: "details" }
 ];
 
 onMounted(() => {
     const page = router.currentRoute.value.params.page as string;
-    if (["team", "admin", "management"].includes(page)) {
+    if (["team", "admin", "stage", "management"].includes(page)) {
         tournamentsPage.value = page;
     }
 });
