@@ -1,5 +1,9 @@
 import Mongo from "@/database";
 
+interface Stage {
+    [key: number]: string; // Clé numérique avec une valeur de type string (idStage)
+}
+
 export interface ITournament {
     name: string;
     dates: {
@@ -35,10 +39,11 @@ export interface ITournament {
         slug: string;
         toornament: string;
     };
+    stages: Stage;
     state: {
         archived: boolean;
         public: boolean;
-    };
+    }; 
 }
 
 export interface ITournamentDocument extends ITournament, Mongo.Document {
@@ -47,7 +52,6 @@ export interface ITournamentDocument extends ITournament, Mongo.Document {
 
 const tournamentSchema: Mongo.Schema = new Mongo.Schema({
     name: {
-        faker: "company.company.name",
         type: String
     },
     dates: {
@@ -82,6 +86,10 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
         logo: String,
         slug: String,
         toornament: String
+    },
+    stages: {
+        of: String,
+        type: Map
     },
     state: {
         archived: Boolean,
