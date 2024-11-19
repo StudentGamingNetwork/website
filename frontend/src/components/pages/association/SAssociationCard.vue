@@ -146,55 +146,64 @@
                 />
             </a>
         </div>
+        <SMap
+            class="map"
+            :dragging="false"
+            :lat="48.866"
+            :lon="2.333"
+            :max-zoom="19"
+            :scroll-wheel-zoom="EScrollWheelZoom.Center"
+            :zoom-control="false"
+        />
     </SCard>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+<script lang="ts" setup>
+import { computed, defineProps } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { Association } from "@/modules";
 import * as AssociationService from "@/services/association";
 import SCard from "@/components/design/Card.vue";
+import SMap from "@/components/design/SMap.vue";
+import { EScrollWheelZoom } from "@/modules/map";
 
-export default defineComponent({
-    name: "SAssociationCard",
-    components: { FontAwesomeIcon, SCard },
-    props: {
-        association: {
-            required: true,
-            type: Object as PropType<Association.TAssociation>
-        }
-    },
-    setup(props) {
-        const logoUrl = computed(() => {
-            return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
-        });
-        const regionName = computed(() => {
-            return AssociationService.getRegionName(props.association.federation.region);
-        });
-        return {
-            logoUrl,
-            regionName
-        };
-    }
+const props = defineProps<{
+    association: Association.TAssociation
+}>();
+    
+ 
+const logoUrl = computed(() => {
+    return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
 });
+const regionName = computed(() => {
+    return AssociationService.getRegionName(props.association.federation.region);
+});
+
+
 </script>
 
 <style scoped lang="scss">
 .association-card {
-    max-width: 960px;
+    max-width: 1200px;
     margin: auto;
     display: grid;
     column-gap: var(--length-gap-l);
     row-gap: var(--length-gap-m);
     grid-template-columns: 192px 1fr 1fr;
     grid-template-areas:
-        "logo head head"
-        "logo school owner"
-        "logo networks networks";
+        "logo head head map"
+        "logo school owner map"
+        "logo networks networks map";
 
     .logo {
         grid-area: logo;
+        width: 192px;
+        height: 192px;
+        object-fit: contain;
+    }
+
+    .map {
+        grid-area: map;
         width: 192px;
         height: 192px;
         object-fit: contain;

@@ -86,10 +86,9 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import SInput from "@/components/design/forms/Input.vue";
 import SToggle from "@/components/design/SToggle.vue";
-import SAssociationCard from "@/components/pages/federation/AssociationCard.vue";
+import SAssociationCard from "@/components/pages/federation/SAssociationCard.vue";
 import * as AssociationService from "@/services/association";
 import { TAssociation } from "@/modules/association";
-import { ESortDirection } from "@/components/design/lib/type";
 import { getRegionName } from "@/services/association";
 
 type TBasicAssociation = {
