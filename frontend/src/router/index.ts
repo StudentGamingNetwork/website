@@ -19,6 +19,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "/federation"
     },
     {
+        name: "map",
+        component: () => import("@/views/Map.vue"),
+        meta: {
+            title: "La carte"
+        },
+        path: "/map"
+    },
+    {
         name: "tournaments",
         component: () => import("@/views/Tournaments.vue"),
         meta: {

@@ -92,6 +92,7 @@ export default defineComponent({
             ],
             links: [
                 { title: "Fédération", key: "federation", link: "/federation" },
+                { title: "La Carte", key: "map", link: "/map" },
                 { title: "Tournois", key: "tournaments", link: "/tournaments" },
                 { title: "Partenaires", key: "partners", link: "/partners" },
                 { title: "À propos", key: "about", link: "/about" }

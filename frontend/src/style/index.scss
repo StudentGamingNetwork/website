@@ -9,14 +9,14 @@
 
 * {
     transition: color var(--duration-fast),
-    border-color var(--duration-fast),
-    border var(--duration-fast),
-    background-color var(--duration-fast),
-    background var(--duration-fast),
-    transform var(--duration-fast),
-    opacity var(--duration-fast),
-    margin var(--duration-fast),
-    box-shadow var(--duration-fast);
+        border-color var(--duration-fast),
+        border var(--duration-fast),
+        background-color var(--duration-fast),
+        background var(--duration-fast),
+        transform var(--duration-fast),
+        opacity var(--duration-fast),
+        margin var(--duration-fast),
+        box-shadow var(--duration-fast);
 }
 
 html:not([data-widget]) {

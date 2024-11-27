@@ -25,6 +25,7 @@ export default defineComponent({
         return {
             navLinks: [
                 { title: "Fédération", key: "federation", to: "/federation" },
+                { title: "La Carte", key: "map", to: "/map" },
                 { title: "Tournois", key: "tournaments", to: "/tournaments" },
                 { title: "Partenaires", key: "partners", to: "/partners" },
                 { title: "À propos", key: "about", to: "/about" }

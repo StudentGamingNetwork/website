@@ -147,13 +147,13 @@
             </a>
         </div>
         <SMap
+            :center="[48.866, 2.333]"
             class="map"
             :dragging="false"
-            :lat="48.866"
-            :lon="2.333"
             :max-zoom="19"
-            :scroll-wheel-zoom="EScrollWheelZoom.Center"
+            :scroll-wheel-zoom="false"
             :zoom-control="false"
+            @map="defineMap"
         />
     </SCard>
 </template>
@@ -161,16 +161,16 @@
 <script lang="ts" setup>
 import { computed, defineProps } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { useLeafletDisplayLayer, UseLeafletMapReturn, useLeafletMarker } from "vue-use-leaflet";
 import { Association } from "@/modules";
 import * as AssociationService from "@/services/association";
 import SCard from "@/components/design/Card.vue";
 import SMap from "@/components/design/SMap.vue";
-import { EScrollWheelZoom } from "@/modules/map";
 
 const props = defineProps<{
     association: Association.TAssociation
 }>();
-    
+
  
 const logoUrl = computed(() => {
     return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
@@ -179,6 +179,10 @@ const regionName = computed(() => {
     return AssociationService.getRegionName(props.association.federation.region);
 });
 
+function defineMap(map: UseLeafletMapReturn) {
+    const marker = useLeafletMarker([48.866, 2.333]);
+    useLeafletDisplayLayer(map, marker);
+}
 
 </script>
 

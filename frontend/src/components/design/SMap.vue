@@ -1,48 +1,56 @@
 <template>
     <div class="map-wrapper">
-        <div id="map" />
+        <div
+            id="map"
+            ref="element"
+        />
     </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, defineProps } from "vue";
-import leaflet from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { EScrollWheelZoom } from "@/modules/map";
+import { defineProps, ref, defineEmits, onMounted } from "vue";
+import { useLeafletMap, useLeafletTileLayer, useLeafletDisplayLayer } from "vue-use-leaflet";
 
+import "leaflet/dist/leaflet.css";
+
+const emit = defineEmits(["map"]);
 
 const props = defineProps<{
+    center?: [number, number]
     dragging: boolean
-    lat: number
-    lon: number
     maxZoom: number
-    scrollWheelZoom: EScrollWheelZoom,
+    scrollWheelZoom: "center" | boolean,
     zoomControl: boolean
 }>();
 
+const element = ref<HTMLElement | null>(null);
 
-let map: leaflet.Map;
+const map = useLeafletMap(element, { attributionControl: false, center: props.center || [47.03, 2.52], dragging: props.dragging, scrollWheelZoom: "center", zoom: 6, zoomControl: props.zoomControl });
+
+const tileLayer = useLeafletTileLayer(
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { maxZoom: props.maxZoom || 19 }
+);
+
+useLeafletDisplayLayer(map, tileLayer);
+
 
 onMounted(() => {
-    map = leaflet.map("map",{ dragging: props.dragging, scrollWheelZoom: props.scrollWheelZoom, zoomControl: props.zoomControl }).setView([props.lat,props.lon], 13);
-    map.attributionControl.setPrefix("");
-
-    leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: props.maxZoom || 19
-    }).addTo(map);
-
-    leaflet.marker([props.lat,props.lon]).addTo(map);
-
-});
+    emit("map", map);
+}); 
 
 </script>
 
-<style lang="css" scoped>
-.map-wrapper {
+<style lang="css">
 
+.map-wrapper {
     #map {
         width: 100%;
         height: 100%;
     }
+}
+
+.leaflet-pane {
+    transition: none;
 }
 </style>
