@@ -9,7 +9,11 @@
         <SStageCard v-model="stagePage" />
     </SCard>
 
-    <SStageManage v-if="stagePage==='general'" />
+    <SStageManageGeneral v-if="stagePage==='general'" />
+
+    <SStageManageAdvanced v-if="stagePage==='advanced'" />
+
+    <SStageManageSettings v-if="stagePage==='match'" />
 </template>
 
 <script lang="ts" setup>
@@ -18,7 +22,9 @@ import { useRouter } from "vue-router";
 import SStageCard from "@/components/pages/tournaments/stage/SStageCard.vue";
 import SCard from "@/components/design/Card.vue";
 import SSelector from "@/components/design/Selector.vue";
-import SStageManage from "@/components/pages/tournaments/stage/SStageManage.vue";
+import SStageManageGeneral from "@/components/pages/tournaments/stage/SStageManageGeneral.vue";
+import SStageManageAdvanced from "@/components/pages/tournaments/stage/SStageManageAdvanced.vue";
+import SStageManageSettings from "@/components/pages/tournaments/stage/SStageManageSettings.vue";
 
 
 const router = useRouter();

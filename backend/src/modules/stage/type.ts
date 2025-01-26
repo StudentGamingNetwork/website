@@ -1,30 +1,37 @@
 import { Type } from "@sinclair/typebox";
-import { EStageType, EStageGrandFinal, EStageGroupComposition, EStageMatchFormat, EStageParingMethod, EStageTieBreaker } from "./lib";
+import { EStageType, EStageGroupComposition, EStageParingMethod } from "./lib";
+import { EStageGrandFinal, EStageMatchFormat } from "./model";
 
 const Stage = {
     _id: Type.String(),
     name: Type.String(),
     advanced: Type.Object({
-        gameResult: Type.Optional(Type.Object({
-            draw: Type.Number(),
-            loss: Type.Number(),
-            win: Type.Number()
-        })),
         groupComposition: Type.Optional(Type.Enum(EStageGroupComposition)),
-        matchForfeit: Type.Optional(Type.Number()),
-        matchResult: Type.Optional(Type.Object({
+        matchForfeit: Type.Object({
+            activated: Type.Boolean(),
+            points: Type.Number()
+        }),
+        matchResult: Type.Object({
+            activated: Type.Boolean(),
             draw: Type.Number(),
             loss: Type.Number(),
             win: Type.Number()
-        })),
-        matchScore: Type.Optional(Type.Object({
+        }),
+        matchScore: Type.Boolean(),
+        noOpponents: Type.Object({
+            activated: Type.Boolean(),
+            points: Type.Number()
+        }),
+        pairingMethod: Type.Enum(EStageParingMethod),
+        qualifiedThreshold: Type.Optional(Type.Number()),
+        roundResult: Type.Object({
+            activated: Type.Boolean(),
             draw: Type.Number(),
             loss: Type.Number(),
             win: Type.Number()
-        })),
-        pairingMethod: Type.Optional(Type.Enum(EStageParingMethod)),
-        qualifiedThreshold: Type.Number(),
-        tieBreaker: Type.Optional(Type.Array(Type.Any()))
+        }),
+        roundScore: Type.Boolean(),
+        tieBreaker: Type.Array(Type.Any())
     }),
     general: Type.Object({
         grandFinal: Type.Enum(EStageGrandFinal),
