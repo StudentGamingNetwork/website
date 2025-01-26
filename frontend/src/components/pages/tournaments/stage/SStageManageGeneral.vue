@@ -5,7 +5,7 @@
         <SSectionTitle class="title">
             Paramètres du stage
         </SSectionTitle>
-        <SModalSection class="tournament-stage-section">
+        <SModalSection>
             <SModalSectionTitle>Général</SModalSectionTitle>
             <SInput 
                 v-model="savedStage.name"
@@ -27,7 +27,7 @@
                 @enter="updateStage"
             />
         </SModalSection>
-        <SModalSection class="tournament-stage-section">
+        <SModalSection>
             <SModalSectionTitle>Placement</SModalSectionTitle>
             <SCheckbox
                 v-model="savedStage.placement"

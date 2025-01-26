@@ -1,6 +1,7 @@
 <template>
     <div
         ref="reference"
+        class="tooltip-wrapper"
         @mouseout="isHovering = false" 
         @mouseover="isHovering = true"
     >
@@ -54,6 +55,10 @@ const { floatingStyles } = useFloating(reference, floating, {
 
 
 <style scoped>
+
+.tooltip-wrapper {
+    width: max-content
+}
 
 .tooltip {
     background: var(--color-background-0);

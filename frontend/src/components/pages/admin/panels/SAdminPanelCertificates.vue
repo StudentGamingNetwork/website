@@ -55,8 +55,8 @@
                 >
                     <STooltip
                         no-wrap
+                        placement="top"
                         :tooltip-text="reason"
-                        top
                     >
                         <SButton
                             class="button"

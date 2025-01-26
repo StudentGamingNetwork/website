@@ -1,6 +1,7 @@
 import { TStage, makeObject } from "./type";
-import { EStageType, EStageGrandFinal, EStageGroupComposition, EStageMatchFormat, EStageParingMethod, EStageTieBreaker } from "./lib";
+import { EStageType, EStageGrandFinal, EStageGroupComposition, EStageMatchFormat, EStageParingMethod, TieBreakers } from "./lib";
 
 
 export { makeObject };
-export type { TStage, EStageType, EStageGrandFinal, EStageGroupComposition, EStageMatchFormat, EStageParingMethod, EStageTieBreaker };
+export type { TStage };
+export { EStageType, EStageGrandFinal, EStageGroupComposition, EStageMatchFormat, EStageParingMethod, TieBreakers };

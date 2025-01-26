@@ -1,29 +1,51 @@
-import { EStageType, EStageGrandFinal, EStageGroupComposition, EStageMatchFormat, EStageParingMethod, EStageTieBreaker } from "./lib";
+import { EStageType, EStageGroupComposition, EStageParingMethod, EStageTieBreaker } from "./lib";
 import Mongo from "@/database";
+
+
+export enum EStageGrandFinal {
+    NONE = "None",
+    SIMPLE = "Simple",
+    DOUBLE = "Double"
+}
+
+
+export enum EStageMatchFormat {
+    NONE = "None",
+    BEST_OF = "Best_of",
+    SINGLE = "Single",
+    HOMEGUEST = "Home/guest",
+    FIXED = "Fixed"
+}
 
 export interface IStage {
     name: string;
     advanced: {
-        gameResult?: {
-            draw: number;
-            loss: number;
-            win: number;
-        };
         groupComposition?: EStageGroupComposition;
-        matchForfeit?: number;
-        matchResult?: {
+        matchForfeit: {
+            isEnabled: boolean;
+            points: number;
+        };
+        matchResult: {
             draw: number;
+            isEnabled: boolean;
             loss: number;
             win: number;
         };
-        matchScore?: {
+        matchScore: boolean;
+        noOpponents: {
+            isEnabled: boolean;
+            points: number;
+        };
+        pairingMethod: EStageParingMethod;
+        qualifiedThreshold?: number;
+        roundResult: {
             draw: number;
+            isEnabled: boolean;
             loss: number;
             win: number;
         };
-        pairingMethod?: EStageParingMethod;
-        qualifiedThreshold: number;
-        tieBreaker?: Array<EStageTieBreaker>;
+        roundScore: boolean;
+        tieBreaker: Array<EStageTieBreaker>;
     };
     general: {
         grandFinal: EStageGrandFinal;
@@ -52,42 +74,118 @@ const stageSchema: Mongo.Schema = new Mongo.Schema({
     name: {
         type: String
     },
-    dates: {
-        start: String,
-        final: String,
-        playDays: String,
-        subscriptionClose: Date
-    },
-    description: String,
-    game: {
-        name: String,
-        team: {
-            coachEnabled: Boolean,
-            managerEnabled: Boolean,
-            maxTeams: Number,
-            playersNumber: Number,
-            subscribed: Number,
-            substitutesNumber: Number
+    advanced: {
+        groupComposition: {
+            type: String
         },
-        username: String
-    },
-    informations: {
-        important: {
-            externalLink: String,
-            message: String
+        matchForfeit: {
+            enabled: {
+                type: Boolean
+            },
+            points: {
+                type: Number
+            }
         },
-        prizes: String,
-        rulesUrl: String
+        matchResult: {
+            draw: {
+                type: Number
+            },
+            isEnabled: {
+                type: Boolean
+            },
+            loss: {
+                type: Number
+            },
+            win: {
+                type: Number
+            }
+        },
+        matchScore: {
+            type: Boolean
+        },
+        noOpponents: {
+            enabled: {
+                type: Boolean
+            },
+            points: {
+                type: Number
+            }
+        },
+        roundScore: {
+            type: Boolean
+        }
     },
-    settings: {
-        code: String,
-        logo: String,
-        slug: String,
-        toornament: String
+    general: {
+        grandFinal: {
+            default: EStageGrandFinal.NONE,
+            enum: Object.values(EStageGrandFinal),
+            type: String
+        },
+        groupNumber: {
+            type: Number
+        },
+        loserBracket: {
+            type: Boolean
+        },
+        size: {
+            type: Number
+        },
+        skipFirstRound: {
+            type: Boolean
+        },
+        thirdPlace: {
+            type: Boolean
+        }
     },
-    state: {
-        archived: Boolean,
-        public: Boolean
+    matchSettings: {
+        endWhenWinnerKnown: {
+            type: Boolean
+        },
+        format: {
+            default: EStageMatchFormat.NONE,
+            enum: Object.values(EStageMatchFormat),
+            type: String
+        },
+        gamesNumber: {
+            type: Number
+        },
+        scoreBasedCalculations: {
+            type: Boolean
+        }
+    },
+    noOpponents: {
+        isEnabled: {
+            type: Boolean
+        },
+        points: {
+            type: Number
+        }
+    },
+    pairingMethod: {
+        type: String
+    },
+    placement: {
+        type: Boolean
+    },
+    qualifiedThreshold: {
+        type: Number
+    },
+    roundResult: {
+        draw: {
+            type: Number
+        },
+        isEnabled: {
+            type: Boolean
+        },
+        loss: {
+            type: Number
+        },
+        win: {
+            type: Number
+        }
+    },
+    tieBreaker: {
+        type: Array
     },
     tournament: {
         ref: "tournament",
