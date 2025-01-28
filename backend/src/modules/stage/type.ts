@@ -47,6 +47,7 @@ const Stage = {
         gamesNumber: Type.Number(),
         scoreBasedCalculations: Type.Boolean()
     }),
+    number: Type.Number(),
     placement: Type.Boolean(),
     tournament: Type.String(),
     type: Type.Enum(EStageType)
