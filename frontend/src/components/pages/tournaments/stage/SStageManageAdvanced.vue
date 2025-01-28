@@ -1,7 +1,5 @@
 <template>
-    <SCard
-        class="tournament-stage-panel"
-    >
+    <SCard class="tournament-stage-panel">
         <SSectionTitle class="title">
             Paramètres du stage
         </SSectionTitle>
@@ -17,7 +15,7 @@
         </SModalSection>
         <SModalSection class="tournament-stage-section">
             <SModalSectionTitle>Match</SModalSectionTitle>
-            
+
             <STooltip
                 no-wrap
                 placement="top"
@@ -30,23 +28,21 @@
                     @enter="updateStage"
                 />
             </STooltip>
-            <div
-                class="group"
-            >
-                <SInput 
+            <div class="group">
+                <SInput
                     v-model="savedStage.advanced.matchResult.win"
                     :modified="stage.advanced.matchResult.win !== savedStage.advanced.matchResult.win"
                     title="Victoire"
                     type="number"
                     @enter="updateStage"
                 />
-                <SInput 
+                <SInput
                     v-model="savedStage.advanced.matchResult.draw"
                     :modified="stage.advanced.matchResult.draw !== savedStage.advanced.matchResult.draw"
                     title="Match nul"
                     @enter="updateStage"
                 />
-                <SInput 
+                <SInput
                     v-model="savedStage.advanced.matchResult.loss"
                     :modified="stage.advanced.matchResult.loss !== savedStage.advanced.matchResult.loss"
                     title="Défaite"
@@ -68,7 +64,7 @@
                 />
             </STooltip>
 
-            <SInput 
+            <SInput
                 v-model="savedStage.advanced.noOpponents.points"
                 :modified="stage.advanced.noOpponents.points !== savedStage.advanced.noOpponents.points"
                 title="Points"
@@ -90,7 +86,7 @@
                 />
             </STooltip>
 
-            <SInput 
+            <SInput
                 v-model="savedStage.advanced.matchForfeit.points"
                 :modified="stage.advanced.matchForfeit.points !== savedStage.advanced.matchForfeit.points"
                 title="Points"
@@ -125,23 +121,21 @@
                     @enter="updateStage"
                 />
             </STooltip>
-            <div
-                class="group"
-            >
-                <SInput 
+            <div class="group">
+                <SInput
                     v-model="savedStage.advanced.roundResult.win"
                     :modified="stage.advanced.roundResult.win !== savedStage.advanced.roundResult.win"
                     title="Victoire"
                     type="number"
                     @enter="updateStage"
                 />
-                <SInput 
+                <SInput
                     v-model="savedStage.advanced.roundResult.draw"
                     :modified="stage.advanced.roundResult.draw !== savedStage.advanced.roundResult.draw"
                     title="Match nul"
                     @enter="updateStage"
                 />
-                <SInput 
+                <SInput
                     v-model="savedStage.advanced.roundResult.loss"
                     :modified="stage.advanced.roundResult.loss !== savedStage.advanced.roundResult.loss"
                     title="Défaite"
@@ -157,7 +151,7 @@
                 >
                     {{ tiebreaker }}
                 </template>
-   
+
                 <SButton
                     class=""
                     primary
@@ -167,7 +161,7 @@
                 </SButton>
             </div>
         </SModalSection>
-        
+
         <div class="save">
             <SModalSeparator />
             <SButton
@@ -177,7 +171,7 @@
                 Sauvegarder les changements
             </SButton>
             <SModalSectionTitle>Danger Zone</SModalSectionTitle>
-             
+
             <SButton
                 danger
                 outlined
@@ -225,9 +219,9 @@ async function updateStage() {
         return;
     }
 
-    const result = await StageService.details(tournamentSlug.value,stage?._id);
-    const teamApi = result.team; 
-   
+    const result = await StageService.details(tournamentSlug.value, stage?._id);
+    const teamApi = result.team;
+
     assign(savedStage, stage);
     assign(stage, cloneDeep(savedStage));
 
@@ -237,7 +231,7 @@ async function updateStage() {
 }
 
 async function addTieBreaker() {
-    savedStage.advanced.tieBreaker.push(TieBreakers.);
+    savedStage.advanced.tieBreaker.push();
 }
 
 </script>
@@ -269,21 +263,21 @@ async function addTieBreaker() {
             "save";
     }
 
-    .tournament-stage-section{
+    .tournament-stage-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
 
-        .section-title{
+        .section-title {
             grid-column: span 2;
         }
 
-        .group{
+        .group {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: var(--length-gap-l);
 
-            & > div{
-                width: 120px;       
+            &>div {
+                width: 120px;
             }
         }
     }
@@ -300,7 +294,7 @@ async function addTieBreaker() {
         grid-area: integration;
     }
 
-    .tournament-section-tiebreak{
+    .tournament-section-tiebreak {
         grid-column: span 2;
         display: flex;
         flex-direction: column;

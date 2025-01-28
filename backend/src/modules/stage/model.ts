@@ -22,25 +22,25 @@ export interface IStage {
     advanced: {
         groupComposition?: EStageGroupComposition;
         matchForfeit: {
-            isEnabled: boolean;
+            activated: boolean;
             points: number;
         };
         matchResult: {
+            activated: boolean;
             draw: number;
-            isEnabled: boolean;
             loss: number;
             win: number;
         };
         matchScore: boolean;
         noOpponents: {
-            isEnabled: boolean;
+            activated: boolean;
             points: number;
         };
         pairingMethod: EStageParingMethod;
         qualifiedThreshold?: number;
         roundResult: {
+            activated: boolean;
             draw: number;
-            isEnabled: boolean;
             loss: number;
             win: number;
         };
@@ -61,6 +61,7 @@ export interface IStage {
         gamesNumber: number;
         scoreBasedCalculations: boolean;
     };
+    number: number;
     placement: boolean;
     tournament: string;
     type: EStageType;
@@ -79,7 +80,7 @@ const stageSchema: Mongo.Schema = new Mongo.Schema({
             type: String
         },
         matchForfeit: {
-            enabled: {
+            activated: {
                 type: Boolean
             },
             points: {
@@ -87,11 +88,11 @@ const stageSchema: Mongo.Schema = new Mongo.Schema({
             }
         },
         matchResult: {
+            activated: {
+                type: Boolean
+            },
             draw: {
                 type: Number
-            },
-            isEnabled: {
-                type: Boolean
             },
             loss: {
                 type: Number
@@ -154,12 +155,15 @@ const stageSchema: Mongo.Schema = new Mongo.Schema({
         }
     },
     noOpponents: {
-        isEnabled: {
+        activated: {
             type: Boolean
         },
         points: {
             type: Number
         }
+    },
+    number: {
+        type: Number
     },
     pairingMethod: {
         type: String
@@ -171,11 +175,11 @@ const stageSchema: Mongo.Schema = new Mongo.Schema({
         type: Number
     },
     roundResult: {
+        activated: {
+            type: Boolean
+        },
         draw: {
             type: Number
-        },
-        isEnabled: {
-            type: Boolean
         },
         loss: {
             type: Number

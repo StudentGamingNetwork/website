@@ -14,9 +14,10 @@
                 @enter="updateStage"
             />
             <SInput 
-                v-model="savedStage.name"
-                :modified="stage.name !== savedStage.name"
+                v-model="savedStage.number"
+                :modified="stage.number !== savedStage.number"
                 title="Numéro de la phase"
+                type="number"
                 @enter="updateStage"
             />
             <SInput 
@@ -41,6 +42,7 @@
             <SButton
                 :disabled="!hasChanged"
                 primary
+                @click="sendUpdate"
             >
                 Sauvegarder les changements
             </SButton>
@@ -60,16 +62,19 @@
 import { computed, reactive, ref } from "vue";
 import { assign, cloneDeep, isMatch } from "lodash";
 import { useRouter } from "vue-router";
+import { type } from "../../../../modules/association/index";
 import SCard from "@/components/design/Card.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SButton from "@/components/design/forms/Button.vue";
-import { Stage, User } from "@/modules";
+import { Stage, Toast, User } from "@/modules";
 import * as StageService from "@/services/stage";
 import SModalSection from "@/components/design/modal/Section.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SCheckbox from "@/components/design/forms/SCheckbox.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
+
+const emit = defineEmits(["update"]);
 
 const router = useRouter();
 const userStore = User.useStore();
@@ -98,6 +103,20 @@ async function updateStage() {
         stage._id = "";
     }
 }
+
+const sendUpdate = async () => {
+    if (!hasChanged.value) {
+        return;
+    }
+    const response = await Toast.testRequest(async () => {
+        return await StageService.update(stage);
+    });
+
+    if (response?.success) {
+        emit("update");
+    }
+};
+
 
 </script>
 

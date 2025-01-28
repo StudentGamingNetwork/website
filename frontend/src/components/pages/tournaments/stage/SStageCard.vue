@@ -16,8 +16,25 @@
 import { defineModel } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
+import * as StageService from "@/services/stage";
+import { Toast } from "@/modules";
 
 const model = defineModel<string>();
+
+async function createStage() {
+    const response = await Toast.testRequest(async () => {
+        return await StageService.create(tournamentSlug.value);
+    });
+
+    if (response?.success) {
+        await updateStage();
+    }
+
+    team.members[playerIndex.value].username = username.value;
+
+    await sendUpdate();
+}
+
 
 </script>
 

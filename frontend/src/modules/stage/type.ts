@@ -46,6 +46,7 @@ export type TStage = {
         gamesNumber: number;
         scoreBasedCalculations: boolean;
     };
+    number: number;
     placement: boolean;
     tournament: TTournament;
     type: EStageType;
@@ -96,6 +97,7 @@ export function makeObject(stage: Partial<TStage>): TStage {
             gamesNumber: 0,
             scoreBasedCalculations: false
         },
+        number: 1,
         placement: false,
         tournament: "",
         type: EStageType.DUEL_SINGLE_ELIM
