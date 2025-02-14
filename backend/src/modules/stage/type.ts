@@ -1,6 +1,5 @@
 import { Type } from "@sinclair/typebox";
-import { EStageType, EStageGroupComposition, EStageParingMethod } from "./lib";
-import { EStageGrandFinal, EStageMatchFormat } from "./model";
+import { EStageGroupComposition, EStageParingMethod, EStageMatchCalculation, EStageGrandFinal, EStageMatchFormat, EStageType } from "./enum";
 
 const Stage = {
     _id: Type.String(),
@@ -45,7 +44,7 @@ const Stage = {
         endWhenWinnerKnown: Type.Boolean(),
         format: Type.Enum(EStageMatchFormat),
         gamesNumber: Type.Number(),
-        scoreBasedCalculations: Type.Boolean()
+        scoreBasedCalculations: Type.Enum(EStageMatchCalculation)
     }),
     number: Type.Number(),
     placement: Type.Boolean(),

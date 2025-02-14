@@ -82,3 +82,9 @@ export enum EStageMatchFormat {
     FIXED = "Fixed"
 
 }
+
+export enum EStageMatchCalculation {
+    NONE = "None",
+    SCORE = "Score",
+    RESULT = "Result",
+}

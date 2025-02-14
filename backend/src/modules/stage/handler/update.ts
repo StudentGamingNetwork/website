@@ -1,15 +1,14 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import { isUndefined } from "lodash";
-import { EStageGroupComposition, EStageParingMethod, EStageType } from "../lib";
+import { EStageGroupComposition, EStageParingMethod , EStageGrandFinal, EStageMatchFormat, EStageType , EStageMatchCalculation } from "../enum";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
-import StageModel, { EStageGrandFinal, EStageMatchFormat } from "@/modules/stage/model";
+import StageModel from "@/modules/stage/model";
 import { TypeStage } from "@/modules/stage/type";
 
 const SchemaParams = Type.Object({
-    stage: TypeStage
+    id: Type.String({ minLength: 1 })
 });
 
 type TSchemaParams = Static<typeof SchemaParams>;
@@ -41,22 +40,26 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
             UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
 
-            const stage = await StageModel.findById(request.params.stage._id);
+            const stage = await StageModel.findById(request.params.id);
 
             if (!stage) {
                 throw new httpErrors.NotFound("Aucun tournoi trouvé.");
             }
 
-            const stages = await StageModel.find({ tournament: stage.tournament }, { number: 1 });
-            
-            if (stages.some((s) => s.number === request.body.number && s._id !== stage._id)) {
+            const stages = await StageModel.find({ tournament: stage.tournament });
+
+            if (stages.some(s => {
+                s._id !== request.body._id && s.number === request.body.number;
+            })) {
                 throw new httpErrors.Conflict("Une étape avec ce numéro existe déjà.");
             }
-
+         
             if (stage.number < 1){
                 throw new httpErrors.BadRequest("Le numéro de l'étapê doit être supérieur à 0.");
             }
 
+            console.log(request.body.advanced?.matchResult.activated);
+            
             stage.name = request.body.name || "";
             stage.number = request.body.number || 1;
             stage.placement = request.body.placement || false;
@@ -69,7 +72,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             stage.matchSettings.endWhenWinnerKnown = request.body.matchSettings?.endWhenWinnerKnown || false;
             stage.matchSettings.format = request.body.matchSettings?.format || EStageMatchFormat.NONE;
             stage.matchSettings.gamesNumber = request.body.matchSettings?.gamesNumber || 0;
-            stage.matchSettings.scoreBasedCalculations = request.body.matchSettings?.scoreBasedCalculations || false;
+            stage.matchSettings.scoreBasedCalculations = request.body.matchSettings?.scoreBasedCalculations || EStageMatchCalculation.NONE;
             stage.advanced.groupComposition = request.body.advanced?.groupComposition || EStageGroupComposition.ADJACENT;
             stage.advanced.matchForfeit.activated = request.body.advanced?.matchForfeit.activated || false;
             stage.advanced.matchForfeit.points = request.body.advanced?.matchForfeit.points || 0;
@@ -88,10 +91,9 @@ export async function register(server: FastifyInstance): Promise<void> {
             stage.advanced.roundResult.win = request.body.advanced?.roundResult.win || 0;
             stage.advanced.roundScore = request.body.advanced?.roundScore || false;
             stage.advanced.tieBreaker = request.body.advanced?.tieBreaker || [];
-            stage.tournament = request.params.stage.tournament;
+            stage.tournament = request.body.tournament || stage.tournament;
             stage.type = request.body.type || EStageType.DUEL_BRACKET_GROUPS;
             
-
 
             await stage.save();
 

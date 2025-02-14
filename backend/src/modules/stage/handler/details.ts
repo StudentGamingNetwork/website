@@ -48,7 +48,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 .exec();
 
             if (!stage) {
-                throw new httpErrors.NotFound("Aucune équipe trouvée");
+                throw new httpErrors.NotFound("Aucune étape trouvée");
             }
             response.stage = stage as any;
     
