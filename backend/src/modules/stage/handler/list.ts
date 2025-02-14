@@ -2,9 +2,10 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import { TypeStage } from "@/modules/stage/type";
 import StageModel from "@/modules/stage/model";
+import * as TournamentLib from "@/modules/tournament/lib";
 
 const SchemaParams = Type.Object({
-    id: Type.String({ minLength: 1 })
+    slug: Type.String({ minLength: 1 })
 });
 
 type TSchemaParams = Static<typeof SchemaParams>;
@@ -23,14 +24,21 @@ const schema = {
 
 export async function register(server: FastifyInstance): Promise<void> {
     server.get<{ Params: TSchemaParams; Response: TSchemaResponse }>(
-        "/get/:id",
+        "/list/:slug",
         { schema },
         async (request, reply) => {
-    
-            const id = request.params.id;
-            const stage = await StageModel.findById(id);
+            const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
 
-            reply.send(stage);
+            const stages = await StageModel.find({
+                tournament: tournament._id
+            }).sort({ number: 1 }).exec();
+
+            if (!stages) {
+                reply.send([]);
+                return;
+            }
+
+            reply.send(stages);
         }
     );
 }

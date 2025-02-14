@@ -10,7 +10,7 @@
                 :options="pairingMethods"
                 title="Méthode de jumelage"
                 v-model:="stage.advanced.pairingMethod"
-                @enter="updateStage"
+                @enter="sendUpdate"
             />
         </SModalSection>
         <SModalSection class="tournament-stage-section">
@@ -22,31 +22,31 @@
                 tooltip-text="Attribue des points en fonction du résultat du match (victoire, match nul ou défaite)."
             >
                 <SCheckbox
-                    v-model="savedStage.advanced.matchResult.enabled"
-                    :modified="stage.advanced.matchResult?.enabled !== savedStage.advanced.matchResult?.enabled"
+                    v-model="stage.advanced.matchResult.activated"
+                    :modified="stage.advanced.matchResult.activated !== savedStage.advanced.matchResult.activated"
                     title="Résultat de match"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
             </STooltip>
             <div class="group">
                 <SInput
-                    v-model="savedStage.advanced.matchResult.win"
+                    v-model="stage.advanced.matchResult.win"
                     :modified="stage.advanced.matchResult.win !== savedStage.advanced.matchResult.win"
                     title="Victoire"
                     type="number"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
                 <SInput
-                    v-model="savedStage.advanced.matchResult.draw"
+                    v-model="stage.advanced.matchResult.draw"
                     :modified="stage.advanced.matchResult.draw !== savedStage.advanced.matchResult.draw"
                     title="Match nul"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
                 <SInput
-                    v-model="savedStage.advanced.matchResult.loss"
+                    v-model="stage.advanced.matchResult.loss"
                     :modified="stage.advanced.matchResult.loss !== savedStage.advanced.matchResult.loss"
                     title="Défaite"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
             </div>
 
@@ -57,19 +57,19 @@
                 tooltip-text="Attribue des points lorsqu'un participant ne joue pas parce qu'il n'y a pas d'adversaire possible."
             >
                 <SCheckbox
-                    v-model="savedStage.advanced.noOpponents.enabled"
-                    :modified="stage.advanced.noOpponents.enabled !== savedStage.advanced.noOpponents.enabled"
+                    v-model="stage.advanced.noOpponents.activated"
+                    :modified="stage.advanced.noOpponents.activated !== savedStage.advanced.noOpponents.activated"
                     title="Aucun adversaire pour le round"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
             </STooltip>
 
             <SInput
-                v-model="savedStage.advanced.noOpponents.points"
+                v-model="stage.advanced.noOpponents.points"
                 :modified="stage.advanced.noOpponents.points !== savedStage.advanced.noOpponents.points"
                 title="Points"
                 type="number"
-                @enter="updateStage"
+                @enter="sendUpdate"
             />
 
             <SModalSectionTitle>Forfait</SModalSectionTitle>
@@ -79,19 +79,19 @@
                 tooltip-text="Attribue des points lorsqu'un participant est forfait dans un match (peut être négatif pour une pénalité)."
             >
                 <SCheckbox
-                    v-model="savedStage.advanced.matchForfeit.enabled"
-                    :modified="stage.advanced.matchForfeit.enabled !== savedStage.advanced.matchForfeit.enabled"
+                    v-model="stage.advanced.matchForfeit.activated"
+                    :modified="stage.advanced.matchForfeit.activated !== savedStage.advanced.matchForfeit.activated"
                     title="Forfait"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
             </STooltip>
 
             <SInput
-                v-model="savedStage.advanced.matchForfeit.points"
+                v-model="stage.advanced.matchForfeit.points"
                 :modified="stage.advanced.matchForfeit.points !== savedStage.advanced.matchForfeit.points"
                 title="Points"
                 type="number"
-                @enter="updateStage"
+                @enter="sendUpdate"
             />
 
             <SModalSectionTitle>Score de match</SModalSectionTitle>
@@ -101,10 +101,10 @@
                 tooltip-text="Attribue des points égaux au score du match."
             >
                 <SCheckbox
-                    v-model="savedStage.advanced.matchScore"
+                    v-model="stage.advanced.matchScore"
                     :modified="stage.advanced.matchScore !== savedStage.advanced.matchScore"
                     title="Score de match"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
             </STooltip>
 
@@ -115,31 +115,31 @@
                 tooltip-text="Attribue des points en fonction du résultat de la manche (victoire, match nul ou défaite)."
             >
                 <SCheckbox
-                    v-model="savedStage.advanced.roundResult.enabled"
-                    :modified="stage.advanced.roundResult?.enabled !== savedStage.advanced.roundResult?.enabled"
+                    v-model="stage.advanced.roundResult.activated"
+                    :modified="stage.advanced.roundResult?.activated !== savedStage.advanced.roundResult?.activated"
                     title="Résultat de manche"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
             </STooltip>
             <div class="group">
                 <SInput
-                    v-model="savedStage.advanced.roundResult.win"
+                    v-model="stage.advanced.roundResult.win"
                     :modified="stage.advanced.roundResult.win !== savedStage.advanced.roundResult.win"
                     title="Victoire"
                     type="number"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
                 <SInput
-                    v-model="savedStage.advanced.roundResult.draw"
+                    v-model="stage.advanced.roundResult.draw"
                     :modified="stage.advanced.roundResult.draw !== savedStage.advanced.roundResult.draw"
                     title="Match nul"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
                 <SInput
-                    v-model="savedStage.advanced.roundResult.loss"
+                    v-model="stage.advanced.roundResult.loss"
                     :modified="stage.advanced.roundResult.loss !== savedStage.advanced.roundResult.loss"
                     title="Défaite"
-                    @enter="updateStage"
+                    @enter="sendUpdate"
                 />
             </div>
 
@@ -167,6 +167,7 @@
             <SButton
                 :disabled="!hasChanged"
                 primary
+                @click="sendUpdate"
             >
                 Sauvegarder les changements
             </SButton>
@@ -175,21 +176,22 @@
             <SButton
                 danger
                 outlined
+                @click="deleteStage"
             >
-                Supprimer la phase
+                Supprimer l'étape
             </SButton>
         </div>
     </SCard>
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from "vue";
-import { assign, cloneDeep, isMatch } from "lodash";
+import { computed, onMounted, ref } from "vue";
+import { isMatch } from "lodash";
 import { useRouter } from "vue-router";
 import SCard from "@/components/design/Card.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SButton from "@/components/design/forms/Button.vue";
-import { Stage, User } from "@/modules";
+import { Stage, Toast } from "@/modules";
 import * as StageService from "@/services/stage";
 import SModalSection from "@/components/design/modal/Section.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
@@ -200,38 +202,64 @@ import SSectionTitle from "@/components/design/SectionTitle.vue";
 import SSelect from "@/components/design/forms/SSelect.vue";
 import STooltip from "@/components/design/STooltip.vue";
 
+const props = defineProps<{
+    savedStage: Stage.TStage;
+}>();
+
+
+const stage = defineModel<Stage.TStage>();
+
+const emit = defineEmits(["updateStage"]);
+
 const router = useRouter();
-const userStore = User.useStore();
 
 const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
+const stageId = ref(router.currentRoute.value.params.management as string);
 
-const savedStage = reactive(Stage.makeObject({}));
-const stage = reactive<Stage.TStage>(cloneDeep(savedStage));
 
-const isConnected = computed(() => !!userStore._id);
-
-const hasChanged = computed(() => !isMatch(savedStage, stage));
+const hasChanged = computed(() => !isMatch(props.savedStage, stage.value));
 
 const pairingMethods = Object.entries(EStageParingMethod).map(([key, value]) => ({ key, value }));
 
-async function updateStage() {
-    if (!isConnected.value) {
+
+const sendUpdate = async () => {
+    if (!hasChanged.value) {
+        return;
+    }
+    
+    const response = await Toast.testRequest(async () => {
+        return await StageService.update(stage.value as Stage.TStage, stageId.value);
+    });
+
+    if (response?.success) {
+        emit("updateStage");
+    }
+};
+
+
+async function deleteStage() {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cette étape ?")) {
         return;
     }
 
-    const result = await StageService.details(tournamentSlug.value, stage?._id);
-    const teamApi = result.team;
+    const response = await Toast.testRequest(async () => {
+        return await StageService.remove(stageId.value);
+    });
 
-    assign(savedStage, stage);
-    assign(stage, cloneDeep(savedStage));
-
-    if (!teamApi?._id) {
-        stage._id = "";
+    if (response?.success) {
+        await router.push(`/tournament/${ tournamentSlug.value }/stage/`);
+        emit("updateStage");
     }
 }
 
+onMounted(() => {
+   
+    emit("updateStage");
+});
+
+
 async function addTieBreaker() {
-    savedStage.advanced.tieBreaker.push();
+    stage.value?.advanced.tieBreaker.push();
 }
 
 </script>

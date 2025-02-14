@@ -1,21 +1,6 @@
-import { EStageType, EStageGroupComposition, EStageParingMethod, EStageTieBreaker } from "./lib";
+import { EStageGrandFinal, EStageGroupComposition, EStageMatchCalculation, EStageMatchFormat, EStageParingMethod, EStageTieBreaker, EStageType } from "./enum";
 import Mongo from "@/database";
 
-
-export enum EStageGrandFinal {
-    NONE = "None",
-    SIMPLE = "Simple",
-    DOUBLE = "Double"
-}
-
-
-export enum EStageMatchFormat {
-    NONE = "None",
-    BEST_OF = "Best_of",
-    SINGLE = "Single",
-    HOMEGUEST = "Home/guest",
-    FIXED = "Fixed"
-}
 
 export interface IStage {
     name: string;
@@ -59,7 +44,7 @@ export interface IStage {
         endWhenWinnerKnown: boolean;
         format: EStageMatchFormat;
         gamesNumber: number;
-        scoreBasedCalculations: boolean;
+        scoreBasedCalculations: EStageMatchCalculation;
     };
     number: number;
     placement: boolean;
@@ -105,15 +90,40 @@ const stageSchema: Mongo.Schema = new Mongo.Schema({
             type: Boolean
         },
         noOpponents: {
-            enabled: {
+            activated: {
                 type: Boolean
             },
             points: {
                 type: Number
             }
         },
+        pairingMethod: {
+            default: EStageParingMethod.BALANCED,
+            enum: Object.values(EStageParingMethod),
+            type: String
+        },
+        qualifiedThreshold: {
+            type: Number
+        },
+        roundResult: {
+            activated: {
+                type: Boolean
+            },
+            draw: {
+                type: Number
+            },
+            loss: {
+                type: Number
+            },
+            win: {
+                type: Number
+            }
+        },
         roundScore: {
             type: Boolean
+        },
+        tieBreaker: {
+            type: Array<EStageTieBreaker>
         }
     },
     general: {
@@ -151,7 +161,9 @@ const stageSchema: Mongo.Schema = new Mongo.Schema({
             type: Number
         },
         scoreBasedCalculations: {
-            type: Boolean
+            default: EStageMatchCalculation.NONE,
+            enum: Object.values(EStageMatchCalculation),
+            type: String
         }
     },
     noOpponents: {
@@ -188,12 +200,14 @@ const stageSchema: Mongo.Schema = new Mongo.Schema({
             type: Number
         }
     },
-    tieBreaker: {
-        type: Array
-    },
     tournament: {
         ref: "tournament",
         type: Mongo.Schema.Types.ObjectId
+    },
+    type: {
+        default: EStageType.DUEL_BRACKET_GROUPS,
+        enum: Object.values(EStageType),
+        type: String
     }
 });
 

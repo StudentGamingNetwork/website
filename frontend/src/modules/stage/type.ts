@@ -1,5 +1,5 @@
 import { merge } from "lodash";
-import { EStageType, EStageGrandFinal, EStageGroupComposition, EStageMatchFormat, EStageParingMethod, TieBreakers } from "./lib";
+import { EStageType, EStageGrandFinal, EStageGroupComposition, EStageMatchFormat, EStageParingMethod, TieBreakers, EStageMatchCalculation } from "./lib";
 import { TTournament } from "@/modules/tournament";
 
 export type TStage = {
@@ -8,25 +8,25 @@ export type TStage = {
     advanced: {
         groupComposition?: EStageGroupComposition;
         matchForfeit: {
-            enabled: boolean;
+            activated: boolean;
             points: number;
         };
         matchResult: {
+            activated: boolean;
             draw: number;
-            enabled: boolean;
             loss: number;
             win: number;
         };
         matchScore: boolean;
         noOpponents: {
-            enabled: boolean;
+            activated: boolean;
             points: number;
         };
         pairingMethod: EStageParingMethod;
         qualifiedThreshold?: number;
         roundResult: {
+            activated: boolean;
             draw: number;
-            enabled: boolean;
             loss: number;
             win: number;
         };
@@ -44,7 +44,7 @@ export type TStage = {
         endWhenWinnerKnown: boolean;
         format: EStageMatchFormat;
         gamesNumber: number;
-        scoreBasedCalculations: boolean;
+        scoreBasedCalculations: EStageMatchCalculation;
     };
     number: number;
     placement: boolean;
@@ -58,29 +58,29 @@ export function makeObject(stage: Partial<TStage>): TStage {
         name: "",
         advanced: {
             matchForfeit: {
-                enabled: false,
+                activated: false,
                 points: 0
             },
             matchResult: {
+                activated: false,
                 draw: 0,
-                enabled: false,
                 loss: 0,
                 win: 0
             },
             matchScore: {
+                activated: false,
                 draw: 0,
-                enabled: false,
                 loss: 0,
                 win: 0
             },
             noOpponents: {
-                enabled: false,
+                activated: false,
                 points: 0
             },
             qualifiedThreshold: 0,
             roundResult: {
+                activated: false,
                 draw: 0,
-                enabled: false,
                 loss: 0,
                 win: 0
             },
@@ -95,7 +95,7 @@ export function makeObject(stage: Partial<TStage>): TStage {
             endWhenWinnerKnown: false,
             format: EStageMatchFormat.NONE,
             gamesNumber: 0,
-            scoreBasedCalculations: false
+            scoreBasedCalculations: EStageMatchCalculation.NONE
         },
         number: 1,
         placement: false,

@@ -6,34 +6,35 @@
             Paramètres du stage
         </SSectionTitle>
         <SModalSection>
-            <SModalSectionTitle>Général</SModalSectionTitle>
+            <SModalSectionTitle>Match</SModalSectionTitle>
             <SInput 
-                v-model="savedStage.name"
-                :modified="stage.name !== savedStage.name"
-                title="Nom de la phase"
-                @enter="updateStage"
+                v-model="stage.matchSettings.gamesNumber"
+                :modified="stage.matchSettings.gamesNumber !== savedStage.matchSettings.gamesNumber"
+                title="Nombre de parties"
+                @enter="sendUpdate"
             />
-            <SInput 
-                v-model="savedStage.name"
-                :modified="stage.name !== savedStage.name"
-                title="Numéro de la phase"
-                @enter="updateStage"
-            />
-            <SInput 
-                v-model="savedStage.general.size"
-                :modified="stage.general.size !== savedStage.general.size"
-                title="Taille de la phase"
-                type="number"
-                @enter="updateStage"
+            <SCheckbox
+                v-model="stage.matchSettings.endWhenWinnerKnown"
+                :modified="stage.matchSettings.endWhenWinnerKnown !== savedStage.matchSettings.endWhenWinnerKnown"
+                title="Terminer si le vainqueur est connu"
+                @enter="sendUpdate"
             />
         </SModalSection>
         <SModalSection>
-            <SModalSectionTitle>Placement</SModalSectionTitle>
-            <SCheckbox
-                v-model="savedStage.placement"
-                :modified="stage.placement !== savedStage.placement"
-                title="Placer automatiquement les participants ?"
-                @enter="updateStage"
+            <SModalSectionTitle>Calcul</SModalSectionTitle>
+            <SSelect
+                :modified="stage.matchSettings.format != savedStage.matchSettings.format"
+                :options="matchFormats"
+                title="Méthode de jumelage"
+                v-model:="stage.matchSettings.format"
+                @enter="sendUpdate"
+            />
+            <SSelect
+                v-model="stage.matchSettings.scoreBasedCalculations"
+                :modified="stage.matchSettings.scoreBasedCalculations !== savedStage.matchSettings.scoreBasedCalculations"
+                :options="calculationOptions"
+                title="Calcul basé sur le score"
+                @enter="sendUpdate"
             />
         </SModalSection>  
         <div class="save">
@@ -41,6 +42,7 @@
             <SButton
                 :disabled="!hasChanged"
                 primary
+                @click="sendUpdate"
             >
                 Sauvegarder les changements
             </SButton>
@@ -49,55 +51,82 @@
             <SButton
                 danger
                 outlined
+                @click="deleteStage"
             >
-                Supprimer la phase
+                Supprimer l'étape
             </SButton>
         </div>
     </SCard>
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from "vue";
-import { assign, cloneDeep, isMatch } from "lodash";
+import { computed, onMounted, ref } from "vue";
+import { isMatch } from "lodash";
 import { useRouter } from "vue-router";
 import SCard from "@/components/design/Card.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SButton from "@/components/design/forms/Button.vue";
-import { Stage, User } from "@/modules";
+import SSelect from "@/components/design/forms/SSelect.vue";
+import { Stage, Toast } from "@/modules";
 import * as StageService from "@/services/stage";
 import SModalSection from "@/components/design/modal/Section.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
 import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SCheckbox from "@/components/design/forms/SCheckbox.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
+import { EStageMatchFormat, EStageMatchCalculation } from "@/modules/stage";
+
+const props = defineProps<{
+    savedStage: Stage.TStage;
+}>();
+
+const stage = defineModel<Stage.TStage>();
+
+const emit = defineEmits(["updateStage"]);
 
 const router = useRouter();
-const userStore = User.useStore();
 
 const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
+const stageId = ref(router.currentRoute.value.params.management as string);
 
-const savedStage = reactive(Stage.makeObject({}));
-const stage = reactive<Stage.TStage>(cloneDeep(savedStage));
+const hasChanged = computed(() => !isMatch(props.savedStage, stage.value));
 
-const isConnected = computed(() => !!userStore._id);
+const matchFormats = Object.entries(EStageMatchFormat).map(([key, value]) => ({ key, value }));
+const calculationOptions = Object.entries(EStageMatchCalculation).map(([key, value]) => ({ key, value }));
 
-const hasChanged = computed(() => !isMatch(savedStage, stage));
+const sendUpdate = async () => {
+    if (!hasChanged.value) {
+        return;
+    }
+    
+    const response = await Toast.testRequest(async () => {
+        return await StageService.update(stage.value as Stage.TStage, stageId.value);
+    });
 
-async function updateStage() {
-    if (!isConnected.value) {
+    if (response?.success) {
+        emit("updateStage");
+    }
+};
+
+async function deleteStage() {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cette étape ?")) {
         return;
     }
 
-    const result = await StageService.details(tournamentSlug.value,stage?._id);
-    const teamApi = result.team; 
-   
-    assign(savedStage, stage);
-    assign(stage, cloneDeep(savedStage));
+    const response = await Toast.testRequest(async () => {
+        return await StageService.remove(stageId.value);
+    });
 
-    if (!teamApi?._id) {
-        stage._id = "";
+    if (response?.success) {
+        await router.push(`/tournament/${ tournamentSlug.value }/stage/`);
+        emit("updateStage");
     }
 }
+
+
+onMounted(() => {
+    emit("updateStage");
+});
 
 </script>
 

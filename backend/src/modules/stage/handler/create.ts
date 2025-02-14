@@ -1,9 +1,9 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
+import { EStageGrandFinal, EStageMatchFormat, EStageType , EStageParingMethod , EStageMatchCalculation } from "../enum";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
-import { EStageGrandFinal, EStageMatchFormat } from "@/modules/stage/lib";
 import StageModel from "@/modules/stage/model";
 import * as TournamentLib from "@/modules/tournament/lib";
 
@@ -41,10 +41,37 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Le tournoi n'existe pas.");
             }
 
+            if (!tournament.stages) {
+                tournament.stages = [];
+            }
+
             const stage = await StageModel.create({
-                name: request.body.name,
+                name: "New stage",
                 advanced: {
-                    qualifiedThreshold: 0
+                    matchForfeit: {
+                        activated: false,
+                        points: 0
+                    },
+                    matchResult: {
+                        activated: false,
+                        draw: 0,
+                        loss: 0,
+                        win: 0
+                    },
+                    matchScore: false,
+                    noOpponents: {
+                        activated: false,
+                        points: 0
+                    },
+                    pairingMethod: EStageParingMethod.BALANCED,
+                    roundResult: {
+                        activated: false,
+                        draw: 0,
+                        loss: 0,
+                        win: 0
+                    },
+                    roundScore: false,
+                    tieBreaker: []
                 },
                 general: {
                     grandFinal: EStageGrandFinal.NONE,
@@ -55,12 +82,17 @@ export async function register(server: FastifyInstance): Promise<void> {
                     endWhenWinnerKnown: false,
                     format: EStageMatchFormat.NONE,
                     gamesNumber: 1,
-                    scoreBasedCalculations: false
+                    scoreBasedCalculations: EStageMatchCalculation.NONE
                 },
+                number: (tournament.stages ? tournament.stages.length : 0) + 1,
                 placement: false,
                 tournament: tournament._id,
-                type: request.body.type
+                type: EStageType.DUEL_BRACKET_GROUPS
             });
+
+            tournament.stages = [...(tournament.stages || []), stage._id];
+
+            await tournament.save();
 
             reply.send({
                 id: stage._id,

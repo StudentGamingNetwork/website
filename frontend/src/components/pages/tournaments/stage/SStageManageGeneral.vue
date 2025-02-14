@@ -8,33 +8,33 @@
         <SModalSection>
             <SModalSectionTitle>Général</SModalSectionTitle>
             <SInput 
-                v-model="savedStage.name"
-                :modified="stage.name !== savedStage.name"
+                v-model="stage.name"
+                :modified="stage.name !== props.savedStage.name"
                 title="Nom de la phase"
-                @enter="updateStage"
+                @enter="sendUpdate"
             />
             <SInput 
-                v-model="savedStage.number"
-                :modified="stage.number !== savedStage.number"
+                v-model="stage.number"
+                :modified="stage.number !== props.savedStage.number"
                 title="Numéro de la phase"
                 type="number"
-                @enter="updateStage"
+                @enter="sendUpdate"
             />
             <SInput 
-                v-model="savedStage.general.size"
-                :modified="stage.general.size !== savedStage.general.size"
+                v-model="stage.general.size"
+                :modified="stage.general.size !== props.savedStage.general.size"
                 title="Taille de la phase"
                 type="number"
-                @enter="updateStage"
+                @enter="sendUpdate"
             />
         </SModalSection>
         <SModalSection>
             <SModalSectionTitle>Placement</SModalSectionTitle>
             <SCheckbox
-                v-model="savedStage.placement"
+                v-model="stage.placement"
                 :modified="stage.placement !== savedStage.placement"
                 title="Placer automatiquement les participants ?"
-                @enter="updateStage"
+                @enter="sendUpdate"
             />
         </SModalSection>  
         <div class="save">
@@ -51,22 +51,22 @@
             <SButton
                 danger
                 outlined
+                @click="deleteStage"
             >
-                Supprimer la phase
+                Supprimer l'étape
             </SButton>
         </div>
     </SCard>
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from "vue";
-import { assign, cloneDeep, isMatch } from "lodash";
+import { computed, onMounted, ref } from "vue";
+import { isMatch } from "lodash";
 import { useRouter } from "vue-router";
-import { type } from "../../../../modules/association/index";
 import SCard from "@/components/design/Card.vue";
 import SInput from "@/components/design/forms/Input.vue";
 import SButton from "@/components/design/forms/Button.vue";
-import { Stage, Toast, User } from "@/modules";
+import { Stage, Toast } from "@/modules";
 import * as StageService from "@/services/stage";
 import SModalSection from "@/components/design/modal/Section.vue";
 import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
@@ -74,49 +74,56 @@ import SModalSeparator from "@/components/design/modal/Separator.vue";
 import SCheckbox from "@/components/design/forms/SCheckbox.vue";
 import SSectionTitle from "@/components/design/SectionTitle.vue";
 
-const emit = defineEmits(["update"]);
+
+const props = defineProps<{
+    savedStage: Stage.TStage;
+}>();
+
+const stage = defineModel<Stage.TStage>();
+
+const emit = defineEmits(["updateStage"]);
 
 const router = useRouter();
-const userStore = User.useStore();
 
 const tournamentSlug = ref(router.currentRoute.value.params.slug as string);
+const stageId = ref(router.currentRoute.value.params.management as string);
 
-const savedStage = reactive(Stage.makeObject({}));
-const stage = reactive<Stage.TStage>(cloneDeep(savedStage));
 
-const isConnected = computed(() => !!userStore._id);
+const hasChanged = computed(() => !isMatch(props.savedStage, stage.value));
 
-const hasChanged = computed(() => !isMatch(savedStage, stage));
-
-async function updateStage() {
-    if (!isConnected.value) {
-        return;
-    }
-
-    const result = await StageService.details(tournamentSlug.value,stage?._id);
-    const teamApi = result.team; 
-   
-    assign(savedStage, stage);
-    assign(stage, cloneDeep(savedStage));
-
-    if (!teamApi?._id) {
-        stage._id = "";
-    }
-}
 
 const sendUpdate = async () => {
     if (!hasChanged.value) {
         return;
     }
+    
     const response = await Toast.testRequest(async () => {
-        return await StageService.update(stage);
+        return await StageService.update(stage.value as Stage.TStage, stageId.value);
     });
 
     if (response?.success) {
-        emit("update");
+        emit("updateStage");
     }
 };
 
+async function deleteStage() {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cette étape ?")) {
+        return;
+    }
+
+    const response = await Toast.testRequest(async () => {
+        return await StageService.remove(stageId.value);
+    });
+
+    if (response?.success) {
+        await router.push(`/tournament/${ tournamentSlug.value }/stage/`);
+        emit("updateStage");
+    }
+}
+
+onMounted(() => {
+    emit("updateStage");
+});
 
 </script>
 

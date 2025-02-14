@@ -44,7 +44,7 @@ export interface ITournament {
         slug: string;
         toornament: string;
     };
-    stages: Stage;
+    stages: string[];
     state: {
         archived: boolean;
         public: boolean;
@@ -98,8 +98,9 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
         toornament: String
     },
     stages: {
-        of: String,
-        type: Map
+        ref: "stage",
+        type: Array<Mongo.Schema.Types.ObjectId>
+      
     },
     state: {
         archived: Boolean,
