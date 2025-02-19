@@ -1,24 +1,23 @@
 <template>
     <section class="hero-section">
         <SPageTitle>
-            Votre match est prêt !
+             {{ $t("landing.hero.title")}}
         </SPageTitle>
         <SPageDescription>
-            Le <strong>Student Gaming Network</strong> (SGN) est la fédération des associations étudiantes françaises d'esport.
-            Nous organisons de nombreux tournois à l'échelle nationale et promouvons activement l'esport étudiant.
+            {{ $t("landing.hero.description.part1") }} <strong>Student Gaming Network</strong> {{ $t("landing.hero.description.part2") }}
         </SPageDescription>
         <div class="cta">
             <SButton
                 primary
                 @click="stateStore.modalOpen('signup')"
             >
-                Rejoignez-nous
+               {{ $t("landing.hero.join")}}
             </SButton>
             <SButton
                 outlined
                 @click="contact"
             >
-                Contactez-nous
+                {{ $t("landing.hero.contact")}}
             </SButton>
         </div>
     </section>

@@ -25,11 +25,9 @@
                         v-html="markdownProcess(team)"
                     />
                     <li>
-                        <strong>{{ teamNumberText }}</strong> inscrite{{
-                            tournament.game.team.subscribed > 1 ? "s" : ""
-                        }}
+                        <strong>{{ teamNumberText }}</strong> {{ $t("tournaments.widget.tournament.teamNumber",teamNumberText) }}
                         <template v-if="tournament.game.team.maxTeams > 0">
-                            (<strong>{{ tournament.game.team.maxTeams }} places</strong>)
+                            (<strong>{{ tournament.game.team.maxTeams }} >{{ $t("tournaments.widget.tournament.maxTeams") }}</strong>)
                         </template>
                     </li>
                     <li v-if="tournament.informations?.rulesUrl">
@@ -37,7 +35,7 @@
                             :href="tournament.informations.rulesUrl"
                             target="_blank"
                             @click.stop
-                        >Afficher le règlement</a>
+                        >>{{ $t("tournaments.widget.tournament.rules") }}</a>
                     </li>
                 </ul>
             </div>
