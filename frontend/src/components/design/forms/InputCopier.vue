@@ -5,7 +5,7 @@
         </div>
         <div
             class="content"
-            title="Copier dans le press-papier"
+            :title="$t('components.design.forms.copy')"
             @click="copyIntoClipboard"
         >
             <span class="text">{{ content }}</span><FontAwesomeIcon
@@ -21,6 +21,7 @@ import { defineComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { Toast } from "@/modules";
 import { EToastType } from "@/modules/toast/store";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
     name: "SInputCopier",
@@ -36,13 +37,14 @@ export default defineComponent({
         }
     },
     setup(props) {
+        const { t } = useI18n() 
         const toastStore = Toast.useStore();
 
         const copyIntoClipboard = async () => {
             await navigator.clipboard.writeText(props.content);
             toastStore.add({
-                title: "Copié",
-                message: `"${ props.content }" a été copié dans votre presse-papier.`,
+                title: t("module.toast.copy.title"),
+                message: `${ t("module.toast.copy.message",{content: props.content}) }`,
                 type: EToastType.Info
             });
         };

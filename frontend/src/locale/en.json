@@ -1,1 +1,133 @@
-{}
+{
+    "components": {
+        "design": {
+            "forms": {
+                "copy": "Copy to clipboard"
+            }
+        }
+    },
+    "module": {
+        "toast": {
+            "success": "Success",
+            "copy": {
+                "title": "Copied",
+                "message": "\"{content}\" has been copied to your clipboard."
+            },
+            "alreadyConnected": {
+                "title": "Already connected",
+                "message": "You are already connected."
+            }
+        }
+    },
+    "landing": {
+        "hero": {
+            "title": "Your match is ready!",
+            "description": {
+                "part1": "The",
+                "part2": "(SGN) is the federation of French student esports associations. We organize numerous national tournaments and actively promote student esports."
+            },
+            "join": "Join us",
+            "contact": "Contact us"
+        },
+        "trust": {
+            "title": "They trusted us",
+            "description": {
+                "part1": "We have worked with many stakeholders in the gaming sector",
+                "part2": "who continue to trust us year after year."
+            }
+        }
+    },
+    "tournaments": {
+        "widget": {
+            "signup": {
+                "mail": "Email",
+                "password": "Password",
+                "passLen": "At least {count} characters",
+                "passMin": "At least one lowercase letter",
+                "passMaj": "At least one uppercase letter",
+                "passNum": "At least one number",
+                "button": {
+                    "signup": "Sign up",
+                    "login": "Log in"
+                },
+                "function": {
+                    "title": "Error",
+                    "message": "All fields must be filled."
+                },
+                "description": "You can use your {account} if you have one. You can delete this account after the competition if you wish.",
+                "account": "SGN account"
+            },
+            "team": {
+                "title": "Ready to join the arena?",
+                "name": "First and last name",
+                "school": "School",
+                "note": "If your school is not listed, that's fine, enter it anyway.",
+                "create": "Create a team",
+                "join": "Join a team",
+                "participate": "Participate in the tournament",
+                "header": "Registrations are closed 🏆!",
+                "team": {
+                    "title": "Team",
+                    "name": "Team name",
+                    "tag": "Team TAG",
+                    "code": "Invitation code",
+                    "disband": "Disband team",
+                    "leave": "Leave team"
+                },
+                "player": {
+                    "title": "Player",
+                    "discord": "Discord ID",
+                    "description": "{warning}: You must {action} to participate",
+                    "warning": "Warning",
+                    "action": "join Discord",
+                    "tag": "Team TAG",
+                    "code": "Invitation code",
+                    "disband": "Disband team",
+                    "leave": "Leave team"
+                },
+                "student": {
+                    "title": "Student status",
+                    "name": "First and last name",
+                    "school": "School"
+                },
+                "certificate": {
+                    "processing": "Verification in progress",
+                    "validated": "Certificate validated until September",
+                    "rejected": "Certificate rejected (please provide another one)",
+                    "none": "No certificate provided"
+                },
+                "state": {
+                    "save": "Save",
+                    "ready": "Mark as ready",
+                    "waiting": "Waiting",
+                    "validated": "Team validated",
+                    "leave": "Leave the tournament",
+                    "description": "Once everything is in order, click \"Mark as ready\" so that the admins can validate your team."
+                },
+                "members": {
+                    "title": "Players",
+                    "avatar": "avatar",
+                    "kick": "Kick",
+                    "idMissing": "Missing ID",
+                    "schoolMissing": "Missing school",
+                    "certificate": "Student certificate",
+                    "ready": "Ready",
+                    "incomplete": "Incomplete"
+                }
+            },
+            "user": {
+                "disconnect": "Disconnect"
+            },
+            "tournament": {
+                "logo": "logo",
+                "teamRegistred": " registered | {strong} registered | {strong} registered",
+                "teamNumber": "no team | {count} team | {count} teams",
+                "maxTeams": "spots",
+                "rules": "Show rules",
+                "player": "1 player | {count} players",
+                "teamComposition": "{teams} per team",
+                "subs": "{count} substitute | {count} substitutes"
+            }
+        }
+    }
+}

@@ -8,15 +8,23 @@ import router from "./router";
 import App from "./App.vue";
 import FR from "@/locale/fr.json";
 import EN from "@/locale/en.json";
+import Cookies from 'universal-cookie';
 
 const pinia = createPinia();
-const i18n = createI18n({
-    locale: 'fr',
+const cookies = new Cookies(null, { path: '/' });
+
+export const i18n = createI18n({
+    locale: cookies.get('locale'),
     messages: {
         fr: FR,
         en: EN
     }
 })
+
+export const langs = [
+        { value: "FR", key: "fr" },
+        { value: "EN", key: "en" }
+    ]
 
 library.add(fas, fab);
 

@@ -15,8 +15,14 @@ export default {
 import { onMounted } from "vue";
 import SToasts from "@/components/template/toasts/Toasts.vue";
 import { User } from "@/modules";
+import { useCookies } from '@vueuse/integrations/useCookies'
+
 
 onMounted(async() => {
+    const {get, set} = useCookies(['locale'])
+    if (!get('locale')) {
+        set('locale', 'fr')
+    }
     const userStore = User.useStore();
     await userStore.init();
 });

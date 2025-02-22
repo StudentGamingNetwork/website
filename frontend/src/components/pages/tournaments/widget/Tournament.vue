@@ -4,14 +4,22 @@
             <div class="logo">
                 <img
                     v-if="tournament.settings?.logo"
-                    alt="logo"
+                    :alt="$t('tournaments.widget.tournament.logo')"
                     :src="logoUrl"
                 >
             </div>
             <div class="content">
-                <h2>
-                    {{ tournament.name }}
-                </h2>
+                <div class="topsection"> 
+                    <h2>
+                        {{ tournament.name }}
+                    </h2>
+                    <SSelect
+                        title=""
+                        v-model="locale"
+                        :modified="false"
+                        :options="langs"
+                        class="select"/>
+                </div>
                 <div class="game">
                     {{ tournament.game?.name }}
                 </div>
@@ -25,7 +33,11 @@
                         v-html="markdownProcess(team)"
                     />
                     <li>
-                        <strong>{{ teamNumberText }}</strong> {{ $t("tournaments.widget.tournament.teamNumber",teamNumberText) }}
+                        <i18n-t keypath="tournaments.widget.tournament.teamRegistred" >
+                            <template v-slot:strong>
+                                <strong>{{$t("tournaments.widget.tournament.teamNumber",props.tournament.game.team.subscribed)}}</strong>
+                            </template>
+                        </i18n-t>
                         <template v-if="tournament.game.team.maxTeams > 0">
                             (<strong>{{ tournament.game.team.maxTeams }} >{{ $t("tournaments.widget.tournament.maxTeams") }}</strong>)
                         </template>
@@ -50,38 +62,38 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { TTournament } from "@/modules/tournament";
 import SCard from "@/components/design/Card.vue";
 import { process as markdownProcess } from "@/modules/markdown";
 import * as TournamentService from "@/services/tournament";
+import { useI18n } from 'vue-i18n'
+import { langs } from "@/main";
+import { useCookies } from "@vueuse/integrations/useCookies";
+import SSelect from "@/components/design/forms/SSelect.vue";
+import { useRouter } from "vue-router";
+
+const { t } = useI18n() 
 
 const props = defineProps<{
     tournament: TTournament;
 }>();
 
-function makePlural(value: number, name: string) {
-    return (value > 1) ? `${ value } ${ name }s` : `${ value } ${ name }`;
-}
+const router = useRouter()
 
-const teamNumberText = computed(() => {
-    if (!props.tournament.game.team.subscribed) {
-        return "Aucune équipe";
-    }
-    else {
-        return makePlural(props.tournament.game.team.subscribed, "équipe");
-    }
-});
+const cookies = useCookies(['locale'])
+const locale = ref<string>()
 
 const team = computed(() => {
     if (!props.tournament.game || !props.tournament.game.team.playersNumber) {
         return "";
     }
-
-    let string = `*${ makePlural(props.tournament.game.team.playersNumber, "joueur") }* par équipe`;
+    let string = `*${t("tournaments.widget.tournament.teamComposition",{
+        teams: t("tournaments.widget.tournament.player", props.tournament.game.team.playersNumber)
+    })}*` ;
 
     if (props.tournament.game.team.substitutesNumber) {
-        string += ` + *${ makePlural(props.tournament.game.team.substitutesNumber, "remplaçant") }*`;
+        string += ` + *${ t("tournaments.widget.tournament.subs", props.tournament.game.team.substitutesNumber) }*`;
     }
 
     return string;
@@ -90,6 +102,19 @@ const team = computed(() => {
 const logoUrl = computed(() => {
     return TournamentService.getLogoUrl({ id: props.tournament._id, logo: props.tournament.settings.logo });
 });
+
+onMounted(async() => {
+    locale.value = cookies.get('locale')
+});
+
+watch(locale, (newLocale) => {
+    if(newLocale !== cookies.get('locale')) {
+        cookies.set('locale', newLocale, { path: '/', sameSite: 'strict' });
+        router.go(0)
+    }
+});
+
+    
 </script>
 
 <style scoped lang="scss">
@@ -109,6 +134,12 @@ const logoUrl = computed(() => {
         }
 
         .content {
+            .topsection {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                gap: var(--length-gap-l);
+            }
             h2 {
                 grid-area: title;
 

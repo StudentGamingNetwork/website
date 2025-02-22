@@ -1,4 +1,24 @@
 {
+    "components": {
+        "design": {
+            "forms": {
+                "copy": "Copier dans le presse-papier"
+            }
+        }
+    },
+    "module": {
+        "toast": {
+            "success": "Succès",
+            "copy": {
+                "title": "Copié",
+                "message": "\"{content}\" a été copié dans votre presse-papier."
+            },
+            "alreadyConnected": {
+                "title": "Déjà connecté",
+                "message": "Vous êtes déjà connecté."
+            }
+        }
+    },
     "landing": {
         "hero": {
             "title": "Votre match est prêt !",
@@ -100,9 +120,13 @@
             },
             "tournament": {
                 "logo": "logo",
-                "teamNumber": "inscrite | inscrites",
+                "teamRegistred": "inscrite | {strong} inscrite | {strong} inscrites",
+                "teamNumber": "aucune équipe | {count} équipe | {count} équipes",
                 "maxTeams": "places",
-                "rules": "Afficher le règlement"
+                "rules": "Afficher le règlement",
+                "player": "1 joueur | {count} joueurs",
+                "teamComposition": "{teams} par équipe",
+                "subs": "{count} remplaçant | {count} remplaçants"
             }
         }
     }
