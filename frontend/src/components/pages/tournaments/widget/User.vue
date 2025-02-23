@@ -12,7 +12,7 @@
             @click="userStore.disconnect"
         >
             <FontAwesomeIcon :icon="['fas', 'power-off']" />
-            <span>Déconnexion</span>
+            <span>{{ $t("tournaments.widget.user.disconnect") }}</span>
         </div>
     </div>
 </template>

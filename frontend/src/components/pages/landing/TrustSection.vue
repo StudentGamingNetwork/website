@@ -1,11 +1,11 @@
 <template>
     <section class="trust-section">
         <SSectionTitle class="title">
-            Ils nous ont fait confiance
+             {{ $t("landing.trust.title")}}
         </SSectionTitle>
         <div class="description">
-            Nous avons travaillé avec de nombreux acteurs du secteur vidéo-ludique<br>
-            qui continuent à nous faire confiance année après année.
+           {{ $t("landing.trust.description.part1")}}<br>
+           {{ $t("landing.trust.description.part2")}}
         </div>
         <ul class="trust">
             <li

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { EToastType, useStore } from "./store";
+import { i18n } from "@/main"
 
 export { useStore };
 
@@ -10,7 +11,7 @@ export async function testRequest(request: () => Promise<any>, options?: {onlyEr
         const response = await request();
         if (!options?.onlyError) {
             toastStore.add({
-                title: "Succès",
+                title:  i18n.global.t("module.toast.success"),
                 message: response.message,
                 type: EToastType.Success
             });

@@ -13,13 +13,17 @@
         "@fortawesome/free-brands-svg-icons": "^6.6.0",
         "@fortawesome/free-solid-svg-icons": "^6.6.0",
         "@fortawesome/vue-fontawesome": "^3.0.8",
+        "@vueuse/core": "^12.7.0",
+        "@vueuse/integrations": "^12.7.0",
         "axios": "^1.7.4",
         "imagemin": "^9.0.0",
         "lodash": "^4.17.21",
         "pinia": "^2.2.1",
         "sass": "^1.77.8",
+        "universal-cookie": "7",
         "uuid": "^10.0.0",
         "vue": "^3.4.38",
+        "vue-i18n": "10",
         "vue-router": "^4.4.3"
     },
     "devDependencies": {

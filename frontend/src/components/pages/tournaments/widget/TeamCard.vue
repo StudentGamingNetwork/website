@@ -2,21 +2,21 @@
     <template v-if="!hasTeam">
         <SCard class="join">
             <div class="title">
-                Prêt à rejoindre l'arène ?
+               {{ $t("tournaments.widget.team.title") }}
             </div>
             <div class="join">
                 <SInput
                     v-model="student.name"
                     autocomplete="false"
                     :modified="student.name !== userStore.student.name"
-                    title="Prénom et nom"
+                    :title="$t('tournaments.widget.team.name')"
                     @enter="sendUpdate"
                 />
                 <SInput
                     v-if="associationStore?.school?.name"
                     disabled
                     :model-value="associationStore?.school?.name"
-                    title="École"
+                    :title="$t('tournaments.widget.team.school')"
                 />
                 <div
                     v-else
@@ -26,7 +26,7 @@
                         v-model="student.schoolName"
                         autocomplete="false"
                         :modified="student.schoolName !== userStore.student.schoolName"
-                        title="École"
+                        :title="$t('tournaments.widget.team.school')"
                         @enter="sendUpdate"
                     />
                     <SCard
@@ -50,7 +50,7 @@
                     </SCard>
                 </div>
                 <SModalSectionDescription>
-                    <strong>Note :</strong> Si votre école n'est pas suggérée, ce n'est pas grave, inscrivez-la quand même.
+                    <strong>Note :</strong> {{ $t("tournaments.widget.team.note") }}
                 </SModalSectionDescription>
                 <SInput
                     v-model="username"
@@ -65,13 +65,13 @@
                         primary
                         @click="createTeam"
                     >
-                        Créer une équipe
+                       {{ $t("tournaments.widget.team.create") }}
                     </SButton>
                     <SButton
                         outlined
                         @click="joinTeam"
                     >
-                        Rejoindre une équipe
+                       {{ $t("tournaments.widget.team.join") }}
                     </SButton>
                 </template>
                 <SButton
@@ -79,7 +79,7 @@
                     primary
                     @click="createTeam"
                 >
-                    Participer au tournoi
+                    {{ $t("tournaments.widget.team.participate") }}
                 </SButton>
             </div>
         </SCard>
@@ -88,7 +88,7 @@
         <SCard class="join">
             <div class="message">
                 <div class="header">
-                    Les inscriptions sont terminées 🏆 !
+                     {{ $t("tournaments.widget.team.header") }}
                 </div>
                 <SModalSectionDescription class="description">
                     <br>
@@ -112,25 +112,25 @@
                 </SModalSectionDescription>
             </div>
             <template v-if="isTeamBased">
-                <h2>Équipe</h2>
+                <h2>{{ $t("tournaments.widget.team.team.title") }}</h2>
                 <SInput
                     v-model="team.settings.name"
                     :disabled="!isOwner"
                     :modified="team.settings.name !== savedTeam.settings.name"
-                    title="Nom d'équipe"
+                    :title="$t('tournaments.widget.team.team.name')"
                     @enter="sendUpdate"
                 />
                 <SInput
                     v-model="team.settings.tag"
                     :disabled="!isOwner"
                     :modified="team.settings.tag !== savedTeam.settings.tag"
-                    title="TAG d'équipe"
+                    :title="$t('tournaments.widget.team.team.tag')"
                     :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
                     @enter="sendUpdate"
                 />
                 <SInputCopier
                     :content="team.settings.invitationCode"
-                    title="Code d'invitation"
+                    :title="$t('tournaments.widget.team.team.code')"
                 />
                 <SButton
                     class="delete-button"
@@ -138,10 +138,10 @@
                     outlined
                     @click="deleteTeam"
                 >
-                    {{ isOwner ? "Dissoudre l'équipe" : "Quitter l'équipe" }}
+                    {{ isOwner ? $t('tournaments.widget.team.team.disband') : $t('tournaments.widget.team.team.leave')}}
                 </SButton>
             </template>
-            <h2>Joueur</h2>
+            <h2>{{ $t("tournaments.widget.team.player.title") }}</h2>
             <SInput
                 v-model="team.members[playerIndex].username"
                 :modified="team.members[playerIndex].username !== savedTeam.members[playerIndex].username"
@@ -151,29 +151,33 @@
             <SInput
                 v-model="platforms.discord"
                 :modified="platforms.discord !== userStore.platforms.discord"
-                title="Identifiant Discord"
+                 :title="$t('tournaments.widget.team.player.discord')"
                 :validators="[InputValidators.Discord()]"
                 @enter="sendUpdate"
             />
             <SModalSectionDescription>
-                <strong>Attention : </strong> Vous devez <a
-                    href="https://discord.gg/YePmUx2E5a"
-                    target="_blank"
-                >rejoindre le Discord</a> pour participer !
+                <i18n-t keypath="tournaments.widget.team.player.description">
+                <template v-slot:warning>
+                       <strong>{{ $t('tournaments.widget.team.player.warning') }}</strong> 
+                </template>
+                 <template v-slot:action>
+                      <a href="https://discord.gg/YePmUx2E5a" target="_blank">{{ $t('tournaments.widget.team.player.action') }}</a>
+                </template>
+             </i18n-t>
             </SModalSectionDescription>
-            <h2>Statut étudiant</h2>
+            <h2>{{ $t("tournaments.widget.team.student.title") }}</h2>
             <SInput
                 v-model="student.name"
                 autocomplete="false"
                 :modified="student.name !== userStore.student.name"
-                title="Prénom et nom"
+                :title="$t('tournaments.widget.team.student.name')"
                 @enter="sendUpdate"
             />
             <SInput
                 v-if="associationStore?.school?.name"
                 disabled
                 :model-value="associationStore?.school?.name"
-                title="École"
+                :title="$t('tournaments.widget.team.student.school')"
             />
             <div
                 v-else
@@ -183,7 +187,7 @@
                     v-model="student.schoolName"
                     autocomplete="false"
                     :modified="student.schoolName !== userStore.student.schoolName"
-                    title="École"
+                    :title="$t('tournaments.widget.team.student.name')"
                     @enter="sendUpdate"
                 />
                 <SCard
@@ -215,19 +219,19 @@
                 <span
                     v-if="userStore.student.status === 'processing'"
                     class="main"
-                ><FontAwesomeIcon :icon="['fas', 'eye']" /> Vérification en cours</span>
+                ><FontAwesomeIcon :icon="['fas', 'eye']" /> {{$t('tournaments.widget.team.certificate.processing')}}</span>
                 <span
                     v-else-if="userStore.student.status === 'validated'"
                     class="main"
-                ><FontAwesomeIcon :icon="['fas', 'check']" /> Certificat validé jusqu'en Septembre</span>
+                ><FontAwesomeIcon :icon="['fas', 'check']" /> {{$t('tournaments.widget.team.certificate.validated')}}</span>
                 <span
                     v-else-if="userStore.student.status === 'rejected'"
                     class="main error"
-                ><FontAwesomeIcon :icon="['fas', 'times']" /> Certificat rejeté (veuillez en fournir un autre)</span>
+                ><FontAwesomeIcon :icon="['fas', 'times']" /> {{$t('tournaments.widget.team.certificate.rejected')}}</span>
                 <span
                     v-else
                     class="main"
-                ><FontAwesomeIcon :icon="['fas', 'times']" /> Aucun certificat fourni</span>
+                ><FontAwesomeIcon :icon="['fas', 'times']" /> {{$t('tournaments.widget.team.certificate.none')}}</span>
             </div>
             <div class="buttons">
                 <SButton
@@ -235,7 +239,7 @@
                     primary
                     @click="sendUpdate"
                 >
-                    Sauvegarder
+                    {{$t('tournaments.widget.team.state.save')}}
                 </SButton>
                 <SButton
                     v-if="!team.state.ready"
@@ -244,7 +248,7 @@
                     outlined
                     @click="markReady"
                 >
-                    Marquer prêt
+                     {{$t('tournaments.widget.team.state.ready')}}
                 </SButton>
                 <SButton
                     v-else-if="!team.state.validated"
@@ -252,7 +256,7 @@
                     outlined
                     @click="markUnready"
                 >
-                    En attente
+                    {{$t('tournaments.widget.team.state.waiting')}}
                 </SButton>
                 <SButton
                     v-else
@@ -260,7 +264,7 @@
                     disabled
                     outlined
                 >
-                    Équipe validée
+                    {{$t('tournaments.widget.team.state.validated')}}
                 </SButton>
                 <SButton
                     v-if="!isTeamBased"
@@ -269,16 +273,15 @@
                     outlined
                     @click="deleteTeam"
                 >
-                    Quitter le tournoi
+                     {{$t('tournaments.widget.team.state.leave')}}
                 </SButton>
             </div>
             <SModalSectionDescription>
-                Une fois que tout est en ordre, cliquez sur "Marquer prêt" pour que les admins valident votre
-                équipe.
+                 {{$t('tournaments.widget.team.state.description')}}
             </SModalSectionDescription>
         </SCard>
         <SCard class="members">
-            <h2>Joueurs</h2>
+            <h2>{{$t('tournaments.widget.team.members.title')}}</h2>
             <div
                 v-for="(member, memberIndex) of team.members"
                 :key="member.user._id"
@@ -288,7 +291,7 @@
                     <div class="avatar">
                         <img
                             v-if="member.user.avatar"
-                            alt="avatar"
+                            :alt="$t('tournaments.widget.team.members.avatar')"
                             :src="getUserAvatarUrl({id:member.user._id, avatar:member.user.avatar})"
                         >
                         <FontAwesomeIcon
@@ -306,14 +309,14 @@
                     </router-link>
                     {{ member.user.username }}
                     <span class="info">
-                        (<span :class="{error: !member.username}">{{ member.username || "ID manquant" }}</span>)
+                        (<span :class="{error: !member.username}">{{ member.username || $t('tournaments.widget.team.members.idMissing') }}</span>)
                     </span>
                     <div
                         v-if="isOwner && member.user._id !== team.owner"
                         class="kick"
                         @click="kickMember(memberIndex)"
                     >
-                        Expulser
+                       {{$t('tournaments.widget.team.members.kick')}}
                     </div>
                 </div>
                 <div class="user">
@@ -321,7 +324,7 @@
                     <span class="info">(<span
                         :class="{error: !(member.user.association || member.user.student.schoolName)}"
                     >{{
-                        member.user.association?.school.name || member.user.student.schoolName || "École manquante"
+                        member.user.association?.school.name || member.user.student.schoolName || $t('tournaments.widget.team.members.schoolMissing')
                     }}</span>)</span>
                 </div>
                 <div class="actions">
@@ -329,7 +332,7 @@
                         <span
                             class="certificate"
                             :class="{error: ['rejected', 'undefined'].includes(member.user.student.status), warning: member.user.student.status === 'processing'}"
-                            title="Certificat étudiant"
+                            :title="$t('tournaments.widget.team.members.certificate')"
                         >
                             <FontAwesomeIcon :icon="['fas', 'id-card']" />
                         </span>
@@ -349,12 +352,12 @@
                     </div>
                     <template v-if="isMemberReady(member)">
                         <SValidator :valid="true">
-                            Prêt
+                            {{$t('tournaments.widget.team.members.ready')}}
                         </SValidator>
                     </template>
                     <template v-else>
                         <SValidator :valid="false">
-                            Incomplet
+                            {{$t('tournaments.widget.team.members.incomplete')}}
                         </SValidator>
                     </template>
                 </div>
