@@ -8,14 +8,14 @@
                 v-model="model"
                 :class="{ modified }"
                 :disabled="disabled"
-                @keydown="processKeyDown"
+                @change="emit('enter')"
             >
                 <option
                     v-for="(option, index) in options"
                     :key="index"
-                    :value="option.key"
+                    :value="option.value"
                 >
-                    {{ option.value }}
+                    {{ option.label }}
                 </option>
             </select>
         </div>
@@ -26,20 +26,14 @@
 import { defineProps, defineModel, defineEmits } from "vue";
 
 defineProps<{
-    title: string;
+    title?: string;
     disabled?: boolean;
-    modified: boolean;
-    options: Array<{ key: string; value: string }>;
+    modified?: boolean;
+    options: Array<{ label: string; value: string }>;
 }>();
 
 const emit = defineEmits(["enter"]);
 const model = defineModel();
-
-function processKeyDown(event: KeyboardEvent) {
-    if (event.key === "Enter") {
-        emit("enter");
-    }
-}
 
 </script>
 
@@ -67,8 +61,7 @@ function processKeyDown(event: KeyboardEvent) {
             appearance: none;
             background: none;
             border: none;
-            padding: calc(var(--length-padding-xs) - 2px) calc(var(--length-padding-m) - 2px);
-            padding-right: calc(var(--length-padding-xl) - 2px);
+            padding: calc(var(--length-padding-xs) - 2px)  calc(var(--length-padding-xl) - 2px) calc(var(--length-padding-xs) - 2px)  calc(var(--length-padding-m) - 2px);
             border: 2px solid var(--color-content-softer);
             border-radius: calc(var(--lenght-radius-base) - 2px);
             color: var(--color-content);

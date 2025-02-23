@@ -18,10 +18,9 @@
             </div>
             
             <SSelect
-                title=""
                 v-model="locale"
-                :modified="false"
                 :options="langs"
+                @enter="handleChangeLocale"
                 class="select"/>
             </div>
     </header>
@@ -57,19 +56,19 @@ export default defineComponent({
         onMounted(async() => {
            locale.value = cookies.get('locale')
         });
+        
+        function handleChangeLocale() {
+            cookies.set('locale', locale.value, { path: '/', sameSite: 'strict' });
+            router.go(0)
+        }
 
-        watch(locale, (newLocale) => {
-            if(newLocale !== cookies.get('locale')) {
-                cookies.set('locale', newLocale, { path: '/', sameSite: 'strict' });
-                router.go(0)
-            }
-        });
-
+        
         return {
             isConnected,
             userStore,
             langs,
-            locale
+            locale,
+            handleChangeLocale
         };
     }
 });

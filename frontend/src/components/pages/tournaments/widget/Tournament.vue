@@ -14,10 +14,9 @@
                         {{ tournament.name }}
                     </h2>
                     <SSelect
-                        title=""
                         v-model="locale"
-                        :modified="false"
                         :options="langs"
+                        @enter="handleChangeLocale"
                         class="select"/>
                 </div>
                 <div class="game">
@@ -103,16 +102,16 @@ const logoUrl = computed(() => {
     return TournamentService.getLogoUrl({ id: props.tournament._id, logo: props.tournament.settings.logo });
 });
 
+function handleChangeLocale() {
+    cookies.set('locale', locale.value, { path: '/', sameSite: 'strict' });
+    router.go(0)
+}
+
 onMounted(async() => {
     locale.value = cookies.get('locale')
 });
 
-watch(locale, (newLocale) => {
-    if(newLocale !== cookies.get('locale')) {
-        cookies.set('locale', newLocale, { path: '/', sameSite: 'strict' });
-        router.go(0)
-    }
-});
+
 
     
 </script>

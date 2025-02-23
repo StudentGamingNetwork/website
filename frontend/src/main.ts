@@ -22,8 +22,8 @@ export const i18n = createI18n({
 })
 
 export const langs = [
-        { value: "FR", key: "fr" },
-        { value: "EN", key: "en" }
+        { label: "FR", value: "fr" },
+        { label: "EN", value: "en" }
     ]
 
 library.add(fas, fab);
