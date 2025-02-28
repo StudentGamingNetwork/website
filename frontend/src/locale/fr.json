@@ -125,7 +125,7 @@
                 "maxTeams": "places",
                 "rules": "Afficher le règlement",
                 "player": "1 joueur | {count} joueurs",
-                "teamComposition": "{teams} par équipe",
+                "teamComposition": "{players} par équipe",
                 "subs": "{count} remplaçant | {count} remplaçants"
             }
         }
