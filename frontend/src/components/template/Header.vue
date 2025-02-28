@@ -20,7 +20,7 @@
             <SSelect
                 v-model="locale"
                 :options="langs"
-                @enter="handleChangeLocale"
+                @enter="router.go(0)"
                 class="select"/>
             </div>
     </header>
@@ -34,7 +34,7 @@ import { User } from "@/modules";
 import SHeaderButtons from "@/components/template/header/Buttons.vue";
 import SHeaderProfil from "@/components/template/header/Profil.vue";
 import SSelect from "@/components/design/forms/SSelect.vue";
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { useStorage } from '@vueuse/core'
 import { langs } from "@/main";
 import { useRouter } from "vue-router";
 
@@ -45,30 +45,21 @@ export default defineComponent({
     setup() {
         const userStore = User.useStore();
         const router = useRouter();
+        const locale = useStorage('locale', "fr", localStorage) 
 
-        const cookies = useCookies(['locale'])
-        const locale = ref<string>()
+
 
         const isConnected = computed(() => {
             return !! userStore._id;
         });
+     
 
-        onMounted(async() => {
-           locale.value = cookies.get('locale')
-        });
-        
-        function handleChangeLocale() {
-            cookies.set('locale', locale.value, { path: '/', sameSite: 'strict' });
-            router.go(0)
-        }
-
-        
         return {
             isConnected,
             userStore,
             langs,
-            locale,
-            handleChangeLocale
+            router,
+            locale
         };
     }
 });

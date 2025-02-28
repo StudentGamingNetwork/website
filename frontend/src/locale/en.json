@@ -125,7 +125,7 @@
                 "maxTeams": "spots",
                 "rules": "Show rules",
                 "player": "1 player | {count} players",
-                "teamComposition": "{teams} per team",
+                "teamComposition": "{players} per team",
                 "subs": "{count} substitute | {count} substitutes"
             }
         }

@@ -16,7 +16,7 @@
                     <SSelect
                         v-model="locale"
                         :options="langs"
-                        @enter="handleChangeLocale"
+                        @enter="router.go(0)"
                         class="select"/>
                 </div>
                 <div class="game">
@@ -68,9 +68,9 @@ import { process as markdownProcess } from "@/modules/markdown";
 import * as TournamentService from "@/services/tournament";
 import { useI18n } from 'vue-i18n'
 import { langs } from "@/main";
-import { useCookies } from "@vueuse/integrations/useCookies";
 import SSelect from "@/components/design/forms/SSelect.vue";
 import { useRouter } from "vue-router";
+import { useStorage } from '@vueuse/core'
 
 const { t } = useI18n() 
 
@@ -80,15 +80,15 @@ const props = defineProps<{
 
 const router = useRouter()
 
-const cookies = useCookies(['locale'])
-const locale = ref<string>()
+const locale = useStorage('locale', "fr", localStorage) 
+
 
 const team = computed(() => {
     if (!props.tournament.game || !props.tournament.game.team.playersNumber) {
         return "";
     }
     let string = `*${t("tournaments.widget.tournament.teamComposition",{
-        teams: t("tournaments.widget.tournament.player", props.tournament.game.team.playersNumber)
+        players: t("tournaments.widget.tournament.player", props.tournament.game.team.playersNumber)
     })}*` ;
 
     if (props.tournament.game.team.substitutesNumber) {
@@ -100,15 +100,6 @@ const team = computed(() => {
 
 const logoUrl = computed(() => {
     return TournamentService.getLogoUrl({ id: props.tournament._id, logo: props.tournament.settings.logo });
-});
-
-function handleChangeLocale() {
-    cookies.set('locale', locale.value, { path: '/', sameSite: 'strict' });
-    router.go(0)
-}
-
-onMounted(async() => {
-    locale.value = cookies.get('locale')
 });
 
 
