@@ -15,3 +15,5 @@ export const frontOrigin = process.env.FRONT_ORIGIN || "";
 export const backOrigin = process.env.BACK_ORIGIN || "";
 
 export const rootFolder = path.resolve(__dirname, "../../");
+
+export const backupDir = process.env.DB_BACKUP_DIR || "";

@@ -8,7 +8,7 @@ import APIHandler from "@/api";
 import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
 import PageHandler from "@/page";
-import * as cron from "@/cronjob";
+import "@/cronjob";
 
 
 //import NotFoundHandler from "@/notFound";
@@ -54,5 +54,3 @@ process.on("SIGINT", async function() {
     process.exit(1);
 });
 
-cron.dumpDatabaseJob.start();
-cron.deleteOldDumpJob.start();
