@@ -15,8 +15,11 @@ export default {
 import { onMounted } from "vue";
 import SToasts from "@/components/template/toasts/Toasts.vue";
 import { User } from "@/modules";
+import { useStorage } from '@vueuse/core'
+
 
 onMounted(async() => {
+    const lang = useStorage('locale', "fr", localStorage) 
     const userStore = User.useStore();
     await userStore.init();
 });

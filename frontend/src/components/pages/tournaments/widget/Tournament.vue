@@ -4,14 +4,21 @@
             <div class="logo">
                 <img
                     v-if="tournament.settings?.logo"
-                    alt="logo"
+                    :alt="$t('tournaments.widget.tournament.logo')"
                     :src="logoUrl"
                 >
             </div>
             <div class="content">
-                <h2>
-                    {{ tournament.name }}
-                </h2>
+                <div class="topsection"> 
+                    <h2>
+                        {{ tournament.name }}
+                    </h2>
+                    <SSelect
+                        v-model="locale"
+                        :options="langs"
+                        @enter="router.go(0)"
+                        class="select"/>
+                </div>
                 <div class="game">
                     {{ tournament.game?.name }}
                 </div>
@@ -25,11 +32,13 @@
                         v-html="markdownProcess(team)"
                     />
                     <li>
-                        <strong>{{ teamNumberText }}</strong> inscrite{{
-                            tournament.game.team.subscribed > 1 ? "s" : ""
-                        }}
+                        <i18n-t keypath="tournaments.widget.tournament.teamRegistred" >
+                            <template v-slot:strong>
+                                <strong>{{$t("tournaments.widget.tournament.teamNumber",props.tournament.game.team.subscribed)}}</strong>
+                            </template>
+                        </i18n-t>
                         <template v-if="tournament.game.team.maxTeams > 0">
-                            (<strong>{{ tournament.game.team.maxTeams }} places</strong>)
+                            (<strong>{{ tournament.game.team.maxTeams }} >{{ $t("tournaments.widget.tournament.maxTeams") }}</strong>)
                         </template>
                     </li>
                     <li v-if="tournament.informations?.rulesUrl">
@@ -37,7 +46,7 @@
                             :href="tournament.informations.rulesUrl"
                             target="_blank"
                             @click.stop
-                        >Afficher le règlement</a>
+                        >>{{ $t("tournaments.widget.tournament.rules") }}</a>
                     </li>
                 </ul>
             </div>
@@ -52,38 +61,38 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { TTournament } from "@/modules/tournament";
 import SCard from "@/components/design/Card.vue";
 import { process as markdownProcess } from "@/modules/markdown";
 import * as TournamentService from "@/services/tournament";
+import { useI18n } from 'vue-i18n'
+import { langs } from "@/main";
+import SSelect from "@/components/design/forms/SSelect.vue";
+import { useRouter } from "vue-router";
+import { useStorage } from '@vueuse/core'
+
+const { t } = useI18n() 
 
 const props = defineProps<{
     tournament: TTournament;
 }>();
 
-function makePlural(value: number, name: string) {
-    return (value > 1) ? `${ value } ${ name }s` : `${ value } ${ name }`;
-}
+const router = useRouter()
 
-const teamNumberText = computed(() => {
-    if (!props.tournament.game.team.subscribed) {
-        return "Aucune équipe";
-    }
-    else {
-        return makePlural(props.tournament.game.team.subscribed, "équipe");
-    }
-});
+const locale = useStorage('locale', "fr", localStorage) 
+
 
 const team = computed(() => {
     if (!props.tournament.game || !props.tournament.game.team.playersNumber) {
         return "";
     }
-
-    let string = `*${ makePlural(props.tournament.game.team.playersNumber, "joueur") }* par équipe`;
+    let string = `*${t("tournaments.widget.tournament.teamComposition",{
+        players: t("tournaments.widget.tournament.player", props.tournament.game.team.playersNumber)
+    })}*` ;
 
     if (props.tournament.game.team.substitutesNumber) {
-        string += ` + *${ makePlural(props.tournament.game.team.substitutesNumber, "remplaçant") }*`;
+        string += ` + *${ t("tournaments.widget.tournament.subs", props.tournament.game.team.substitutesNumber) }*`;
     }
 
     return string;
@@ -92,6 +101,10 @@ const team = computed(() => {
 const logoUrl = computed(() => {
     return TournamentService.getLogoUrl({ id: props.tournament._id, logo: props.tournament.settings.logo });
 });
+
+
+
+    
 </script>
 
 <style scoped lang="scss">
@@ -111,6 +124,12 @@ const logoUrl = computed(() => {
         }
 
         .content {
+            .topsection {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                gap: var(--length-gap-l);
+            }
             h2 {
                 grid-area: title;
 

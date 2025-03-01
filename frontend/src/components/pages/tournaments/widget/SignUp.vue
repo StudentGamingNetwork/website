@@ -3,7 +3,7 @@
         <div class="input mail">
             <SInput
                 v-model="mail"
-                title="Mail"
+                :title="$t('tournaments.widget.signup.mail')"
                 type="email"
                 :validators="[Validators.Mail()]"
             />
@@ -11,21 +11,21 @@
         <div class="input password">
             <SInput
                 v-model="password"
-                title="Mot de passe"
+                :title="$t('tournaments.widget.signup.password')"
                 type="password"
             />
             <div v-if="password">
                 <SValidator :valid="isPasswordLongEnough">
-                    Au moins {{ PASSWORD_MIN_LENGTH }} caractères
+                    {{ $t("tournaments.widget.signup.passLen",PASSWORD_MIN_LENGTH) }}
                 </SValidator>
                 <SValidator :valid="doesPasswordContainLowercaseLetter">
-                    Au moins une lettre minuscule
+                   {{ $t("tournaments.widget.signup.passMin")}}
                 </SValidator>
                 <SValidator :valid="doesPasswordContainUppercaseLetter">
-                    Au moins une lettre majuscule
+                    {{ $t("tournaments.widget.signup.passMaj")}}
                 </SValidator>
                 <SValidator :valid="doesPasswordContainNumber">
-                    Au moins un chiffre
+                   {{ $t("tournaments.widget.signup.passNum")}}
                 </SValidator>
             </div>
         </div>
@@ -35,7 +35,7 @@
             :spinning="waitingForSignUpResponse"
             @click="signup"
         >
-            S'inscrire
+             {{ $t("tournaments.widget.signup.button.signup")}}
         </SButton>
         <SButton
             class="button login"
@@ -43,14 +43,14 @@
             :spinning="waitingForLogInResponse"
             @click="login"
         >
-            Connexion
+           {{ $t("tournaments.widget.signup.button.login")}}
         </SButton>
         <SModalSectionDescription class="description">
-            Vous pouvez utiliser votre <a
-                href="https://sgnw.fr"
-                target="_blank"
-            >compte SGN</a> si vous en avez un.
-            Vous pourrez supprimer ce compte après la compétition si vous le souhaitez.
+             <i18n-t keypath="tournaments.widget.signup.description">
+                <template v-slot:account>
+                      <a href="https://sgnw.fr" target="_blank">{{ $t('tournaments.widget.signup.account') }}</a>
+                </template>
+             </i18n-t>
         </SModalSectionDescription>
     </SCard>
 </template>
@@ -72,7 +72,10 @@ import * as UserService from "@/services/user";
 import SValidator from "@/components/design/forms/Validator.vue";
 import * as Validators from "@/utils/validators";
 import { EToastType, useStore } from "@/modules/toast/store";
+import { useI18n } from 'vue-i18n'
 
+
+const { t } = useI18n() 
 const PASSWORD_MIN_LENGTH = 8;
 const toastStore = useStore();
 
@@ -84,8 +87,8 @@ const waitingForLogInResponse = ref(false);
 async function signup() {
     if (!mail.value || !password.value) {
         toastStore.add({
-            title: "Erreur",
-            message: "Tous les champs doivent être remplis.",
+            title: t("tournaments.widget.signup.function.title"),
+            message: t("tournaments.widget.signup.function.message"),
             type: EToastType.Error
         });
 
@@ -110,8 +113,8 @@ async function signup() {
 async function login() {
     if (!mail.value || !password.value) {
         toastStore.add({
-            title: "Erreur",
-            message: "Tous les champs doivent être remplis.",
+            title: t("tournaments.widget.signup.function.title"),
+            message: t("tournaments.widget.signup.function.message"),
             type: EToastType.Error
         });
 
