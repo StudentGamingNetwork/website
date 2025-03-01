@@ -3,8 +3,7 @@ import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import * as TokenLib from "../lib";
 import * as SessionLib from "@/modules/session/lib";
-import * as UserLib from "@/modules/user/lib";
-import SessionModel from "@/modules/session/model";
+import UserModel from "@/modules/user/model";
 
 
 const TokenVerifyBody = Type.Object({
@@ -32,16 +31,8 @@ export async function register(server: FastifyInstance): Promise<void> {
         "/verify",
         { schema },
         async (request, reply) => {
-
-            const user = await UserLib.getUser(request);
-
-            if (!user) {
-                throw new httpErrors.Unauthorized("Votre session n'est plus valide.");
-            }
-
-            const session = await SessionModel.findOne({
-                $and: [{ userId: user.id }, { "dates.expiration": { $gt: new Date() } }]
-            }).exec();
+            const token = request.headers.cookie?.split(";").map((cookie) => cookie.trim().split("=")[0] === "token" ? cookie.trim().split("=")[1] : null)[0];
+            const session = await SessionLib.getSessionByTempToken(token as string);
 
             if (!session) {
                 throw new httpErrors.Unauthorized("Votre session n'est plus valide.");
@@ -49,8 +40,9 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             await SessionLib.validate(session);
 
-            
-            if (!user.twoFactorAuth?.enabled) {
+            const user = await UserModel.findById(session.userId);
+
+            if (!user?.twoFactorAuth?.enabled) {
                 throw new httpErrors.Forbidden("L'authentification à deux facteurs n'est pas activée.");
             }
 

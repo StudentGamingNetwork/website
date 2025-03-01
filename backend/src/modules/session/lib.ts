@@ -4,11 +4,12 @@ import SessionModel, { ISessionDocument } from "@/modules/session/model";
 
 export async function generate(userId: string, machine: {host: string; userAgent: string}, twoFactorAuth = false): Promise<ISessionDocument> {
     const token = Crypto.randomBytes(32).toString("hex");
+    const tempToken = twoFactorAuth ? Crypto.randomBytes(32).toString("hex") : undefined;
 
     const creationDate = new Date();
     const expirationDate = new Date();
     if (twoFactorAuth){
-        expirationDate.setUTCSeconds(expirationDate.getUTCSeconds() + 20);
+        expirationDate.setUTCSeconds(expirationDate.getUTCSeconds() + 60);
     }
     else {
         expirationDate.setDate(expirationDate.getDate() + 365); 
@@ -21,8 +22,9 @@ export async function generate(userId: string, machine: {host: string; userAgent
             expiration: expirationDate.toISOString()
         },
         machine,
+        tempToken,
         token,
-        twoFactorAuth: twoFactorAuth,
+        twoFactorAuth,
         userId
     });
 }
@@ -63,3 +65,16 @@ export async function validate(session: ISessionDocument): Promise<void> {
     expirationDate.setDate(expirationDate.getDate() + 365); 
     session.dates.expiration = expirationDate;
 }
+export async function getSessionByTempToken(tempToken: string) {
+
+    const session = await SessionModel.findOne({
+        tempToken 
+    }).exec();
+
+    if (!session) {
+        return null;
+    }
+
+    return session;
+}
+

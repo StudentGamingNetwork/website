@@ -27,24 +27,16 @@
                 compte. Lorsque vous l'activez, vous devrez entrer un code de vérification à chaque connexion.
             </SModalSectionDescription>
             <SButton
-                v-if="!userStore.twoFactorAuth.enabled && !showQR"
-                outlined
-                @click="enableTwoFactorAuth"
-            >
-                Activer l'authentification à deux facteurs
+             outlined
+                @click="toggleTwoFactorAuth">
+                {{ twoFactorAuthButtonText }}
             </SButton>
-            <SButton
-                v-else
-                outlined
-                @click="disableTwoFactorAuth"
-            >
-                Désactiver l'authentification à deux facteurs
-            </SButton>
+            <div v-show="showQR">
             <img
-                v-show="showQR"
                 alt="QR Code"
                 :src="qrcode"
             >
+            </div>
         </SModalSection>
         <SModalSeparator />
         <SButton
@@ -112,6 +104,18 @@ const sendUpdate = async () => {
     });
 };
 
+const toggleTwoFactorAuth = async () => {
+    if (userStore.twoFactorAuth.enabled) {
+        await disableTwoFactorAuth();
+    } else {
+        await enableTwoFactorAuth();
+    }
+};
+
+const twoFactorAuthButtonText = computed(() => {
+    return userStore.twoFactorAuth.enabled ? "Désactiver l'authentification à deux facteurs" : "Activer l'authentification à deux facteurs";
+});
+
 async function enableTwoFactorAuth() {
     const result = confirm("Êtes-vous sûr de vouloir activer l'authentification à deux facteurs ?");
     if (result) {
@@ -122,6 +126,7 @@ async function enableTwoFactorAuth() {
         if (response?.success) { 
             showQR.value = true;
             totpLink.value = response.tokenLink;
+            userStore.twoFactorAuth.enabled = true;
         }
     }
 }
@@ -136,9 +141,8 @@ async function disableTwoFactorAuth() {
         if (response?.success) {
             showQR.value = false;
             totpLink.value = "";
+            userStore.twoFactorAuth.enabled = false;
         }
     }
-
-    await userStore.update({});
 }
 </script>
