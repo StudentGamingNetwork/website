@@ -19,6 +19,6 @@ export async function login(mail: string, password: string, machine: {host: stri
     if (!isPasswordCorrect) {
         throw new httpErrors.Forbidden("Mot de passe incorrect");
     }
-
-    return await SessionLib.generate(user.id, machine);
+    
+    return await SessionLib.generate(user.id, machine, user.twoFactorAuth?.enabled);
 }

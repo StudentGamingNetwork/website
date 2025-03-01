@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { cloneDeep, omit } from "lodash";
 import * as UserService from "@/services/user";
+import * as TwoFactorAuthService from "@/services/twoFactorAuth";
 import { Toast, Association } from "@/modules";
 import { ERoles } from "@/services/user";
 
@@ -35,7 +36,6 @@ export const useStore = defineStore({
             const response = await Toast.testRequest(async () => {
                 return await UserService.ping();
             }, { onlyError: true });
-
 
             if (response?._id) {
                 this.$patch(omit(response, "association"));
@@ -138,6 +138,9 @@ export const useStore = defineStore({
             rejectReason: "",
             schoolName: "",
             status: "undefined"
+        },
+        twoFactorAuth: {
+            enabled: false
         },
         username: ""
     })

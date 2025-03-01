@@ -29,7 +29,7 @@ export async function signup(mail: string, password: string, machine: {host: str
         username: mail.split("@")[0]
     });
 
-    return await SessionLib.generate(user.id, machine);
+    return await SessionLib.generate(user.id, machine, !!user.twoFactorAuth?.enabled);
 }
 
 export function isPasswordStrong(password: string): boolean {
