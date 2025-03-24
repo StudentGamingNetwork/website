@@ -59,6 +59,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     "name",
                     "federation",
                     "logo",
+                    "position",
                     "networks",
                     "school",
                     "tag"

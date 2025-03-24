@@ -16,6 +16,10 @@ const BasicAssociation = {
         twitter: Type.Optional(Type.String()),
         website: Type.Optional(Type.String())
     })),
+    position: Type.Optional(Type.Object({
+        latitude: Type.Number({ maximum: 90, minimum: -90 }),
+        longitude: Type.Number({ maximum: 180, minimum: -180 })
+    })),
     school: Type.Object({
         name: Type.String({ maxLength: 64, minLength: 1 }),
         address: Type.String(),

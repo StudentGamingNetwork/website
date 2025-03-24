@@ -30,6 +30,11 @@ export type TTournament = {
         prizes: string;
         rulesUrl: string;
     };
+    isLAN: boolean;
+    position: {
+        latitude:number;
+        longitude: number;
+    };
     settings: {
         code: string;
         logo: string;
@@ -69,6 +74,11 @@ export function makeObject(tournament: Partial<TTournament>): TTournament {
             },
             prizes: "",
             rulesUrl: ""
+        },
+        isLAN: false,
+        position: {
+            latitude: 0,
+            longitude: 0
         },
         settings: {
             code: "",

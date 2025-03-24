@@ -29,6 +29,11 @@ export interface ITournament {
         prizes: string;
         rulesUrl: string;
     };
+    isLAN?: boolean;
+    position?: {
+        latitude: number;
+        longitude: number;
+    };
     settings: {
         code: string;
         logo: string;
@@ -76,6 +81,11 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
         },
         prizes: String,
         rulesUrl: String
+    },
+    isLAN: Boolean,
+    position: {
+        latitude: Number,
+        longitude: Number
     },
     settings: {
         code: String,

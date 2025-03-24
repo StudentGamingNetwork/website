@@ -34,6 +34,10 @@ export interface IAssociation {
         twitter: string;
         website: string;
     };
+    position: {
+        latitude: number;
+        longitude: number;
+    };
     school: {
         name: string;
         address: string;
@@ -99,6 +103,14 @@ const associationSchema: Mongo.Schema = new Mongo.Schema({
         },
         website: {
             type: String
+        }
+    },
+    position: {
+        latitude: {
+            type: Number
+        },
+        longitude: {
+            type: Number
         }
     },
     school: {

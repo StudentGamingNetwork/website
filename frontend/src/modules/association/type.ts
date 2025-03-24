@@ -16,6 +16,10 @@ export type TAssociation = {
         twitter: string;
         website: string;
     };
+    position?: {
+        latitude: number;
+        longitude: number;
+    };
     school: {
         name: string;
         address: string;

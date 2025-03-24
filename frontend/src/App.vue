@@ -15,11 +15,9 @@ export default {
 import { onMounted } from "vue";
 import SToasts from "@/components/template/toasts/Toasts.vue";
 import { User } from "@/modules";
-import { useStorage } from '@vueuse/core'
 
 
-onMounted(async() => {
-    const lang = useStorage('locale', "fr", localStorage) 
+onMounted(async () => {
     const userStore = User.useStore();
     await userStore.init();
 });
@@ -33,7 +31,8 @@ body {
     transform-origin: 0 0;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     background: var(--color-background-0);
 }

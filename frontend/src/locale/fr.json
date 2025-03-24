@@ -4,6 +4,31 @@
             "forms": {
                 "copy": "Copier dans le presse-papier"
             }
+        },
+        "pages": {
+            "map": {
+                "title": "La carte",
+                "head": "Nous fédérons un réseau de nombreuses associations étudiantes de gaming et d'esport, partout en France.\nNous maintenons un contact régulier avec ces dernières pour les accompagner dans leurs projets.",
+                "federation": {
+                    "title": "Fédération",
+                    "region": "Région : {region}",
+                    "regions": "Régions",
+                    "school": "École : {school}"
+                },
+                "tournament": {
+                    "title": "Tournois",
+                    "status": "Statut",
+                    "game": "Jeu : {game}",
+                    "games": "Jeux",
+                    "coming": "Prochains tournois",
+                    "current": "Tournois en cours",
+                    "past": "Tournois passés",
+                    "inscription": {
+                        "open": "Inscriptions ouvertes jusqu'au {date}",
+                        "closed": "Inscriptions fermées"
+                    }
+                }
+            }
         }
     },
     "module": {

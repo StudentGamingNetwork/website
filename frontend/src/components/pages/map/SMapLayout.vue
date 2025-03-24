@@ -1,10 +1,9 @@
 <template>
     <SPageHead
         :background="BackgroundFederation"
-        title="La carte"
+        :title="$t('components.pages.map.title')"
     >
-        Nous fédérons un réseau de nombreuses associations étudiantes de gaming et d'esport, partout en France.
-        Nous maintenons un contact régulier avec ces dernières pour les accompagner dans leurs projets.
+        {{ $t("components.pages.map.head") }}
     </SPageHead>
     <SBaseLayout>
         <SMapCard />

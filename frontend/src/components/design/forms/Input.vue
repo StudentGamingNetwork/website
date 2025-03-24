@@ -8,6 +8,7 @@
                 :autocomplete="autocomplete ? autocomplete : null"
                 :class="{ modified, hide }"
                 :disabled="disabled"
+                :step="step"
                 :type="type"
                 :value="modelValue"
                 @input="$emit('update:modelValue', $event.target.value)"
@@ -72,6 +73,10 @@ export default defineComponent({
         required: {
             default: false,
             type: Boolean
+        },
+        step: {
+            default: 1,
+            type: Number
         },
         type: {
             default: "text",

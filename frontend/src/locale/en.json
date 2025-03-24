@@ -4,6 +4,31 @@
             "forms": {
                 "copy": "Copy to clipboard"
             }
+        },
+        "pages": {
+            "map": {
+                "title": "The map",
+                "head": "We federate a network of student gaming and esport associations throughout France. We keep in regular contact with them to support their projects.",
+                "federation": {
+                    "title": "Federation",
+                    "region": "Region: {region}",
+                    "regions": "Regions",
+                    "school": "School: {school}"
+                },
+                "tournament": {
+                    "title": "Tournaments",
+                    "status": "Status",
+                    "game": "Game: {game}",
+                    "games": "Games",
+                    "coming": "Upcoming tournaments",
+                    "current": "Current tournaments",
+                    "past": "Past tournaments",
+                    "inscription": {
+                        "open": "Registrations open until {date}",
+                        "closed": "Registrations closed"
+                    }
+                }
+            }
         }
     },
     "module": {

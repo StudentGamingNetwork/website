@@ -51,20 +51,20 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             switch (type) {
-            case ETournamentType.Coming:
-                findParameters["state.archived"] = false;
-                findParameters.$or = [
-                    { "dates.subscriptionClose": { $gte: startOfDay(new Date()) } },
-                    { "dates.subscriptionClose": null }
-                ];
-                break;
-            case ETournamentType.Current:
-                findParameters["state.archived"] = false;
-                findParameters["dates.subscriptionClose"] = { $lt: startOfDay(new Date()) };
-                break;
-            case ETournamentType.Past:
-                findParameters["state.archived"] = true;
-                break;
+                case ETournamentType.Coming:
+                    findParameters["state.archived"] = false;
+                    findParameters.$or = [
+                        { "dates.subscriptionClose": { $gte: startOfDay(new Date()) } },
+                        { "dates.subscriptionClose": null }
+                    ];
+                    break;
+                case ETournamentType.Current:
+                    findParameters["state.archived"] = false;
+                    findParameters["dates.subscriptionClose"] = { $lt: startOfDay(new Date()) };
+                    break;
+                case ETournamentType.Past:
+                    findParameters["state.archived"] = true;
+                    break;
             }
 
             const tournaments = await TournamentModel.find(findParameters).sort({ _id: -1 });
