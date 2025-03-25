@@ -107,44 +107,32 @@
     </SCard>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+<script lang="ts" setup>
+import { computed, defineProps } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/Card.vue";
 import * as AssociationService from "@/services/association";
 import router from "@/router";
 import { Association } from "@/modules";
 
-export default defineComponent({
-    name: "SAssociationCard",
-    components: { FontAwesomeIcon, SCard },
-    props: {
-        association: {
-            required: true,
-            type: Object as PropType<Association.TAssociation>
-        }
-    },
-    setup(props) {
-        const logoUrl = computed(() => {
-            return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
-        });
 
-        const regionName = computed(() => {
-            return AssociationService.getRegionName(props.association.federation.region);
-        });
-
-        const open = async () => {
-            const slug = props.association.settings?.slug || props.association._id;
-            await router.push(`/association/${ slug }`);
-        };
-
-        return {
-            logoUrl,
-            open,
-            regionName
-        };
-    }
+const props = defineProps<{
+    association: Association.TAssociation
+}>();
+   
+const logoUrl = computed(() => {
+    return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
 });
+
+const regionName = computed(() => {
+    return AssociationService.getRegionName(props.association.federation.region);
+});
+
+const open = async () => {
+    const slug = props.association.settings?.slug || props.association._id;
+    await router.push(`/association/${ slug }`);
+};
+
 </script>
 
 <style scoped lang="scss">

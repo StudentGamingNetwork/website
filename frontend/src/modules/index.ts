@@ -6,5 +6,6 @@ import * as User from "./user";
 import * as Team from "./team";
 import * as Association from "./association";
 import * as Partner from "./partner";
+import * as Map from "./map";
 
-export { Tournament, Markdown, State, Toast, User, Association, Team, Partner };
+export { Tournament, Markdown, State, Toast, User, Association, Team, Partner, Map };

@@ -55,6 +55,8 @@ export async function register(server: FastifyInstance): Promise<void> {
             association.networks.twitter = request.body.networks?.twitter || "";
             association.networks.instagram = request.body.networks?.instagram || "";
             association.networks.website = request.body.networks?.website || "";
+            association.position.latitude = request.body.position?.latitude || 0;
+            association.position.longitude = request.body.position?.longitude || 0;
             association.tag = request.body.tag || "";
             association.school.name = request.body.school.name;
             association.school.studentsNumber = request.body.school.studentsNumber || 0;

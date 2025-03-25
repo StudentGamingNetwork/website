@@ -146,55 +146,98 @@
                 />
             </a>
         </div>
+        <SMap
+            v-if="association.position && association.position.latitude !== 0 && association.position.longitude !== 0"
+            :center="[association.position.latitude, association.position.longitude]"
+            class="map"
+            :dragging="false"
+            :layer-control="false"
+            :max-zoom="19"
+            :scroll-wheel-zoom="'center'"
+            :zoom-control="false"
+            @map="defineMap"
+        />
     </SCard>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+<script lang="ts" setup>
+import { computed, defineProps } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { useLeafletDisplayLayer, useLeafletDivIcon, useLeafletIcon, UseLeafletMapReturn, useLeafletMarker } from "vue-use-leaflet";
 import { Association } from "@/modules";
 import * as AssociationService from "@/services/association";
 import SCard from "@/components/design/Card.vue";
+import SMap from "@/components/design/SMap.vue";
 
-export default defineComponent({
-    name: "SAssociationCard",
-    components: { FontAwesomeIcon, SCard },
-    props: {
-        association: {
-            required: true,
-            type: Object as PropType<Association.TAssociation>
-        }
-    },
-    setup(props) {
-        const logoUrl = computed(() => {
-            return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
-        });
-        const regionName = computed(() => {
-            return AssociationService.getRegionName(props.association.federation.region);
-        });
-        return {
-            logoUrl,
-            regionName
-        };
-    }
+const props = defineProps<{
+    association: Association.TAssociation
+}>();
+
+ 
+const logoUrl = computed(() => {
+    return AssociationService.getLogoUrl({ id: props.association._id, logo: props.association.logo });
 });
+const regionName = computed(() => {
+    return AssociationService.getRegionName(props.association.federation.region);
+});
+
+function defineMap(map: UseLeafletMapReturn) {
+    if (!props.association.position) return;
+    const marker = useLeafletMarker([props.association.position.latitude, props.association.position.longitude],{
+        draggable: false,
+        icon: createIcon()
+    });
+    useLeafletDisplayLayer(map, marker);
+}
+
+function createIcon() {
+    if (!props.association.logo){
+        return useLeafletDivIcon(
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>`,
+            {
+                className: "leaflet-default-marker",
+                iconAnchor: [13, 13],
+                iconSize: [26, 26]
+            }
+        );
+    }
+
+    return useLeafletIcon(
+        AssociationService.getLogoUrl({
+            id: props.association._id,
+            logo: props.association.logo
+        }),
+        {
+            className: "leaflet-logo-border",
+            iconSize: [30, 30]
+        }
+    );
+}
+
 </script>
 
 <style scoped lang="scss">
 .association-card {
-    max-width: 960px;
+    max-width: 1200px;
     margin: auto;
     display: grid;
     column-gap: var(--length-gap-l);
     row-gap: var(--length-gap-m);
     grid-template-columns: 192px 1fr 1fr;
     grid-template-areas:
-        "logo head head"
-        "logo school owner"
-        "logo networks networks";
+        "logo head head map"
+        "logo school owner map"
+        "logo networks networks map";
 
     .logo {
         grid-area: logo;
+        width: 192px;
+        height: 192px;
+        object-fit: contain;
+    }
+
+    .map {
+        grid-area: map;
         width: 192px;
         height: 192px;
         object-fit: contain;
@@ -307,5 +350,21 @@ export default defineComponent({
             height: 24px;
         }
     }
+}
+</style>
+
+<style lang="css">
+.leaflet-logo-border {
+    background-color: var(--color-content);
+    border: 2px solid var(--color-content-softer);
+    border-radius: 50%;
+}
+
+
+.leaflet-default-marker {
+    fill: var(--color-primary);
+    svg {
+        filter: drop-shadow(1px 1px 1px var(--color-background-0));
+    }       
 }
 </style>

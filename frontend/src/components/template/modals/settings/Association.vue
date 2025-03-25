@@ -71,6 +71,33 @@
                         type="number"
                         @enter="sendUpdate"
                     />
+               
+                    <SInput
+                        v-model="association.position.latitude"
+                        :max="90"
+                        :min="-90"
+                        :modified="
+                            association.position.latitude !==
+                                associationStore.position.latitude
+                        "
+                        :step="0.001"
+                        title="Latitude"
+                        type="number"
+                        @enter="sendUpdate"
+                    />
+                    <SInput
+                        v-model="association.position.longitude"
+                        :max="180"
+                        :min="-180"
+                        :modified="
+                            association.position.longitude !==
+                                associationStore.position.longitude
+                        "
+                        :step="0.001"
+                        title="Longitude"
+                        type="number"
+                        @enter="sendUpdate"
+                    />
                 </SModalSection>
                 <SModalSectionTitle> Réseaux </SModalSectionTitle>
                 <SModalSection>
@@ -150,12 +177,12 @@
                     />
                     <SModalSectionDescription>
                         Le slug est l'identifiant unique de votre association. Votre page
-                        d'association sera disponible à cette adresse :<br><em><SCopier
-                            class="copier"
-                            :content="slugUrl"
-                        >{{
-                            slugUrl
-                        }}</SCopier></em>
+                        d'association sera disponible à cette adresse :<br><em>
+                            <SCopier
+                                class="copier"
+                                :content="slugUrl"
+                            >{{ slugUrl }}</SCopier>
+                        </em>
                     </SModalSectionDescription>
                     <SInputCopier
                         :content="association.settings.invitationCode"
@@ -335,6 +362,7 @@ export default defineComponent({
                     "mail",
                     "name",
                     "school",
+                    "position",
                     "networks",
                     "tag",
                     "settings",
@@ -354,6 +382,7 @@ export default defineComponent({
                             "mail",
                             "name",
                             "school",
+                            "position",
                             "networks",
                             "tag",
                             "settings",
@@ -402,13 +431,19 @@ export default defineComponent({
             }
         };
         const openTransferOwnershipAssociationModal = async () => {
-            const targetOwnership = prompt("Entrez l'email de l'utilisateur à qui transférer cette association (cet utilisateur doit être membre de l'association)");
+            const targetOwnership = prompt(
+                "Entrez l'email de l'utilisateur à qui transférer cette association (cet utilisateur doit être membre de l'association)"
+            );
 
             if (!targetOwnership) {
                 return;
             }
 
-            if (!confirm(`Êtes-vous sûr de vouloir transférer l'association à ${ targetOwnership } ?`)) {
+            if (
+                !confirm(
+                    `Êtes-vous sûr de vouloir transférer l'association à ${ targetOwnership } ?`
+                )
+            ) {
                 return;
             }
 
@@ -483,60 +518,60 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .association {
-    .buttons {
-        display: flex;
-        gap: var(--length-gap-m);
+  .buttons {
+    display: flex;
+    gap: var(--length-gap-m);
+  }
+
+  .copier:hover {
+    color: var(--color-primary-lite);
+  }
+
+  .empty,
+  .current {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: var(--length-gap-m);
+    margin-top: var(--length-margin-l);
+
+    .icon {
+      width: 64px;
+      height: 64px;
+      color: var(--color-content-litest);
     }
 
-    .copier:hover {
-        color: var(--color-primary-lite);
+    .logo {
+      width: 192px;
+      height: 192px;
+      object-fit: contain;
     }
 
-    .empty,
-    .current {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        gap: var(--length-gap-m);
-        margin-top: var(--length-margin-l);
+    .description {
+      text-align: center;
+      color: var(--color-content-liter);
 
-        .icon {
-            width: 64px;
-            height: 64px;
-            color: var(--color-content-litest);
-        }
-
-        .logo {
-            width: 192px;
-            height: 192px;
-            object-fit: contain;
-        }
-
-        .description {
-            text-align: center;
-            color: var(--color-content-liter);
-
-            strong {
-                color: var(--color-content);
-                font-weight: 600;
-            }
-        }
-
-        .action {
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--color-content-liter);
-
-            .link {
-                color: var(--color-content);
-                cursor: pointer;
-
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-        }
+      strong {
+        color: var(--color-content);
+        font-weight: 600;
+      }
     }
+
+    .action {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--color-content-liter);
+
+      .link {
+        color: var(--color-content);
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
 </style>

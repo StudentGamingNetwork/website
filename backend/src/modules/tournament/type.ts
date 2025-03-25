@@ -30,6 +30,11 @@ const Tournament = {
         prizes: Type.String(),
         rulesUrl: Type.String()
     }),
+    isLAN: Type.Optional(Type.Boolean()),
+    position: Type.Optional(Type.Object({
+        latitude: Type.Number({ maximum: 90, minimum: -90 }),
+        longitude: Type.Number({ maximum: 180, minimum: -180 })
+    })),
     settings: Type.Optional(Type.Object({
         code: Type.Optional(Type.String()),
         logo: Type.Optional(Type.String()),

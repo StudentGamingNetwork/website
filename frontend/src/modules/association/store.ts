@@ -102,6 +102,10 @@ export const useStore = defineStore({
             twitter: "",
             website: ""
         },
+        position: {
+            latitude: 0,
+            longitude: 0
+        },
         school: {
             name: "",
             address: "",
