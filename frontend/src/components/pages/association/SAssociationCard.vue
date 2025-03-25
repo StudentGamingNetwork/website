@@ -147,7 +147,7 @@
             </a>
         </div>
         <SMap
-            v-if="association.position"
+            v-if="association.position && association.position.latitude !== 0 && association.position.longitude !== 0"
             :center="[association.position.latitude, association.position.longitude]"
             class="map"
             :dragging="false"
