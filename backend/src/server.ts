@@ -8,6 +8,9 @@ import APIHandler from "@/api";
 import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
 import PageHandler from "@/page";
+import "@/cronjob";
+
+
 //import NotFoundHandler from "@/notFound";
 
 async function init() {
@@ -50,3 +53,4 @@ process.on("SIGINT", async function() {
     await closeDatabase();
     process.exit(1);
 });
+
