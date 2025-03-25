@@ -355,7 +355,8 @@ function createIcon() {
 
 <style lang="css">
 .leaflet-logo-border {
-    background-color: var(--color-content);
+    object-fit: cover;
+    background-color: var(--color-primary);
     border: 2px solid var(--color-content-softer);
     border-radius: 50%;
 }
