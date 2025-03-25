@@ -25,7 +25,7 @@ import SModalMenu, { TMenuOption } from "@/components/design/ModalMenu.vue";
 import { State } from "@/modules";
 import SPublicProfil from "@/components/template/modals/settings/PublicProfil.vue";
 import SGameProfil from "@/components/template/modals/settings/GameProfil.vue";
-import SAccount from "@/components/template/modals/settings/Account.vue";
+import SAccount from "@/components/template/modals/settings/SAccount.vue";
 import SAssociation from "@/components/template/modals/settings/Association.vue";
 
 export default defineComponent({
