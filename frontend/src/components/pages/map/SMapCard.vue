@@ -498,7 +498,7 @@ function getTournamentState(tournament: TTournament): string {
 
 .leaflet-logo-border {
     object-fit: cover;
-    background-color: var(--color-content);
+    background-color: var(--color-primary);
     border: 2px solid var(--color-content-softer);
     border-radius: 50%;
 }
