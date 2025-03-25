@@ -151,7 +151,7 @@
             :center="[association.position.latitude, association.position.longitude]"
             class="map"
             :dragging="false"
-            :layer-control="false"
+            :keybord="false"
             :max-zoom="19"
             :scroll-wheel-zoom="'center'"
             :zoom-control="false"
