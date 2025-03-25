@@ -4,7 +4,7 @@
             v-model="map"
             class="map"
             :dragging="true"
-            :layer-control="true"
+            :keybord="true"
             :max-zoom="19"
             :scroll-wheel-zoom="'center'"
             :zoom-control="true"
