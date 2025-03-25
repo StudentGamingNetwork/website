@@ -14,9 +14,6 @@ export type TUser = {
         schoolName: string;
         status: string;
     };
-    twoFactorAuth: {
-        enabled: boolean;
-    };
     username: string;
 };
 

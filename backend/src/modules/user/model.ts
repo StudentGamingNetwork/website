@@ -37,10 +37,6 @@ export interface IUser {
         year?: number;
     };
     subscriptionDate: Date;
-    twoFactorAuth?: {
-            enabled: boolean;
-            secret: string;
-        };
     username: string;
 }
 
@@ -100,14 +96,6 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
     },
     subscriptionDate: {
         type: Date
-    },
-    twoFactorAuth: {
-        enabled: {
-            type: Boolean
-        },
-        secret: {
-            type: String
-        }
     },
     username: {
         faker: "internet.userName",

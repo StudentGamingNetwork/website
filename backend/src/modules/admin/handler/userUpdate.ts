@@ -46,23 +46,23 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             switch (request.body.role?.name) {
-                case ERoles.Office:
-                case ERoles.Admin:
-                    UserLib.assertRoles(user, [ERoles.Admin]);
-                    break;
-                case ERoles.Council:
-                case ERoles.Member:
-                    UserLib.assertRoles(user, [ERoles.Office]);
-                    break;
-                case ERoles.Tournament:
-                    UserLib.assertRoles(user, [ERoles.Council, ERoles.Tournament]);
-                    break;
-                case ERoles.Partnership:
-                    UserLib.assertRoles(user, [ERoles.Council, ERoles.Partnership]);
-                    break;
-                case ERoles.Federation:
-                    UserLib.assertRoles(user, [ERoles.Council, ERoles.Federation]);
-                    break;
+            case ERoles.Office:
+            case ERoles.Admin:
+                UserLib.assertRoles(user, [ERoles.Admin]);
+                break;
+            case ERoles.Council:
+            case ERoles.Member:
+                UserLib.assertRoles(user, [ERoles.Office]);
+                break;
+            case ERoles.Tournament:
+                UserLib.assertRoles(user, [ERoles.Council, ERoles.Tournament]);
+                break;
+            case ERoles.Partnership:
+                UserLib.assertRoles(user, [ERoles.Council, ERoles.Partnership]);
+                break;
+            case ERoles.Federation:
+                UserLib.assertRoles(user, [ERoles.Council, ERoles.Federation]);
+                break;
             }
 
             if (request.body.role?.modification === "add") {

@@ -2,19 +2,12 @@ import Crypto from "crypto";
 import httpErrors from "http-errors";
 import SessionModel, { ISessionDocument } from "@/modules/session/model";
 
-export async function generate(userId: string, machine: {host: string; userAgent: string}, twoFactorAuth = false): Promise<ISessionDocument> {
+export async function generate(userId: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
     const token = Crypto.randomBytes(32).toString("hex");
-    const tempToken = twoFactorAuth ? Crypto.randomBytes(32).toString("hex") : undefined;
 
     const creationDate = new Date();
     const expirationDate = new Date();
-    if (twoFactorAuth){
-        expirationDate.setUTCSeconds(expirationDate.getUTCSeconds() + 60);
-    }
-    else {
-        expirationDate.setDate(expirationDate.getDate() + 365); 
-    }
-    
+    expirationDate.setDate(expirationDate.getDate() + 365);
 
     return SessionModel.create({
         dates: {
@@ -22,9 +15,7 @@ export async function generate(userId: string, machine: {host: string; userAgent
             expiration: expirationDate.toISOString()
         },
         machine,
-        tempToken,
         token,
-        twoFactorAuth,
         userId
     });
 }
@@ -54,27 +45,3 @@ export async function assertValidity(userId: string, token: string): Promise<voi
         throw new httpErrors.Unauthorized("Token de connexion non valide ou expiré");
     }
 }
-
-export async function validate(session: ISessionDocument): Promise<void> {
-    const validity = await checkValidity(session.userId, session.token);
-
-    if (!validity) {
-        throw new httpErrors.Unauthorized("Token de connexion non valide ou expiré");
-    }
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 365); 
-    session.dates.expiration = expirationDate;
-}
-export async function getSessionByTempToken(tempToken: string) {
-
-    const session = await SessionModel.findOne({
-        tempToken 
-    }).exec();
-
-    if (!session) {
-        return null;
-    }
-
-    return session;
-}
-

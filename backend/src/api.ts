@@ -6,7 +6,6 @@ import TournamentHandler from "@/modules/tournament/handler";
 import TeamHandler from "@/modules/team/handler";
 import PartnerHandler from "@/modules/partner/handler";
 import OverlayHandler from "@/modules/overlay/handler";
-import TwoFactorAuthHandler from "@/modules/twoFactorAuth/handler";
 
 export default async function (server: FastifyInstance): Promise<void> {
     await server.register(UserHandler, { prefix: "/user" });
@@ -16,5 +15,4 @@ export default async function (server: FastifyInstance): Promise<void> {
     await server.register(TeamHandler, { prefix: "/team" });
     await server.register(PartnerHandler, { prefix: "/partner" });
     await server.register(OverlayHandler, { prefix: "/overlay" });
-    await server.register(TwoFactorAuthHandler, { prefix: "/2fa" });
 }

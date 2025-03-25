@@ -14,7 +14,6 @@
             Connexion
         </SButton>
         <SModalLogIn />
-        <SModal2FA />
     </div>
 </template>
 
@@ -23,13 +22,11 @@ import { defineComponent } from "vue";
 import SButton from "@/components/design/forms/Button.vue";
 import SModalSignUp from "@/components/template/modals/SignUp.vue";
 import SModalLogIn from "@/components/template/modals/LogIn.vue";
-import SModal2FA from "@/components/template/modals/SModal2FA.vue";
-
 import { State } from "@/modules";
 
 export default defineComponent({
     name: "SHeaderButtons",
-    components: { SButton, SModal2FA, SModalLogIn, SModalSignUp },
+    components: { SButton, SModalLogIn, SModalSignUp },
     setup() {
         const stateStore = State.useStore();
 

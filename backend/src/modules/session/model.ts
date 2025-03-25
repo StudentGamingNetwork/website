@@ -9,9 +9,7 @@ export interface ISession {
         host: string;
         userAgent: string;
     };
-    tempToken?: string;
     token: string;
-    twoFactorAuth: boolean;
     userId: string;
 }
 
@@ -39,17 +37,9 @@ const sessionSchema: Mongo.Schema = new Mongo.Schema({
             type: String
         }
     },
-    tempToken: {
-        type: String
-    },
     token: {
         required: true,
         type: String
-    },
-    twoFactorAuth: {
-        default: false,
-        required: true,
-        type: Boolean
     },
     userId: {
         required: true,

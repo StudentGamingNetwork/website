@@ -11,8 +11,7 @@ type TUserLogin = Static<typeof UserLogin>;
 
 const UserLoginResponse = Type.Object({
     message: Type.String(),
-    success: Type.Boolean(),
-    twoFactorAuth: Type.Boolean()
+    success: Type.Boolean()
 });
 
 type TUserLoginResponse = Static<typeof UserLoginResponse>;
@@ -37,29 +36,14 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const session = await UserLib.login(user.mail, user.password, machine);
 
-            if (session.twoFactorAuth) {
-                reply.headers({
-                    "Set-Cookie": [
-                        `token=${ session.tempToken };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`
-                    ]
-                }).send({
-                    message: "Entrez le token généré dans votre application.",
-                    success: true,
-                    twoFactorAuth: session.twoFactorAuth
-                });
-
-                return;
-            }
-
             reply.headers({
                 "Set-Cookie": [
-                    `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`,
-                    `userId=${ session.userId };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`
+                    `userId=${ session.userId };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`,
+                    `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`
                 ]
             }).send({
                 message: "Vous êtes maintenant connecté.",
-                success: true,
-                twoFactorAuth: session.twoFactorAuth
+                success: true
             });
         }
     );
