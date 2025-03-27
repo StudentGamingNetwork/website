@@ -38,9 +38,9 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Unauthorized("Votre session n'est plus valide.");
             }
 
-            await SessionLib.validate(session);
+            const validatedSession = await SessionLib.validate(session);
 
-            const user = await UserModel.findById(session.userId);
+            const user = await UserModel.findById(validatedSession.userId);
 
             if (!user?.twoFactorAuth?.enabled) {
                 throw new httpErrors.Forbidden("L'authentification à deux facteurs n'est pas activée.");
@@ -52,12 +52,12 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Forbidden("Le token est invalide.");
             }
            
-            await session.save();
+            await validatedSession.save();
 
             reply.headers({
                 "Set-Cookie": [
-                    `userId=${ session.userId };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`,
-                    `token=${ session.token };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`
+                    `userId=${ validatedSession.userId };path=/;expires=${ new Date(validatedSession.dates.expiration).toUTCString() };SameSite=None;Secure`,
+                    `token=${ validatedSession.token };path=/;expires=${ new Date(validatedSession.dates.expiration).toUTCString() };SameSite=None;Secure`
                 ]
             }).send({
                 message: "Vous êtes maintenant connecté",
