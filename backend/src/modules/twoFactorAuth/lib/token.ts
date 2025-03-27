@@ -12,7 +12,7 @@ export function verifyToken(token: string, secret: string): boolean {
     if (!token) {
         throw new httpErrors.BadRequest("Le token est manquant.");
     }
-    
+
     return authenticator.check(token, secret);
 }
 
