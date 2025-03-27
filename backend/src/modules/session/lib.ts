@@ -55,16 +55,16 @@ export async function assertValidity(userId: string, token: string): Promise<voi
     }
 }
 
-export async function validate(session: ISessionDocument): Promise<void> {
-    const validity = await checkValidity(session.userId, session.token);
+export async function validate(session: ISessionDocument): Promise<ISessionDocument> {
+    await checkValidity(session.userId, session.token);
 
-    if (!validity) {
-        throw new httpErrors.Unauthorized("Token de connexion non valide ou expiré");
-    }
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 365); 
     session.dates.expiration = expirationDate;
+    
+    return session;
 }
+
 export async function getSessionByTempToken(tempToken: string) {
 
     const session = await SessionModel.findOne({
