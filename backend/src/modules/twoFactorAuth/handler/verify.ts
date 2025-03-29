@@ -31,7 +31,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         "/verify",
         { schema },
         async (request, reply) => {
-            const token = request.headers.cookie?.split(";").map((cookie) => cookie.trim().split("=")[0] === "token" ? cookie.trim().split("=")[1] : null)[0];
+            const token = request.headers.cookie?.split(";").map((cookie) => cookie.trim()).find((cookie) => cookie.startsWith("token="))?.split("=")[1];
             const session = await SessionLib.getSessionByTempToken(token as string);
 
             if (!session) {
