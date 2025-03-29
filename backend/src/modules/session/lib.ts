@@ -56,7 +56,7 @@ export async function assertValidity(userId: string, token: string): Promise<voi
 }
 
 export async function validate(session: ISessionDocument): Promise<ISessionDocument> {
-    await checkValidity(session.userId, session.token);
+    assertValidity(session.userId, session.token);
 
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 365); 
@@ -77,4 +77,5 @@ export async function getSessionByTempToken(tempToken: string) {
 
     return session;
 }
+
 
