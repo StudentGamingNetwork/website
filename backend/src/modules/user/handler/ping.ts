@@ -31,14 +31,6 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Unauthorized("Votre session n'est plus valide.");
             }
 
-            const dateValidator = new Date();
-            dateValidator.setDate(dateValidator.getDate() + 200);
-            
-            if (session.dates.expiration < dateValidator && user.twoFactorAuth?.enabled){
-                throw new httpErrors.Forbidden("Vous n'avez pas valider votre token.");
-            }
-
-
             if (user.association) {
                 await user
                     .populate("association");
