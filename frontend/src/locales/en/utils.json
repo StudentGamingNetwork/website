@@ -1,0 +1,23 @@
+{
+    "validators": {
+        "notEmpty": "Cannot be empty",
+        "slug": "Only letters, numbers or dashes",
+        "onlyLettersAndNumbers": "Only letters and numbers",
+        "onlyLettersAndDashes": "Only letters and dashes",
+        "length": "Between {min} and {max} characters",
+        "mail": "Valid email address",
+        "url": "Valid URL",
+        "discord": "Discord ID format"
+    },
+    "toast": {
+        "success": "Success",
+        "alreadyConnected": {
+            "title": "Already connected",
+            "message": "You are already connected."
+        },
+        "copy": {
+            "title": "Copied",
+            "message": "\"{content}\" has been copied to your clipboard."
+        }
+    }
+}
