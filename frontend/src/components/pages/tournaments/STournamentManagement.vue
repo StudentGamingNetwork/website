@@ -23,7 +23,7 @@
                 :icon="['fas','frown']"
             />
             <div class="description">
-                Aucun équipe trouvée...
+                {{ $t("components.pages.tournaments.management.noTeams") }}
             </div>
         </div>
         <template v-else>
@@ -49,7 +49,8 @@ import { useRouter } from "vue-router";
 import { Team } from "@/modules";
 import * as AdminService from "@/services/admin";
 import STournamentManagementTeamCard from "@/components/pages/tournaments/SManagementTeamCard.vue";
-import SSelector from "@/components/design/Selector.vue";
+import SSelector from "@/components/design/SSelector.vue";
+import i18n from "@/locales";
 
 
 defineProps<{ modelValue : ""}>();
@@ -64,9 +65,9 @@ const teams = ref([] as Array<Team.TTeam>);
 const managementPage = ref("forming");
 
 const managementPages = [
-    { title: "En formation", key: "forming" },
-    { title: "Prêtes", key: "ready" },
-    { title: "Validées", key: "validated" }
+    { title: i18n.global.t("components.pages.tournaments.management.pages.forming"), key: "forming" },
+    { title: i18n.global.t("components.pages.tournaments.management.pages.ready"), key: "ready" },
+    { title: i18n.global.t("components.pages.tournaments.management.pages.validated",2), key: "validated" }
 ];
 
 watch(

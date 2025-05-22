@@ -13,7 +13,7 @@ export default {
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import SToasts from "@/components/template/toasts/Toasts.vue";
+import SToasts from "@/components/template/toasts/SToasts.vue";
 import { User } from "@/modules";
 
 

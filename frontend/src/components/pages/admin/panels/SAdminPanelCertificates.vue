@@ -19,7 +19,7 @@
                 :icon="['fas','check']"
             />
             <div class="description">
-                Aucun certificat en attente de validation.
+                {{ $t("components.pages.admin.certificate.description") }}
             </div>
         </div>
         <template v-else>
@@ -47,7 +47,7 @@
                     outlined
                     @click="validate(true)"
                 >
-                    Valider
+                    {{ $t("components.pages.admin.certificate.validate") }}
                 </SButton>
                 <template
                     v-for="(reason, key) in denialReasons"
@@ -81,19 +81,20 @@ import { useRouter } from "vue-router";
 import * as AdminService from "@/services/admin";
 import { TUser } from "@/modules/user";
 import SAdminUserCard from "@/components/pages/admin/panels/SAdminUserCard.vue";
-import SCard from "@/components/design/Card.vue";
+import SCard from "@/components/design/SCard.vue";
 import * as UserService from "@/services/user";
-import SButton from "@/components/design/forms/Button.vue";
+import SButton from "@/components/design/forms/SButton.vue";
 import { Toast } from "@/modules";
 import STooltip from "@/components/design/STooltip.vue";
+import i18n from "@/locales";
 
 
 const denialReasons = {
-    "Expiré": "Ce certificat ne semble pas valide pour cette année",
-    "Format": "Ce n'est pas un certificat de scolarité ou une carte étudiante",
-    "Illisible": "Ce certificat est illisible",
-    "Lycée": "Ce certificat semble provenir d'un lycée, or less lycéens ne sont pas considérés comme des étudiants",
-    "Mineur": "Les mineurs ne sont pas acceptés dans les compétitions du SGN",
+    "Expiré": i18n.global.t("components.pages.admin.certificate.denialReasons.expired"),
+    "Format": i18n.global.t("components.pages.admin.certificate.denialReasons.format"),
+    "Illisible": i18n.global.t("components.pages.admin.certificate.denialReasons.notReadable"),
+    "Lycée": i18n.global.t("components.pages.admin.certificate.denialReasons.highSchool"),
+    "Mineur": i18n.global.t("components.pages.admin.certificate.denialReasons.minor"),
     "Rejeter": ""
 };
 
@@ -141,7 +142,7 @@ const certificateUrl = computed(() => {
 async function validate(validated: boolean, reason: string = "") {
            
     if (!validated && !reason) {
-        reason = prompt("Entrez un message de rejet : (optionnel)") || "";
+        reason = prompt(i18n.global.t("components.pages.admin.certificate.rejectMessage")) || "";
     }
 
     const response = await Toast.testRequest(async () => {

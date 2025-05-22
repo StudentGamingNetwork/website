@@ -31,7 +31,7 @@
                         class="icon"
                         :icon="['fas', 'check']"
                     />
-                    Validée
+                    {{ $t("components.pages.tournaments.management.pages.validated") }}
                 </div>
                 <div
                     v-else
@@ -42,7 +42,7 @@
                         class="icon"
                         :icon="['fas', 'eye']"
                     />
-                    Vérification
+                    {{ $t("components.pages.tournaments.management.pages.verification") }}
                 </div>
                 <div
                     class="chip export"
@@ -52,12 +52,12 @@
                         class="icon"
                         :icon="['fas', 'upload']"
                     />
-                    Exporter
+                    {{ $t("components.pages.tournaments.management.pages.export") }}
                 </div>
             </div>
         </div>
         <table class="members-table">
-            <span class="title">Joueurs</span>
+            <span class="title">  {{ $t("components.pages.tournaments.player",2) }}</span>
             <tr
                 v-for="member of team.members"
                 :key="member.user._id"
@@ -86,14 +86,14 @@
                     </router-link>
                     {{ member.user.username }}
                     <span class="info">
-                        (<span :class="{error: !member.username}">{{ member.username || "ID manquant" }}</span>)
+                        (<span :class="{error: !member.username}">{{ member.username || $t("components.pages.tournaments.noId") }}</span>)
                     </span>
                     <div
                         v-if="isOwner && member.user._id !== team.owner"
                         class="kick"
                         @click="kickMember(memberIndex)"
                     >
-                        Expulser
+                        {{ $t("components.pages.tournaments.kick") }}
                     </div>
                 </td>
                 <td>
@@ -111,7 +111,7 @@
                             :class="{error: member.user.student.status === 'undefined',rejected: member.user.student.status === 'rejected', warning: member.user.student.status === 'processing'}"
                             :href="'/admin/certificates/'+member.user._id"
                             target="_blank"
-                            :title="'Certificat étudiant ('+member.user.student.status+')'"
+                            :title="$t('components.pages.tournaments.certificate')+` (${member.user.student.status})`"
                         >
                             <FontAwesomeIcon :icon="['fas', 'id-card']" />
                         </a>
@@ -133,12 +133,12 @@
                 <td>
                     <template v-if="isMemberReady(member)">
                         <SValidator :valid="true">
-                            Prêt
+                            {{ $t("components.pages.tournaments.ready") }}
                         </SValidator>
                     </template>
                     <template v-else>
                         <SValidator :valid="false">
-                            Incomplet
+                            {{ $t("components.pages.tournaments.incomplete") }}
                         </SValidator>
                     </template>
                 </td>
@@ -147,7 +147,7 @@
                 <span
                     class="title"
                 >
-                    Staff
+                    {{ $t("components.pages.tournaments.staff") }}
                 </span>
                 <tr
                     v-for="(staff, staffRole) of team.staff"
@@ -178,14 +178,14 @@
                             </router-link>
                             {{ staff.user.username }}
                             <span class="info">
-                                (<span :class="{error: !staff.user.username}">{{ staff.username || "ID manquant" }}</span>)
+                                (<span :class="{error: !staff.user.username}">{{ staff.username || $t("components.pages.tournaments.noId") }}</span>)
                             </span>
                             <div
                                 v-if="isOwner && staff.user._id !== team.owner"
                                 class="kick"
                                 @click="kickMember(staffRole,'staff')"
                             >
-                                Expulser
+                                {{ $t("components.pages.tournaments.kick") }}
                             </div>
                         </td>
                         <td>
@@ -220,12 +220,12 @@
                         <td>
                             <template v-if="isMemberReady(staff, true)">
                                 <SValidator :valid="true">
-                                    Prêt
+                                    {{ $t("components.pages.tournaments.ready") }}
                                 </SValidator>
                             </template>
                             <template v-else>
                                 <SValidator :valid="false">
-                                    Incomplet
+                                    {{ $t("components.pages.tournaments.incomplete") }}
                                 </SValidator>
                             </template>
                         </td>
@@ -240,12 +240,13 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { computed } from "vue";
 import { Team, Toast, User } from "@/modules";
-import SCard from "@/components/design/Card.vue";
-import SValidator from "@/components/design/forms/Validator.vue";
-import SCopier from "@/components/design/forms/Copier.vue";
+import SCard from "@/components/design/SCard.vue";
+import SValidator from "@/components/design/forms/SValidator.vue";
+import SCopier from "@/components/design/forms/SCopier.vue";
 import * as UserService from "@/services/user";
 import * as AdminService from "@/services/admin";
 import * as TeamService from "@/services/team";
+import i18n from "@/locales";
 
 
 defineProps<{
@@ -258,7 +259,7 @@ const schoolName = computed(() => (member: User.TCompleteUser) => {
     if (member?.student?.schoolName) {
         return `${ member.student?.schoolName }${ member.association?.school?.name ? ` - ${ member.association?.school?.name }` : "" }`;
     }
-    return "École manquante";
+    return i18n.global.t("components.pages.tournaments.noSchool");
 });
 
    

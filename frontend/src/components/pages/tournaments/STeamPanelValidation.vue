@@ -18,7 +18,7 @@
             :icon="['fas','check']"
         />
         <div class="description">
-            Aucune équipe en attente de validation.
+            {{ $t("components.pages.tournaments.card.team.noWaiting") }}
         </div>
     </div>
     <SCard
@@ -30,7 +30,7 @@
         >
             <SSectionTitle>{{ team.settings.name }}</SSectionTitle>
             <SModalSection class="settings">
-                <SModalSectionTitle>Paramètre de l'équipe</SModalSectionTitle>
+                <SModalSectionTitle>{{ $t("components.pages.tournaments.card.team.settings") }}</SModalSectionTitle>
                 <SAvatarPicker
                     class="delete-logo"
                     :icon="['fas', 'trophy']"
@@ -42,14 +42,14 @@
                     v-if="isTeamBased"
                     v-model="team.settings.name"
                     :modified="team.settings.name !== savedTeam.settings.name"
-                    title="Nom d'équipe"
+                    :title="$t('components.pages.tournaments.card.team.name')"
                     @enter="sendUpdate"
                 />
                 <SInput
                     v-if="isTeamBased"
                     v-model="team.settings.tag"
                     :modified="team.settings.tag !== savedTeam.settings.tag"
-                    title="TAG d'équipe"
+                    :title="$t('components.pages.tournaments.card.team.tag')"
                     :validators="[InputValidators.Length({min:3, max:4}), InputValidators.OnlyLettersAndNumbers()]"
                     @enter="sendUpdate"
                 />
@@ -61,7 +61,7 @@
                         primary
                         @click="sendUpdate"
                     >
-                        Sauvegarder
+                        {{ $t('components.pages.tournaments.card.team.save') }}
                     </SButton>
                     <SButton
                         v-if="team.members.length === 1"
@@ -69,44 +69,48 @@
                         outlined
                         @click="deleteTeam"
                     >
-                        Dissoudre l'équipe
+                        {{ $t('components.pages.tournaments.card.action.disband') }}
                     </SButton>
                 </div>
                 <SModalSectionDescription>
-                    Une fois que tout est en ordre, cliquez sur "Marquer prêt" pour que les admins valident votre
-                    équipe.
+                    {{ $t('components.pages.tournaments.card.team.info') }}
                 </SModalSectionDescription>
             </SModalSection>
             <SModalSection class="checklist">
-                <SModalSectionTitle>Checklist</SModalSectionTitle>
+                <SModalSectionTitle> {{ $t('components.pages.tournaments.card.team.checklist.title') }}</SModalSectionTitle>
                 <div class="validators">
                     <div class="validators-column">
                         <SValidator
                             v-if="isTeamBased"
                             :valid="!!savedTeam.settings.name"
                         >
-                            Nom d'équipe
+                            {{ $t('components.pages.tournaments.card.team.name') }}
                         </SValidator>
                         <SValidator
                             v-if="isTeamBased"
                             :valid="!!savedTeam.settings.tag"
                         >
-                            TAG d'équipe
+                            {{ $t('components.pages.tournaments.card.team.tag') }}
                         </SValidator>
                         <SValidator
                             v-if="isTeamBased"
                             :valid="team.members.length >= tournament.game.team.playersNumber"
                         >
-                            Équipe complète
+                            {{ $t('components.pages.tournaments.card.team.checklist.complete') }}
                         </SValidator>
                     </div>
                 </div>
-                <SModalSectionDescription>
-                    * Ces éléments peuvent être renseignés dans les <span
-                        class="link"
-                        @click="stateStore.modalOpen('settings')"
-                    >paramètres</span> de votre profil.
-                </SModalSectionDescription>
+                <i18n-t
+                    keypath="components.pages.tournaments.card.team.description"
+                    :tag="SModalSectionDescription"
+                >
+                    <template #settings>
+                        <span
+                            class="link"
+                            @click="stateStore.modalOpen('settings')"
+                        >{{ $t("components.pages.tournaments.card.team.settingsLink") }}</span> 
+                    </template>
+                </i18n-t>
                 <div class="validators-column">
                     <div
                         v-for="(number, index) in Math.max(tournament.game.team.playersNumber, team.members.length)"
@@ -114,12 +118,12 @@
                     >
                         <template v-if="team.members[index]">
                             <SValidator :valid="isMemberReady(team.members[index])">
-                                Joueur {{ number }} : <strong>{{ team.members[index].user.username }}</strong> ({{ isMemberReady(team.members[index]) ? "prêt" : "incomplet" }})
+                                {{ $t("components.pages.tournaments.player") }} {{ number }} : <strong>{{ team.members[index].user.username }}</strong> ({{ isMemberReady(team.members[index]) ? i18n.global.t("components.pages.tournaments.ready").toLowerCase() : i18n.global.t("components.pages.tournaments.incomplete").toLowerCase() }})
                             </SValidator>
                         </template>
                         <template v-else>
                             <SValidator :valid="false">
-                                Joueur manquant
+                                {{ $t("components.pages.tournaments.player",0) }}
                             </SValidator>
                         </template>
                     </div>
@@ -132,7 +136,7 @@
                     outlined
                     @click="addTeamMember('player')"
                 >
-                    Ajouter un joueur
+                    {{ $t('components.pages.tournaments.management.addPlayer') }}
                 </SButton>
                 <SButton
                     v-if="tournament.game.team.coachEnabled && !team.staff.coach?.user"
@@ -140,7 +144,7 @@
                     outlined
                     @click="addTeamMember('coach')"
                 >
-                    Ajouter un coach
+                    {{ $t('components.pages.tournaments.management.addCoach') }}
                 </SButton>
                 <SButton
                     v-if="tournament.game.team.managerEnabled && !team.staff.manager?.user"
@@ -148,12 +152,12 @@
                     outlined
                     @click="addTeamMember('manager')"
                 >
-                    Ajouter un manager
+                    {{ $t('components.pages.tournaments.management.addManager') }}
                 </SButton>
             </div>
             <div class="members">
                 <table class="members-table">
-                    <span class="title">Joueurs</span>
+                    <span class="title">{{ $t("components.pages.tournaments.player",2) }}-</span>
                     <tr
                         v-for="(member, memberIndex) of team.members"
                         :key="member.user._id"
@@ -182,14 +186,14 @@
                             </router-link>
                             {{ member.user.username }}
                             <span class="info">
-                                (<span :class="{error: !member.username}">{{ member.username || "ID manquant" }}</span>)
+                                (<span :class="{error: !member.username}">{{ member.username || $t("components.pages.tournaments.noId") }}</span>)
                             </span>
                             <div
                                 v-if="member.user._id !== team.owner"
                                 class="kick"
                                 @click="kickMember(memberIndex)"
                             >
-                                Expulser
+                                {{ $t("components.pages.tournaments.kick") }}
                             </div>
                         </td>
                         <td>
@@ -205,12 +209,12 @@
                                     :class="{error: member.user.student.status === 'undefined',rejected: member.user.student.status === 'rejected', warning: member.user.student.status === 'processing'}"
                                     :href="'/admin/certificates/'+member.user._id"
                                     target="_blank"
-                                    :title="'Certificat étudiant ('+member.user.student.status+')'"
+                                    :title="$t('components.pages.tournaments.certificate')+` (${member.user.student.status})`"
                                 >
                                     <span
                                         class="certificate"
                                         :class="{error: ['rejected', 'undefined'].includes(member.user.student.status), warning: member.user.student.status === 'processing'}"
-                                        title="Certificat étudiant"
+                                        :title="$t('components.pages.tournaments.certificate')"
                                     >
                                         <FontAwesomeIcon :icon="['fas', 'id-card']" />
                                     </span>
@@ -233,18 +237,18 @@
                         <td>
                             <template v-if="isMemberReady(member)">
                                 <SValidator :valid="true">
-                                    Prêt
+                                    {{ $t('components.pages.tournaments.ready') }}
                                 </SValidator>
                             </template>
                             <template v-else>
                                 <SValidator :valid="false">
-                                    Incomplet
+                                    {{ $t('components.pages.tournaments.incomplete') }}
                                 </SValidator>
                             </template>
                         </td>
                     </tr>
                     <template v-if="team.staff.coach?.user || team.staff.manager?.user">
-                        <span class="title">Staff</span>
+                        <span class="title">{{ $t('components.pages.tournaments.staff') }}</span>
                         <tr
                             v-for="(staff, staffRole) of team.staff"
                             :key="staffRole"
@@ -274,13 +278,13 @@
                                     </router-link>
                                     {{ staff.user.username }}
                                     <span class="info">
-                                        (<span :class="{error: !staff.user.username}">{{ staff.username || "ID manquant" }}</span>)
+                                        (<span :class="{error: !staff.user.username}">{{ staff.username || $t('components.pages.tournaments.noId') }}</span>)
                                     </span>
                                     <div
                                         class="kick"
                                         @click="kickMember(staffRole,'staff')"
                                     >
-                                        Expulser
+                                        {{ $t('components.pages.tournaments.kick') }}
                                     </div>
                                 </td>
                                 <td>
@@ -293,7 +297,7 @@
                                     <div class="contact">
                                         <span
                                             class="certificate"
-                                            title="Certificat étudiant"
+                                            :title="$t('components.pages.tournaments.certificate')"
                                         >
                                             <FontAwesomeIcon :icon="['fas', 'id-card']" />
                                         </span>
@@ -315,12 +319,12 @@
                                 <td>
                                     <template v-if="isMemberReady(staff,true)">
                                         <SValidator :valid="true">
-                                            Prêt
+                                            {{ $t('components.pages.tournaments.ready') }}
                                         </SValidator>
                                     </template>
                                     <template v-else>
                                         <SValidator :valid="false">
-                                            Incomplet
+                                            {{ $t('components.pages.tournaments.incomplete') }}
                                         </SValidator>
                                     </template>
                                 </td>
@@ -338,20 +342,21 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { assign, cloneDeep, isMatch } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SCard from "@/components/design/Card.vue";
+import SCard from "@/components/design/SCard.vue";
 import * as TeamService from "@/services/team";
 import { User, Toast, Team, Tournament } from "@/modules";
-import SButton from "@/components/design/forms/Button.vue";
-import SInput from "@/components/design/forms/Input.vue";
-import SModalSection from "@/components/design/modal/Section.vue";
-import SValidator from "@/components/design/forms/Validator.vue";
-import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
-import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
-import SSectionTitle from "@/components/design/SectionTitle.vue";
+import SButton from "@/components/design/forms/SButton.vue";
+import SInput from "@/components/design/forms/SInput.vue";
+import SModalSection from "@/components/design/modal/SModalSection.vue";
+import SValidator from "@/components/design/forms/SValidator.vue";
+import SModalSectionTitle from "@/components/design/modal/SModalSectionTitle.vue";
+import SModalSectionDescription from "@/components/design/modal/SModalSectionDescription.vue";
+import SSectionTitle from "@/components/design/SSectionTitle.vue";
 import * as InputValidators from "@/utils/validators";
-import SCopier from "@/components/design/forms/Copier.vue";
+import SCopier from "@/components/design/forms/SCopier.vue";
 import * as UserService from "@/services/user";
-import SAvatarPicker from "@/components/design/forms/AvatarPicker.vue";
+import SAvatarPicker from "@/components/design/forms/SAvatarPicker.vue";
+import i18n from "@/locales";
 
 
 const props = defineProps<{
@@ -392,7 +397,7 @@ const schoolName = computed(() => (member: User.TCompleteUser) => {
     if (member?.student?.schoolName) {
         return `${ member.student?.schoolName }${ member.association?.school?.name ? ` - ${ member.association?.school?.name }` : "" }`;
     }
-    return "École manquante";
+    return i18n.global.t("components.pages.tournaments.noSchool");
 });
 
 const logoUrl = computed(() => {
@@ -423,7 +428,7 @@ const sendUpdate = async () => {
 };
 
 function deleteLogo(){
-    const answer = confirm("Êtes-vous sûr de vouloir supprimer le logo de l'équipe ?");
+    const answer = confirm(i18n.global.t("components.pages.tournaments.management.deleteLogo"));
   
     if (answer){
         team.settings.logo = "";
@@ -460,7 +465,7 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }): 
 }
 
 async function addTeamMember(role: string){
-    const playerMail = prompt(`Entrez l'email du ${ role === "player" ? "joueur" : role } à ajouter à l'équipe :`);
+    const playerMail = prompt(i18n.global.t("components.pages.tournaments.management.addMemberPrompt", { role: role === "player" ? i18n.global.t("components.pages.tournaments.player").toLowerCase() : role }));
 
     if (!playerMail) {
         return;
@@ -493,7 +498,7 @@ async function updateTeam() {
 
 async function deleteTeam() {
 
-    if (!confirm("Êtes-vous sûr de vouloir supprimer l'équipe ? Les membres invités en seront exclus.")) {
+    if (!confirm(i18n.global.t("components.pages.tournaments.deleteTeamPrompt"))) {
         return;
     }
     const response = await Toast.testRequest(async () => {
@@ -506,7 +511,7 @@ async function deleteTeam() {
 }
 
 async function kickMember(memberIndex: number, type: "staff" | "members" = "members") {
-    if (!confirm("Êtes-vous sûr de vouloir expulser ce membre de cette équipe ?")) {
+    if (!confirm(i18n.global.t("components.pages.tournaments.kickMemberPrompt"))) {
         return;
     }
     

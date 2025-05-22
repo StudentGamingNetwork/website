@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import SButton from "@/components/design/forms/Button.vue";
+import SButton from "@/components/design/forms/SButton.vue";
 
 const model = defineModel<boolean>();
 

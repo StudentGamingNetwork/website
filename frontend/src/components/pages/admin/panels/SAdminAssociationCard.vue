@@ -28,7 +28,7 @@
                     class="icon"
                     :icon="['fas', 'check']"
                 />
-                Validée
+                {{ $t("components.pages.admin.association.validated") }}
             </div>
             <div
                 v-else
@@ -39,7 +39,7 @@
                     class="icon"
                     :icon="['fas', 'eye']"
                 />
-                Vérification
+                {{ $t("components.pages.admin.association.verification") }}
             </div>
         </div>
         <div class="school">
@@ -47,7 +47,7 @@
             <span
                 v-if="association.school.studentsNumber"
                 class="students-number"
-            >({{ association.school.studentsNumber }} étudiants)</span>
+            >({{ $t("components.pages.admin.association.studentNumber",association.school.studentsNumber) }})</span>
         </div>
         <div class="info">
             <ul>
@@ -197,10 +197,10 @@
 import { ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { isUndefined } from "lodash";
-import SCard from "@/components/design/Card.vue";
+import SCard from "@/components/design/SCard.vue";
 import * as AssociationService from "@/services/association";
-import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
-import SCopier from "@/components/design/forms/Copier.vue";
+import SSmallDropdown from "@/components/design/forms/SSmallDropdown.vue";
+import SCopier from "@/components/design/forms/SCopier.vue";
 import { Toast } from "@/modules";
 import * as AdminService from "@/services/admin";
 

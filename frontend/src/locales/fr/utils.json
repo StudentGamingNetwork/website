@@ -1,0 +1,23 @@
+{
+    "validators": {
+        "notEmpty": "Ne peut être vide",
+        "slug": "Seulement des lettres, chiffres ou des tirets",
+        "onlyLettersAndNumbers": "Seulement des lettres et des chiffres",
+        "onlyLettersAndDashes": "Seulement des lettres et des tirets",
+        "length": "Entre {min} et {max} caractères",
+        "mail": "Adresse mail valide",
+        "url": "URL valide",
+        "discord": "Format d'identifiant Discord"
+    },
+    "toast": {
+        "success": "Succès",
+        "alreadyConnected": {
+            "title": "Déjà connecté",
+            "message": "Vous êtes déjà connecté."
+        },
+        "copy": {
+            "title": "Copié",
+            "message": "\"{content}\" a été copié dans votre presse-papier."
+        }
+    }
+}

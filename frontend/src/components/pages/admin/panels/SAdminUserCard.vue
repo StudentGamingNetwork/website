@@ -29,7 +29,7 @@
                     v-if="user.student.status === 'validated'"
                     class="certificat"
                 >
-                    Certificat validé
+                    {{ $t("components.pages.admin.user.certificate") }}
                     <FontAwesomeIcon
                         class="icon"
                         :icon="['fas', 'times']"
@@ -99,11 +99,11 @@
                             :href="certificateUrl"
                             target="_blank"
                         >
-                            Certificat ({{ certificateType }})
+                            {{ $t("components.pages.admin.user.certificateType",certificateType) }} 
                         </a>
                     </template>
                     <template v-else>
-                        Aucun certificat
+                        {{ $t("components.pages.admin.user.noCertificate") }} 
                     </template>
                 </li>
                 <li>
@@ -121,13 +121,14 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SCard from "@/components/design/Card.vue";
+import SCard from "@/components/design/SCard.vue";
 import * as UserService from "@/services/user";
 import { TCompleteUser } from "@/modules/user";
-import SSmallDropdown from "@/components/design/forms/SmallDropdown.vue";
+import SSmallDropdown from "@/components/design/forms/SSmallDropdown.vue";
 import * as AdminService from "@/services/admin";
 import { ERoles } from "@/services/user";
 import { Toast } from "@/modules";
+import i18n from "@/locales";
 
 const props = defineProps<{ user: TCompleteUser }>();
 const emit = defineEmits(["update"]);
@@ -152,14 +153,14 @@ const certificateUrl = computed(() => {
 
 const studentStatus = computed(() => {
     switch (props.user.student.status) {
-    case "processing":
-        return "En cours de validation";
-    case "validated":
-        return "Validé";
-    case "rejected":
-        return "Rejeté";
+        case "processing":
+            return i18n.global.t("components.pages.admin.user.status.processing");
+        case "validated":
+            return i18n.global.t("components.pages.admin.user.status.validated");
+        case "rejected":
+            return i18n.global.t("components.pages.admin.user.status.rejected");
     }
-    return "Aucun certificat";
+    return i18n.global.t("components.pages.admin.user.noCertificate");
 });
 
 const avatarUrl = computed(() => {
@@ -167,14 +168,14 @@ const avatarUrl = computed(() => {
 });
 
 const roles = {
-    none: "Ajouter un role",
-    admin: "Admin",
-    council: "Conseil",
-    federation: "Fédération",
-    member: "Membre",
-    office: "Bureau",
-    partnership: "Partenariat",
-    tournament: "Tournoi"
+    none: i18n.global.t("components.pages.admin.user.roles.none"),
+    admin: i18n.global.t("components.pages.admin.user.roles.admin"),
+    council: i18n.global.t("components.pages.admin.user.roles.council"),
+    federation: i18n.global.t("components.pages.admin.user.roles.federation"),
+    member: i18n.global.t("components.pages.admin.user.roles.member"),
+    office: i18n.global.t("components.pages.admin.user.roles.office"),
+    partnership: i18n.global.t("components.pages.admin.user.roles.partnership"),
+    tournament: i18n.global.t("components.pages.admin.user.roles.tournament")
 };
 
 async function unvalidateCertificate() {

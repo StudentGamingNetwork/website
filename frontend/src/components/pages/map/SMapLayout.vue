@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import SPageHead from "@/components/template/PageHead.vue";
+import SPageHead from "@/components/template/SPageHead.vue";
 import BackgroundFederation from "@/assets/images/backgrounds/federation.png";
-import SBaseLayout from "@/components/pages/BaseLayout.vue";
+import SBaseLayout from "@/components/pages/SBaseLayout.vue";
 import SMapCard from "@/components/pages/map/SMapCard.vue";
 
 

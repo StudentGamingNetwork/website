@@ -1,0 +1,290 @@
+{
+    "landing": {
+        "hero": {
+            "title": "Votre match est prêt !",
+            "description": {
+                "part1": "Le",
+                "part2": "(SGN) est la fédération des associations étudiantes françaises d'esport et de gaming. Nous organisons de nombreux tournois à l'échelle nationale et promouvons activement l'esport étudiant."
+            },
+            "join": "Rejoignez-nous",
+            "contact": "Contactez-nous"
+        },
+        "trust": {
+            "title": " Ils nous ont fait confiance",
+            "description": {
+                "part1": "Nous avons travaillé avec de nombreux acteurs du secteur vidéo-ludique",
+                "part2": "qui continuent à nous faire confiance année après année."
+            }
+        }
+    },
+    "about": {
+        "title": "À propos",
+        "head": "Le Student Gaming Network est la fédération des associations esport étudiantes des écoles et universités de France. Le SGN a pour but de promouvoir le jeu vidéo et l’esport étudiant sous toutes ses formes.",
+        "section1": {
+            "title": "Le Student Gaming Network",
+            "text1": "Le {sgn} est la fédération des associations esport étudiantes des écoles et universités de France. Le SGN a pour but de promouvoir le jeu vidéo et l’esport étudiant sous toutes ses formes. Fier de ses 60 associations membres, le SGN veut pouvoir faire entendre la voix des étudiants dans l’esport, et porter les projets créés par les étudiants et pour les étudiants !",
+            "text2": "Ces objectifs s’articulent autour de 3 axes majeurs au SGN :",
+            "text3": "Développer la scène esportive étudiante",
+            "text4": "Accompagner la vie associative en France et sur les campus",
+            "text5": "Rapprocher les étudiants du monde professionnel de l’esport et du jeu vidéo"
+        },
+        "section2": {
+            "title": "Recrutements",
+            "text1": "Le {sgn} est toujours à la recherche de nouveaux talents pour rejoindre l'équipe, pour cela tu peux consulter {job} et voir si tu as envie de travailler avec nous.",
+            "job": "les fiches des postes ouverts actuellement",
+            "text2": "Tu peux ensuite remplir ce {form}, et nous te recontacterons pour en discuter un peu plus avec toi !",
+            "form": "formulaire de candidature"
+        }
+    },
+    "admin": {
+        "title": "Administration",
+        "head": "Ce panneau d'administration n'est accessible que par les membres du SGN. Toutes les informations présentes sont confidentielles, vous ne devez pas les copier ou en prendre des captures d'écran.",
+        "users": "Utilisateurs",
+        "associations": "Associations",
+        "certificates": "Certificats",
+        "association": {
+            "validated": "Validée",
+            "verification": "Vérification",
+            "studentNumber": "{count} étudiants",
+            "searchInput": "Chercher une association...",
+            "noAssociation": "Aucune association trouvée..."
+        },
+        "certificate": {
+            "description": "Aucun certificat en attente de validation.",
+            "validate": "Valider",
+            "denialReasons": {
+                "expired": "Ce certificat ne semble pas valide pour cette année",
+                "format": "Ce n'est pas un certificat de scolarité ou une carte étudiante",
+                "notReadable": "Ce certificat est illisible",
+                "highSchool": "Ce certificat semble provenir d'un lycée, or less lycéens ne sont pas considérés comme des étudiants",
+                "minor": "Les mineurs ne sont pas acceptés dans les compétitions du SGN"
+            },
+            "rejectMessage": "Entrez un message de rejet : (optionnel)"
+        },
+        "user": {
+            "searchInput": "Chercher un utilisateur...",
+            "noUser": "Aucun utilisateur trouvé...",
+            "certificate": "Certificat validé",
+            "certificateType": "Certificat ({type})",
+            "noCertificate": "Aucun certificat",
+            "status": {
+                "processing": "En cours de validation",
+                "validated": "Validé",
+                "rejected": "Rejeté"
+            },
+            "roles": {
+                "none": "Ajouter un role",
+                "admin": "Admin",
+                "council": "Conseil",
+                "federation": "Fédération",
+                "member": "Membre",
+                "office": "Bureau",
+                "partnership": "Partenariat",
+                "tournament": "Tournoi"
+            }
+        }
+    },
+    "association": {
+        "name": "est l'association gaming étudiante de",
+        "region": "Elle fait partie de la région ",
+        "isMember": "Vous êtes actuellement membre de cette association.",
+        "otherAssociation": "Vous faites partie d'une autre association.",
+        "join": "Rejoindre cette association",
+        "inviteCode": "Entrez le code d'invitation de l'association. Vous pouvez le demander au responsable de l'association, il est de la forme XXXX-XXXX-XXXX-XXXX.",
+        "studentNumber": "{count} étudiants"
+    },
+    "federation": {
+        "title": "Fédération",
+        "head": "Nous fédérons un réseau de nombreuses associations étudiantes de gaming et d'esport, partout en France. Nous maintenons un contact régulier avec ces dernières pour les accompagner dans leurs projets.",
+        "searchInput": "Chercher une association...",
+        "region": "Région",
+        "noAssociation": "Aucune association trouvée..."
+    },
+    "map": {
+        "title": "La carte",
+        "head": "Nous fédérons un réseau de nombreuses associations étudiantes de gaming et d'esport, partout en France. Nous maintenons un contact régulier avec ces dernières pour les accompagner dans leurs projets.",
+        "federation": {
+            "title": "Fédération",
+            "region": "Région : {region}",
+            "regions": "Régions",
+            "school": "École : {school}"
+        },
+        "tournament": {
+            "title": "Tournois",
+            "status": "Statut",
+            "game": "Jeu : {game}",
+            "games": "Jeux",
+            "coming": "Prochains tournois",
+            "current": "Tournois en cours",
+            "past": "Tournois passés",
+            "inscription": {
+                "open": "Inscriptions ouvertes jusqu'au {date}",
+                "closed": "Inscriptions fermées"
+            }
+        },
+        "access": "Accéder"
+    },
+    "notFound": {
+        "title": "Page introuvable",
+        "lost1": "Vous vous êtes perdu ? ",
+        "lost2": "On fait tout ce qu'on peut pour vous localiser !",
+        "lost3": "Jean-Mich, t'as toujours pas réparé l'antenne 3 ? On passe pour quoi, là...",
+        "return": "Revenir à la page d'acceuil"
+    },
+    "partners": {
+        "title": "Partenaires",
+        "head": "Nous échangeons notre expertise pour l'organisation d'événements esportifs et la promotion auprès des étudiants avec de nombreuses entités. Nous sommes heureux de compter sur leur soutien et leurs compétences.",
+        "add": " Ajouter un nouveau partenaire",
+        "hide": "Cacher",
+        "show": "Rendre public",
+        "delete": "Supprimer",
+        "save": "Sauvegarder",
+        "website": "Site internet",
+        "confirm": "Voulez-vous vraiment supprimer le partenaire"
+    },
+    "tournaments": {
+        "title": "Tournoi | Tournois",
+        "head": "Nous organisons régulièrement des tournois, certains en partenariat avec des grands noms du jeu vidéo. Nous nous assurons que seuls les étudiants français puissent participer à nos tournois.",
+        "create": "Créer un nouveau tournoi",
+        "noTournament": "Aucun tournoi trouvé...",
+        "showRules": "Afficher le règlement",
+        "registedNumber": "inscrite | inscrites",
+        "teams": "Aucune équipe | {count} équipe | {count} équipes",
+        "player": "Joueur manquant | Joueur | Joueurs",
+        "playerPerTeam": "*{count} joueur* par équipe | *{count} joueurs* par équipe",
+        "subPerTeam": "+ *{count} remplaçant* par équipe | + *{count} remplaçants* par équipe",
+        "joinTeamPrompt": "Entrez le code d'invitation de l'équipe. Vous pouvez le demander au chef d'équipe, il est de la forme XXXX-XXXX-XXXX-XXXX.",
+        "deleteTeamPrompt": "Êtes-vous sûr de vouloir supprimer l'équipe ? Les membres invités en seront exclus.",
+        "leaveTeamPrompt": "Êtes-vous sûr de vouloir quitter cette équipe ?",
+        "kickMemberPrompt": "Êtes-vous sûr de vouloir expulser ce membre de l'équipe ?",
+        "staff": "Staff",
+        "coach": " et *1 coach*",
+        "manager": " et *1 manager*",
+        "teamSlots": "{count} places",
+        "certificate": "Certificat étudiant",
+        "noSchool": "École manquante",
+        "ready": "Prêt",
+        "incomplete": "Incomplet",
+        "kick": "Expulser",
+        "noId": "ID manquant",
+        "admin": {
+            "title": "Paramètres du tournoi",
+            "name": "Nom du tournoi",
+            "prizes": "Prix et cashprize",
+            "rulesLink": "Lien du règlement",
+            "importantInfo": "Information importante",
+            "externalLink": "Lien externe de l'information importante",
+            "hide": "Cacher",
+            "public": "Rendre public",
+            "archive": "Archiver",
+            "unarchive": "Déarchiver",
+            "save": "Sauvegarder les changements",
+            "delete": "Supprimer le tournoi",
+            "deleteAlert": "Vous n'avez pas les droits pour supprimer un tournoi. Demandez à l'administrateur du site ou au responsable tournoi.",
+            "deleteConfirm": "Il est préférable d'archiver le tournoi. Êtes-vous sûr de vouloir le supprimer ? Cette action est définitive.",
+            "integration": {
+                "title": "Intégration",
+                "id": "ID toornament",
+                "widgetUrl": "Lien du widget",
+                "code": "Code custom"
+            },
+            "game": {
+                "title": "Jeu",
+                "name": "Nom du jeu",
+                "username": "Nom de l'identifiant",
+                "playerByTeam": "Nombre de joueurs par équipe",
+                "subByTeam": "Nombre de remplaçants par équipe",
+                "coachEnabled": "Possibilité d'avoir un coach dans l'équipe",
+                "managerEnabled": "Possibilité d'avoir un manager dans l'équipe",
+                "maxTeams": "Nombre maximum d'équipes"
+            },
+            "dates": {
+                "title": "Dates",
+                "subClose": "Fin des inscriptions",
+                "start": "Début du tournoi",
+                "playDay": "Jours de match",
+                "final": "Finale"
+            },
+            "location": {
+                "title": "Localisation",
+                "isLan": "Tournoi en présentiel"
+            }
+        },
+        "dates": {
+            "close": "Fin des inscriptions : ",
+            "start": "Début :",
+            "playDay": "Jours de matchs :",
+            "final": "Finale :"
+        },
+        "types": {
+            "coming": "Prochains tournois",
+            "current": "Tournois en cours",
+            "past": "Tournois passés"
+        },
+        "pages": {
+            "team": "Équipe",
+            "admin": "Paramètres",
+            "management": "Gestion",
+            "details": "Détails"
+        },
+        "management": {
+            "noTeams": "Aucune équipe trouvée...",
+            "addPlayer": "Ajouter un joueur",
+            "addCoach": "Ajouter un coach",
+            "addManager": "Ajouter un manager",
+            "deleteLogo": "Êtes-vous sûr de vouloir supprimer le logo de l'équipe ?",
+            "addMemberPrompt": "Entrez l'mail du {role} à ajouter à l'équipe :",
+            "pages": {
+                "forming": "En formation",
+                "ready": "Prêtes",
+                "validated": "Validée | Validées",
+                "verification": "Vérification",
+                "export": "Exporter"
+            }
+        },
+        "card": {
+            "connect": "Pour participer à ce tournoi, vous devez d'abord vous inscrire ou vous connecter.",
+            "signin": "Inscription",
+            "login": "Connexion",
+            "join": "Prêt à rejoindre l'arène ?",
+            "action": {
+                "create": "Créer une équipe",
+                "join": "Rejoindre une équipe",
+                "participate": "Participer au tournoi",
+                "leaveTournament": "Quitter le tournoi",
+                "disband": "Dissoudre l'équipe",
+                "leaveTeam": "Quitter l'équipe"
+            },
+            "team": {
+                "title": "Votre équipe",
+                "noWaiting": " Aucune équipe en attente de validation.",
+                "settings": "Paramètres de l'équipe",
+                "name": "Nom d'équipe",
+                "tag": "TAG d'équipe",
+                "save": "Sauvegarder",
+                "markReady": "Marquer prêt",
+                "waiting": "En attente",
+                "validated": "Équipe validée",
+                "description": "* Ces éléments peuvent être renseignés  dans les {settings} de votre profil.",
+                "settingsLink": "paramètres",
+                "info": "Une fois que tout est en ordre, cliquez sur \"Marquer prêt\" pour que les admins valident votre équipe.",
+                "checklist": {
+                    "title": "Checklist",
+                    "name": "Nom d'équipe",
+                    "tag": "TAG d'équipe",
+                    "id": "Identifiant de jeu",
+                    "complete": "Équipe complète",
+                    "certificate": "Certificat étudiant*",
+                    "discord": "Identifiant Discord*",
+                    "school": "Nom d'école*",
+                    "fullname": "Nom et prénom*"
+                },
+                "code": {
+                    "player": "Code d'invitation joueur",
+                    "coach": "Code d'invitation coach",
+                    "manager": "Code d'invitation manager"
+                }
+            }
+        }
+    }
+}

@@ -1,41 +1,41 @@
 <template>
     <SModalContent class="account">
         <SModalSectionTitle>
-            Changer de mot de passe
+            {{ $t("components.template.modals.settings.account.password") }}
         </SModalSectionTitle>
         <SModalSection>
             <SInput
                 v-model="password.old"
                 autocomplete="false"
-                title="Ancien mot de passe"
+                :title="$t('components.template.modals.settings.account.old')"
                 type="password"
             />
             <SInput
                 v-model="password.new"
                 autocomplete="false"
-                title="Nouveau mot de passe"
+                :title="$t('components.template.modals.settings.account.new')"
                 type="password"
             />
         </SModalSection>
     
         <SModalSectionTitle>
-            Authentification à deux facteurs
+            {{ $t("components.template.modals.settings.2fa.title") }}
         </SModalSectionTitle>
         <SModalSection>
             <SModalSectionDescription>
-                L'authentification à deux facteurs est une méthode de sécurité supplémentaire pour protéger votre
-                compte. Lorsque vous l'activez, vous devrez entrer un code de vérification à chaque connexion.
+                {{ $t("components.template.modals.settings.2fa.description") }}
             </SModalSectionDescription>
             <SButton
-             outlined
-                @click="toggleTwoFactorAuth">
+                outlined
+                @click="toggleTwoFactorAuth"
+            >
                 {{ twoFactorAuthButtonText }}
             </SButton>
             <div v-show="showQR">
-            <img
-                alt="QR Code"
-                :src="qrcode"
-            >
+                <img
+                    alt="QR Code"
+                    :src="qrcode"
+                >
             </div>
         </SModalSection>
         <SModalSeparator />
@@ -44,7 +44,7 @@
             primary
             @click="sendUpdate"
         >
-            Sauvegarder les changements
+            {{ $t("components.template.modals.save") }}
         </SButton>
         <SModalSectionTitle>
             Danger zone
@@ -54,11 +54,10 @@
                 danger
                 outlined
             >
-                Supprimer mon compte
+                {{ $t("components.template.modals.delete") }}
             </SButton>
             <SModalSectionDescription>
-                Attention, toute suppression est définitive ! Vous devrez recréer un compte pour participer aux futurs
-                événements du SGN.
+                {{ $t("components.template.modals.description") }}
             </SModalSectionDescription>
         </SModalSection>
     </SModalContent>
@@ -67,15 +66,16 @@
 <script lang="ts" setup>
 import { computed, reactive, ref } from "vue";
 import { useQRCode } from "@vueuse/integrations/useQRCode";
-import SButton from "@/components/design/forms/Button.vue";
-import SModalContent from "@/components/design/modal/Content.vue";
-import SModalSectionTitle from "@/components/design/modal/SectionTitle.vue";
-import SModalSection from "@/components/design/modal/Section.vue";
-import SModalSectionDescription from "@/components/design/modal/SectionDescription.vue";
+import SButton from "@/components/design/forms/SButton.vue";
+import SModalContent from "@/components/design/modal/SModalContent.vue";
+import SModalSectionTitle from "@/components/design/modal/SModalSectionTitle.vue";
+import SModalSection from "@/components/design/modal/SModalSection.vue";
+import SModalSectionDescription from "@/components/design/modal/SModalSectionDescription.vue";
 import { Toast, User } from "@/modules";
-import SInput from "@/components/design/forms/Input.vue";
-import SModalSeparator from "@/components/design/modal/Separator.vue";
+import SInput from "@/components/design/forms/SInput.vue";
+import SModalSeparator from "@/components/design/modal/SModalSeparator.vue";
 import * as TFAService from "@/services/twoFactorAuth";
+import i18n from "@/locales";
 
 
 const userStore = User.useStore();
@@ -107,17 +107,18 @@ const sendUpdate = async () => {
 const toggleTwoFactorAuth = async () => {
     if (userStore.twoFactorAuth.enabled) {
         await disableTwoFactorAuth();
-    } else {
+    }
+    else {
         await enableTwoFactorAuth();
     }
 };
 
 const twoFactorAuthButtonText = computed(() => {
-    return userStore.twoFactorAuth.enabled ? "Désactiver l'authentification à deux facteurs" : "Activer l'authentification à deux facteurs";
+    return userStore.twoFactorAuth.enabled ? i18n.global.t("components.template.modals.settings.2fa.disable") : i18n.global.t("components.template.modals.settings.2fa.enable");
 });
 
 async function enableTwoFactorAuth() {
-    const result = confirm("Êtes-vous sûr de vouloir activer l'authentification à deux facteurs ?");
+    const result = confirm(i18n.global.t("components.template.modals.settings.2fa.enablePrompt"));
     if (result) {
         const response = await Toast.testRequest(async () => {
             return await TFAService.create();
@@ -132,7 +133,7 @@ async function enableTwoFactorAuth() {
 }
     
 async function disableTwoFactorAuth() {
-    const result = confirm("Êtes-vous sûr de vouloir désactiver l'authentification à deux facteurs ?");
+    const result = confirm(i18n.global.t("components.template.modals.settings.2fa.disablePrompt"));
     if (result) {
         const response = await Toast.testRequest(async () => {
             return await TFAService.remove();

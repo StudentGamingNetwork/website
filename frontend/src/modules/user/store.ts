@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { cloneDeep, omit } from "lodash";
 import * as UserService from "@/services/user";
-import * as TwoFactorAuthService from "@/services/twoFactorAuth";
 import { Toast, Association } from "@/modules";
 import { ERoles } from "@/services/user";
 

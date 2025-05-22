@@ -39,7 +39,7 @@ module.exports = {
         "eol-last": ["error", "always"],
         "eqeqeq": ["error", "always"],
         "import/order": ["error"],
-        "indent": ["error", 4],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "key-spacing": ["error"],
         "keyword-spacing": ["error"],
         "no-multi-spaces": ["error"],
@@ -47,28 +47,32 @@ module.exports = {
         "prefer-template": "error",
         "quotes": ["error", "double", { "allowTemplateLiterals": true }],
         "semi": ["error", "always"],
-        "sort-keys-custom-order/object-keys": ["error", { "orderedKeys": [
-            "id",
-            "_id",
-            "name",
-            "title",
-            "start",
-            "end",
-            "components",
-            "data",
-            "props",
-            "emits",
-            "computed",
-            "methods",
-            "none",
-            "default"
-        ] }],
-        "sort-keys-custom-order/type-keys": ["error", { "orderedKeys": [
-            "id",
-            "_id",
-            "name",
-            "title"
-        ] }],
+        "sort-keys-custom-order/object-keys": ["error", {
+            "orderedKeys": [
+                "id",
+                "_id",
+                "name",
+                "title",
+                "start",
+                "end",
+                "components",
+                "data",
+                "props",
+                "emits",
+                "computed",
+                "methods",
+                "none",
+                "default"
+            ]
+        }],
+        "sort-keys-custom-order/type-keys": ["error", {
+            "orderedKeys": [
+                "id",
+                "_id",
+                "name",
+                "title"
+            ]
+        }],
         "space-in-parens": ["error", "never"],
         "space-infix-ops": ["error"],
         "template-curly-spacing": ["error", "always"],

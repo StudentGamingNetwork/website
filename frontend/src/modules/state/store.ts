@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { Toast, User } from "@/modules";
 import { EToastType } from "@/modules/toast/store";
-import { i18n } from "@/main"
+import i18n from "@/locales";
 
 
 export const useStore = defineStore({
@@ -18,8 +18,8 @@ export const useStore = defineStore({
 
                 const toastStore = Toast.useStore();
                 toastStore.add({
-                    title: i18n.global.t("module.toast.alreadyConnected.title"),
-                    message: i18n.global.t("module.toast.alreadyConnected.message"),
+                    title: i18n.global.t("utils.toast.alreadyConnected.title"),
+                    message: i18n.global.t("utils.toast.alreadyConnected.message"),
                     type: EToastType.Warning
                 });
                 return;

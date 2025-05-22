@@ -26,15 +26,14 @@
                 <li
                     v-if="tournament.informations?.prizes"
                     v-html="Markdown.process(tournament.informations?.prizes)"
-                />
-                <li
+                /><li
                     v-if="team"
                     v-html="Markdown.process(team)"
                 />
                 <li>
-                    <strong>{{ teamNumberText }}</strong> inscrite{{ tournament.game.team.subscribed > 1 ? 's' : '' }}
+                    <strong>{{ teamNumberText }}</strong> {{ $t("components.pages.tournaments.registedNumber",tournament.game.team.subscribed ) }}
                     <template v-if="tournament.game.team.maxTeams > 0">
-                        (<strong>{{ tournament.game.team.maxTeams }} places</strong>)
+                        (<strong>{{ $t("components.pages.tournaments.teamSlots",tournament.game.team.maxTeams) }}</strong>)
                     </template>
                 </li>
                 <li v-if="tournament.informations?.rulesUrl">
@@ -42,24 +41,24 @@
                         :href="tournament.informations.rulesUrl"
                         target="_blank"
                         @click.stop
-                    >Afficher le règlement</a>
+                    >{{ $t("components.pages.tournaments.showRules") }}</a>
                 </li>
             </ul>
             <ul class="dates">
                 <li v-if="tournament.dates?.subscriptionClose">
-                    <span class="type">Fin des inscriptions :</span>
+                    <span class="type">{{ $t("components.pages.tournaments.dates.close") }}</span>
                     {{ subscriptionDateText }}
                 </li>
                 <li v-if="tournament.dates?.start">
-                    <span class="type">Début :</span>
+                    <span class="type">{{ $t("components.pages.tournaments.dates.start") }}</span>
                     {{ tournament.dates?.start }}
                 </li>
                 <li v-if="tournament.dates?.playDays">
-                    <span class="type">Jours de matchs :</span>
+                    <span class="type">{{ $t("components.pages.tournaments.dates.playDay") }}</span>
                     {{ tournament.dates?.playDays }}
                 </li>
                 <li v-if="tournament.dates?.final">
-                    <span class="type">Finale :</span>
+                    <span class="type">{{ $t("components.pages.tournaments.dates.close") }}</span>
                     {{ tournament.dates?.final }}
                 </li>
                 <li v-if="tournament.informations?.important?.message">
@@ -83,9 +82,10 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SCard from "@/components/design/Card.vue";
+import SCard from "@/components/design/SCard.vue";
 import { Markdown, Tournament } from "@/modules";
 import * as TournamentService from "@/services/tournament";
+import i18n from "@/locales";
 
 
 const props = defineProps<{
@@ -95,37 +95,27 @@ const props = defineProps<{
     }
 }>();
 
-
-const makePlural = (value: number, name: string) => {
-    return (value > 1) ? `${ value } ${ name }s` : `${ value } ${ name }`;
-};
-
 const teamNumberText = computed(() => {
-    if (!props.tournament.game.team.subscribed) {
-        return "Aucune équipe";
-    }
-    else {
-        return makePlural(props.tournament.game.team.subscribed, "équipe");
-    }
+    return i18n.global.t("components.pages.tournaments.teams",props.tournament.game.team.subscribed);
 });
 
 const team = computed(() => {
     if (!props.tournament.game || !props.tournament.game.team.playersNumber) {
         return "";
     }
-
-    let string = `*${ makePlural(props.tournament.game.team.playersNumber, "joueur") }* par équipe`;
+    
+    let string = i18n.global.t("components.pages.tournaments.playerPerTeam",props.tournament.game.team.playersNumber);
 
     if (props.tournament.game.team.substitutesNumber) {
-        string += ` + *${ makePlural(props.tournament.game.team.substitutesNumber, "remplaçant") }*`;
+        string += i18n.global.t("components.pages.tournaments.subPerTeam",props.tournament.game.team.substitutesNumber);
     }
 
     if (props.tournament.game.team.coachEnabled) {
-        string += ` et *1 coach*`;
+        string += i18n.global.t("components.pages.tournaments.coach");
     }
 
     if (props.tournament.game.team.managerEnabled) {
-        string += ` et *1 manager*`;
+        string += i18n.global.t("components.pages.tournaments.manager");
     }
 
     return string;
@@ -142,10 +132,11 @@ const subscriptionDateText = computed(() => {
 
     const date = new Date(props.tournament.dates.subscriptionClose);
 
-    const days = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
-    const months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-
-    return `${ days[date.getDay()] } ${ date.getDate() } ${ months[date.getMonth()] }`;
+    return i18n.global.d(date, {
+        day: "numeric",
+        month: "long",
+        weekday: "long"
+    });
 });
 
 </script>

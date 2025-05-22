@@ -43,7 +43,7 @@
                     <FontAwesomeIcon
                         class="icon"
                         :icon="['fas', 'user-graduate']"
-                    /> {{ association.school.studentsNumber }} étudiants
+                    /> {{ $t("components.pages.association.studentNumber", Number(association.school.studentsNumber)) }}
                 </li>
             </ul>
         </div>
@@ -166,7 +166,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useLeafletDisplayLayer, useLeafletDivIcon, useLeafletIcon, UseLeafletMapReturn, useLeafletMarker } from "vue-use-leaflet";
 import { Association } from "@/modules";
 import * as AssociationService from "@/services/association";
-import SCard from "@/components/design/Card.vue";
+import SCard from "@/components/design/SCard.vue";
 import SMap from "@/components/design/SMap.vue";
 
 const props = defineProps<{

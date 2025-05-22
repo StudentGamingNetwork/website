@@ -13,33 +13,34 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SButton from "@/components/design/forms/Button.vue";
+import SButton from "@/components/design/forms/SButton.vue";
 import { ESortDirection } from "@/components/design/lib/type";
 
 const model = defineModel<ESortDirection>();
 
 const sortIcon = computed(() => {
     switch (model.value) {
-    case ESortDirection.DOWN:
-        return ["fas", "sort-down"];
-    case ESortDirection.NONE:
-        return ["fas", "sort"];
-    case ESortDirection.UP:
-        return ["fas", "sort-up"];
+        case ESortDirection.DOWN:
+            return ["fas", "sort-down"];
+        case ESortDirection.NONE:
+            return ["fas", "sort"];
+        case ESortDirection.UP:
+            return ["fas", "sort-up"];
     }
+    return ["fas", "sort"];
 });
 
 function toggleSort() {
     switch (model.value) {
-    case ESortDirection.DOWN:
-        model.value = ESortDirection.UP;
-        break;
-    case ESortDirection.NONE:
-        model.value = ESortDirection.DOWN;
-        break;
-    case ESortDirection.UP:
-        model.value = ESortDirection.NONE;
-        break;
+        case ESortDirection.DOWN:
+            model.value = ESortDirection.UP;
+            break;
+        case ESortDirection.NONE:
+            model.value = ESortDirection.DOWN;
+            break;
+        case ESortDirection.UP:
+            model.value = ESortDirection.NONE;
+            break;
     }
 }
 </script>

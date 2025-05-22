@@ -56,9 +56,9 @@
 
 <script lang="ts" setup>
 import BackgroundAbout from "@/assets/images/backgrounds/about.png";
-import SPageHead from "@/components/template/PageHead.vue";
-import SBaseLayout from "@/components/pages/BaseLayout.vue";
-import SSectionTitle from "@/components/design/SectionTitle.vue";
+import SPageHead from "@/components/template/SPageHead.vue";
+import SBaseLayout from "@/components/pages/SBaseLayout.vue";
+import SSectionTitle from "@/components/design/SSectionTitle.vue";
 
 
 </script>
