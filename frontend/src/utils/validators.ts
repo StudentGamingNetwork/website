@@ -1,3 +1,5 @@
+import i18n from "@/locales";
+
 export type InputValidator = {
     execute: (value: string) => boolean;
     message: string;
@@ -8,7 +10,7 @@ export function NotEmpty(): InputValidator {
         execute(value: string) {
             return value.trim().length > 0;
         },
-        message: "Ne peut être vide"
+        message: i18n.global.t("utils.validators.notEmpty")
     };
 }
 
@@ -18,7 +20,7 @@ export function Slug(): InputValidator {
             const charRegex = /^[A-Za-z0-9-_]+$/;
             return charRegex.test(value);
         },
-        message: "Seulement des lettres, chiffres ou des tirets"
+        message: i18n.global.t("utils.validators.slug")
     };
 }
 
@@ -28,7 +30,7 @@ export function OnlyLettersAndNumbers(): InputValidator {
             const charRegex = /^[A-Za-z0-9]+$/;
             return charRegex.test(value);
         },
-        message: "Seulement des lettres ou des chiffres"
+        message: i18n.global.t("utils.validators.onlyLettersAndNumbers")
     };
 }
 
@@ -38,7 +40,7 @@ export function OnlyLettersAndDashes(): InputValidator {
             const charRegex = /^[A-Za-z-]+$/;
             return charRegex.test(value);
         },
-        message: "Seulement des lettres ou des tirets"
+        message: i18n.global.t("utils.validators.onlyLettersAndDashes")
     };
 }
 
@@ -47,7 +49,10 @@ export function Length({ max, min }: {max: number; min: number}): InputValidator
         execute(value: string) {
             return value.length >= min && value.length <= max;
         },
-        message: `Entre ${ max } et ${ min } caractères`
+        message: i18n.global.t("utils.validators.length", {
+            max,
+            min
+        })
     };
 }
 
@@ -57,7 +62,7 @@ export function Mail(): InputValidator {
             const mailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
             return mailRegex.test(value);
         },
-        message: `Adresse mail valide`
+        message: i18n.global.t("utils.validators.mail")
     };
 }
 
@@ -67,7 +72,7 @@ export function Url(): InputValidator {
             const urlRegex = /^(https?:\/\/)?.+\..+$/;
             return urlRegex.test(value);
         },
-        message: "URL valide"
+        message: i18n.global.t("utils.validators.url")
     };
 }
 
@@ -77,6 +82,6 @@ export function Discord(): InputValidator {
             const discordRegex = /^[A-Za-z0-9._]+$/;
             return discordRegex.test(value) && value.length >= 2 && value.length <= 32;
         },
-        message: "Format d'identifiant Discord"
+        message: i18n.global.t("utils.validators.discord")
     };
 }

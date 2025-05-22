@@ -1,23 +1,17 @@
 <template>
     <SHeader />
     <div class="redirect">
-        Redirection en cours...
+        {{ $t("views.redirect") }}
         <a :href="link">{{ link }}</a>
     </div>
     <SFooter />
 </template>
 
-<script lang="ts">
-export default {
-    name: "Redirect"
-};
-</script>
-
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-import SHeader from "@/components/template/Header.vue";
-import SFooter from "@/components/template/Footer.vue";
+import SHeader from "@/components/template/SHeader.vue";
+import SFooter from "@/components/template/SFooter.vue";
 
 const router = useRouter();
 

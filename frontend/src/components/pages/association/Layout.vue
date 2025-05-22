@@ -3,14 +3,14 @@
         :background="BackgroundAssociation"
         :title="association.name"
     >
-        <strong>{{ association.name }}</strong> est l'association gaming étudiante de
+        <strong>{{ association.name }}</strong> {{ $t("components.pages.association.name") }}
         <strong>{{ association.school?.name }}</strong>.<br>
-        Elle fait partie de la région "<strong>{{ region }}</strong>".<br>
+        {{ $t("components.pages.association.region") }}"<strong>{{ region }}</strong>".<br>
         <template v-if="isUserMember">
-            <sub><em>Vous êtes actuellement membre de cette association.</em></sub>
+            <sub><em>{{ $t("components.pages.association.isMember") }}</em></sub>
         </template>
         <template v-else-if="associationStore._id">
-            <sub><em>Vous faites partie d'une autre association.</em></sub>
+            <sub><em>{{ $t("components.pages.association.otherAssociation") }}</em></sub>
         </template>
         <template v-else>
             <SButton
@@ -18,7 +18,7 @@
                 outlined
                 @click="joinAssociation"
             >
-                Rejoindre cette association
+                {{ $t("components.pages.association.join") }}
             </SButton>
         </template>
     </SPageHead>
@@ -44,12 +44,13 @@ import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import SAssociationCard from "@/components/pages/association/SAssociationCard.vue";
 import BackgroundAssociation from "@/assets/images/backgrounds/association.png";
-import SPageHead from "@/components/template/PageHead.vue";
-import SBaseLayout from "@/components/pages/BaseLayout.vue";
+import SPageHead from "@/components/template/SPageHead.vue";
+import SBaseLayout from "@/components/pages/SBaseLayout.vue";
 import * as AssociationService from "@/services/association";
 import { Association } from "@/modules";
-import SUserCard from "@/components/pages/association/UserCard.vue";
-import SButton from "@/components/design/forms/Button.vue";
+import SUserCard from "@/components/pages/association/SUserCard.vue";
+import SButton from "@/components/design/forms/SButton.vue";
+import i18n from "@/locales";
 
 
 const router = useRouter();
@@ -68,7 +69,7 @@ const isUserMember = computed(() => {
 });
 
 const joinAssociation = async () => {
-    const invitationCode = prompt("Entrez le code d'invitation de l'association. Vous pouvez le demander au responsable de l'association, il est de la forme XXXX-XXXX-XXXX-XXXX.");
+    const invitationCode = prompt(i18n.global.t("components.pages.association.inviteCode")) as string;
 
     await associationStore.join(slug, invitationCode);
     association.value = reactive(await AssociationService.get(slug));

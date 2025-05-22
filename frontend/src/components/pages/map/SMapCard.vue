@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="section-wrapper">
-                <h2>{{ $t("components.pages.map.tournament.title") }}</h2>
+                <h2>{{ $t("components.pages.map.tournament.title",2) }}</h2>
                 <h3>{{ $t("components.pages.map.tournament.status") }}</h3>
                 <div class="filter-wrapper">
                     <SToggle
@@ -64,7 +64,7 @@ import {
     useLeafletRemoveLayer
 } from "vue-use-leaflet";
 import { useRouter } from "vue-router";
-import SCard from "@/components/design/Card.vue";
+import SCard from "@/components/design/SCard.vue";
 import SMap from "@/components/design/SMap.vue";
 import * as AssociationService from "@/services/association";
 import * as TournamentService from "@/services/tournament";
@@ -73,7 +73,7 @@ import { getRegionName } from "@/services/association";
 import SToggle from "@/components/design/SToggle.vue";
 import { ETournamentType } from "@/services/tournament";
 import { TTournament } from "@/modules/tournament";
-import { i18n } from "@/main";
+import i18n from "@/locales";
 
 const iconAssociation = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>`;
 const iconTournament = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/></svg>`;
@@ -305,7 +305,7 @@ function createPopupContentAssociation(association: TAssociation) {
         <span class="subtitle">${ i18n.global.t("components.pages.map.federation.region", { region: AssociationService.getRegionName(
         association.federation.region) }) }</span>
         <span class="description">${ i18n.global.t("components.pages.map.federation.school",{ school: association.school.name }) }</span>
-        <button class="outlined">Accéder</button>
+        <button class="outlined">${ i18n.global.t("components.pages.map.access") }</button>
     `;
 
     const button = popupContent.querySelector("button");
@@ -332,7 +332,7 @@ function createPopupContentTournament(tournament: TTournament) {
         <h2>${ tournament.name }</h2>
         <span class="subtitle">${ i18n.global.t("components.pages.map.tournament.game", { game: tournament.game.name }) }</span>
         <span class="description">${ inscriptions }</span>
-        <button class="outlined">Accéder</button>
+        <button class="outlined">${ i18n.global.t("components.pages.map.access") }</button>
     `;
 
     const button = popupContent.querySelector("button");

@@ -1,0 +1,290 @@
+{
+    "landing": {
+        "hero": {
+            "title": "Your match is ready!",
+            "description": {
+                "part1": "The",
+                "part2": "(SGN) is the federation of French student esports and gaming associations. We organize many national tournaments and actively promote student esports."
+            },
+            "join": "Join us",
+            "contact": "Contact us"
+        },
+        "trust": {
+            "title": " They trusted us",
+            "description": {
+                "part1": "We have worked with many actors in the video game sector",
+                "part2": "who continue to trust us year after year."
+            }
+        }
+    },
+    "about": {
+        "title": "About",
+        "head": "The Student Gaming Network is the federation of student esports associations from schools and universities in France. SGN aims to promote video games and student esports in all its forms.",
+        "section1": {
+            "title": "The Student Gaming Network",
+            "text1": "The {sgn} is the federation of student esports associations from schools and universities in France. SGN aims to promote video games and student esports in all its forms. Proud of its 60 member associations, SGN wants to make the students' voice heard in esports and support projects created by students for students!",
+            "text2": "These objectives are structured around 3 main axes at SGN:",
+            "text3": "Develop the student esports scene",
+            "text4": "Support associative life in France and on campuses",
+            "text5": "Bring students closer to the professional world of esports and video games"
+        },
+        "section2": {
+            "title": "Recruitment",
+            "text1": "The {sgn} is always looking for new talents to join the team. You can check {job} and see if you want to work with us.",
+            "job": "the currently open job descriptions",
+            "text2": "You can then fill out this {form}, and we will contact you to discuss further!",
+            "form": "application form"
+        }
+    },
+    "admin": {
+        "title": "Administration",
+        "head": "This admin panel is only accessible to SGN members. All information here is confidential; you must not copy or take screenshots.",
+        "users": "Users",
+        "associations": "Associations",
+        "certificates": "Certificates",
+        "association": {
+            "validated": "Validated",
+            "verification": "Verification",
+            "studentNumber": "{count} students",
+            "searchInput": "Search for an association...",
+            "noAssociation": "No association found..."
+        },
+        "certificate": {
+            "description": "No certificate pending validation.",
+            "validate": "Validate",
+            "denialReasons": {
+                "expired": "This certificate does not seem valid for this year",
+                "format": "This is not a school certificate or student card",
+                "notReadable": "This certificate is unreadable",
+                "highSchool": "This certificate seems to come from a high school, but high schoolers are not considered students",
+                "minor": "Minors are not accepted in SGN competitions"
+            },
+            "rejectMessage": "Enter a rejection message: (optional)"
+        },
+        "user": {
+            "searchInput": "Search for a user...",
+            "noUser": "No user found...",
+            "certificate": "Validated certificate",
+            "certificateType": "Certificate ({type})",
+            "noCertificate": "No certificate",
+            "status": {
+                "processing": "Being validated",
+                "validated": "Validated",
+                "rejected": "Rejected"
+            },
+            "roles": {
+                "none": "Add a role",
+                "admin": "Admin",
+                "council": "Council",
+                "federation": "Federation",
+                "member": "Member",
+                "office": "Office",
+                "partnership": "Partnership",
+                "tournament": "Tournament"
+            }
+        }
+    },
+    "association": {
+        "name": "is the student gaming association of",
+        "region": "It is part of the region ",
+        "isMember": "You are currently a member of this association.",
+        "otherAssociation": "You are part of another association.",
+        "join": "Join this association",
+        "inviteCode": "Enter the association's invitation code. You can ask the association manager for it, it looks like XXXX-XXXX-XXXX-XXXX.",
+        "studentNumber": "{count} students"
+    },
+    "federation": {
+        "title": "Federation",
+        "head": "We federate a network of many student gaming and esports associations throughout France. We maintain regular contact with them to support their projects.",
+        "searchInput": "Search for an association...",
+        "region": "Region",
+        "noAssociation": "No association found..."
+    },
+    "map": {
+        "title": "The map",
+        "head": "We federate a network of many student gaming and esports associations throughout France. We maintain regular contact with them to support their projects.",
+        "federation": {
+            "title": "Federation",
+            "region": "Region: {region}",
+            "regions": "Regions",
+            "school": "School: {school}"
+        },
+        "tournament": {
+            "title": "Tournaments",
+            "status": "Status",
+            "game": "Game: {game}",
+            "games": "Games",
+            "coming": "Upcoming tournaments",
+            "current": "Ongoing tournaments",
+            "past": "Past tournaments",
+            "inscription": {
+                "open": "Registration open until {date}",
+                "closed": "Registration closed"
+            }
+        },
+        "access": "Access"
+    },
+    "notFound": {
+        "title": "Page not found",
+        "lost1": "Are you lost?",
+        "lost2": "We're doing everything we can to locate you!",
+        "lost3": "Jean-Mich, haven't you fixed antenna 3 yet? What do we look like now...",
+        "return": "Return to the home page"
+    },
+    "partners": {
+        "title": "Partners",
+        "head": "We share our expertise for organizing esports events and promoting to students with many entities. We are happy to count on their support and skills.",
+        "add": " Add a new partner",
+        "hide": "Hide",
+        "show": "Make public",
+        "delete": "Delete",
+        "save": "Save",
+        "website": "Website",
+        "confirm": "Are you sure you want to delete the partner"
+    },
+    "tournaments": {
+        "title": "Tournament | Tournaments",
+        "head": "We regularly organize tournaments, some in partnership with big names in video games. We ensure that only French students can participate in our tournaments.",
+        "create": "Create a new tournament",
+        "noTournament": "No tournament found...",
+        "showRules": "Show rules",
+        "registedNumber": "registered | registered",
+        "teams": "No team | {count} team | {count} teams",
+        "player": "Missing player | Player | Players",
+        "playerPerTeam": "*{count} player* per team | *{count} players* per team",
+        "subPerTeam": "+ *{count} substitute* per team | + *{count} substitutes* per team",
+        "joinTeamPrompt": "Enter the team's invitation code. You can ask the team leader for it, it looks like XXXX-XXXX-XXXX-XXXX.",
+        "deleteTeamPrompt": "Are you sure you want to delete the team? Invited members will be removed.",
+        "leaveTeamPrompt": "Are you sure you want to leave this team?",
+        "kickMemberPrompt": "Are you sure you want to kick this member from the team?",
+        "staff": "Staff",
+        "coach": " and *1 coach*",
+        "manager": " and *1 manager*",
+        "teamSlots": "{count} slots",
+        "certificate": "Student certificate",
+        "noSchool": "Missing school",
+        "ready": "Ready",
+        "incomplete": "Incomplete",
+        "kick": "Kick",
+        "noId": "Missing ID",
+        "admin": {
+            "title": "Tournament settings",
+            "name": "Tournament name",
+            "prizes": "Prizes and cashprize",
+            "rulesLink": "Rules link",
+            "importantInfo": "Important information",
+            "externalLink": "External link for important information",
+            "hide": "Hide",
+            "public": "Make public",
+            "archive": "Archive",
+            "unarchive": "Unarchive",
+            "save": "Save changes",
+            "delete": "Delete tournament",
+            "deleteAlert": "You do not have permission to delete a tournament. Ask the site administrator or the tournament manager.",
+            "deleteConfirm": "It is better to archive the tournament. Are you sure you want to delete it? This action is final.",
+            "integration": {
+                "title": "Integration",
+                "id": "toornament ID",
+                "widgetUrl": "Widget link",
+                "code": "Custom code"
+            },
+            "game": {
+                "title": "Game",
+                "name": "Game name",
+                "username": "Username label",
+                "playerByTeam": "Number of players per team",
+                "subByTeam": "Number of substitutes per team",
+                "coachEnabled": "Possibility to have a coach in the team",
+                "managerEnabled": "Possibility to have a manager in the team",
+                "maxTeams": "Maximum number of teams"
+            },
+            "dates": {
+                "title": "Dates",
+                "subClose": "Registration deadline",
+                "start": "Tournament start",
+                "playDay": "Match days",
+                "final": "Final"
+            },
+            "location": {
+                "title": "Location",
+                "isLan": "On-site tournament"
+            }
+        },
+        "dates": {
+            "close": "Registration deadline: ",
+            "start": "Start:",
+            "playDay": "Match days:",
+            "final": "Final:"
+        },
+        "types": {
+            "coming": "Upcoming tournaments",
+            "current": "Ongoing tournaments",
+            "past": "Past tournaments"
+        },
+        "pages": {
+            "team": "Team",
+            "admin": "Settings",
+            "management": "Management",
+            "details": "Details"
+        },
+        "management": {
+            "noTeams": "No team found...",
+            "addPlayer": "Add a player",
+            "addCoach": "Add a coach",
+            "addManager": "Add a manager",
+            "deleteLogo": "Are you sure you want to delete the team logo?",
+            "addMemberPrompt": "Enter the {role}'s email to add to the team:",
+            "pages": {
+                "forming": "Forming",
+                "ready": "Ready",
+                "validated": "Validated | Validated",
+                "verification": "Verification",
+                "export": "Export"
+            }
+        },
+        "card": {
+            "connect": "To participate in this tournament, you must first sign up or log in.",
+            "signin": "Sign up",
+            "login": "Log in",
+            "join": "Ready to join the arena?",
+            "action": {
+                "create": "Create a team",
+                "join": "Join a team",
+                "participate": "Participate in the tournament",
+                "leaveTournament": "Leave the tournament",
+                "disband": "Disband the team",
+                "leaveTeam": "Leave the team"
+            },
+            "team": {
+                "title": "Your team",
+                "noWaiting": " No team waiting for validation.",
+                "settings": "Team settings",
+                "name": "Team name",
+                "tag": "Team TAG",
+                "save": "Save",
+                "markReady": "Mark ready",
+                "waiting": "Waiting",
+                "validated": "Team validated",
+                "description": "* These elements can be filled in your profile {settings}.",
+                "settingsLink": "settings",
+                "info": "Once everything is in order, click \"Mark ready\" so admins can validate your team.",
+                "checklist": {
+                    "title": "Checklist",
+                    "name": "Team name",
+                    "tag": "Team TAG",
+                    "id": "Game ID",
+                    "complete": "Complete team",
+                    "certificate": "Student certificate*",
+                    "discord": "Discord ID*",
+                    "school": "School name*",
+                    "fullname": "Full name*"
+                },
+                "code": {
+                    "player": "Player invitation code",
+                    "coach": "Coach invitation code",
+                    "manager": "Manager invitation code"
+                }
+            }
+        }
+    }
+}

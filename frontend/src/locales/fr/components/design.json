@@ -1,0 +1,8 @@
+{
+    "form": {
+        "studentCertificate": "Certificat d'étudiant",
+        "avatarPicker": "Uploader une nouvelle image",
+        "certificatePicker": "Uploader un certificat",
+        "copy": "Copier dans le presse-papier"
+    }
+}

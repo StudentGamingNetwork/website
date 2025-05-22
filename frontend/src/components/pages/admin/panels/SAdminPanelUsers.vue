@@ -4,7 +4,7 @@
             <SInput
                 v-model="searchInput"
                 class="input"
-                title="Chercher un utilisateur..."
+                :title="$t('components.pages.admin.user.searchInput')"
             >
                 <template #suffix>
                     <FontAwesomeIcon :icon="['fas','search']" />
@@ -30,7 +30,7 @@
                 :icon="['fas','frown']"
             />
             <div class="description">
-                Aucun utilisateur trouvé...
+                {{ $t("components.pages.admin.user.noUser") }}
             </div>
         </div>
         <transition-group
@@ -57,7 +57,7 @@ import { onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
 import * as AdminService from "@/services/admin";
-import SInput from "@/components/design/forms/Input.vue";
+import SInput from "@/components/design/forms/SInput.vue";
 import SAdminUserCard from "@/components/pages/admin/panels/SAdminUserCard.vue";
 import SPagination from "@/components/design/SPagination.vue";
 

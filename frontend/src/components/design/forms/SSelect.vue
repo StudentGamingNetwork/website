@@ -1,6 +1,9 @@
 <template>
     <div class="input-wrapper">
-        <div v-if="title" class="title">
+        <div
+            v-if="title"
+            class="title"
+        >
             {{ title }}
         </div>
         <div class="input">

@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import SButton from "@/components/design/forms/Button.vue";
+import SButton from "@/components/design/forms/SButton.vue";
 
 const model = defineModel({
     default: 1,

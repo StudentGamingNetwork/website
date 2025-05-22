@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: "tournament-widget",
-        component: () => import("@/views/TournamentWidget.vue"),
+        component: () => import("@/views/STournamentWidget.vue"),
         meta: {
             title: "Tournoi"
         },

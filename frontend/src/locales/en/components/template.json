@@ -1,0 +1,126 @@
+{
+    "footer": {
+        "legals": {
+            "legalNotice": "Legal notice",
+            "legalTerms": "Terms of use",
+            "legalPrivacy": "Privacy policy"
+        }
+    },
+    "header": {
+        "signup": "Sign up",
+        "login": "Log in",
+        "logout": "Log out",
+        "settings": "Settings",
+        "admin": "Administration"
+    },
+    "modals": {
+        "save": "Save changes",
+        "delete": "Delete my account",
+        "description": "Warning, deletion is permanent! You will need to create a new account to participate in future SGN events.",
+        "settings": {
+            "association": {
+                "title": "Association profile",
+                "name": "Name",
+                "mail": "Email",
+                "tagDescription": " Your association's tag will be visible in front of your members' nicknames participating in tournaments.",
+                "school": "School",
+                "schoolName": "School name",
+                "schoolAddress": "School address",
+                "studentNumber": "Number of students in the school",
+                "network": "Networks",
+                "parameters": {
+                    "title": "Settings",
+                    "description": " The slug is your association's unique identifier. Your association page will be available at this address:",
+                    "invitation": "Invitation code",
+                    "invitationDescription": "You must share this code with members who want to join your association."
+                },
+                "save": "Save changes",
+                "delete": "Delete association",
+                "transfer": "Transfer association",
+                "transferDescription": " It is better to transfer the association to someone else than to delete it. You can only delete the association if you are the only member, otherwise contact your SGN regional manager.",
+                "notMember": "You are part of the association",
+                "leave": "Leave the association",
+                "creation": {
+                    "title": "Create a new association",
+                    "name": "Association name",
+                    "mail": "Association email",
+                    "school": "School name",
+                    "create": "Create association"
+                },
+                "none": "You are not in any association...",
+                "join": {
+                    "base": "You can {join}\n(by asking your manager for the invitation code)\n or {create} if you represent it.",
+                    "join": "join yours",
+                    "create": "create one"
+                }
+            },
+            "menu": {
+                "public": "Public profile",
+                "game": "Game profile",
+                "asso": "Association",
+                "account": "SGN account"
+            },
+            "account": {
+                "password": "Change password",
+                "old": "Old password",
+                "new": "New password"
+            },
+            "2fa": {
+                "title": "Two-factor authentication",
+                "description": "Two-factor authentication is an extra security method to protect your account. When enabled, you will need to enter a verification code at each login.",
+                "disable": "Disable two-factor authentication",
+                "enable": "Enable two-factor authentication",
+                "enablePrompt": "Are you sure you want to enable two-factor authentication?",
+                "disablePrompt": "Are you sure you want to disable two-factor authentication?"
+            },
+            "game": {
+                "discordID": "Discord ID",
+                "discordDescription": "We need your Discord ID to contact you during your matches.",
+                "save": "Save profile"
+            },
+            "public": {
+                "title": "Profile",
+                "avatar": "Profile picture",
+                "username": "Username",
+                "mail": "Email",
+                "save": "Save changes",
+                "status": {
+                    "title": "Student status",
+                    "name": "First and last name",
+                    "school": "School",
+                    "state": "Status:",
+                    "processing": "Verification in progress",
+                    "validated": "Certificate validated until September",
+                    "rejected": "Certificate rejected (please provide another one)",
+                    "showReason": "See reason",
+                    "none": "No certificate provided",
+                    "description": "To participate in tournaments, you must provide proof of your student status ({certificate} or {card}). Middle and high school students {not} considered as \"students\".",
+                    "certificat": "student certificate",
+                    "card": "student card",
+                    "not": "are not"
+                }
+            }
+        },
+        "signup": {
+            "google": "Sign up with Google",
+            "facebook": "Sign up with Facebook",
+            "twitter": "Sign up with Twitter",
+            "length": "At least {count} characters",
+            "lowercase": "At least one lowercase letter",
+            "uppercase": "At least one uppercase letter",
+            "number": "At least one number",
+            "signup": "Sign up",
+            "alreadyHaveAnAccount": "Already registered?"
+        },
+        "login": {
+            "google": "Log in with Google",
+            "facebook": "Log in with Facebook",
+            "twitter": "Log in with Twitter",
+            "login": "Log in",
+            "noAccount": "No account yet?",
+            "forgotPassword": "Forgot password?",
+            "enterToken": "Enter the token generated on your app",
+            "sendToken": "Send code"
+        }
+    }
+}

@@ -4,14 +4,14 @@
             <SInput
                 v-model="searchInput"
                 class="input"
-                title="Chercher une association..."
+                :title="$t('components.pages.federation.searchInput')"
             >
                 <template #suffix>
                     <FontAwesomeIcon :icon="['fas', 'search']" />
                 </template>
             </SInput>
             <SToggle v-model="regionDivide">
-                Région
+                {{ $t("components.pages.federation.region") }}
             </SToggle>
         </div>
         <div class="filter-region-wrapper">
@@ -42,7 +42,7 @@
                 :icon="['fas', 'frown']"
             />
             <div class="description">
-                Aucune association trouvée...
+                {{ $t("components.pages.federation.noAssociation") }}
             </div>
         </div>
         <div
@@ -84,7 +84,7 @@
 import { onMounted, ref, watch, computed, reactive } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
-import SInput from "@/components/design/forms/Input.vue";
+import SInput from "@/components/design/forms/SInput.vue";
 import SToggle from "@/components/design/SToggle.vue";
 import SAssociationCard from "@/components/pages/federation/SAssociationCard.vue";
 import * as AssociationService from "@/services/association";

@@ -110,7 +110,7 @@
 <script lang="ts" setup>
 import { computed, defineProps } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SCard from "@/components/design/Card.vue";
+import SCard from "@/components/design/SCard.vue";
 import * as AssociationService from "@/services/association";
 import router from "@/router";
 import { Association } from "@/modules";

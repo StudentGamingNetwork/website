@@ -11,17 +11,11 @@
     <SFooter />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import STournamentsLayout from "@/components/pages/tournaments/Layout.vue";
-import SLoading from "@/components/design/Loading.vue";
-import SHeader from "@/components/template/Header.vue";
-import SFooter from "@/components/template/Footer.vue";
-
-export default defineComponent({
-    name: "Tournaments",
-    components: { SFooter, SHeader, SLoading, STournamentsLayout }
-});
+<script lang="ts" setup>
+import STournamentsLayout from "@/components/pages/tournaments/STournamentsLayout.vue";
+import SLoading from "@/components/design/SLoading.vue";
+import SHeader from "@/components/template/SHeader.vue";
+import SFooter from "@/components/template/SFooter.vue";
 </script>
 
 <style scoped lang="scss">

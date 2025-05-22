@@ -11,17 +11,11 @@
     <SFooter />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import SPartnersLayout from "@/components/pages/partners/Layout.vue";
-import SLoading from "@/components/design/Loading.vue";
-import SHeader from "@/components/template/Header.vue";
-import SFooter from "@/components/template/Footer.vue";
-
-export default defineComponent({
-    name: "Partners",
-    components: { SFooter, SHeader, SLoading, SPartnersLayout }
-});
+<script lang="ts" setup>
+import SPartnersLayout from "@/components/pages/partners/SPartnersLayout.vue";
+import SLoading from "@/components/design/SLoading.vue";
+import SHeader from "@/components/template/SHeader.vue";
+import SFooter from "@/components/template/SFooter.vue";
 </script>
 
 <style scoped lang="scss">

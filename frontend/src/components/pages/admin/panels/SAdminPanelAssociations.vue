@@ -4,7 +4,7 @@
             <SInput
                 v-model="searchInput"
                 class="input"
-                title="Chercher une association..."
+                :title="$t('components.pages.admin.association.searchInput')"
             >
                 <template #suffix>
                     <FontAwesomeIcon :icon="['fas','search']" />
@@ -30,7 +30,7 @@
                 :icon="['fas','frown']"
             />
             <div class="description">
-                Aucune association trouvée...
+                {{ $t("components.pages.admin.association.noAssociation") }}
             </div>
         </div>
         <SAdminAssociationCard
@@ -50,7 +50,7 @@
 import { onMounted, ref, watch } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { debounce } from "lodash";
-import SInput from "@/components/design/forms/Input.vue";
+import SInput from "@/components/design/forms/SInput.vue";
 import * as AdminService from "@/services/admin";
 import SAdminAssociationCard, { TAdminAssociation } from "@/components/pages/admin/panels/SAdminAssociationCard.vue";
 import SPagination from "@/components/design/SPagination.vue";

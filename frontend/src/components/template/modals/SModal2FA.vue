@@ -4,8 +4,8 @@
         @close="disconnect"
     >
         <div class="modal-content">
-            <SSectionTitle>Authentification 2 facteurs</SSectionTitle>
-            <span>Entrez le token généré sur votre application</span>
+            <SSectionTitle>{{ $t("components.template.modals.settings.2fa.title") }}</SSectionTitle>
+            <span>{{ $t("components.template.modals.login.enterToken") }}</span>
             <div class="login">
                 <div class="local">
                     <SInput
@@ -22,7 +22,7 @@
                         :spinning="waitingForResponse"
                         @click="verifyToken"
                     >
-                        Envoyer le code
+                        {{ $t("components.template.modals.login.sendToken") }}
                     </SButton>
                 </div>
             </div>
@@ -32,10 +32,10 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import SModal from "@/components/design/modal/Modal.vue";
-import SSectionTitle from "@/components/design/SectionTitle.vue";
-import SButton from "@/components/design/forms/Button.vue";
-import SInput from "@/components/design/forms/Input.vue";
+import SModal from "@/components/design/modal/SModal.vue";
+import SSectionTitle from "@/components/design/SSectionTitle.vue";
+import SButton from "@/components/design/forms/SButton.vue";
+import SInput from "@/components/design/forms/SInput.vue";
 import { State, Toast , User as UserModule } from "@/modules";
 import * as UserService from "@/services/user";
 import * as TwoFactorAuthService from "@/services/twoFactorAuth";
