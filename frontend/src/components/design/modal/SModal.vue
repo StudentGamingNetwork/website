@@ -56,12 +56,15 @@ defineEmits(["close"]);
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0.3;
             cursor: pointer;
 
-            &:hover {
-                opacity: 1;
+            svg {
+                color: var(--color-content-softer);
             }
+
+            &:hover > svg {
+                color: var(--color-content-content);
+            }           
         }
     }
 

@@ -98,7 +98,7 @@
                 class="link"
                 @click="stateStore.modalOpen('login')"
             >
-                {{ $t("components.template.modals.signup.alreadyHaveAnAccount") }}]
+                {{ $t("components.template.modals.signup.alreadyHaveAnAccount") }}
             </div>
         </div>
     </SModal>

@@ -10,7 +10,7 @@
             "contact": "Contact us"
         },
         "trust": {
-            "title": " They trusted us",
+            "title": " They have trusted us",
             "description": {
                 "part1": "We have worked with many actors in the video game sector",
                 "part2": "who continue to trust us year after year."
@@ -101,7 +101,7 @@
         "noAssociation": "No association found..."
     },
     "map": {
-        "title": "The map",
+        "title": "Map",
         "head": "We federate a network of many student gaming and esports associations throughout France. We maintain regular contact with them to support their projects.",
         "federation": {
             "title": "Federation",
