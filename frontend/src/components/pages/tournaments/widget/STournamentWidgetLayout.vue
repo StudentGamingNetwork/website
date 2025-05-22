@@ -23,7 +23,7 @@ import * as TournamentService from "@/services/tournament";
 import SSignUp from "@/components/pages/tournaments/widget/SSignUp.vue";
 import STournamentWidget from "@/components/pages/tournaments/widget/STournamentWidget.vue";
 import STeamCard from "@/components/pages/tournaments/widget/STeamCard.vue";
-import SUser from "@/components/pages/tournaments/widget/User.vue";
+import SUser from "@/components/pages/tournaments/widget/SUser.vue";
 
 const router = useRouter();
 const userStore = User.useStore();
