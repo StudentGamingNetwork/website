@@ -57,6 +57,15 @@ const stateStore = State.useStore();
     height: 75vh;
     display: flex;
 
+    
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--color-content-softest);
+    }
+
     .menu {
         width: 196px;
         height: 100%;
