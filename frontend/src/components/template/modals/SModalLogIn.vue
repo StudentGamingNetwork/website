@@ -79,8 +79,15 @@
                     >
                         {{ $t("components.template.header.login") }}
                     </SButton>
+                    <div
+                        class="link"
+                        @click="passwordForgotten"
+                    >
+                        Mot de passe oublié ?
+                    </div>
                 </div>
             </div>
+            <<<<<<< HEAD:frontend/src/components/template/modals/SModalLogIn.vue
             <div class="login appart">
                 <div
                     class="link local"
@@ -101,6 +108,8 @@
                     </div>
                 </div>
             </div>
+            =======
+            >>>>>>> 741de057f659eed19f9f810fa98fb354e54faa3b:frontend/src/components/template/modals/LogIn.vue
         </div>
     </SModal>
 </template>
