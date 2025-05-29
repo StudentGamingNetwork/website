@@ -44,8 +44,9 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucun compte n'a été trouvé avec cette adresse mail.");
             }
 
+            console.log("token", request.body.token);
+            
             const token = await TokenModel.findOne({
-                expirationDate: { $gt: new Date() },
                 token: request.body.token,
                 used: false,
                 user: user._id

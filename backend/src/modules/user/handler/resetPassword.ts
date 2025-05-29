@@ -33,7 +33,6 @@ export async function register(server: FastifyInstance): Promise<void> {
         "/reset-password",
         { schema },
         async (request, reply) => {
-            
             const user = await UserModel.findOne({
                 mail: request.body.mail
             });
@@ -43,17 +42,28 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             const date = new Date();
+
+            await TokenModel.updateMany(
+                {
+                    expirationDate: { $gt: date },
+                    used: false,
+                    user: user._id
+                },
+                { $set: { used: true } }
+            );
+
             const passwordToken = await TokenModel.create({
-                expirationDate: date.setDate(date.getDate() + 3),
-                token: await generateToken(),
+                expirationDate: new Date(date.getTime() + 60 * 60 * 1000),
+                token: (await generateToken()).replaceAll("/", "").replaceAll("\\", ""),
                 used: false,
                 user: user._id
             });
 
             await UserLib.sendMail(
                 user.mail,
+                user.username,
                 "Réinitialisation du mot de passe",
-                `Cliquez sur ce <a href='https://sgnw.fr/reset-password/${ passwordToken.token }'>lien</a> pour réinitialiser votre mot de passe.<br/>Ce lien sera valide pendant 3 jours.`
+                `https://sgnw.fr/reset-password/${ passwordToken.token }`
             );
             
 

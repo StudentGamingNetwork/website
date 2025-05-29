@@ -1,7 +1,7 @@
 import * as Bcrypt from "bcryptjs";
 
 export async function generateToken(){
-    return await Bcrypt.hash(generatePassword().replaceAll("/","").replaceAll("\\",""), 20);
+    return await Bcrypt.hash(generatePassword().replaceAll("/","").replaceAll("\\",""), 12);
 }
 
 

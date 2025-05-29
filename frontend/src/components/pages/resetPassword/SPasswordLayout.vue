@@ -67,11 +67,11 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { EToastType, useStore } from "@/modules/toast/store";
 import BackgroundAbout from "@/assets/images/backgrounds/about.png";
-import SPageHead from "@/components/template/PageHead.vue";
-import SBaseLayout from "@/components/pages/BaseLayout.vue";
-import SInput from "@/components/design/forms/Input.vue";
-import SButton from "@/components/design/forms/Button.vue";
-import SValidator from "@/components/design/forms/Validator.vue";
+import SPageHead from "@/components/template/SPageHead.vue";
+import SBaseLayout from "@/components/pages/SBaseLayout.vue";
+import SInput from "@/components/design/forms/SInput.vue";
+import SButton from "@/components/design/forms/SButton.vue";
+import SValidator from "@/components/design/forms/SValidator.vue";
 import * as UserService from "@/services/user";
 import { Toast } from "@/modules";
 

@@ -1,39 +1,30 @@
-import * as NodeMailer from "nodemailer";
+import { Client } from "node-mailjet";
 import { env } from "@/utils/environment";
 
-let mailConfig;
+const mailjet = Client.apiConnect(env.MJ_APIKEY_PUBLIC, env.MJ_APIKEY_PRIVATE);
 
-if (env.NODE_ENV === "development") {
-    mailConfig = {
-        auth: {
-            pass: env.ETHEREAL_PASS,
-            user: env.ETHEREAL_USER
-        },
-        host: "smtp.ethereal.email",
-        port: 587
-    };
-}
-else {
-    mailConfig = {
-        auth: {
-            pass: env.MJ_APIKEY_PRIVATE,
-            user: env.MJ_APIKEY_PUBLIC
-        },
-        host: "in-v3.mailjet.com",
-        port: 587,
-        secure: false
-    };
-}
-
-
-const transporter = NodeMailer.createTransport(mailConfig);
-
-
-export async function sendMail(to: string, subject: string, body: string): Promise<void> {
-    await transporter.sendMail({
-        from: env.NO_REPLY_EMAIL,
-        html: body,
-        subject,
-        to
+export async function sendMail(to: string, name: string, subject: string, link: string): Promise<void> {
+    await mailjet.post("send", { version: "v3.1" }).request({
+        Messages: [
+            {
+                From: {
+                    Email: env.NO_REPLY_EMAIL,
+                    Name: env.NO_REPLY_NAME
+                },
+                subject: subject,
+                TemplateID: 7022731,
+                TemplateLanguage: true,
+                To: [
+                    {
+                        Email: to,
+                        Name: to
+                    }
+                ],
+                Variables: {
+                    Link: link,
+                    Name: name
+                }
+            }
+        ]
     });
 }
