@@ -45,7 +45,7 @@
                         class="link"
                         @click="stateStore.modalOpen('signup')"
                     >
-                        Pas encore de compte ?
+                        {{ $t("components.template.modals.login.noAccount") }}
                     </div>
                 </div>
                 <div class="separator">
@@ -83,7 +83,7 @@
                         class="link"
                         @click="passwordForgotten"
                     >
-                        Mot de passe oublié ?
+                        {{ $t("components.template.modals.login.forgotPassword") }}
                     </div>
                 </div>
             </div>
