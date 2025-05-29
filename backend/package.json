@@ -28,6 +28,7 @@
         "moment-timezone": "^0.5.48",
         "mongodb": "^5.4.0",
         "mongoose": "^7.1.0",
+        "node-mailjet": "^6.0.8",
         "otplib": "^12.0.1",
         "sharp": "^0.33.1",
         "uuid": "^9.0.0"

@@ -91,6 +91,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "/about"
     },
     {
+        name: "reset-password",
+        component: () => import("@/views/SResetPassword.vue"),
+        meta: {
+            title: "Réinitialisation du mot de passe"
+        },
+        path: "/reset-password/:token/"
+    },
+    {
         name: "association",
         component: () => import("@/views/Association.vue"),
         meta: {

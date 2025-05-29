@@ -4,6 +4,7 @@ import cors from "cors";
 import fastifyMiddie from "@fastify/middie";
 import fastifyMultipart from "@fastify/multipart";
 import { closeDatabase, connectDatabase } from "@/database";
+import { env } from "@/utils/environment";
 import APIHandler from "@/api";
 import StaticHandler from "@/static";
 import UploadHandler from "@/upload";
@@ -11,10 +12,8 @@ import PageHandler from "@/page";
 import "@/cronjob";
 
 
-//import NotFoundHandler from "@/notFound";
-
 async function init() {
-    const isDevelopment = (process.env.NODE_ENV === "development");
+    const isDevelopment = (env.NODE_ENV === "development");
     await connectDatabase();
 
     const server: Fastify.FastifyInstance = Fastify.fastify({ logger: isDevelopment });
@@ -24,7 +23,7 @@ async function init() {
 
     server.use(cors({
         credentials: true,
-        origin: process.env.CORS_ORIGIN
+        origin: env.CORS_ORIGIN
     }));
 
     await server.register(APIHandler, { prefix: "/api" });
@@ -37,7 +36,7 @@ async function init() {
 }
 
 init().then((server) => {
-    server.listen({ port: Number(process.env.BACKEND_PORT) }, (error: Error | null) => {
+    server.listen({ port: Number(env.BACKEND_PORT) }, (error: Error | null) => {
         server.ready(() => {
             console.log(server.printRoutes());
         });

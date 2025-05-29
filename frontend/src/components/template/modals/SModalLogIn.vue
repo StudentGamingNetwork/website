@@ -41,11 +41,17 @@
                         />
                         {{ $t("components.template.modals.login.twitter") }}
                     </SButton>
+                    <div
+                        class="link"
+                        @click="stateStore.modalOpen('signup')"
+                    >
+                        {{ $t("components.template.modals.login.noAccount") }}
+                    </div>
                 </div>
                 <div class="separator">
                     <div class="line" />
                     <div class="text">
-                        or
+                        ou
                     </div>
                     <div class="line" />
                 </div>
@@ -73,13 +79,13 @@
                     >
                         {{ $t("components.template.header.login") }}
                     </SButton>
+                    <div
+                        class="link"
+                        @click="passwordForgotten"
+                    >
+                        {{ $t("components.template.modals.login.forgotPassword") }}
+                    </div>
                 </div>
-            </div>
-            <div
-                class="link"
-                @click="stateStore.modalOpen('signup')"
-            >
-                {{ $t("components.template.modals.login.noAccount") }}
             </div>
         </div>
     </SModal>
@@ -124,6 +130,14 @@ async function login() {
     }
 }
 
+async function passwordForgotten() {
+    const answer = prompt("Entrez votre adresse mail liée à votre compte SGN") || "";
+            
+    await Toast.testRequest(async () => {
+        return await UserService.passwordForgotten({ mail: answer });
+    });
+}
+        
 </script>
 
 <style scoped lang="scss">
@@ -224,11 +238,18 @@ async function login() {
         color: var(--color-primary);
         opacity: 0.5;
         cursor: pointer;
+        align-self: center;
 
         &:hover {
             text-decoration: underline;
             opacity: 1;
         }
     }
+    
+    .appart {
+        place-content: space-evenly;
+        text-align: center;
+    }
+
 }
 </style>

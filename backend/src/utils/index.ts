@@ -1,12 +1,13 @@
 import path from "path";
 import { config } from "dotenv";
 import * as Cookie from "./cookie";
+import { env } from "@/utils/environment";
 
 export { Cookie };
 
 config();
 
-const environment: string = process.env.NODE_ENV || "development";
+const environment: string = env.NODE_ENV;
 
 export const isDevEnvironment = (environment === "development");
 export const isTestEnvironment = (environment === "test");

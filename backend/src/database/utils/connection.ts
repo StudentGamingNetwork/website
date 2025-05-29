@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { config } from "dotenv";
+import { env } from "@/utils/environment";
 
 config();
 
@@ -7,7 +8,7 @@ export let db: mongoose.Connection;
 
 export async function connectDatabase() {
     const options = {};
-    await mongoose.connect(process.env.DB_URI as string, options);
+    await mongoose.connect(env.DB_URI as string, options);
     db = mongoose.connection;
 }
 
