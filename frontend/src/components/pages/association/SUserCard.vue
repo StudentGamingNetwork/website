@@ -50,8 +50,8 @@ import * as UserService from "@/services/user";
 
 
 defineProps<{
-        user: User.TUser;
-    }>();
+    user: User.TUser;
+}>();
 
 const getUserAvatarUrl = UserService.getAvatarUrl;
 

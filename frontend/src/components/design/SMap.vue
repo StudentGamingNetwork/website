@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref, defineEmits, onMounted } from "vue";
+import { ref, defineEmits, onMounted } from "vue";
 import { useLeafletMap, useLeafletTileLayer, useLeafletDisplayLayer } from "vue-use-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -16,12 +16,12 @@ import "leaflet/dist/leaflet.css";
 const emit = defineEmits(["map"]);
 
 const props = defineProps<{
-    center?: [number, number]
-    dragging: boolean
-    keybord: boolean,
-    maxZoom: number,
-    scrollWheelZoom: "center" | boolean
-    zoomControl: boolean
+    center?: [number, number];
+    dragging: boolean;
+    keybord: boolean;
+    maxZoom: number;
+    scrollWheelZoom: "center" | boolean;
+    zoomControl: boolean;
 }>();
 
 const element = ref<HTMLElement | null>(null);

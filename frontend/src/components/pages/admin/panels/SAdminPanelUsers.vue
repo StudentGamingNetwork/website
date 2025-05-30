@@ -81,7 +81,7 @@ type TAdminUser = {
         name: string;
     };
     username: string;
-}
+};
 
 
 const searchInput = ref("");

@@ -17,7 +17,7 @@
 import { computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-const props = defineProps<{valid: boolean}>();
+const props = defineProps<{ valid: boolean }>();
 
 const validClass = computed(() => {
     return props.valid ? "success" : "error";

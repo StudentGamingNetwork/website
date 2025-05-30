@@ -14,9 +14,9 @@
 
 <script lang="ts" setup>
 defineProps<{
-        modelValue: string;
-        options: Array<{ title: string; key: string }>;
-    }>();
+    modelValue: string;
+    options: Array<{ title: string; key: string }>;
+}>();
 defineEmits(["update:modelValue"]);
 
 

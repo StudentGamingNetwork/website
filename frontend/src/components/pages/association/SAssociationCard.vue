@@ -170,7 +170,7 @@ import SCard from "@/components/design/SCard.vue";
 import SMap from "@/components/design/SMap.vue";
 
 const props = defineProps<{
-    association: Association.TAssociation
+    association: Association.TAssociation;
 }>();
 
  

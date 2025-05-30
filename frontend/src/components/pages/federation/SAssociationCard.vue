@@ -117,7 +117,7 @@ import { Association } from "@/modules";
 
 
 const props = defineProps<{
-    association: Association.TAssociation
+    association: Association.TAssociation;
 }>();
    
 const logoUrl = computed(() => {
