@@ -106,8 +106,8 @@
                     <u> {{ $t("components.template.modals.settings.public.status.card") }}</u>
                 </template>
                 <template #not>
-                    <strong>{{ $t("components.template.modals.settings.public.status.not") }}</strong>
-                </template>-
+                    <span><strong>{{ $t("components.template.modals.settings.public.status.not") }}</strong></span>
+                </template>
             </i18n-t>
         </SModalSection>
         <SModalSeparator />

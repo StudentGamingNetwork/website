@@ -10,8 +10,7 @@ export type TDonation = {
 
 const backendUrl = import.meta.env.VITE_BACKEND_HOST as string;
 
-export const useDonationStore = defineStore({
-    id: "donation",
+export const useDonationStore = defineStore("donation", {
     actions: {
         async updateList() {
             const request = await fetch(backendUrl + "/api/overlay/donation/list");
@@ -48,4 +47,4 @@ export const useDonationStore = defineStore({
             }
         ] as Array<TDonation>
     })
-});
+})
