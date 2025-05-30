@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .section {
     display: flex;
     flex-direction: column;

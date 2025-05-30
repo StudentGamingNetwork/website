@@ -49,7 +49,7 @@ const stateStore = State.useStore();
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .profil {
     width: 720px;
     max-width: 100vw;

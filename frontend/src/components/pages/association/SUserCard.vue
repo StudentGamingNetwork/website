@@ -57,7 +57,7 @@ const getUserAvatarUrl = UserService.getAvatarUrl;
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .user-card {
     width: 384px;
     display: grid;

@@ -141,7 +141,7 @@ const subscriptionDateText = computed(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .tournament {
     width: 100%;
     position: relative;

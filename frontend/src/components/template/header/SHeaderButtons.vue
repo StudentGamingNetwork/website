@@ -29,7 +29,7 @@ const stateStore = State.useStore();
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .header-buttons {
     display: flex;
     gap: var(--length-gap-l);

@@ -16,7 +16,7 @@ const logo = white ? SVGLogoWhite : SVGLogo;
    
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 img {
     height: 64px;
 }

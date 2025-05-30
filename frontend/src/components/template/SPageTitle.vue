@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .page-title {
     position: relative;
     font-size: 4rem;

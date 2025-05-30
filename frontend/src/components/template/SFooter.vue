@@ -111,7 +111,7 @@ const partners = [
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 footer {
     background: var(--color-background-1);
     padding: var(--length-margin-l);

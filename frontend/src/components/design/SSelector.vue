@@ -22,7 +22,7 @@ defineEmits(["update:modelValue"]);
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .selector {
     display: flex;
     background: var(--color-background-2);

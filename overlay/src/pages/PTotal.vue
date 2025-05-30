@@ -8,7 +8,7 @@
 import STotalProgress from "../components/STotalProgress.vue";
 </script>
 
-<style lang="scss" scoped>
+<style lang="scs" scoped>
 .wrapper {
     width: 100vw;
     height: 100vh;

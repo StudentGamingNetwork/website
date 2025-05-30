@@ -21,7 +21,7 @@ const userStore = User.useStore();
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .header-profil {
     display: flex;
     align-items: center;

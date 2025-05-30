@@ -31,7 +31,7 @@ const copyIntoClipboard = async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .copier {
     cursor: cell;
 }

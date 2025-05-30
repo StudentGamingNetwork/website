@@ -101,7 +101,7 @@ async function inspectTeam(team: Team.TTeam) {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .tournament-management {
     width: 100%;
     display: flex;

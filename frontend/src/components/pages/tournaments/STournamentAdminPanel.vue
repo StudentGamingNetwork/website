@@ -388,7 +388,7 @@ async function deleteTournament() {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .tournament-admin-panel {
     padding: var(--length-padding-l);
     box-sizing: border-box;

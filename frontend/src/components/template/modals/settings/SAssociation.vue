@@ -482,7 +482,7 @@ const isOwner = computed(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .association {
   .buttons {
     display: flex;

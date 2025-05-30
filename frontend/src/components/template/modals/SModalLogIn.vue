@@ -140,7 +140,7 @@ async function passwordForgotten() {
         
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .modal-content {
     padding: var(--length-padding-xl);
     width: 720px;

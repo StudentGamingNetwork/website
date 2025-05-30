@@ -38,7 +38,7 @@ const copyIntoClipboard = async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .input-copier {
     position: relative;margin-top: 22px;
 

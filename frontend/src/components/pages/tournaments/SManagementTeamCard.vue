@@ -305,7 +305,7 @@ async function exportTeam(team: { _id: string }) {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .management-team-card {
     padding: var(--length-padding-s) var(--length-padding-l);
     display: flex;

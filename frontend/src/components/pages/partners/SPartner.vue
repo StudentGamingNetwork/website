@@ -236,7 +236,7 @@ async function updatePartner() {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .partner {
     padding: var(--length-padding-m);
     border-radius: var(--lenght-radius-base);

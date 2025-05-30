@@ -267,7 +267,7 @@ async function updateAssociation({ isValidated, region }: { isValidated?: boolea
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .association {
     display: grid;
     column-gap: var(--length-gap-m);

@@ -66,7 +66,7 @@ import SSectionTitle from "@/components/design/SSectionTitle.vue";
 import i18n from "@/locales";
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .about-layout {
     max-width: 960px;
     margin: auto;

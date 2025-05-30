@@ -625,7 +625,7 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 h2 {
     font-weight: 100;
     background: var(--gradient);

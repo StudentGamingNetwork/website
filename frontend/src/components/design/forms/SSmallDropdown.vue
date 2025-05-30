@@ -83,7 +83,7 @@ const choose = (value: string) => {
         
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .small-dropdown {
     cursor: pointer;
     position: relative;

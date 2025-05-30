@@ -20,7 +20,7 @@ const backgroundImage = `url(${ props.background })`;
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .page-head {
     @media (max-width: 1099px) {
         padding: 48px;

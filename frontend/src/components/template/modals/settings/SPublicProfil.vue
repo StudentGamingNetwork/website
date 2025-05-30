@@ -186,7 +186,7 @@ function showCertificateRejectionReason() {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .public-profil {
     .status {
         font-size: 0.9rem;

@@ -54,7 +54,7 @@ const trusts = [
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .trust-section {
     display: flex;
     flex-direction: column;

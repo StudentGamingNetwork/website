@@ -32,7 +32,7 @@ defineEmits(["close"]);
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .modal-background {
     position: fixed;
     z-index: 10;
