@@ -53,7 +53,7 @@ import SSelector from "@/components/design/SSelector.vue";
 import i18n from "@/locales";
 
 
-defineProps<{ modelValue : ""}>();
+defineProps<{ modelValue: "" }>();
 
 const emit = defineEmits(["update:modelValue"]);
 

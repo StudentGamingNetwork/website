@@ -26,7 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineModel, defineEmits } from "vue";
 
 defineProps<{
     title?: string;

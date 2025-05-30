@@ -25,8 +25,8 @@ import { computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 const props = defineProps<{
-        type: "success" | "error" | "info" | "warning";
-    }>();
+    type: "success" | "error" | "info" | "warning";
+}>();
 
 defineEmits(["close"]);
    

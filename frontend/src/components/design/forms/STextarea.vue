@@ -23,7 +23,7 @@
 import { computed } from "vue";
 import { isUndefined } from "lodash";
 
-const { title = "", modelValue = "", modified = false } = defineProps<{title: string, modelValue: string, modified: boolean}>();
+const { title = "", modelValue = "", modified = false } = defineProps<{ title: string; modelValue: string; modified: boolean }>();
 defineEmits(["update:modelValue"]);
   
 

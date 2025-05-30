@@ -13,7 +13,7 @@
 import SPageTitle from "@/components/template/SPageTitle.vue";
 import SPageDescription from "@/components/template/SPageDescription.vue";
 
-const props = defineProps<{title:string; background:string}>();
+const props = defineProps<{ title: string; background: string }>();
 
 
 const backgroundImage = `url(${ props.background })`;

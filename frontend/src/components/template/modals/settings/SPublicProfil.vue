@@ -126,7 +126,7 @@ import { computed, reactive, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { cloneDeep } from "lodash";
 import SInput from "@/components/design/forms/SInput.vue";
-import { User, Association } from "@/modules";
+import { User } from "@/modules";
 import SAvatarPicker from "@/components/design/forms/SAvatarPicker.vue";
 import SButton from "@/components/design/forms/SButton.vue";
 import SModalSectionTitle from "@/components/design/modal/SModalSectionTitle.vue";
@@ -140,7 +140,6 @@ import SCertificatePicker from "@/components/design/forms/SCertificatePicker.vue
 
   
 const userStore = User.useStore();
-const associationStore = Association.useStore();
 
 const username = ref(userStore.username);
 const student = reactive(cloneDeep(userStore.student));

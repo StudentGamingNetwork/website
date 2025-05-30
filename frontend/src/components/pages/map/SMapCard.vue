@@ -303,7 +303,7 @@ function createPopupContentAssociation(association: TAssociation) {
     popupContent.innerHTML = `
         <h2>${ association.name }</h2>
         <span class="subtitle">${ i18n.global.t("components.pages.map.federation.region", { region: AssociationService.getRegionName(
-        association.federation.region) }) }</span>
+            association.federation.region) }) }</span>
         <span class="description">${ i18n.global.t("components.pages.map.federation.school",{ school: association.school.name }) }</span>
         <button class="outlined">${ i18n.global.t("components.pages.map.access") }</button>
     `;

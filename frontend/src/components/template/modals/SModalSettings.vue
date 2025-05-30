@@ -39,12 +39,6 @@ const menuOptions: Array<TMenuOption> = [
 
 const currentTab = shallowRef(menuOptions[0]);
 
-const menuContents = {
-    account: SPublicProfil,
-    game: SPublicProfil,
-    public: SPublicProfil
-};
-
 const stateStore = State.useStore();
 
 </script>

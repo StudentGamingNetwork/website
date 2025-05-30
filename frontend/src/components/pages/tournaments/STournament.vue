@@ -90,9 +90,9 @@ import i18n from "@/locales";
 
 const props = defineProps<{
     tournament: {
-        required: true,
-        type: Tournament.TTournament
-    }
+        required: true;
+        type: Tournament.TTournament;
+    };
 }>();
 
 const teamNumberText = computed(() => {

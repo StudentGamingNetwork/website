@@ -19,22 +19,22 @@
 <script lang="ts" setup>
 
 defineProps<{
-   title: {
-        default: "",
-        type: string
-    },
+    title: {
+        default: "";
+        type: string;
+    };
     disabled?: {
-        default: false,
-        type: boolean
-    },
+        default: false;
+        type: boolean;
+    };
     modified: {
-        default: false,
-        type: boolean
-    },
+        default: false;
+        type: boolean;
+    };
     required?: {
-        default: false,
-        type: boolean
-    },
+        default: false;
+        type: boolean;
+    };
 }>();
 const emit = defineEmits(["enter"]);
 const model = defineModel<boolean>();

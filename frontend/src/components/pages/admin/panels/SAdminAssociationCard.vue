@@ -240,9 +240,9 @@ export type TAdminAssociation = {
             username: string;
         };
     };
-}
+};
 
-const props = defineProps<{ modelValue: TAdminAssociation}>();
+const props = defineProps<{ modelValue: TAdminAssociation }>();
 
 const association = ref(props.modelValue);
 

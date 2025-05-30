@@ -470,12 +470,6 @@ const slugUrl = computed(() => {
     }`;
 });
 
-const invitationCode = computed(() => {
-    return `${ window.location.origin }/association/${
-        association.settings?.slug || association._id
-    }/join/${ association.settings?.invitationCode || "" }`;
-});
-
 const isOwner = computed(() => {
     return associationStore.users.owner === userStore._id;
 });

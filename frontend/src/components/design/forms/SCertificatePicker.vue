@@ -41,7 +41,7 @@ import { ComponentPublicInstance, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import i18n from "@/locales";
 
-const { title = i18n.global.t("components.design.form.studentCertificate"), url = "" } = defineProps<{title?: string, url?: string}>();
+const { title = i18n.global.t("components.design.form.studentCertificate"), url = "" } = defineProps<{ title?: string; url?: string }>();
 const emit = defineEmits(["fileChange"]);
   
 const fileInput = ref<ComponentPublicInstance<HTMLInputElement>>(null);
