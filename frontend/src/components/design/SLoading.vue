@@ -12,7 +12,7 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .loading {
     display: flex;
     align-items: center;

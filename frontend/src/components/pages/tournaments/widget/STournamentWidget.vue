@@ -102,7 +102,7 @@ const logoUrl = computed(() => {
     
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .tournament {
     display: grid;
 

@@ -13,7 +13,7 @@ import STournamentWidgetLayout from "@/components/pages/tournaments/widget/STour
 document.documentElement.setAttribute("data-widget", "");
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .tournament-widget {
 }
 </style>

@@ -213,7 +213,7 @@ async function userUpdate(update: {_id: string; role: {name: ERoles; modificatio
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .user {
     display: grid;
     column-gap: var(--length-gap-m);

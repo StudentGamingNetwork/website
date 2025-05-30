@@ -122,7 +122,7 @@ async function handleSubmit(){
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .wrapper {
     width: fit-content;
     margin: auto;

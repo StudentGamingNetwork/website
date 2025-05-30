@@ -36,7 +36,7 @@ const formattedAmount = computed(() => {
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .card {
     position: relative;
     background-image: linear-gradient(-45deg, var(--color-background-0), var(--color-background-2));

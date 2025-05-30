@@ -24,7 +24,7 @@ import { User } from "@/modules";
 const userStore = User.useStore();
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .user {
     display: flex;
     align-items: center;

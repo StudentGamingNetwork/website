@@ -33,7 +33,7 @@ const hasContent = computed(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .input-wrapper {
     width: 320px;
     max-width: 100%;

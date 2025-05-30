@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 article {
     background: var(--color-background-1);
     border-radius: var(--lenght-radius-base);

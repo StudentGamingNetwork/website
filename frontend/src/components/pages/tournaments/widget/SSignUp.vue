@@ -158,7 +158,7 @@ const isFormValid = computed(() => {
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .card {
 
     padding: var(--length-padding-m);

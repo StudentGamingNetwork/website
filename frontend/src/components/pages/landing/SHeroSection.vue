@@ -40,7 +40,7 @@ function contact() {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .hero-section {
     padding: 128px;
 

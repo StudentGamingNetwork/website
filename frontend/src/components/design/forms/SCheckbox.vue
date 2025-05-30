@@ -47,7 +47,7 @@ function processKeyDown(event: KeyboardEvent) {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .input-wrapper {
     max-width: 100%;
 

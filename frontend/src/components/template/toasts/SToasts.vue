@@ -24,7 +24,7 @@ const toastStore = useStore();
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .toasts {
     position: fixed;
     z-index: 100;

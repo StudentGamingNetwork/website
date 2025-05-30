@@ -120,7 +120,7 @@ async function updateTournament() {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .tournament-layout {
     margin: var(--length-margin-l) auto;
     display: flex;

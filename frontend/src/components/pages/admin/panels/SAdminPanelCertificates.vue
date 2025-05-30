@@ -163,7 +163,7 @@ async function validate(validated: boolean, reason: string = "") {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .admin-certificates {
     margin-top: var(--length-margin-m);
     display: flex;

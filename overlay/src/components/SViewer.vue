@@ -44,7 +44,7 @@ async function updateLoop() {
 updateLoop();
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .viewer {
     display: flex;
     align-items: center;

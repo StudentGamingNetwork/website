@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .modal-content {
     padding: var(--length-padding-m);
     display: flex;

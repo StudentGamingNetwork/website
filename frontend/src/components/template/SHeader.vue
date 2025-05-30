@@ -51,7 +51,7 @@ const isConnected = computed(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 
 header {
     height: 80px;

@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 hr {
     margin: var(--length-margin-m) 0 0;
     width: 100%;

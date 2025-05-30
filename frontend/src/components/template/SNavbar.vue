@@ -30,7 +30,7 @@ const navLinks = [
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 nav {
     @media (max-width: 1099px) {
         position: fixed;

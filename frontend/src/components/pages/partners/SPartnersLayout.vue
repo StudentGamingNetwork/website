@@ -59,7 +59,7 @@ async function addPartner() {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .partners-layout {
     padding: 64px 0;
 

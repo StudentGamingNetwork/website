@@ -29,7 +29,7 @@ const icon = computed(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .validator {
     display: flex;
     align-items: center;

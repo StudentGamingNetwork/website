@@ -11,6 +11,6 @@ import SFooter from "@/components/template/SFooter.vue";
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 
 </style>

@@ -36,7 +36,7 @@ const { modelValue = {}, options } = defineProps<{
 defineEmits(["update:modelValue"]);
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .modal-menu {
     background: var(--color-background-0);
 

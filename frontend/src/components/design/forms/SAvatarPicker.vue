@@ -52,7 +52,7 @@ const changeFile = () => {
      
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .avatar-picker {
     display: flex;
     flex-direction: column;
