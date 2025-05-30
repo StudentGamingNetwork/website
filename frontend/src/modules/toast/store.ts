@@ -18,8 +18,7 @@ export type TToast = {
     type: EToastType;
 }
 
-export const useStore = defineStore({
-    id: "toast",
+export const useStore = defineStore("toast",{
     actions: {
         add({ title, message, type }: { title: string; message: string; type: EToastType }) {
             if (!this.activated && type === EToastType.Success) {

@@ -4,8 +4,7 @@ import * as UserService from "@/services/user";
 import { Toast, Association } from "@/modules";
 import { ERoles } from "@/services/user";
 
-export const useStore = defineStore({
-    id: "user",
+export const useStore = defineStore("user",{
     actions: {
         async disconnect() {
             await Toast.testRequest(async () => {

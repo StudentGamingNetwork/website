@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 import { Toast, User } from "@/modules";
 import * as AssociationService from "@/services/association";
 
-export const useStore = defineStore({
-    id: "association",
+export const useStore = defineStore("association",{
     actions: {
         async create({ name, mail, school }: { name: string; mail: string; school: string }) {
             const response = await Toast.testRequest(async () => {

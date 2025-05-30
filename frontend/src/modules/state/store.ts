@@ -4,8 +4,7 @@ import { EToastType } from "@/modules/toast/store";
 import i18n from "@/locales";
 
 
-export const useStore = defineStore({
-    id: "state",
+export const useStore = defineStore("state", {
     actions: {
         modalClose() {
             this.modal = "";
