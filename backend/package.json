@@ -10,7 +10,7 @@
         "dev:test": "cross-env NODE_ENV=test vitest --ui",
         "tunnel": "lt --port 3000 --subdomain sgn-next"
     },
-    "type": "module",
+    "type": "commonjs",
     "dependencies": {
         "@fastify/middie": "^8.2.0",
         "@fastify/multipart": "^7.6.0",

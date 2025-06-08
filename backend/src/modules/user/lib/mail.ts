@@ -64,12 +64,10 @@ async function sendMailDevelopment(to: string, name: string, subject: string, li
 
     const info = await transporter.sendMail({
         from: `"${ env.NO_REPLY_NAME } "<${ env.NO_REPLY_EMAIL }>`,
-        html: forgottenPassword.replace("[[data:name:\"\"]]",name).replace("[[WORKFLOW_EXIT_LINK_FR]]", link),
+        html: (await forgottenPassword).replaceAll("[[data:name:\"\"]]",name).replaceAll("[[WORKFLOW_EXIT_LINK_FR]]", link),
         subject: subject,
         text: `Clique sur ce bouton afin de réinitialiser ton mot de passe : ${ link }`,
         to: to
     });
-
-    console.log("Message envoyé: %s", info.messageId);
-    console.log("Aperçu disponible sur: %s", nodemailer.getTestMessageUrl(info));
+    console.info("Aperçu disponible sur: %s", nodemailer.getTestMessageUrl(info));
 }
