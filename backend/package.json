@@ -2,15 +2,15 @@
     "name": "@sgnw/backend",
     "version": "1.0.0",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon -T -r tsconfig-paths/register src/server.ts",
+        "dev": "cross-env NODE_ENV=development vite-node src/server.ts",
         "clean": "tsc --build --clean",
         "trace": "tsc --traceResolution",
-        "start": "cross-env NODE_ENV=production ts-node -T -r tsconfig-paths/register src/server.ts",
+        "start": "cross-env NODE_ENV=production tsx src/server.ts",
         "test": "cross-env NODE_ENV=test vitest",
         "dev:test": "cross-env NODE_ENV=test vitest --ui",
         "tunnel": "lt --port 3000 --subdomain sgn-next"
     },
-    "type": "commonjs",
+    "type": "module",
     "dependencies": {
         "@fastify/middie": "^8.2.0",
         "@fastify/multipart": "^7.6.0",
@@ -30,6 +30,7 @@
         "mongodb": "^5.4.0",
         "mongoose": "^7.1.0",
         "node-mailjet": "^6.0.8",
+        "nodemailer": "^7.0.3",
         "otplib": "^12.0.1",
         "sharp": "^0.33.1",
         "uuid": "^9.0.0"
@@ -66,6 +67,7 @@
         "tsconfig-paths": "^4.2.0",
         "typescript": "^5.0.4",
         "vite": "^4.3.5",
+        "vite-node": "^3.2.2",
         "vitest": "^0.31.0"
     }
 }
