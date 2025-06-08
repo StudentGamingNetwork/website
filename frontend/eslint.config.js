@@ -1,4 +1,3 @@
-// eslint.config.js
 import js from '@eslint/js';
 import tsParser from '@typescript-eslint/parser';
 import vue from 'eslint-plugin-vue';
@@ -12,6 +11,8 @@ import globals from "globals";
 
 export default [
     js.configs.recommended,
+    ...vue.configs["flat/recommended"],
+
     {
         files: ['**/*.ts', '**/*.tsx', '**/*.vue'],
         languageOptions: {
@@ -28,6 +29,7 @@ export default [
                 defineProps: 'readonly',
                 withDefaults: 'readonly',
                 ...globals.browser,
+                ...globals.node
             }
         },
         plugins: {
@@ -50,7 +52,6 @@ export default [
             }
         },
         rules: {
-            // Stylistic rules (migrées depuis core vers @stylistic)
             '@stylistic/array-bracket-spacing': ['error', 'never'],
             '@stylistic/arrow-spacing': ['error'],
             '@stylistic/brace-style': ['error', 'stroustrup'],
@@ -68,15 +69,12 @@ export default [
             '@stylistic/template-curly-spacing': ['error', 'always'],
             '@stylistic/member-delimiter-style': ['error'],
 
-            // TypeScript-specific
             '@stylistic/type-annotation-spacing': ['error'],
 
-            // Autres règles utiles
             'eqeqeq': ['error', 'always'],
             'import/order': ['error'],
             'prefer-template': 'error',
 
-            // Règles personnalisées
             'sort-keys-custom-order/object-keys': ['error', {
                 orderedKeys: [
                     'id', '_id', 'name', 'title',
@@ -90,7 +88,6 @@ export default [
                 orderedKeys: ['id', '_id', 'name', 'title']
             }],
 
-            // Vue
             'vue/attributes-order': ['error', { alphabetical: true }],
             'vue/html-indent': ['error', 4]
         }

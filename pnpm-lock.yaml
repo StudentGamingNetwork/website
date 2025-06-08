@@ -74,9 +74,15 @@ importers:
         specifier: ^9.0.0
         version: 9.0.1
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.27.0
+        version: 9.27.0
       '@faker-js/faker':
         specifier: ^7.6.0
         version: 7.6.0
+      '@stylistic/eslint-plugin':
+        specifier: ^4.4.0
+        version: 4.4.0(eslint@9.27.0)(typescript@5.8.3)
       '@types/bcryptjs':
         specifier: ^2.4.2
         version: 2.4.6
@@ -120,10 +126,10 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2(eslint-plugin-import@2.31.0)
       eslint-import-resolver-typescript:
-        specifier: ^3.5.5
+        specifier: ^3.10.1
         version: 3.10.1(eslint-plugin-import@2.31.0)(eslint@9.27.0)
       eslint-plugin-import:
-        specifier: ^2.27.5
+        specifier: ^2.31.0
         version: 2.31.0(@typescript-eslint/parser@8.33.0(eslint@9.27.0)(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.27.0)
       eslint-plugin-sort-keys-custom-order:
         specifier: ^2.2.1

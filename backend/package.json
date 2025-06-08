@@ -10,6 +10,7 @@
         "dev:test": "cross-env NODE_ENV=test vitest --ui",
         "tunnel": "lt --port 3000 --subdomain sgn-next"
     },
+    "type": "module",
     "dependencies": {
         "@fastify/middie": "^8.2.0",
         "@fastify/multipart": "^7.6.0",
@@ -34,7 +35,9 @@
         "uuid": "^9.0.0"
     },
     "devDependencies": {
+        "@eslint/js": "^9.27.0",
         "@faker-js/faker": "^7.6.0",
+        "@stylistic/eslint-plugin": "^4.4.0",
         "@types/bcryptjs": "^2.4.2",
         "@types/busboy": "^1.5.0",
         "@types/cors": "^2.8.13",
@@ -49,8 +52,8 @@
         "cross-env": "^7.0.3",
         "eslint": "^9.27.0",
         "eslint-import-resolver-alias": "^1.1.2",
-        "eslint-import-resolver-typescript": "^3.5.5",
-        "eslint-plugin-import": "^2.27.5",
+        "eslint-import-resolver-typescript": "^3.10.1",
+        "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-sort-keys-custom-order": "^2.2.1",
         "globals": "^16.2.0",
         "happy-dom": "^9.10.9",
