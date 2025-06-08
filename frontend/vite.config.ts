@@ -2,10 +2,6 @@ import path from "node:path";
 import { defineConfig, UserConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
-const alias = {
-    "@": path.resolve(__dirname, "src")
-};
-
 export default defineConfig(({ command }) => {
     const config: UserConfig = {
         build: {
@@ -22,9 +18,25 @@ export default defineConfig(({ command }) => {
                 }
             }
         },
+        optimizeDeps: {
+            include: [
+                "leaflet",
+                "leaflet/dist/leaflet-src.esm.js"
+            ]
+        },
         plugins: [vue()],
         resolve: {
-            alias
+            alias: [
+                {
+                    find: /^leaflet$/,
+                    replacement: "leaflet/dist/leaflet-src.esm.js"
+                },
+                {
+                    find: "@",
+                    replacement: path.resolve(__dirname, "src")
+                }
+            ],
+            dedupe: ["leaflet"]
         },
         server: {
             host: "127.0.0.1",
