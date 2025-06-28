@@ -46,6 +46,9 @@ importers:
       fastify:
         specifier: ^4.17.0
         version: 4.29.1
+      google-auth-library:
+        specifier: ^10.1.0
+        version: 10.1.0
       http-errors:
         specifier: ^2.0.0
         version: 2.0.0
@@ -221,6 +224,9 @@ importers:
       vue-use-leaflet:
         specifier: ^0.1.7
         version: 0.1.7(@types/leaflet@1.9.17)(leaflet@1.9.4)(vue@3.5.15(typescript@5.8.3))
+      vue3-google-signin:
+        specifier: ^2.1.1
+        version: 2.1.1(vue@3.5.15(typescript@5.8.3))
     devDependencies:
       '@types/axios':
         specifier: ^0.14.0
@@ -1887,6 +1893,10 @@ packages:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
 
+  agent-base@7.1.3:
+    resolution: {integrity: sha512-jRR5wdylq8CkOe6hei19GGZnxM6rBGwFl3Bg0YItGDimvjGtAvdZk4Pu6Cl4u4Igsws4a1fd1Vq3ezrhn4KmFw==}
+    engines: {node: '>= 14'}
+
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
     peerDependencies:
@@ -2049,6 +2059,9 @@ packages:
   buffer-crc32@0.2.13:
     resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
 
+  buffer-equal-constant-time@1.0.1:
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
+
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
 
@@ -2196,6 +2209,10 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
+  data-uri-to-buffer@4.0.1:
+    resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
+    engines: {node: '>= 12'}
+
   data-view-buffer@1.0.1:
     resolution: {integrity: sha512-0lht7OugA5x3iJLOWFhWK/5ehONdprk0ISXqVFn/NFrDu+cuc8iADFrGQz5BnRK7LLU3JmkbXSxaqX+/mXYtUA==}
     engines: {node: '>= 0.4'}
@@ -2320,6 +2337,9 @@ packages:
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
+
+  ecdsa-sig-formatter@1.0.11:
+    resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
 
   electron-to-chromium@1.5.158:
     resolution: {integrity: sha512-9vcp2xHhkvraY6AHw2WMi+GDSLPX42qe2xjYaVoZqFRJiOcilVQFq9mZmpuHEQpzlgGDelKlV7ZiGcmMsc8WxQ==}
@@ -2561,6 +2581,9 @@ packages:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
 
+  extend@3.0.2:
+    resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
+
   fast-content-type-parse@1.1.0:
     resolution: {integrity: sha512-fBHHqSTFLVnR61C+gltJuE5GkVQMV0S2nqUO8TJ+5Z3qAKG8vAx4FKai1s5jq/inV1+sREynIWSuQ6HgoSXpDQ==}
 
@@ -2631,6 +2654,10 @@ packages:
       picomatch:
         optional: true
 
+  fetch-blob@3.2.0:
+    resolution: {integrity: sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==}
+    engines: {node: ^12.20 || >= 14.13}
+
   fflate@0.7.4:
     resolution: {integrity: sha512-5u2V/CDW15QM1XbbgS+0DfPxVB+jUKhWEKuuFuHncbk3tEEqzmoXL+2KyOFuKGqOnmdIy0/davWF1CkuwtibCw==}
 
@@ -2688,6 +2715,10 @@ packages:
   format-util@1.0.5:
     resolution: {integrity: sha512-varLbTj0e0yVyRpqQhuWV+8hlePAgaoFRhNFj50BNjEIrw1/DphHSObtqwskVCPWNgzwPoQrZAbfa/SBiicNeg==}
 
+  formdata-polyfill@4.0.10:
+    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
+    engines: {node: '>=12.20.0'}
+
   forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
@@ -2719,6 +2750,14 @@ packages:
 
   functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
+
+  gaxios@7.1.1:
+    resolution: {integrity: sha512-Odju3uBUJyVCkW64nLD4wKLhbh93bh6vIg/ZIXkWiLPBrdgtc65+tls/qml+un3pr6JqYVFDZbbmLDQT68rTOQ==}
+    engines: {node: '>=18'}
+
+  gcp-metadata@7.0.1:
+    resolution: {integrity: sha512-UcO3kefx6dCcZkgcTGgVOTFb7b1LlQ02hY1omMjjrrBzkajRMCFgYOjs7J71WqnuG1k2b+9ppGL7FsOfhZMQKQ==}
+    engines: {node: '>=18'}
 
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
@@ -2787,6 +2826,14 @@ packages:
     resolution: {integrity: sha512-s3Fq41ZVh7vbbe2PN3nrW7yC7U7MFVc5c98/iTl9c2GawNMKx/J648KQRW6WKkuU8GIbbh2IXfIRQjOZnXcTnw==}
     engines: {node: '>=18'}
 
+  google-auth-library@10.1.0:
+    resolution: {integrity: sha512-GspVjZj1RbyRWpQ9FbAXMKjFGzZwDKnUHi66JJ+tcjcu5/xYAP1pdlWotCuIkMwjfVsxxDvsGZXGLzRt72D0sQ==}
+    engines: {node: '>=18'}
+
+  google-logging-utils@1.1.1:
+    resolution: {integrity: sha512-rcX58I7nqpu4mbKztFeOAObbomBbHU2oIb/d3tJfF3dizGSApqtSwYJigGCooHdnMyQBIw8BrWyK96w3YXgr6A==}
+    engines: {node: '>=14'}
+
   gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
 
@@ -2796,6 +2843,10 @@ packages:
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
+
+  gtoken@8.0.0:
+    resolution: {integrity: sha512-+CqsMbHPiSTdtSO14O51eMNlrp9N79gmeqmXeouJOhfucAedHw9noVe/n5uJk3tbKE6a+6ZCQg3RPhVhHByAIw==}
+    engines: {node: '>=18'}
 
   happy-dom@9.20.3:
     resolution: {integrity: sha512-eBsgauT435fXFvQDNcmm5QbGtYzxEzOaX35Ia+h6yP/wwa4xSWZh1CfP+mGby8Hk6Xu59mTkpyf72rUXHNxY7A==}
@@ -2845,6 +2896,10 @@ packages:
   https-proxy-agent@5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
+
+  https-proxy-agent@7.0.6:
+    resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
+    engines: {node: '>= 14'}
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -3071,6 +3126,12 @@ packages:
     resolution: {integrity: sha512-Qush0uP+G8ZScpGMZvHUiRfI0YBWuB3gVBYlI0v0vvOJt5FLicco+IkP0a50LqTTQhmts/m6tP5SWE+USyIvcQ==}
     engines: {node: '>=12.20'}
 
+  jwa@2.0.1:
+    resolution: {integrity: sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg==}
+
+  jws@4.0.0:
+    resolution: {integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==}
+
   kareem@2.5.1:
     resolution: {integrity: sha512-7jFxRVm+jD+rkq3kY0iZDJfsO2/t4BBPeEb2qKn2lR/9KhuksYk5hxzfRYWMPV8P/x2d0kHD306YyWLzjjH+uA==}
     engines: {node: '>=12.0.0'}
@@ -3284,6 +3345,15 @@ packages:
 
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
+
+  node-domexception@1.0.0:
+    resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
+    engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
+
+  node-fetch@3.3.2:
+    resolution: {integrity: sha512-dRB78srN/l6gqWulah9SrxeYnxeddIG30+GOqK/9OlLVyLg3HPnr6SqOWTWOXKRwC2eGYCkZ59NNuSgvSrpgOA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   node-mailjet@6.0.8:
     resolution: {integrity: sha512-VyB2+SeD1zuxpuJLePC4bk10UN0G294CsVlF8YBxb+1tlH0Tw4wECGlTYlQOaRMtPgckdObpcfEbhUWu3UuFIQ==}
@@ -4204,6 +4274,11 @@ packages:
       leaflet: '>=1.9.0'
       vue: ^2.0.0 || >=3.0.0
 
+  vue3-google-signin@2.1.1:
+    resolution: {integrity: sha512-RwlwyeCv8+PZjK35C/UyJN4/9MH+Fsz4bJDO7IjtmRuOaTMrvmMmI6SP5qkJgD7w9MIKOCj5rYVFMAL7+NCM0A==}
+    peerDependencies:
+      vue: ^3
+
   vue@3.5.15:
     resolution: {integrity: sha512-aD9zK4rB43JAMK/5BmS4LdPiEp8Fdh8P1Ve/XNuMF5YRf78fCyPE6FUbQwcaWQ5oZ1R2CD9NKE0FFOVpMR7gEQ==}
     peerDependencies:
@@ -4211,6 +4286,10 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  web-streams-polyfill@3.3.3:
+    resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
+    engines: {node: '>= 8'}
 
   webidl-conversions@7.0.0:
     resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
@@ -6268,6 +6347,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  agent-base@7.1.3: {}
+
   ajv-formats@2.1.1(ajv@8.17.1):
     optionalDependencies:
       ajv: 8.17.1
@@ -6451,6 +6532,8 @@ snapshots:
 
   buffer-crc32@0.2.13: {}
 
+  buffer-equal-constant-time@1.0.1: {}
+
   buffer@5.7.1:
     dependencies:
       base64-js: 1.5.1
@@ -6616,6 +6699,8 @@ snapshots:
 
   csstype@3.1.3: {}
 
+  data-uri-to-buffer@4.0.1: {}
+
   data-view-buffer@1.0.1:
     dependencies:
       call-bind: 1.0.7
@@ -6718,6 +6803,10 @@ snapshots:
       call-bind-apply-helpers: 1.0.2
       es-errors: 1.3.0
       gopd: 1.2.0
+
+  ecdsa-sig-formatter@1.0.11:
+    dependencies:
+      safe-buffer: 5.2.1
 
   electron-to-chromium@1.5.158: {}
 
@@ -7122,6 +7211,8 @@ snapshots:
 
   events@3.3.0: {}
 
+  extend@3.0.2: {}
+
   fast-content-type-parse@1.1.0: {}
 
   fast-decode-uri-component@1.0.1: {}
@@ -7210,6 +7301,11 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.2
 
+  fetch-blob@3.2.0:
+    dependencies:
+      node-domexception: 1.0.0
+      web-streams-polyfill: 3.3.3
+
   fflate@0.7.4: {}
 
   file-entry-cache@6.0.1:
@@ -7273,6 +7369,10 @@ snapshots:
 
   format-util@1.0.5: {}
 
+  formdata-polyfill@4.0.10:
+    dependencies:
+      fetch-blob: 3.2.0
+
   forwarded@0.2.0: {}
 
   fraction.js@4.3.7: {}
@@ -7296,6 +7396,22 @@ snapshots:
       functions-have-names: 1.2.3
 
   functions-have-names@1.2.3: {}
+
+  gaxios@7.1.1:
+    dependencies:
+      extend: 3.0.2
+      https-proxy-agent: 7.0.6
+      node-fetch: 3.3.2
+    transitivePeerDependencies:
+      - supports-color
+
+  gcp-metadata@7.0.1:
+    dependencies:
+      gaxios: 7.1.1
+      google-logging-utils: 1.1.1
+      json-bigint: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   get-caller-file@2.0.5: {}
 
@@ -7396,6 +7512,20 @@ snapshots:
       slash: 5.1.0
       unicorn-magic: 0.1.0
 
+  google-auth-library@10.1.0:
+    dependencies:
+      base64-js: 1.5.1
+      ecdsa-sig-formatter: 1.0.11
+      gaxios: 7.1.1
+      gcp-metadata: 7.0.1
+      google-logging-utils: 1.1.1
+      gtoken: 8.0.0
+      jws: 4.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  google-logging-utils@1.1.1: {}
+
   gopd@1.0.1:
     dependencies:
       get-intrinsic: 1.2.4
@@ -7403,6 +7533,13 @@ snapshots:
   gopd@1.2.0: {}
 
   graphemer@1.4.0: {}
+
+  gtoken@8.0.0:
+    dependencies:
+      gaxios: 7.1.1
+      jws: 4.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   happy-dom@9.20.3:
     dependencies:
@@ -7451,6 +7588,13 @@ snapshots:
     dependencies:
       agent-base: 6.0.2
       debug: 4.3.6
+    transitivePeerDependencies:
+      - supports-color
+
+  https-proxy-agent@7.0.6:
+    dependencies:
+      agent-base: 7.1.3
+      debug: 4.4.1
     transitivePeerDependencies:
       - supports-color
 
@@ -7663,6 +7807,17 @@ snapshots:
   jsonpath-plus@5.1.0: {}
 
   junk@4.0.1: {}
+
+  jwa@2.0.1:
+    dependencies:
+      buffer-equal-constant-time: 1.0.1
+      ecdsa-sig-formatter: 1.0.11
+      safe-buffer: 5.2.1
+
+  jws@4.0.0:
+    dependencies:
+      jwa: 2.0.1
+      safe-buffer: 5.2.1
 
   kareem@2.5.1: {}
 
@@ -7887,6 +8042,14 @@ snapshots:
 
   node-addon-api@7.1.1:
     optional: true
+
+  node-domexception@1.0.0: {}
+
+  node-fetch@3.3.2:
+    dependencies:
+      data-uri-to-buffer: 4.0.1
+      fetch-blob: 3.2.0
+      formdata-polyfill: 4.0.10
 
   node-mailjet@6.0.8:
     dependencies:
@@ -8823,6 +8986,10 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
+  vue3-google-signin@2.1.1(vue@3.5.15(typescript@5.8.3)):
+    dependencies:
+      vue: 3.5.15(typescript@5.8.3)
+
   vue@3.5.15(typescript@5.8.3):
     dependencies:
       '@vue/compiler-dom': 3.5.15
@@ -8832,6 +8999,8 @@ snapshots:
       '@vue/shared': 3.5.15
     optionalDependencies:
       typescript: 5.8.3
+
+  web-streams-polyfill@3.3.3: {}
 
   webidl-conversions@7.0.0: {}
 

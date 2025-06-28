@@ -9,8 +9,9 @@
                 <div class="remote">
                     <SButton
                         class="button google"
-                        disabled
+                        :disabled="!isReady"
                         primary
+                        @click="() => googleSignIn()"
                     >
                         <img
                             alt="Google Logo"
@@ -94,6 +95,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { useCodeClient, type ImplicitFlowSuccessResponse } from "vue3-google-signin";
 import SModal from "@/components/design/modal/SModal.vue";
 import SSectionTitle from "@/components/design/SSectionTitle.vue";
 import SButton from "@/components/design/forms/SButton.vue";
@@ -109,6 +111,31 @@ const stateStore = State.useStore();
 const mail = ref("");
 const password = ref("");
 const waitingForResponse = ref(false);
+
+
+
+const { isReady, login: googleSignIn } = useCodeClient({
+    onSuccess: googleLogin,
+    redirect_uri: import.meta.env.VITE_REDIRECT_URI
+});
+
+
+async function googleLogin(googleResponse: ImplicitFlowSuccessResponse) {
+    waitingForResponse.value = true;
+    const response = await Toast.testRequest(async () => {
+        return await UserService.googleLogin({ code: googleResponse.code });
+    });
+    waitingForResponse.value = false;
+
+    if (response?.success){
+        password.value = "";
+        mail.value = "";
+        stateStore.modalClose();
+
+        const userStore = UserModule.useStore();
+        await userStore.init();
+    }
+}
 
 async function login() {
     waitingForResponse.value = true;

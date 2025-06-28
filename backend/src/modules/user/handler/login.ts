@@ -2,10 +2,16 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UserLib from "../lib";
 
-const UserLogin = Type.Object({
+const UserLoginWithCredentials = Type.Object({
     mail: Type.String({ format: "email" }),
     password: Type.String()
 });
+
+const UserLoginWithToken = Type.Object({ 
+    code: Type.String()
+});
+
+const UserLogin = Type.Union([UserLoginWithCredentials, UserLoginWithToken]);
 
 type TUserLogin = Static<typeof UserLogin>;
 
@@ -34,8 +40,10 @@ export async function register(server: FastifyInstance): Promise<void> {
                 host: request.headers.host || "unknown",
                 userAgent: request.headers["user-agent"] || "unknown"
             };
-
-            const session = await UserLib.login(user.mail, user.password, machine);
+            
+            const session = "code" in user
+                ? await UserLib.googleLogin(user.code, machine)
+                : await UserLib.login(user.mail, user.password, machine);
 
             if (session.twoFactorAuth) {
                 reply.headers({

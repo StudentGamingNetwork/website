@@ -16,6 +16,11 @@ export async function login({ mail, password }: { mail: string; password: string
     return result.data;
 }
 
+export async function googleLogin({ code }: { code: string }): Promise<any> {
+    const result = await ApiService.post("/user/login", { code });
+    return result.data;
+}
+
 export async function signup({ mail, password }: { mail: string; password: string }): Promise<any> {
     const result = await ApiService.post("/user/signup", { mail, password });
     return result.data;
@@ -84,7 +89,7 @@ export async function passwordForgotten({ mail }: { mail: string }): Promise<any
     return result.data;
 }
 
-export async function changePassword({ token, mail, password }: { token: string, mail: string; password: string }): Promise<any> {
-    const result = await ApiService.post("/user/change-password", { token, mail, password });
+export async function changePassword({ mail, password, token }: { mail: string, password: string; token: string }): Promise<any> {
+    const result = await ApiService.post("/user/change-password", { mail, password, token });
     return result.data;
 }
