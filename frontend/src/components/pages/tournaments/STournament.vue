@@ -58,7 +58,7 @@
                     {{ tournament.dates?.playDays }}
                 </li>
                 <li v-if="tournament.dates?.final">
-                    <span class="type">{{ $t("components.pages.tournaments.dates.close") }}</span>
+                    <span class="type">{{ $t("components.pages.tournaments.dates.final") }}</span>
                     {{ tournament.dates?.final }}
                 </li>
                 <li v-if="tournament.informations?.important?.message">
