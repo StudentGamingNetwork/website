@@ -2,10 +2,16 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UserLib from "../lib";
 
-const UserSignup = Type.Object({
+const UserSignupWithCrendentials = Type.Object({
     mail: Type.String({ format: "email" }),
     password: Type.String()
 });
+
+const UserSignupWithToken = Type.Object({
+    code: Type.String()
+});
+
+const UserSignup = Type.Union([UserSignupWithCrendentials, UserSignupWithToken]);
 
 type TUserSignup = Static<typeof UserSignup>;
 
@@ -34,7 +40,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 userAgent: request.headers["user-agent"] || "unknown"
             };
 
-            const session = await UserLib.signup(user.mail, user.password, machine);
+            const session = "code" in user ? await UserLib.googleSignin(user.code, machine) : await UserLib.signup(user.mail, user.password, machine);
 
             reply.headers({
                 "Set-Cookie": [

@@ -23,7 +23,8 @@ const AssociationFields = {
 const OwnerFields = {
     mail: Type.String(),
     platforms: Type.Object({
-        discord: Type.String()
+        discord: Type.String(),
+        google: Type.String()
     }),
     student: Type.Optional(Type.Object({
         name: Type.Optional(Type.String()),

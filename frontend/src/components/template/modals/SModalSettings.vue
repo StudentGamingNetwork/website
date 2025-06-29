@@ -27,6 +27,7 @@ import SPublicProfil from "@/components/template/modals/settings/SPublicProfil.v
 import SGameProfil from "@/components/template/modals/settings/SGameProfil.vue";
 import SAccount from "@/components/template/modals/settings/SAccount.vue";
 import SAssociation from "@/components/template/modals/settings/SAssociation.vue";
+import SIntegrations from "@/components/template/modals/settings/SIntegrations.vue";
 import i18n from "@/locales";
 
 
@@ -34,16 +35,11 @@ const menuOptions: Array<TMenuOption> = [
     { id: "public", name: i18n.global.t("components.template.modals.settings.menu.public"), component: SPublicProfil, icon: "user" },
     { id: "game", name: i18n.global.t("components.template.modals.settings.menu.game"), component: SGameProfil, icon: "headset" },
     { id: "association", name: i18n.global.t("components.template.modals.settings.menu.asso"), component: SAssociation, icon: "users" },
-    { id: "account", name: i18n.global.t("components.template.modals.settings.menu.account"), component: SAccount, icon: "cog" }
+    { id: "account", name: i18n.global.t("components.template.modals.settings.menu.account"), component: SAccount, icon: "cog" },
+    { id: "integration", name: i18n.global.t("components.template.modals.settings.menu.integration"), component: SIntegrations, icon: "globe" }
 ];
 
 const currentTab = shallowRef(menuOptions[0]);
-
-const menuContents = {
-    account: SPublicProfil,
-    game: SPublicProfil,
-    public: SPublicProfil
-};
 
 const stateStore = State.useStore();
 

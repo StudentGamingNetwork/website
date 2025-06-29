@@ -6,6 +6,7 @@ export type TUser = {
     mail: string;
     platforms: {
         discord: string;
+        google: string;
     };
     student: {
         name: string;

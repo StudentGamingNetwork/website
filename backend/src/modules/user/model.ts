@@ -24,8 +24,10 @@ export interface IUser {
     avatar?: string;
     mail: string;
     password: string;
+    passwordLogin: boolean;
     platforms: {
         discord?: string;
+        google?: string;
     };
     roles: Array<ERoles>;
     student: {
@@ -64,8 +66,16 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         required: true,
         type: String
     },
+    passwordLogin: {
+        default: true,
+        type: Boolean
+    },
     platforms: {
         discord: {
+            default: "",
+            type: String
+        },
+        google: {
             default: "",
             type: String
         }

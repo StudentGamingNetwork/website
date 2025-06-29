@@ -43,8 +43,6 @@ export async function register(server: FastifyInstance): Promise<void> {
             if (!user) {
                 throw new httpErrors.NotFound("Aucun compte n'a été trouvé avec cette adresse mail.");
             }
-
-            console.log("token", request.body.token);
             
             const token = await TokenModel.findOne({
                 token: request.body.token,
@@ -61,6 +59,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const passwordSalt = await Bcrypt.genSalt(UserConfig.login.saltRound);
             user.password = await Bcrypt.hash(request.body.password,passwordSalt);
+            user.passwordLogin = true;
             await user.save();
             
 

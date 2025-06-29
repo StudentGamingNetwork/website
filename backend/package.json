@@ -23,6 +23,7 @@
         "date-fns": "^2.30.0",
         "dotenv": "^16.0.3",
         "fastify": "^4.17.0",
+        "google-auth-library": "^10.1.0",
         "http-errors": "^2.0.0",
         "lodash": "^4.17.21",
         "moment-timezone": "^0.5.48",
