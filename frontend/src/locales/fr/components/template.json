@@ -58,7 +58,8 @@
                 "public": "Profil public",
                 "game": "Profil de jeu",
                 "asso": "Association",
-                "account": "Compte SGN"
+                "account": "Compte SGN",
+                "integration": "Intégrations"
             },
             "account": {
                 "password": "Changer de mot de passe",
@@ -98,6 +99,13 @@
                     "certificat": "certificat étudiant",
                     "card": "carte étudiante",
                     "not": "ne sont pas"
+                }
+            },
+            "integrations": {
+                "google": {
+                    "title": "Compte Google associé",
+                    "link": "Connecter votre compte Google",
+                    "unlink": "Dissocier"
                 }
             }
         },

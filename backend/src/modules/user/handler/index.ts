@@ -7,6 +7,7 @@ import * as UpdateHandler from "./update";
 import * as UpdatePlatformsHandler from "./updatePlatforms";
 import * as PassswordToken from "./resetPassword";
 import * as PasswordChange from "./change-password";
+import * as BindHandler from "./bind";
 import * as UploadAvatar from "@/modules/upload/handler/avatar";
 import * as UploadCertificate from "@/modules/upload/handler/certificate";
 
@@ -21,4 +22,5 @@ export default async function (server: FastifyInstance): Promise<void> {
     await UploadCertificate.register(server);
     await PassswordToken.register(server);
     await PasswordChange.register(server);
+    await BindHandler.register(server);
 }

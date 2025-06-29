@@ -5,7 +5,8 @@ import { IUserDocument } from "@/modules/user/model";
 
 const UserUpdatePlatforms = Type.Object({
     platforms: Type.Object({
-        discord: Type.String()
+        discord: Type.Optional(Type.String()),
+        google: Type.Optional(Type.String())
     })
 });
 
@@ -48,6 +49,7 @@ async function update(user: IUserDocument, update: TUserUpdatePlatforms) {
     }
 
     user.platforms.discord = update.platforms.discord;
+    user.platforms.google = update.platforms.google;
 
     await user.save();
 }

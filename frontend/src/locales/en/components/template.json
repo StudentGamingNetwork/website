@@ -58,7 +58,8 @@
                 "public": "Public profile",
                 "game": "Game profile",
                 "asso": "Association",
-                "account": "SGN account"
+                "account": "SGN account",
+                "integration": "Integrations"
             },
             "account": {
                 "password": "Change password",
@@ -98,6 +99,13 @@
                     "certificat": "student certificate",
                     "card": "student card",
                     "not": "are not"
+                }
+            },
+            "integrations": {
+                "google": {
+                    "title": "Associated Google account",
+                    "link": "Connect your Google account",
+                    "unlink": "Dissociate"
                 }
             }
         },

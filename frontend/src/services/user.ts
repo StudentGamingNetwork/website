@@ -26,6 +26,16 @@ export async function signup({ mail, password }: { mail: string; password: strin
     return result.data;
 }
 
+export async function googleSignup({ code }: { code: string }): Promise<any> {
+    const result = await ApiService.post("/user/signup", { code });
+    return result.data;
+}
+
+export async function bindAccount({ code, service }: { code: string; service: string }): Promise<any> {
+    const result = await ApiService.post("/user/bind", { code, service });
+    return result.data;
+}
+
 export async function ping(): Promise<any> {
     const result = await ApiService.get("/user/ping");
     return result.data;

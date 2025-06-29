@@ -1,9 +1,11 @@
 import * as Bcrypt from "bcryptjs";
 import httpErrors from "http-errors";
 import UserModel from "../model";
+import { googleVerifyCode, isMailAlreadyRegistered, isMailAlreadyRegisteredGoogle } from "./connection";
 import UserConfig from "@/modules/user/config";
 import * as SessionLib from "@/modules/session/lib";
 import { ISessionDocument } from "@/modules/session/model";
+import { generatePassword } from "@/modules/token/libs/index";
 
 export async function signup(mail: string, password: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
     if (!isPasswordStrong(password)) {
@@ -14,7 +16,7 @@ export async function signup(mail: string, password: string, machine: {host: str
         throw new Error("L'adresse mail n'a pas un bon format.");
     }
 
-    if (await isMailAlreadyRegistered(mail)) {
+    if (await isMailAlreadyRegistered(mail) || await isMailAlreadyRegisteredGoogle(mail)) {
         throw new Error("Cette adresse mail est déjà utilisée");
     }
 
@@ -30,6 +32,34 @@ export async function signup(mail: string, password: string, machine: {host: str
     });
 
     return await SessionLib.generate(user.id, machine, !!user.twoFactorAuth?.enabled);
+}
+
+export async function googleSignin(code: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
+    const payload = await googleVerifyCode(code);
+
+    if (await isMailAlreadyRegistered(payload.email) || await isMailAlreadyRegisteredGoogle(payload.email)) {
+        throw new Error("Cette adresse mail est déjà utilisée");
+    }
+   
+    const email = payload.email;
+
+    const passwordSalt = Bcrypt.genSaltSync(UserConfig.login.saltRound);
+    const passwordHash = Bcrypt.hashSync(generatePassword(), passwordSalt);
+
+    const user = await UserModel.create({
+        mail: email,
+        password: passwordHash,
+        passwordLogin: false,
+        platforms: {
+            google: email
+        },
+        roles: [],
+        subscriptionDate: new Date(),
+        username: payload.name || email.split("@")[0]
+    });
+
+    return await SessionLib.generate(user.id, machine, !!user.twoFactorAuth?.enabled);
+        
 }
 
 export function isPasswordStrong(password: string): boolean {
@@ -53,14 +83,6 @@ export function isPasswordStrong(password: string): boolean {
     }
 
     return true;
-}
-
-export async function isMailAlreadyRegistered(mail: string): Promise<boolean> {
-    const userModel = await UserModel.findOne({
-        mail
-    });
-
-    return !!userModel;
 }
 
 export function isMailValid(mail: string): boolean {

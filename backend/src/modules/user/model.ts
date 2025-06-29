@@ -1,5 +1,4 @@
 import { PopulatedDoc } from "mongoose";
-import { g } from "vitest/dist/types-dea83b3d";
 import Mongo from "@/database";
 import { IAssociationDocument } from "@/modules/association/model";
 
@@ -25,6 +24,7 @@ export interface IUser {
     avatar?: string;
     mail: string;
     password: string;
+    passwordLogin: boolean;
     platforms: {
         discord?: string;
         google?: string;
@@ -65,6 +65,10 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
     password: {
         required: true,
         type: String
+    },
+    passwordLogin: {
+        default: true,
+        type: Boolean
     },
     platforms: {
         discord: {

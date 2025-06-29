@@ -127,7 +127,8 @@ export const useStore = defineStore("user",{
         avatar: "",
         mail: "",
         platforms: {
-            discord: ""
+            discord: "",
+            google: ""
         },
         roles: [] as Array<string>,
         student: {

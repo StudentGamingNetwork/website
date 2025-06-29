@@ -59,6 +59,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const passwordSalt = await Bcrypt.genSalt(UserConfig.login.saltRound);
             user.password = await Bcrypt.hash(request.body.password,passwordSalt);
+            user.passwordLogin = true;
             await user.save();
             
 

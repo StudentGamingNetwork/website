@@ -11,7 +11,7 @@
                         class="button google"
                         :disabled="!isReady"
                         primary
-                        @click="() => googleSignIn()"
+                        @click="() => googleLogin()"
                     >
                         <img
                             alt="Google Logo"
@@ -112,15 +112,13 @@ const mail = ref("");
 const password = ref("");
 const waitingForResponse = ref(false);
 
-
-
-const { isReady, login: googleSignIn } = useCodeClient({
-    onSuccess: googleLogin,
+const { isReady, login: googleLogin } = useCodeClient({
+    onSuccess: googleSignIn,
     redirect_uri: import.meta.env.VITE_REDIRECT_URI
 });
 
 
-async function googleLogin(googleResponse: ImplicitFlowSuccessResponse) {
+async function googleSignIn(googleResponse: ImplicitFlowSuccessResponse) {
     waitingForResponse.value = true;
     const response = await Toast.testRequest(async () => {
         return await UserService.googleLogin({ code: googleResponse.code });
