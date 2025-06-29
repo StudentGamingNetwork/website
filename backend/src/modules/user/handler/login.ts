@@ -45,7 +45,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 ? await UserLib.googleLogin(user.code, machine)
                 : await UserLib.login(user.mail, user.password, machine);
 
-            if (session.twoFactorAuth) {
+            if (session.twoFactorAuth && !("code" in user)) {
                 reply.headers({
                     "Set-Cookie": [
                         `token=${ session.tempToken };path=/;expires=${ new Date(session.dates.expiration).toUTCString() };SameSite=None;Secure`
