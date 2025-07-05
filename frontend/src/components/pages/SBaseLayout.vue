@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .base-layout {
     padding: 96px 128px;
 

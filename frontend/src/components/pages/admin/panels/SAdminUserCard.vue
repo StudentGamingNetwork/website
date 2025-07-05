@@ -188,7 +188,7 @@ async function unvalidateCertificate() {
     }
 }
 
-async function userUpdate(update: {_id: string; role: {name: ERoles; modification: "add" | "remove"}}) {
+async function userUpdate(update: { _id: string; role: { name: ERoles; modification: "add" | "remove" } }) {
     if (update.role.name.toString() === "none") {
         return;
     }
@@ -213,7 +213,7 @@ async function userUpdate(update: {_id: string; role: {name: ERoles; modificatio
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .user {
     display: grid;
     column-gap: var(--length-gap-m);

@@ -57,4 +57,4 @@ const sessionSchema: Mongo.Schema = new Mongo.Schema({
     }
 });
 
-export default Mongo.model<ISessionDocument>("session", sessionSchema);
+export default Mongo.models.session || Mongo.model<ISessionDocument>("session", sessionSchema);

@@ -26,7 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineModel, defineEmits } from "vue";
 
 defineProps<{
     title?: string;
@@ -40,7 +39,7 @@ const model = defineModel();
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .input-wrapper {
     max-width: 100%;
     display: grid;

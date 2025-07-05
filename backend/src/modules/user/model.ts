@@ -40,9 +40,9 @@ export interface IUser {
     };
     subscriptionDate: Date;
     twoFactorAuth?: {
-            enabled: boolean;
-            secret: string;
-        };
+        enabled: boolean;
+        secret: string;
+    };
     username: string;
 }
 
@@ -139,4 +139,4 @@ userSchema.index(
     }
 );
 
-export default Mongo.model<IUserDocument>("user", userSchema);
+export default Mongo.models.user || Mongo.model<IUserDocument>("user", userSchema);

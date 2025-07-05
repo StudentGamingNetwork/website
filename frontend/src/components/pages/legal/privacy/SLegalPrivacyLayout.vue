@@ -179,7 +179,7 @@ import SSectionTitle from "@/components/design/SSectionTitle.vue";
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .about-layout {
     max-width: 960px;
     margin: auto;

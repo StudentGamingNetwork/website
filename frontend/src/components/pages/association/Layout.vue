@@ -79,7 +79,7 @@ const joinAssociation = async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 
 .head-button {
     margin-top: var(--length-margin-xs);

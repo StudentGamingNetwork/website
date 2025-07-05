@@ -19,6 +19,6 @@ import BackgroundFederation from "@/assets/images/backgrounds/federation.png";
 import SBaseLayout from "@/components/pages/SBaseLayout.vue";
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 
 </style>

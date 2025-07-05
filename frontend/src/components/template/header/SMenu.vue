@@ -41,7 +41,7 @@ const userStore = User.useStore();
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .menu {
     position: absolute;
     z-index: 10;

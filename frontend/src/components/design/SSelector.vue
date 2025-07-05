@@ -14,15 +14,15 @@
 
 <script lang="ts" setup>
 defineProps<{
-        modelValue: string;
-        options: Array<{ title: string; key: string }>;
-    }>();
+    modelValue: string;
+    options: Array<{ title: string; key: string }>;
+}>();
 defineEmits(["update:modelValue"]);
 
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .selector {
     display: flex;
     background: var(--color-background-2);

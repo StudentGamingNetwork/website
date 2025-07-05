@@ -27,16 +27,16 @@ export type TMenuOption = {
     name: string;
     component: Component;
     icon: string;
-}
+};
 
-const { modelValue = {}, options } = defineProps<{
-        modelValue: TMenuOption;
-        options: Array<TMenuOption>;
-    }>();
+const { modelValue = {} as TMenuOption, options } = defineProps<{
+    modelValue: TMenuOption;
+    options: Array<TMenuOption>;
+}>();
 defineEmits(["update:modelValue"]);
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .modal-menu {
     background: var(--color-background-0);
 

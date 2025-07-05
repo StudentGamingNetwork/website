@@ -22,7 +22,7 @@ import { useI18n } from "vue-i18n";
 import { Toast } from "@/modules";
 import { EToastType } from "@/modules/toast/store";
 
-const props = defineProps<{title: string, content: string}>();
+const props = defineProps<{ title: string; content: string }>();
 
 const { t } = useI18n(); 
 const toastStore = Toast.useStore();
@@ -38,7 +38,7 @@ const copyIntoClipboard = async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .input-copier {
     position: relative;margin-top: 22px;
 

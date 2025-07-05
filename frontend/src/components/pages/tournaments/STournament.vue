@@ -90,9 +90,9 @@ import i18n from "@/locales";
 
 const props = defineProps<{
     tournament: {
-        required: true,
-        type: Tournament.TTournament
-    }
+        required: true;
+        type: Tournament.TTournament;
+    };
 }>();
 
 const teamNumberText = computed(() => {
@@ -141,7 +141,7 @@ const subscriptionDateText = computed(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .tournament {
     width: 100%;
     position: relative;

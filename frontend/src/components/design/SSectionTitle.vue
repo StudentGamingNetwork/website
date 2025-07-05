@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 h2 {
     background: var(--gradient);
     display: inline-block;
@@ -15,6 +15,7 @@ h2 {
     font-weight: 200;
     text-transform: uppercase;
     font-size: 2.5rem;
+    background-clip: text;
     -webkit-background-clip: text;
     margin: 0;
     line-height: 2rem;

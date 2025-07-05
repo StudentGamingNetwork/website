@@ -30,7 +30,7 @@ const backgroundImage = `url(${ notFoundBackground })`;
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .not-found {
     padding: 128px;
     background-image: v-bind(backgroundImage);

@@ -14,8 +14,8 @@ import { Toast } from "@/modules";
 import { EToastType } from "@/modules/toast/store";
 
 const props = defineProps<{
-        content: string;
-    }>();
+    content: string;
+}>();
    
 const { t } = useI18n(); 
 const toastStore = Toast.useStore();
@@ -31,7 +31,7 @@ const copyIntoClipboard = async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .copier {
     cursor: cell;
 }

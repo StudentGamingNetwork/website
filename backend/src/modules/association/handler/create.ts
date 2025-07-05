@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import AssociationModel, { ERegion } from "../model";
-import * as AssociationLib from "../lib";
+import * as AssociationLib from "../lib.js";
 import * as UserLib from "@/modules/user/lib";
 
 const SchemaRequest = Type.Object({

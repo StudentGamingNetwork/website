@@ -44,9 +44,9 @@ import { ComponentPublicInstance, CSSProperties, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 defineProps<{
-        modelValue: string;
-        options: Record<string, string>;
-    }>();
+    modelValue: string;
+    options: Record<string, string>;
+}>();
 
 const emit = defineEmits(["update:modelValue"]);
    
@@ -83,7 +83,7 @@ const choose = (value: string) => {
         
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .small-dropdown {
     cursor: pointer;
     position: relative;

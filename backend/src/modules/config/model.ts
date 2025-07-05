@@ -9,8 +9,8 @@ interface IConfigDocument extends IConfig, Mongo.Document {
 }
 
 const configSchema: Mongo.Schema = new Mongo.Schema({
-    data: { type: Object },
-    name: { required: true, type: String }
+    name: { required: true, type: String },
+    data: { type: Object }
 });
 
-export default Mongo.model<IConfigDocument>("config", configSchema);
+export default Mongo.models.donaconfigtion || Mongo.model<IConfigDocument>("config", configSchema);

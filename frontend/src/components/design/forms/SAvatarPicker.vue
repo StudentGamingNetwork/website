@@ -36,7 +36,7 @@ import { ComponentPublicInstance, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import i18n from "@/locales";
 
-const { title = "Avatar", icon = ["fas", "user"], url = "" } = defineProps<{title?: string, icon?: Array<string>, url?: string}>();
+const { title = "Avatar", icon = ["fas", "user"], url = "" } = defineProps<{ title?: string; icon?: Array<string>; url?: string }>();
 const emit = defineEmits(["fileChange"]);
     
 const fileInput = ref<ComponentPublicInstance<HTMLInputElement>>(null);
@@ -52,7 +52,7 @@ const changeFile = () => {
      
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .avatar-picker {
     display: flex;
     flex-direction: column;

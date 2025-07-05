@@ -27,4 +27,4 @@ const donationSchema: Mongo.Schema = new Mongo.Schema({
     }
 });
 
-export default Mongo.model<IDonationDocument>("donation", donationSchema);
+export default Mongo.models.donation || Mongo.model<IDonationDocument>("donation", donationSchema);

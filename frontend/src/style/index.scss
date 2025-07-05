@@ -1,6 +1,6 @@
-@import "colors";
-@import "fonts";
-@import "lengths";
+@use "colors";
+@use "fonts";
+@use "lengths";
 
 :root {
     --duration-fast: 0.2s ease-in-out;

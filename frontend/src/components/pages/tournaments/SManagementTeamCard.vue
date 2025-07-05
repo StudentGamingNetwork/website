@@ -57,7 +57,14 @@
             </div>
         </div>
         <table class="members-table">
-            <span class="title">  {{ $t("components.pages.tournaments.player",2) }}</span>
+            <tr>
+                <td
+                    class="title"
+                    colspan="5"
+                >
+                    {{ $t("components.pages.tournaments.player",2) }}
+                </td>
+            </tr>
             <tr
                 v-for="member of team.members"
                 :key="member.user._id"
@@ -144,11 +151,11 @@
                 </td>
             </tr>
             <template v-if="team.staff.coach?.user || team.staff.manager?.user">
-                <span
+                <tr
                     class="title"
                 >
-                    {{ $t("components.pages.tournaments.staff") }}
-                </span>
+                    <td>{{ $t("components.pages.tournaments.staff") }}</td>
+                </tr>
                 <tr
                     v-for="(staff, staffRole) of team.staff"
                     :key="staffRole"
@@ -250,7 +257,7 @@ import i18n from "@/locales";
 
 
 defineProps<{
-    team: Team.TTeam
+    team: Team.TTeam;
 }>();
 
 const emit = defineEmits(["update"]);
@@ -263,7 +270,7 @@ const schoolName = computed(() => (member: User.TCompleteUser) => {
 });
 
    
-function isMemberReady(member: {user: User.TCompleteUser; username: string }, isStaff = false): boolean {
+function isMemberReady(member: { user: User.TCompleteUser; username: string }, isStaff = false): boolean {
     if (!member.username && !isStaff) {
         return false;
     }
@@ -305,7 +312,7 @@ async function exportTeam(team: { _id: string }) {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .management-team-card {
     padding: var(--length-padding-s) var(--length-padding-l);
     display: flex;

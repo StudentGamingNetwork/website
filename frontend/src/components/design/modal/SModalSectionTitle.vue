@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .section-title {
     margin-top: var(--length-margin-m);
     margin-bottom: var(--length-margin-s);

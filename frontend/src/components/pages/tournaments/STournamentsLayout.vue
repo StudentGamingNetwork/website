@@ -104,7 +104,7 @@ async function create() {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .layout-tournaments {
     display: flex;
     align-items: center;

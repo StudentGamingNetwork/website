@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import * as AssociationLib from "../lib";
+import * as AssociationLib from "../lib.js";
 import * as UserLib from "@/modules/user/lib";
 import UserModel, { ERoles } from "@/modules/user/model";
 import AssociationModel from "@/modules/association/model";

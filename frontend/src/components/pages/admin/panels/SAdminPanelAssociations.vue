@@ -100,7 +100,7 @@ onMounted(async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .admin-associations {
     margin-top: var(--length-margin-m);
     display: flex;

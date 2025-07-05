@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
-import * as Bcrypt from "bcryptjs";
+import Bcrypt from "bcryptjs";
 import httpErrors from "http-errors";
 import * as UserLib from "../lib";
 import { isPasswordStrong } from "../lib";

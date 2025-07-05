@@ -24,7 +24,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-@import "style";
+@use "style";
 
 body {
     background: var(--color-background);

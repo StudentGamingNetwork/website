@@ -27,12 +27,12 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import SCard from "@/components/design/SCard.vue";
 
-const { active = false } = defineProps<{active: boolean}>();
+const { active = false } = defineProps<{ active: boolean }>();
 defineEmits(["close"]);
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .modal-background {
     position: fixed;
     z-index: 10;

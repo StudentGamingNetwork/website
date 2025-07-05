@@ -1,4 +1,4 @@
-import { escapeRegExp } from "lodash";
+import { escapeRegExp } from "lodash-es";
 import UserModel, { IUserDocument } from "@/modules/user/model";
 
 export async function userSearch({ limit, search, skip }: { limit: number; search?: string; skip: number }): Promise<Array<IUserDocument>> {

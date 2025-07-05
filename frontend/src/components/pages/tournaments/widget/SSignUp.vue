@@ -148,17 +148,9 @@ const doesPasswordContainUppercaseLetter = computed(() => {
 const doesPasswordContainLowercaseLetter = computed(() => {
     return /[a-z]/.test(password.value);
 });
-
-const isFormValid = computed(() => {
-    return Validators.Mail().execute(mail.value)
-        && isPasswordLongEnough.value
-        && doesPasswordContainNumber.value
-        && doesPasswordContainUppercaseLetter.value
-        && doesPasswordContainLowercaseLetter.value;
-});
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .card {
 
     padding: var(--length-padding-m);

@@ -240,9 +240,9 @@ export type TAdminAssociation = {
             username: string;
         };
     };
-}
+};
 
-const props = defineProps<{ modelValue: TAdminAssociation}>();
+const props = defineProps<{ modelValue: TAdminAssociation }>();
 
 const association = ref(props.modelValue);
 
@@ -267,7 +267,7 @@ async function updateAssociation({ isValidated, region }: { isValidated?: boolea
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .association {
     display: grid;
     column-gap: var(--length-gap-m);

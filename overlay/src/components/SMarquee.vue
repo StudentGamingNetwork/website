@@ -24,7 +24,7 @@ const props = defineProps<{
 const speedVar = computed(()=> 1/props.speed + "s")
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 @keyframes marquee {
     0% {
         transform: translate3d(25%, 0, 0);

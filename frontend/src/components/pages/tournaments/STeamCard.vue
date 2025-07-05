@@ -679,7 +679,7 @@ async function kickMember(memberIndex: number, type: "staff" | "members" = "memb
         
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .team-card {
     width: 100%;
     box-sizing: border-box;

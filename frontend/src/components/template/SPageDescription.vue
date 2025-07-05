@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .page-description {
     font-size: 1.2rem;
     color: var(--color-content-lite);

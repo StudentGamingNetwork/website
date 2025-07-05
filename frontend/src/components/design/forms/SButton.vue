@@ -13,10 +13,10 @@
 <script lang="ts" setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-const { danger = false, disabled = false, outlined = false, primary = false, spinning = false } = defineProps<{danger?: boolean, disabled?: boolean, outlined?: boolean, primary?: boolean, spinning?: boolean}>();
+const { danger = false, disabled = false, outlined = false, primary = false, spinning = false } = defineProps<{ danger?: boolean; disabled?: boolean; outlined?: boolean; primary?: boolean; spinning?: boolean }>();
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 button {
     --color-button-content : var(--color-content);
     --color-button-border : var(--color-content-softer);

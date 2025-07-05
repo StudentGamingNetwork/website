@@ -117,7 +117,7 @@ import { Association } from "@/modules";
 
 
 const props = defineProps<{
-    association: Association.TAssociation
+    association: Association.TAssociation;
 }>();
    
 const logoUrl = computed(() => {
@@ -135,7 +135,7 @@ const open = async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .association-card {
     display: flex;
     flex-direction: column;

@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import * as UploadLib from "../lib";
-import * as AssociationLib from "@/modules/association/lib";
+import * as AssociationLib from "@/modules/association/lib.js";
 
 const SchemaResponse = Type.Object({
     logo: Type.String(),

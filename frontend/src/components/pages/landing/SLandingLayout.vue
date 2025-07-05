@@ -14,7 +14,7 @@ import SBaseLayout from "@/components/pages/SBaseLayout.vue";
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .landing-layout {
     background: radial-gradient(circle at center, var(--color-background-1) 0%, var(--color-background-0) 100%);
 }

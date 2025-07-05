@@ -17,7 +17,7 @@ export default {
 import SMarquee from "./SMarquee.vue";
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .card-background {
     display: flex;
     flex-direction: column;

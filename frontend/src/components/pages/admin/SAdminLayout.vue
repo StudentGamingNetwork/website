@@ -58,7 +58,7 @@ watch(
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .admin-layout {
     max-width: 960px;
     margin: auto;

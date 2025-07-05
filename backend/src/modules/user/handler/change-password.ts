@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import * as Bcrypt from "bcryptjs";
+import Bcrypt from "bcryptjs";
 import UserModel from "../model";
 import TokenModel from "@/modules/token/model";
 import UserConfig from "@/modules/user/config";

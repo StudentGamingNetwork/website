@@ -1,5 +1,5 @@
 import "@/database/test";
-import * as Bcrypt from "bcryptjs";
+import Bcrypt from "bcryptjs";
 import * as Fake from "@/database/test/fake";
 import UserModel from "@/modules/user/model";
 import * as UserLib from "@/modules/user/lib";

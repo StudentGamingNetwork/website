@@ -22,7 +22,7 @@ export default {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .card-title {
     font-size: 3rem;
     font-weight: 800;

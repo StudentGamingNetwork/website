@@ -170,7 +170,7 @@ import SCard from "@/components/design/SCard.vue";
 import SMap from "@/components/design/SMap.vue";
 
 const props = defineProps<{
-    association: Association.TAssociation
+    association: Association.TAssociation;
 }>();
 
  
@@ -216,7 +216,7 @@ function createIcon() {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .association-card {
     max-width: 1200px;
     margin: auto;

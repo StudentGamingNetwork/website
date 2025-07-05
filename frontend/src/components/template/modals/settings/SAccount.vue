@@ -3,20 +3,22 @@
         <SModalSectionTitle>
             {{ $t("components.template.modals.settings.account.password") }}
         </SModalSectionTitle>
-        <SModalSection>
-            <SInput
-                v-model="password.old"
-                autocomplete="false"
-                :title="$t('components.template.modals.settings.account.old')"
-                type="password"
-            />
-            <SInput
-                v-model="password.new"
-                autocomplete="false"
-                :title="$t('components.template.modals.settings.account.new')"
-                type="password"
-            />
-        </SModalSection>
+        <form>
+            <SModalSection>
+                <SInput
+                    v-model="password.old"
+                    autocomplete="false"
+                    :title="$t('components.template.modals.settings.account.old')"
+                    type="password"
+                />
+                <SInput
+                    v-model="password.new"
+                    autocomplete="false"
+                    :title="$t('components.template.modals.settings.account.new')"
+                    type="password"
+                />
+            </SModalSection>
+        </form>
     
         <SModalSectionTitle>
             {{ $t("components.template.modals.settings.2fa.title") }}

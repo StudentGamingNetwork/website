@@ -166,7 +166,7 @@ onMounted(async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .title {
     flex-grow: 1;
 

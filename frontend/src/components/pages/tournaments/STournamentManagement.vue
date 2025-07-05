@@ -53,7 +53,7 @@ import SSelector from "@/components/design/SSelector.vue";
 import i18n from "@/locales";
 
 
-defineProps<{ modelValue : ""}>();
+defineProps<{ modelValue: "" }>();
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -101,7 +101,7 @@ async function inspectTeam(team: Team.TTeam) {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .tournament-management {
     width: 100%;
     display: flex;

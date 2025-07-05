@@ -26,7 +26,7 @@ window.location = link.value;
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .redirect {
     height: 320px;
     display: flex;

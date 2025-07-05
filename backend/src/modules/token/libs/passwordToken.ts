@@ -1,4 +1,4 @@
-import * as Bcrypt from "bcryptjs";
+import Bcrypt from "bcryptjs";
 
 export async function generateToken(){
     return await Bcrypt.hash(generatePassword().replaceAll("/","").replaceAll("\\",""), 12);

@@ -81,7 +81,7 @@ type TAdminUser = {
         name: string;
     };
     username: string;
-}
+};
 
 
 const searchInput = ref("");
@@ -126,7 +126,7 @@ onMounted(async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .admin-users {
     margin-top: var(--length-margin-m);
     display: flex;
