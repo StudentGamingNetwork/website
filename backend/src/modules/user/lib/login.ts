@@ -1,4 +1,4 @@
-import * as Bcrypt from "bcryptjs";
+import Bcrypt from "bcryptjs";
 import httpErrors from "http-errors";
 import UserModel from "../model";
 import { googleVerifyCode } from "./connection";
@@ -6,7 +6,7 @@ import { ISessionDocument } from "@/modules/session/model";
 import * as SessionLib from "@/modules/session/lib";
 
 
-export async function login(mail: string, password: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
+export async function login(mail: string, password: string, machine: { host: string; userAgent: string }): Promise<ISessionDocument> {
 
     const user = await UserModel.findOne({
         mail
@@ -29,7 +29,7 @@ export async function login(mail: string, password: string, machine: {host: stri
     return await SessionLib.generate(user.id, machine, user.twoFactorAuth?.enabled);
 }
 
-export async function googleLogin(code: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
+export async function googleLogin(code: string, machine: { host: string; userAgent: string }): Promise<ISessionDocument> {
     const payload = await googleVerifyCode(code);
 
     const googleEmail = payload.email;

@@ -1,4 +1,4 @@
-import * as Bcrypt from "bcryptjs";
+import Bcrypt from "bcryptjs";
 import httpErrors from "http-errors";
 import UserModel from "../model";
 import { googleVerifyCode, isMailAlreadyRegistered, isMailAlreadyRegisteredGoogle } from "./connection";
@@ -7,7 +7,7 @@ import * as SessionLib from "@/modules/session/lib";
 import { ISessionDocument } from "@/modules/session/model";
 import { generatePassword } from "@/modules/token/libs/index";
 
-export async function signup(mail: string, password: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
+export async function signup(mail: string, password: string, machine: { host: string; userAgent: string }): Promise<ISessionDocument> {
     if (!isPasswordStrong(password)) {
         throw new httpErrors.BadRequest("Le mot de passe n'est pas assez solide.");
     }
@@ -34,7 +34,7 @@ export async function signup(mail: string, password: string, machine: {host: str
     return await SessionLib.generate(user.id, machine, !!user.twoFactorAuth?.enabled);
 }
 
-export async function googleSignin(code: string, machine: {host: string; userAgent: string}): Promise<ISessionDocument> {
+export async function googleSignin(code: string, machine: { host: string; userAgent: string }): Promise<ISessionDocument> {
     const payload = await googleVerifyCode(code);
 
     if (await isMailAlreadyRegistered(payload.email) || await isMailAlreadyRegisteredGoogle(payload.email)) {
