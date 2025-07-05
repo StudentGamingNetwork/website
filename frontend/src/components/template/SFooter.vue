@@ -22,18 +22,21 @@
                     </li>
                 </ul>
             </div>
-            <div class="partners">
+            <div
+                v-if="partners.length > 0"
+                class="partners"
+            >
                 <h2>{{ $t("common.partner",2) }}</h2>
                 <ul>
                     <li
                         v-for="partner of partners"
-                        :key="partner.key"
+                        :key="partner._id"
                     >
                         <a
-                            :href="partner.link"
+                            :href="partner.networks.website"
                             target="_blank"
                         >
-                            {{ partner.title }}
+                            {{ partner.name }}
                         </a>
                     </li>
                 </ul>
@@ -73,10 +76,19 @@
 
 <script lang="ts" setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { onMounted, ref } from "vue";
 import SLogo from "@/components/template/SLogo.vue";
 import i18n from "@/locales";
+import * as PartnerService from "@/services/partner";
+import { Partner } from "@/modules";
 
 const currentYear = new Date().getFullYear(); 
+const partners = ref<Array<Partner.TPartner>>([]);
+
+
+onMounted(async () => {
+    partners.value = await PartnerService.list();
+});
 
 const legals = [
     { title: i18n.global.t("components.template.footer.legals.legalNotice"), key: "legalNotice", link: "/legal" },
@@ -100,13 +112,6 @@ const networks = [
     { title: "LinkedIn", icon: "linkedin", key: "linkedin", link: "https://www.linkedin.com/company/10125720" },
     { title: "Steam", icon: "steam", key: "steam", link: "https://steamcommunity.com/groups/sgnw" },
     { title: "GitHub", icon: "github", key: "github", link: "https://github.com/StudentGamingNetwork/website" }
-];
-
-const partners = [
-    { title: "ESpot Paris", key: "espot-paris", link: "https://espot.fr/" },
-    { title: "Maxnomic", key: "maxnomic", link: "https://www.needforseat.fr/" },
-    { title: "HyperX", key: "hyperx", link: "https://www.hyperxgaming.com/france/fr" },
-    { title: "GameAndRules", key: "games-and-rules", link: "https://gameandrules.com/" }
 ];
 
 </script>
