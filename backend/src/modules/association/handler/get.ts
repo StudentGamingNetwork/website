@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
-import { pick } from "lodash";
-import * as AssociationLib from "../lib";
+import { pick } from "lodash-es";
+import * as AssociationLib from "../lib.js";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 import { TypeFullMemberAssociation } from "@/modules/association/type";

@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
-import { escapeRegExp } from "lodash";
+import { escapeRegExp } from "lodash-es";
 import AssociationModel, { IAssociationDocument } from "@/modules/association/model";
 import { TypeBasicAssociation } from "@/modules/association/type";
 

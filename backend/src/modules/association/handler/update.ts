@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import { TypeBasicUpdateAssociation } from "@/modules/association/type";
-import * as AssociationLib from "@/modules/association/lib";
+import * as AssociationLib from "@/modules/association/lib.js";
 import AssociationModel from "@/modules/association/model";
 
 const AssociationUpdate = TypeBasicUpdateAssociation;

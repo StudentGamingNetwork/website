@@ -99,4 +99,4 @@ const tournamentSchema: Mongo.Schema = new Mongo.Schema({
     }
 });
 
-export default Mongo.model<ITournamentDocument>("tournament", tournamentSchema);
+export default Mongo.models.tournament || Mongo.model<ITournamentDocument>("tournament", tournamentSchema);

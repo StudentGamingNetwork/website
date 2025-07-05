@@ -41,4 +41,4 @@ const partnerSchema: Mongo.Schema = new Mongo.Schema({
     public: Boolean
 });
 
-export default Mongo.model<IPartnerDocument>("partner", partnerSchema);
+export default Mongo.models.partner || Mongo.model<IPartnerDocument>("partner", partnerSchema);

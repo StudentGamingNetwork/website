@@ -3,7 +3,7 @@ import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import * as UserLib from "@/modules/user/lib";
 import AssociationModel from "@/modules/association/model";
-import * as AssociationLib from "@/modules/association/lib";
+import * as AssociationLib from "@/modules/association/lib.js";
 
 
 const SchemaRequest = Type.Object({

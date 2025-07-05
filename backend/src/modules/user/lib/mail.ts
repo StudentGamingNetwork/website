@@ -1,10 +1,10 @@
-import { Client } from "node-mailjet";
+import Mailjet from "node-mailjet";
 import nodemailer from "nodemailer";
 import httpErrors from "http-errors";
 import { env } from "@/utils/environment";
 import { forgottenPassword } from "@/assets/mail";
 
-
+const { Client } = Mailjet;
 let mailjet: ReturnType<typeof Client.apiConnect> | null = null;
 
 if (env.NODE_ENV === "production") {

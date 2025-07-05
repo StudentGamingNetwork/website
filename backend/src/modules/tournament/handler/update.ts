@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import { isUndefined } from "lodash";
+import { isUndefined } from "lodash-es";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 import TournamentModel from "@/modules/tournament/model";

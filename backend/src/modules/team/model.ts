@@ -83,4 +83,4 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
     }
 },{ minimize: false });
 
-export default Mongo.model<ITeamDocument>("team", teamSchema);
+export default Mongo.models.team || Mongo.model<ITeamDocument>("team", teamSchema);

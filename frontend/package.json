@@ -5,7 +5,8 @@
         "dev": "vite --host",
         "build:type": "vue-tsc --noEmit && vite build",
         "build": "vite build",
-        "serve": "vite preview"
+        "serve": "vite preview",
+        "start": "vite --host"
     },
     "type": "module",
     "dependencies": {

@@ -1,4 +1,4 @@
 export * from "./login";
 export * from "./signup";
 export * from "./connection";
-export * from "./mail";
+export * from "./mail.js";

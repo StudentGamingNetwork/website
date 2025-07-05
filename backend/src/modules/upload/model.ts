@@ -30,4 +30,4 @@ const uploadSchema: Mongo.Schema = new Mongo.Schema({
     }
 });
 
-export default Mongo.model<IUploadDocument>("upload", uploadSchema);
+export default Mongo.models.upload || Mongo.model<IUploadDocument>("upload", uploadSchema);

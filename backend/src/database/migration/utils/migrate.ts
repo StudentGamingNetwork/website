@@ -1,6 +1,12 @@
 import fs from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
 import * as ConfigService from "@/modules/config/service";
 import { getConfigData } from "@/modules/config/service";
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export function getMigrationFiles(): Array<string> {
     let files = fs.readdirSync(`${ __dirname }/..`);

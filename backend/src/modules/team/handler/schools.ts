@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
-import { escapeRegExp } from "lodash";
+import { escapeRegExp } from "lodash-es";
 import TeamModel from "@/modules/team/model";
 import * as TournamentLib from "@/modules/tournament/lib";
 

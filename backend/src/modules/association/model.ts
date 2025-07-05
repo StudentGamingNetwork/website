@@ -14,7 +14,7 @@ export enum ERegion {
     HDF = "hdf", // Hauts-de-France
     OPC = "opc", // Occitanie / PACA / Corse
     GEB = "geb", // Grand Est / Bourgogne-Franche-Comté
-    ARA = "ara", // Auvergne-Rhone-Alpes
+    ARA = "ara" // Auvergne-Rhone-Alpes
 }
 
 export interface IAssociation {
@@ -172,4 +172,4 @@ associationSchema.index(
     }
 );
 
-export default Mongo.model<IAssociationDocument>("association", associationSchema);
+export default Mongo.models.association || Mongo.model<IAssociationDocument>("association", associationSchema);

@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config();
+
 export const env = {
     BACKEND_PORT: process.env.BACKEND_PORT ?? "3000",
     CORS_ORIGIN: process.env.CORS_ORIGIN ?? "http://localhost:8080",

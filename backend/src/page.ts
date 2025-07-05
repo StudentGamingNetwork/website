@@ -1,12 +1,18 @@
 import * as path from "path";
 import * as fs from "fs";
+import { fileURLToPath } from "url";
 import * as Fastify from "fastify";
 import * as TournamentLib from "@/modules/tournament/lib";
-import * as AssociationLib from "@/modules/association/lib";
+import * as AssociationLib from "@/modules/association/lib.js";
 import { env } from "@/utils/environment";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const pageTemplate = fs.readFileSync(path.join(__dirname, "../../frontend/dist/index.html")).toString();
 const origin = env.CORS_ORIGIN;
+
+
 
 export default async function (server: Fastify.FastifyInstance): Promise<void> {
     server.get("*", async (request, reply) => {
@@ -49,28 +55,28 @@ async function generatePage(url: string): Promise<string> {
 
     if (pagePath) {
         switch (pagePath) {
-        case "federation":
-            pageInformations.title += " - Fédération";
-            pageInformations.description = "Nous fédérons un réseau de nombreuses associations étudiantes de gaming et d'esport, partout en France. Nous maintenons un contact régulier avec ces dernières pour les accompagner dans leurs projets.";
-            break;
-        case "tournaments":
-            pageInformations.title += " - Tournois";
-            pageInformations.description = "Nous organisons régulièrement des tournois, certains en partenariat avec des grands noms du jeu vidéo. Nous nous assurons que seuls les étudiants français puissent participer à nos tournois. ";
-            break;
-        case "partners":
-            pageInformations.title += " - Partenaires";
-            pageInformations.description = "Nous échangeons notre expertise pour l'organisation d'événements esportifs et la promotion auprès des étudiants avec de nombreuses entités. Nous sommes heureux de compter sur leur soutien et leurs compétences.";
-            break;
-        case "about":
-            pageInformations.title += " - À propos";
-            pageInformations.description = "Le Student Gaming Network est la fédération des associations esport étudiantes des écoles et universités de France. Le SGN a pour but de promouvoir le jeu vidéo et l’esport étudiant sous toutes ses formes.";
-            break;
-        case "tournament":
-            await fillTournamentData(pageInformations, path[2]);
-            break;
-        case "association":
-            await fillAssociationData(pageInformations, path[2]);
-            break;
+            case "federation":
+                pageInformations.title += " - Fédération";
+                pageInformations.description = "Nous fédérons un réseau de nombreuses associations étudiantes de gaming et d'esport, partout en France. Nous maintenons un contact régulier avec ces dernières pour les accompagner dans leurs projets.";
+                break;
+            case "tournaments":
+                pageInformations.title += " - Tournois";
+                pageInformations.description = "Nous organisons régulièrement des tournois, certains en partenariat avec des grands noms du jeu vidéo. Nous nous assurons que seuls les étudiants français puissent participer à nos tournois. ";
+                break;
+            case "partners":
+                pageInformations.title += " - Partenaires";
+                pageInformations.description = "Nous échangeons notre expertise pour l'organisation d'événements esportifs et la promotion auprès des étudiants avec de nombreuses entités. Nous sommes heureux de compter sur leur soutien et leurs compétences.";
+                break;
+            case "about":
+                pageInformations.title += " - À propos";
+                pageInformations.description = "Le Student Gaming Network est la fédération des associations esport étudiantes des écoles et universités de France. Le SGN a pour but de promouvoir le jeu vidéo et l’esport étudiant sous toutes ses formes.";
+                break;
+            case "tournament":
+                await fillTournamentData(pageInformations, path[2]);
+                break;
+            case "association":
+                await fillAssociationData(pageInformations, path[2]);
+                break;
         }
     }
 
@@ -91,7 +97,7 @@ async function generatePage(url: string): Promise<string> {
         .replace("<!--{ssr-head}-->", head);
 }
 
-async function fillTournamentData(pageInformations: {title: string; description: string; image: string}, slug: string) {
+async function fillTournamentData(pageInformations: { title: string; description: string; image: string }, slug: string) {
     const tournament = await TournamentLib.getTournamentFromSlug(slug);
 
     if (!tournament.state.public || !tournament.dates.subscriptionClose) {
@@ -112,7 +118,7 @@ async function fillTournamentData(pageInformations: {title: string; description:
     }
 }
 
-async function fillAssociationData(pageInformations: {title: string; description: string; image: string}, slug: string) {
+async function fillAssociationData(pageInformations: { title: string; description: string; image: string }, slug: string) {
     const association = await AssociationLib.getAssociationFromSlug(slug);
 
     pageInformations.title = `${ association.name } - ${ association.school.name }`;

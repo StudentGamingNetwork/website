@@ -2,7 +2,7 @@ import Crypto from "crypto";
 import httpErrors from "http-errors";
 import { FastifyRequest } from "fastify";
 import { ObjectId } from "mongodb";
-import { pick } from "lodash";
+import { pick } from "lodash-es";
 import { LeanDocument } from "mongoose";
 import * as UserLib from "@/modules/user/lib";
 import AssociationModel, { IAssociationDocument } from "@/modules/association/model";

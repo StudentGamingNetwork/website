@@ -1,4 +1,4 @@
-import { merge, set } from "lodash";
+import { merge, set } from "lodash-es";
 import { JSONSchemaFaker } from "json-schema-faker";
 import { faker } from "@faker-js/faker/locale/fr";
 import { PartialDeep } from "type-fest";
@@ -35,18 +35,18 @@ function makeJsonSchema(model: Mongo.Schema): any {
         const options = (schemaType as any).options;
         let value = null;
         switch (schemaType.constructor.name) {
-        case "SchemaString":
-            value = { type: "string" };
-            break;
-        case "SchemaNumber":
-            value = { type: "number" };
-            break;
-        case "SchemaDate":
-            value = { format: "date-time", type: "string" };
-            break;
-        case "ObjectId":
-            value = { format: "objectId", type: "string" };
-            break;
+            case "SchemaString":
+                value = { type: "string" };
+                break;
+            case "SchemaNumber":
+                value = { type: "number" };
+                break;
+            case "SchemaDate":
+                value = { format: "date-time", type: "string" };
+                break;
+            case "ObjectId":
+                value = { format: "objectId", type: "string" };
+                break;
         }
 
         if (value) {

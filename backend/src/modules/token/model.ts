@@ -44,4 +44,5 @@ tokenSchema.index(
     }
 );
 
-export default Mongo.model<ITokenDocument>("token", tokenSchema);
+
+export default Mongo.models.token || Mongo.model<ITokenDocument>("token", tokenSchema);
