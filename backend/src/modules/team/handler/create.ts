@@ -57,7 +57,8 @@ export async function register(server: FastifyInstance): Promise<void> {
                 members: [
                     {
                         user: user._id,
-                        username: ""
+                        username: "",
+                        acceptedRules: false
                     }
                 ],
                 owner: user._id,

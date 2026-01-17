@@ -223,6 +223,7 @@
         },
         "pages": {
             "team": "Team",
+            "rules": "Rules",
             "admin": "Settings",
             "management": "Management",
             "details": "Details"
@@ -241,6 +242,11 @@
                 "verification": "Verification",
                 "export": "Export"
             }
+        },
+        "rules": {
+            "accept": "I accept the tournament rules",
+            "confirmation": "By accepting the rules, you confirm that you have read and understood them, and that you agree to comply with them throughout the tournament.",
+            "error": "The rules cannot be displayed at the moment."
         },
         "card": {
             "connect": "To participate in this tournament, you must first sign up or log in.",
@@ -273,6 +279,7 @@
                     "name": "Team name",
                     "tag": "Team TAG",
                     "id": "Game ID",
+                    "rules": "Accepted rules",
                     "complete": "Complete team",
                     "certificate": "Student certificate*",
                     "discord": "Discord ID*",

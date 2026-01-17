@@ -5,6 +5,7 @@ export type TTeam = {
     members: Array<{
         user: TCompleteUser;
         username: string;
+        acceptedRules: boolean;
     }>;
     owner: string;
     settings: {

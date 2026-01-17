@@ -4,7 +4,8 @@ const Team = {
     _id: Type.String(),
     members: Type.Array(Type.Object({
         user: Type.String(),
-        username: Type.String()
+        username: Type.String(),
+        acceptedRules: Type.Boolean({default: false})
     })),
     owner: Type.String(),
     settings: Type.Object({
@@ -85,7 +86,8 @@ export const TypeCompleteTeam = Type.Object({
     members: Type.Array(Type.Object({
         kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUser),
-        username: Type.String()
+        username: Type.String(),
+        acceptedRules: Type.Boolean({default: false})
     })),
     staff: Type.Object({
         coach: Type.Object({
@@ -106,7 +108,8 @@ export const TypeCompleteTeamAdmin = Type.Object({
     members: Type.Array(Type.Object({
         kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUserAdmin),
-        username: Type.String()
+        username: Type.String(),
+        acceptedRules: Type.Boolean({default: false})
     })),
     staff: Type.Object({
         coach: Type.Object({

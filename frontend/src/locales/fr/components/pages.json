@@ -223,6 +223,7 @@
         },
         "pages": {
             "team": "Équipe",
+            "rules": "Règlement",
             "admin": "Paramètres",
             "management": "Gestion",
             "details": "Détails"
@@ -241,6 +242,11 @@
                 "verification": "Vérification",
                 "export": "Exporter"
             }
+        },
+        "rules": {
+            "accept": "J'accepte le règlement du tournoi",
+            "confirmation": "En acceptant le règlement, vous confirmez en avoir pris connaissance et en comprendre les termes, et vous vous engagez à les respecter tout au long du tournoi.",
+            "error": "Le règlement ne peut pas être affiché pour le moment."
         },
         "card": {
             "connect": "Pour participer à ce tournoi, vous devez d'abord vous inscrire ou vous connecter.",
@@ -273,6 +279,7 @@
                     "name": "Nom d'équipe",
                     "tag": "TAG d'équipe",
                     "id": "Identifiant de jeu",
+                    "rules": "Règlement accepté",
                     "complete": "Équipe complète",
                     "certificate": "Certificat étudiant*",
                     "discord": "Identifiant Discord*",

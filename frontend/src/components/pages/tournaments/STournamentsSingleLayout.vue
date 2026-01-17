@@ -17,6 +17,10 @@
                 <SLoading />
             </template>
         </Suspense>
+        <STournamentRules
+            v-if="tournamentsPage === 'rules'"
+            :tournament="tournament"
+            />
         <STournamentAdminPanel
             v-if="tournamentsPage === 'admin'"
             :model-value="tournament"
@@ -48,6 +52,7 @@ import SSelector from "@/components/design/SSelector.vue";
 import STournamentAdminPanel from "@/components/pages/tournaments/STournamentAdminPanel.vue";
 import STournamentManagement from "@/components/pages/tournaments/STournamentManagement.vue";
 import STeamPanelValidation from "@/components/pages/tournaments/STeamPanelValidation.vue";
+import STournamentRules from "@/components/pages/tournaments/STournamentRules.vue";
 import i18n from "@/locales";
 
 
@@ -59,6 +64,7 @@ const tournamentsPage = ref("team");
 
 const tournamentsPages = [
     { title: i18n.global.t("components.pages.tournaments.pages.team"), key: "team" },
+    { title: i18n.global.t("components.pages.tournaments.pages.rules"), key: "rules" },
     { title: i18n.global.t("components.pages.tournaments.pages.admin"), key: "admin" },
     { title: i18n.global.t("components.pages.tournaments.pages.management"), key: "management" },
     { title: i18n.global.t("components.pages.tournaments.pages.details"), key: "details" }
@@ -66,7 +72,7 @@ const tournamentsPages = [
 
 onMounted(() => {
     const page = router.currentRoute.value.params.page as string;
-    if (["team", "admin", "management"].includes(page)) {
+    if (["team", "rules", "admin", "management"].includes(page)) {
         tournamentsPage.value = page;
     }
 });
