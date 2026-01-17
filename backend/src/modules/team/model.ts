@@ -4,6 +4,7 @@ export interface ITeam {
     members: Array<{
         user: Mongo.Schema.Types.ObjectId;
         username: string;
+        acceptedRules: boolean;
     }>;
     owner: Mongo.Schema.Types.ObjectId;
     settings: {
@@ -41,7 +42,8 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
             ref: "user",
             type: Mongo.Schema.Types.ObjectId
         },
-        username: String
+        username: String,
+        acceptedRules: Boolean
     }],
     owner: {
         ref: "user",

@@ -75,7 +75,8 @@ export async function register(server: FastifyInstance): Promise<void> {
                     }
                     team.members.push({
                         user: user._id,
-                        username: ""
+                        username: "",
+                        acceptedRules: false
                     });
                     break;
 

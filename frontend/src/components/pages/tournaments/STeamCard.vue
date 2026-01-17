@@ -161,6 +161,10 @@
                             {{ $t("components.pages.tournaments.card.team.checklist.id") }}
                         </SValidator>
                         <SValidator
+                            :valid="savedTeam.members[playerIndex].acceptedRules === true && tournament.informations.rulesUrl !== ''">
+                            {{ $t("components.pages.tournaments.card.team.checklist.rules") }}
+                        </SValidator>
+                        <SValidator
                             v-if="isTeamBased"
                             :valid="savedTeam.members.length >= tournament.game.team.playersNumber"
                         >
@@ -562,7 +566,7 @@ const isCoachingStaffFull = computed(() => team.staff.coach?.user || !props.tour
 
 const isManagingStaffFull = computed(() => team.staff.manager?.user || !props.tournament.game.team.managerEnabled);
 
-function isMemberReady(member: { user: User.TCompleteUser; username: string }, isStaff = false): boolean {
+function isMemberReady(member: { user: User.TCompleteUser; username: string, acceptedRules: boolean }, isStaff = false): boolean {
     if (!member.username) {
         return false;
     }
@@ -580,6 +584,10 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }, i
     }
 
     if (member.user.student.status !== "validated" && !isStaff) {
+        return false;
+    }
+
+    if (member.acceptedRules !== true && !isStaff) {
         return false;
     }
 
