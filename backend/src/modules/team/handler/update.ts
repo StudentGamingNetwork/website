@@ -87,7 +87,6 @@ export async function register(server: FastifyInstance): Promise<void> {
                 }
             }
 
-
             if (currentMember) {
                 team.members[memberIndex].username = currentMember.username;
                 team.members[memberIndex].acceptedRules = currentMember.acceptedRules;
