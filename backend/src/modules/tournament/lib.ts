@@ -19,3 +19,6 @@ export async function getTournamentFromSlug(slug: string): Promise<ITournamentDo
 
     return tournament;
 }
+
+
+export const lockingGames = ["phasmophobia"]

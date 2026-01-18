@@ -34,6 +34,7 @@
             >
                 <STournamentManagementTeamCard
                     :team="team"
+                    :gameName="gameName"
                     @click="inspectTeam(team)"
                     @update="updateSearch"
                 />
@@ -53,7 +54,7 @@ import SSelector from "@/components/design/SSelector.vue";
 import i18n from "@/locales";
 
 
-defineProps<{ modelValue: "" }>();
+defineProps<{ modelValue: "", gameName: string; }>();
 
 const emit = defineEmits(["update:modelValue"]);
 

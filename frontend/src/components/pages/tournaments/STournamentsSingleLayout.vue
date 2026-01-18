@@ -30,6 +30,7 @@
         />
         <STournamentManagement 
             v-if="tournamentsPage === 'management'"
+            :gameName="tournament.game.name"
             v-model="tournamentsPage" 
         />
         <STeamPanelValidation

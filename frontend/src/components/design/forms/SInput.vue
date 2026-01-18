@@ -13,7 +13,15 @@
                 :value="modelValue"
                 @input="$emit('update:modelValue', $event.target.value)"
                 @keydown="processKeyDown"
+                :list="datalist.length ? 'datalist-options' : undefined"
             >
+            <datalist v-if="datalist.length" id="datalist-options">
+                <option
+                    v-for="(item, index) in datalist"
+                    :key="index"
+                    :value="item"
+                />
+            </datalist>
             <div class="title">
                 {{ title }} <sup v-if="required">
                     *
@@ -84,6 +92,10 @@ const props = defineProps({
     validators: {
         default: () => [],
         type: Array as PropType<Array<InputValidator>>
+    },
+    datalist: {
+        default: () => [],
+        type: Array as PropType<Array<string>>
     }
 });
     

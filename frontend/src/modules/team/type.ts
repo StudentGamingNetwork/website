@@ -1,12 +1,19 @@
 import { TCompleteUser } from "@/modules/user";
 
+export type TTeamMember = {
+    user: TCompleteUser;
+    username: string;
+    acceptedRules: boolean;
+    phasmophobia?: {
+        rank: string;
+        level: number;
+        duo?: string;
+    }
+};
+
 export type TTeam = {
     _id: string;
-    members: Array<{
-        user: TCompleteUser;
-        username: string;
-        acceptedRules: boolean;
-    }>;
+    members: Array<TTeamMember>;
     owner: string;
     settings: {
         name: string;
