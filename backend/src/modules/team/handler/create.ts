@@ -76,6 +76,16 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament: tournament._id
             });
 
+            if (tournament.game?.name?.toLowerCase() === "phasmophobia") {
+                team.members[0].phasmophobia = {
+                    rank: "Unranked",
+                    level: 0,
+                    duo: undefined
+                };
+                await team.save();
+            }
+
+
             reply.send({
                 id: team._id,
                 message: "L'équipe a correctement été créée.",

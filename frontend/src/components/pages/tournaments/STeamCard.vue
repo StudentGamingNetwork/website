@@ -93,6 +93,32 @@
                     :title="tournament.game.username"
                     @enter="sendUpdate"
                 />
+                <template v-if="tournament.game.name.toLowerCase() === 'phasmophobia'">
+                    <SInput
+                        v-model="team.members[playerIndex].phasmophobia.rank"
+                        :modified="team.members[playerIndex].phasmophobia.rank !== savedTeam.members[playerIndex].phasmophobia.rank"
+                        :disabled="isStaff"
+                        title="Rank"
+                        @enter="sendUpdate"
+                    />
+                      <SInput
+                        v-model="team.members[playerIndex].phasmophobia.level"
+                        :modified="team.members[playerIndex].phasmophobia.level !== savedTeam.members[playerIndex].phasmophobia.level"
+                        :disabled="isStaff"
+                        type="number"
+                        title="Level"
+                        @enter="sendUpdate"
+                    />
+                         <SInput
+                        v-model="team.members[playerIndex].phasmophobia.duo"
+                        :modified="team.members[playerIndex].phasmophobia.duo !== savedTeam.members[playerIndex].phasmophobia.duo"
+                        :disabled="isStaff"
+                        title="Duo Partner"
+                        @enter="sendUpdate"
+                    />
+                </template>
+
+
                 <div class="buttons">
                     <SButton
                         class="button"
@@ -161,9 +187,19 @@
                             {{ $t("components.pages.tournaments.card.team.checklist.id") }}
                         </SValidator>
                         <SValidator
-                            :valid="savedTeam.members[playerIndex].acceptedRules === true && tournament.informations.rulesUrl !== ''">
+                            :valid="tournament.informations.rulesUrl === '' || savedTeam.members[playerIndex].acceptedRules">
                             {{ $t("components.pages.tournaments.card.team.checklist.rules") }}
                         </SValidator>
+                        <template v-if="tournament.game.name.toLowerCase() === 'phasmophobia'">
+                            <SValidator
+                                :valid="savedTeam.members[playerIndex].phasmophobia.rank !== ''">
+                                Rank
+                            </SValidator>
+                            <SValidator
+                                :valid="savedTeam.members[playerIndex].phasmophobia.level > 0">
+                                Level
+                            </SValidator>
+                        </template>
                         <SValidator
                             v-if="isTeamBased"
                             :valid="savedTeam.members.length >= tournament.game.team.playersNumber"
@@ -456,6 +492,7 @@ import SInputCopier from "@/components/design/forms/SInputCopier.vue";
 import * as UserService from "@/services/user";
 import SAvatarPicker from "@/components/design/forms/SAvatarPicker.vue";
 import i18n from "@/locales";
+import { TTeamMember } from "@/modules/team/type";
 
 const props = defineProps({
     tournament: {
@@ -566,7 +603,7 @@ const isCoachingStaffFull = computed(() => team.staff.coach?.user || !props.tour
 
 const isManagingStaffFull = computed(() => team.staff.manager?.user || !props.tournament.game.team.managerEnabled);
 
-function isMemberReady(member: { user: User.TCompleteUser; username: string, acceptedRules: boolean }, isStaff = false): boolean {
+function isMemberReady(member: TTeamMember, isStaff = false): boolean {
     if (!member.username) {
         return false;
     }
@@ -587,8 +624,23 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string, acc
         return false;
     }
 
-    if (member.acceptedRules !== true && !isStaff) {
+    if (member.acceptedRules !== true && !isStaff && props.tournament.informations.rulesUrl !== '') {
         return false;
+    }
+
+    if(props.tournament.game.name.toLowerCase() === "phasmophobia" && !isStaff){
+        if(!member.phasmophobia){
+            return false;
+        }
+
+        if(member.phasmophobia.rank === ""){
+            return false;
+        }
+
+        if(member.phasmophobia.level <= 0){
+            return false;
+        }
+      
     }
 
     return true;
@@ -616,6 +668,7 @@ async function updateTeam() {
         return;
     }
     const teamApi = await TeamService.get(tournamentSlug.value);
+
     assign(savedTeam, teamApi);
     assign(team, cloneDeep(savedTeam));
 

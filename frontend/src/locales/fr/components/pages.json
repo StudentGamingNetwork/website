@@ -196,7 +196,8 @@
                 "subByTeam": "Nombre de remplaçants par équipe",
                 "coachEnabled": "Possibilité d'avoir un coach dans l'équipe",
                 "managerEnabled": "Possibilité d'avoir un manager dans l'équipe",
-                "maxTeams": "Nombre maximum d'équipes"
+                "maxTeams": "Nombre maximum d'équipes",
+                "confirmation": "Êtes-vous sûr de vouloir changer le jeu pour un jeu verrouillé ? Cette action est irréversible."
             },
             "dates": {
                 "title": "Dates",

@@ -6,6 +6,8 @@ import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 import TournamentModel from "@/modules/tournament/model";
 import { TypeTournament } from "@/modules/tournament/type";
+import TeamModel from '@/modules/team/model';
+import { lockingGames } from "@/modules/tournament/lib";
 
 const SchemaParams = Type.Object({
     id: Type.String({ minLength: 1 })
@@ -56,7 +58,9 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament.informations.important.message = request.body.informations?.important?.message || "";
                 tournament.informations.important.externalLink = request.body.informations?.important?.externalLink || "";
                 tournament.isLAN = request.body.isLAN || false;
-                tournament.game.name = request.body.game?.name || "";
+                if (request.body.game?.name && !lockingGames.includes(tournament.game?.name?.toLowerCase())) {
+                    tournament.game.name = request.body.game.name;
+                }
                 tournament.game.username = request.body.game?.username || "";
                 tournament.game.team.coachEnabled = request.body.game?.team.coachEnabled || false;
                 tournament.game.team.managerEnabled = request.body.game?.team.managerEnabled || false;
@@ -80,6 +84,24 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             if (!isUndefined(request.body.state?.archived)) {
                 tournament.state.archived = request.body.state?.archived || false;
+            }
+            if (request.body.game?.name?.toLowerCase() === "phasmophobia") {
+                await TeamModel.updateMany(
+                    {
+                        tournament: tournament._id
+                    },
+                    {
+                        $set: {
+                            "members.$[elem].phasmophobia": {
+                                rank: "Unranked",
+                                level: 0
+                            }
+                        }
+                    },
+                    {
+                        arrayFilters: [{ "elem.phasmophobia": { $exists: false } }]
+                    }
+                );
             }
 
             await tournament.save();

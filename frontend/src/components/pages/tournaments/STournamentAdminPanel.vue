@@ -102,6 +102,7 @@
                 :modified="tournament.game.name !== savedTournament.game.name"
                 :title="$t('components.pages.tournaments.admin.game.name')"
                 @enter="sendUpdate"
+                :datalist="['Phasmophobia', 'Among Us', 'Valorant', 'League of Legends', 'CS:GO', 'Overwatch', 'Rocket League', 'Fortnite', 'Apex Legends']"
             />
             <SInput
                 v-model="tournament.game.username"
@@ -262,6 +263,7 @@ import { getWidgetUrl } from "@/services/tournament";
 import STextarea from "@/components/design/forms/STextarea.vue";
 import SCheckbox from "@/components/design/forms/SCheckbox.vue";
 import i18n from "@/locales";
+import { lockingGames } from "@/modules/tournament/lib";
 
 
 const props = defineProps<{
@@ -321,6 +323,11 @@ const sendUpdate = async () => {
     if (!hasChanged.value) {
         return;
     }
+
+    if (props.savedTournament.game.name !== tournament.game.name && lockingGames.includes(tournament.game.name.toLowerCase()) && !confirm(i18n.global.t("components.pages.tournaments.admin.game.confirmation"))) {
+        return;
+    }
+
     const response = await Toast.testRequest(async () => {
         return await TournamentService.update(tournament, tournament._id);
     });

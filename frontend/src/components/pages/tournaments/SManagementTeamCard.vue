@@ -84,32 +84,47 @@
                     </div>
                 </td>
                 <td>
-                    <router-link
-                        v-if="member.user.association?.tag"
-                        class="tag"
-                        :to="'/association/' + (member.user.association.settings?.slug || member.user.association._id)"
-                    >
-                        <span class="gradient">{{ member.user.association.tag }}</span>
-                    </router-link>
-                    {{ member.user.username }}
-                    <span class="info">
-                        (<span :class="{error: !member.username}">{{ member.username || $t("components.pages.tournaments.noId") }}</span>)
-                    </span>
-                    <div
-                        v-if="isOwner && member.user._id !== team.owner"
-                        class="kick"
-                        @click="kickMember(memberIndex)"
-                    >
-                        {{ $t("components.pages.tournaments.kick") }}
+                    <div>
+                        <router-link
+                            v-if="member.user.association?.tag"
+                            class="tag"
+                            :to="'/association/' + (member.user.association.settings?.slug || member.user.association._id)"
+                        >
+                            <span class="gradient">{{ member.user.association.tag }}</span>
+                        </router-link>
+                        {{ member.user.username }}
+                        <span class="info">
+                            (<span :class="{error: !member.username}">{{ member.username || $t("components.pages.tournaments.noId") }}</span>)
+                        </span>
+                        <div
+                            v-if="isOwner && member.user._id !== team.owner"
+                            class="kick"
+                            @click="kickMember(memberIndex)"
+                        >
+                            {{ $t("components.pages.tournaments.kick") }}
+                        </div>
                     </div>
+                    <div v-if="gameName.toLowerCase() === 'phasmophobia'">
+                        <span class="gameinfo">
+                            Lv. {{ member.phasmophobia?.level }} - {{ member.phasmophobia?.rank || 'Unranked' }}
+                        </span>
+                    </div>
+                
                 </td>
                 <td>
-                    {{ member.user.student.name }}
-                    <span class="info">(<span
-                        :class="{error: !(member.user.student.schoolName)}"
-                    >{{
-                        schoolName(member.user)
-                    }}</span>)</span>
+                    <div>
+                        {{ member.user.student.name }}
+                        <span class="info">(<span
+                            :class="{error: !(member.user.student.schoolName)}"
+                        >{{
+                            schoolName(member.user)
+                        }}</span>)</span>
+                    </div>
+                    <div v-if="gameName.toLowerCase() === 'phasmophobia'">
+                        <span class="gameinfo">
+                           Duo pseudo : {{ member.phasmophobia?.duo || 'N/A' }}
+                        </span>
+                    </div>
                 </td>
                 <td>
                     <div class="contact">
@@ -258,6 +273,7 @@ import i18n from "@/locales";
 
 defineProps<{
     team: Team.TTeam;
+    gameName: string;
 }>();
 
 const emit = defineEmits(["update"]);
@@ -437,6 +453,12 @@ async function exportTeam(team: { _id: string }) {
             color: var(--color-content-softer);
             font-size: 0.8rem;
         }
+
+        .gameinfo {
+            font-weight: 600;
+            color: var(--color-content-softer);
+        }
+
 
         .contact {
             display: flex;

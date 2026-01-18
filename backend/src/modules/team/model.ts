@@ -5,6 +5,11 @@ export interface ITeam {
         user: Mongo.Schema.Types.ObjectId;
         username: string;
         acceptedRules: boolean;
+        phasmophobia?: {
+            rank: string;
+            level: number;
+            duo?: string;
+        }
     }>;
     owner: Mongo.Schema.Types.ObjectId;
     settings: {
@@ -43,7 +48,18 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
             type: Mongo.Schema.Types.ObjectId
         },
         username: String,
-        acceptedRules: Boolean
+        acceptedRules: Boolean,
+        phasmophobia: {
+            required: false,
+            type: Object({
+                rank: String,
+                level: Number,
+                duo: {
+                    type: String,
+                    required: false
+                }
+            })
+        }
     }],
     owner: {
         ref: "user",
@@ -83,6 +99,6 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
         required: true,
         type: Mongo.Schema.Types.ObjectId
     }
-},{ minimize: false });
+}, { minimize: false });
 
 export default Mongo.models.team || Mongo.model<ITeamDocument>("team", teamSchema);

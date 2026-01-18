@@ -5,7 +5,12 @@ const Team = {
     members: Type.Array(Type.Object({
         user: Type.String(),
         username: Type.String(),
-        acceptedRules: Type.Boolean({default: false})
+        acceptedRules: Type.Boolean({ default: false }),
+        phasmophobia: Type.Optional(Type.Object({
+            rank: Type.String(),
+            level: Type.Number(),
+            duo: Type.Optional(Type.String())
+        }))
     })),
     owner: Type.String(),
     settings: Type.Object({
@@ -87,7 +92,12 @@ export const TypeCompleteTeam = Type.Object({
         kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUser),
         username: Type.String(),
-        acceptedRules: Type.Boolean({default: false})
+        acceptedRules: Type.Boolean({ default: false }),
+        phasmophobia: Type.Optional(Type.Object({
+            rank: Type.String(),
+            level: Type.Number(),
+            duo: Type.Optional(Type.String())
+        }))
     })),
     staff: Type.Object({
         coach: Type.Object({
@@ -109,7 +119,12 @@ export const TypeCompleteTeamAdmin = Type.Object({
         kick: Type.Optional(Type.Boolean()),
         user: Type.Object(TeamUserAdmin),
         username: Type.String(),
-        acceptedRules: Type.Boolean({default: false})
+        acceptedRules: Type.Boolean({ default: false }),
+        phasmophobia: Type.Optional(Type.Object({
+            rank: Type.String(),
+            level: Type.Number(),
+            duo: Type.Optional(Type.String())
+        }))
     })),
     staff: Type.Object({
         coach: Type.Object({

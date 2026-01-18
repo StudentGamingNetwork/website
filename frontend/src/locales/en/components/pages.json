@@ -196,7 +196,8 @@
                 "subByTeam": "Number of substitutes per team",
                 "coachEnabled": "Possibility to have a coach in the team",
                 "managerEnabled": "Possibility to have a manager in the team",
-                "maxTeams": "Maximum number of teams"
+                "maxTeams": "Maximum number of teams",
+                "confirmation": "Are you sure you want to change the game to a locked game? This action cannot be undone."
             },
             "dates": {
                 "title": "Dates",

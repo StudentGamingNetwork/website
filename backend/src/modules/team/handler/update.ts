@@ -65,20 +65,20 @@ export async function register(server: FastifyInstance): Promise<void> {
                         team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
                     }
                 }
-             
 
-                if (request.body.staff.coach?.kick && request.body.staff.coach.user?._id !== team.owner.toString()){
+
+                if (request.body.staff.coach?.kick && request.body.staff.coach.user?._id !== team.owner.toString()) {
                     team.staff.coach = {};
                 }
 
-                if (request.body.staff.manager && request.body.staff.manager.kick && request.body.staff.manager?.user?._id !== team.owner.toString()){
+                if (request.body.staff.manager && request.body.staff.manager.kick && request.body.staff.manager?.user?._id !== team.owner.toString()) {
                     team.staff.manager = {};
                 }
                 team.state.ready = request.body.state.ready;
             }
 
-            let currentMember: string;
-            let memberIndex: number|string;
+            let currentMember;
+            let memberIndex: number = -1;
 
             for (const [index, member] of request.body.members.entries()) {
                 if (member.user._id === user._id.toString()) {
@@ -90,6 +90,18 @@ export async function register(server: FastifyInstance): Promise<void> {
             if (currentMember) {
                 team.members[memberIndex].username = currentMember.username;
                 team.members[memberIndex].acceptedRules = currentMember.acceptedRules;
+
+                if (tournament.game?.name?.toLowerCase() === "phasmophobia") {
+                    if (!team.members[memberIndex].phasmophobia) {
+                        team.members[memberIndex].phasmophobia = {
+                            rank: "Unranked",
+                            level: 0,
+                            duo: ""
+                        };
+                    }
+
+                    team.members[memberIndex].phasmophobia = currentMember.phasmophobia;
+                }
             }
 
             if (request.body.staff.coach?.user?._id === user._id.toString()) {
@@ -99,7 +111,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             if (request.body.staff.manager?.user?._id === user._id.toString()) {
                 team.staff.manager.username = request.body.staff.manager.username;
             }
-            
+
             await team.save();
 
             reply.send({
