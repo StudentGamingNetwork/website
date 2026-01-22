@@ -101,7 +101,7 @@
                         title="Rank"
                         @enter="sendUpdate"
                     />
-                      <SInput
+                    <SInput
                         v-model="team.members[playerIndex].phasmophobia.level"
                         :modified="team.members[playerIndex].phasmophobia.level !== savedTeam.members[playerIndex].phasmophobia.level"
                         :disabled="isStaff"
@@ -109,13 +109,32 @@
                         title="Level"
                         @enter="sendUpdate"
                     />
-                         <SInput
-                        v-model="team.members[playerIndex].phasmophobia.duo"
-                        :modified="team.members[playerIndex].phasmophobia.duo !== savedTeam.members[playerIndex].phasmophobia.duo"
-                        :disabled="isStaff"
-                        title="Duo Partner"
-                        @enter="sendUpdate"
-                    />
+                    <div class="game-columns">
+                        <SSelect
+                            v-model="team.game.phasmophobia.map1"
+                            :modified="team.game.phasmophobia.map1 !== savedTeam.game.phasmophobia.map1"
+                            :disabled="!isOwner"
+                            :options="phasmophobiaMaps"
+                            title="Preferred Map 1"
+                            @enter="sendUpdate"
+                        />
+                        <SSelect
+                            v-model="team.game.phasmophobia.map2"
+                            :modified="team.game.phasmophobia.map2 !== savedTeam.game.phasmophobia.map2"
+                            :disabled="!isOwner"
+                            :options="phasmophobiaMaps"
+                            title="Preferred Map 2"
+                            @enter="sendUpdate"
+                        />
+                        <SSelect
+                            v-model="team.game.phasmophobia.map3"
+                            :modified="team.game.phasmophobia.map3 !== savedTeam.game.phasmophobia.map3"
+                            :disabled="!isOwner"
+                            :options="phasmophobiaMaps"
+                            title="Preferred Map 3"
+                            @enter="sendUpdate"
+                        />
+                    </div>
                 </template>
 
 
@@ -274,7 +293,7 @@
             </SModalSection>
             <div class="actions">
                 <SInputCopier
-                    v-if="isTeamBased"
+                    v-if="isTeamBased || tournament.game.team.substitutesNumber > 0"
                     :content="team.settings.invitationCode"
                     :title="$t('components.pages.tournaments.card.team.code.player')"
                 />
@@ -493,6 +512,8 @@ import * as UserService from "@/services/user";
 import SAvatarPicker from "@/components/design/forms/SAvatarPicker.vue";
 import i18n from "@/locales";
 import { TTeamMember } from "@/modules/team/type";
+import SSelect from '@/components/design/forms/SSelect.vue';
+import { phasmophobiaMaps } from "@/modules/team/lib";
 
 const props = defineProps({
     tournament: {
@@ -850,6 +871,13 @@ async function kickMember(memberIndex: number, type: "staff" | "members" = "memb
                 flex-grow: 1;
                 flex-basis: 1px;
             }
+        }
+
+        .game-columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--length-gap-m);
+            padding: var(--length-padding-xs) 0;
         }
 
         .members-table {

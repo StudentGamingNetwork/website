@@ -80,8 +80,15 @@ export async function register(server: FastifyInstance): Promise<void> {
                 team.members[0].phasmophobia = {
                     rank: "Unranked",
                     level: 0,
-                    duo: undefined
                 };
+
+                team.game = {
+                    phasmophobia: {
+                        map1: "",
+                        map2: "",
+                        map3: ""
+                    }
+                }
                 await team.save();
             }
 

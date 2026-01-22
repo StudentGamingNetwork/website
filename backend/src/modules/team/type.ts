@@ -9,7 +9,6 @@ const Team = {
         phasmophobia: Type.Optional(Type.Object({
             rank: Type.String(),
             level: Type.Number(),
-            duo: Type.Optional(Type.String())
         }))
     })),
     owner: Type.String(),
@@ -21,6 +20,13 @@ const Team = {
         managerInvitationCode: Type.Optional(Type.String()),
         tag: Type.Optional(Type.String())
     }),
+    game: Type.Optional(Type.Object({
+        phasmophobia: Type.Optional(Type.Object({
+            map1: Type.Optional(Type.String()),
+            map2: Type.Optional(Type.String()),
+            map3: Type.Optional(Type.String())
+        }))
+    })),
     staff: Type.Object({
         coach: Type.Object({
             user: Type.Optional(Type.String()),
@@ -53,7 +59,11 @@ const TeamAssociation = {
 
 const TeamUser = {
     _id: Type.String(),
-    association: Type.Optional(Type.Object(TeamAssociation)),
+    association: Type.Optional(Type.Union([
+        Type.Object(TeamAssociation),
+        Type.Null(),
+        Type.Object({})
+    ])),
     avatar: Type.Optional(Type.String()),
     mail: Type.String(),
     platforms: Type.Object({
@@ -69,7 +79,11 @@ const TeamUser = {
 
 const TeamUserAdmin = {
     _id: Type.String(),
-    association: Type.Optional(Type.Object(TeamAssociation)),
+    association: Type.Optional(Type.Union([
+        Type.Object(TeamAssociation),
+        Type.Null(),
+        Type.Object({})
+    ])),
     avatar: Type.Optional(Type.String()),
     mail: Type.String(),
     platforms: Type.Object({
@@ -96,7 +110,6 @@ export const TypeCompleteTeam = Type.Object({
         phasmophobia: Type.Optional(Type.Object({
             rank: Type.String(),
             level: Type.Number(),
-            duo: Type.Optional(Type.String())
         }))
     })),
     staff: Type.Object({
@@ -123,7 +136,6 @@ export const TypeCompleteTeamAdmin = Type.Object({
         phasmophobia: Type.Optional(Type.Object({
             rank: Type.String(),
             level: Type.Number(),
-            duo: Type.Optional(Type.String())
         }))
     })),
     staff: Type.Object({

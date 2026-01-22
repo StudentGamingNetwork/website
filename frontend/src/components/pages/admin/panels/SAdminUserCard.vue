@@ -83,7 +83,7 @@
                     <FontAwesomeIcon
                         class="icon"
                         :icon="['fas', 'graduation-cap']"
-                    />{{ user.association ? user.association.school.name : user.student.schoolName }}
+                    />{{ user.association ? user.association.school?.name : user.student.schoolName }}
                 </li>
             </ul>
         </div>
@@ -200,16 +200,6 @@ async function userUpdate(update: { _id: string; role: { name: ERoles; modificat
     if (response?.success) {
         emit("update");
     }
-
-    return {
-        avatarUrl,
-        certificateType,
-        certificateUrl,
-        roles,
-        studentStatus,
-        unvalidateCertificate,
-        userUpdate
-    };
 }
 </script>
 

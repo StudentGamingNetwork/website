@@ -49,7 +49,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             if (previousTeam) {
                 throw new httpErrors.Forbidden("Vous êtes déjà dans une équipe");
             }
-            
+
             if (tournament.dates.subscriptionClose && tournament.dates.subscriptionClose < startOfDay(new Date())) {
                 throw new httpErrors.Forbidden("Vous ne pouvez pas rejoindre d'équipe une fois que le tournoi a commencé.");
             }
@@ -58,8 +58,8 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             const team = await TeamModel.findOne({
                 $or: [{ "settings.coachInvitationCode": invitationCode },
-                    { "settings.managerInvitationCode": invitationCode },
-                    { "settings.invitationCode": invitationCode }],
+                { "settings.managerInvitationCode": invitationCode },
+                { "settings.invitationCode": invitationCode }],
                 tournament: tournament._id
             });
 
@@ -70,7 +70,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
             switch (invitationCode) {
                 case team.settings.invitationCode:
-                    if (team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber){
+                    if (team.members.length >= tournament.game.team.playersNumber + tournament.game.team.substitutesNumber) {
                         throw new httpErrors.Forbidden("Cette équipe est déjà complète");
                     }
                     team.members.push({
@@ -78,16 +78,24 @@ export async function register(server: FastifyInstance): Promise<void> {
                         username: "",
                         acceptedRules: false
                     });
+
+                    if (tournament.game?.name?.toLowerCase() === "phasmophobia") {
+                        team.members[team.members.length - 1].phasmophobia = {
+                            rank: "",
+                            level: 0
+                        };
+                    }
+
                     break;
 
                 case team.settings.coachInvitationCode:
-                    if (team.staff.coach.user){
+                    if (team.staff.coach.user) {
                         throw new httpErrors.Forbidden("Cette équipe ne peut plus accueillir de coach");
                     }
                     team.staff.coach.user = user._id;
                     team.staff.coach.username = "";
                     break;
-                
+
                 case team.settings.managerInvitationCode:
                     if (team.staff.manager.user) {
                         throw new httpErrors.Forbidden("Cette équipe ne peut plus accueillir de manager");
@@ -95,9 +103,9 @@ export async function register(server: FastifyInstance): Promise<void> {
 
                     team.staff.manager.user = user._id;
                     team.staff.manager.username = "";
-                    break;           
+                    break;
             }
-            
+
             await team.save();
 
             reply.send({

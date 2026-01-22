@@ -54,6 +54,32 @@
                     @enter="sendUpdate"
                 />
 
+                <template v-if='tournament.game.name.toLowerCase() === "phasmophobia"'>
+                    <div class="game-columns">
+                        <SSelect
+                            v-model="team.game.phasmophobia.map1"
+                            :modified="team.game.phasmophobia.map1 !== savedTeam.game.phasmophobia.map1"
+                            :options="phasmophobiaMaps"
+                            title="Preferred Map 1"
+                            @enter="sendUpdate"
+                        />
+                        <SSelect
+                            v-model="team.game.phasmophobia.map2"
+                            :modified="team.game.phasmophobia.map2 !== savedTeam.game.phasmophobia.map2"
+                            :options="phasmophobiaMaps"
+                            title="Preferred Map 2"
+                            @enter="sendUpdate"
+                        />
+                        <SSelect
+                            v-model="team.game.phasmophobia.map3"
+                            :modified="team.game.phasmophobia.map3 !== savedTeam.game.phasmophobia.map3"
+                            :options="phasmophobiaMaps"
+                            title="Preferred Map 3"
+                            @enter="sendUpdate"
+                        />
+                    </div>
+                </template>
+
                 <div class="buttons">
                     <SButton
                         class="button"
@@ -210,11 +236,6 @@
                                     schoolName(member.user)
                                 }}</span>)</span>
                             </div>
-                            <div v-if="tournament.game.name.toLowerCase() === 'phasmophobia'">
-                                <span class="gameinfo">
-                                    Duo pseudo : {{ member.phasmophobia?.duo || 'N/A' }}
-                                </span>
-                            </div>
                         </td>
                         <td>
                             <div class="contact">
@@ -361,6 +382,7 @@ import * as TeamService from "@/services/team";
 import { User, Toast, Team, Tournament } from "@/modules";
 import SButton from "@/components/design/forms/SButton.vue";
 import SInput from "@/components/design/forms/SInput.vue";
+import SSelect from "@/components/design/forms/SSelect.vue";
 import SModalSection from "@/components/design/modal/SModalSection.vue";
 import SValidator from "@/components/design/forms/SValidator.vue";
 import SModalSectionTitle from "@/components/design/modal/SModalSectionTitle.vue";
@@ -368,10 +390,10 @@ import SModalSectionDescription from "@/components/design/modal/SModalSectionDes
 import SSectionTitle from "@/components/design/SSectionTitle.vue";
 import * as InputValidators from "@/utils/validators";
 import SCopier from "@/components/design/forms/SCopier.vue";
+import { phasmophobiaMaps } from "@/modules/team/lib";
 import * as UserService from "@/services/user";
 import SAvatarPicker from "@/components/design/forms/SAvatarPicker.vue";
 import i18n from "@/locales";
-import { lockingGames } from "@/modules/tournament/lib";
 
 
 const props = defineProps<{
@@ -659,6 +681,13 @@ async function kickMember(memberIndex: number, type: "staff" | "members" = "memb
                 flex-grow: 1;
                 flex-basis: 1px;
             }
+        }
+
+        .game-columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--length-gap-m);
+            padding: var(--length-padding-xs) 0;
         }
 
         .members-table {
