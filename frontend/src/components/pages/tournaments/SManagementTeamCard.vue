@@ -56,6 +56,11 @@
                 </div>
             </div>
         </div>
+        <div v-if="gameName.toLowerCase() === 'phasmophobia'" class="teaminfo">
+            <span>Map 1 : {{ team.game?.phasmophobia?.map1 || 'N/A' }}</span>
+            <span>Map 2 : {{ team.game?.phasmophobia?.map2 || 'N/A' }}</span>
+            <span>Map 3 : {{ team.game?.phasmophobia?.map3 || 'N/A' }}</span>
+        </div>
         <table class="members-table">
             <tr>
                 <td
@@ -119,11 +124,6 @@
                         >{{
                             schoolName(member.user)
                         }}</span>)</span>
-                    </div>
-                    <div v-if="gameName.toLowerCase() === 'phasmophobia'">
-                        <span class="gameinfo">
-                           Maps : {{ team.game?.phasmophobia || 'N/A' }}
-                        </span>
                     </div>
                 </td>
                 <td>
@@ -399,6 +399,12 @@ async function exportTeam(team: { _id: string }) {
                 border: 1px solid var(--color-info);
             }
         }
+    }
+
+    .teaminfo {
+        display: flex;
+        gap: var(--length-gap-m);
+        justify-content: space-around;
     }
 
     .name {
