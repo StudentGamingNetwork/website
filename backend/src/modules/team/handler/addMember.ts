@@ -46,7 +46,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             const previousTeam = await TeamModel.findOne({
-                $or: [{ "members.user": user._id },{ "staff.coach.user": user._id },{ "staff.manager.user": user._id }],
+                $or: [{ "members.user": user._id }, { "staff.coach.user": user._id }, { "staff.manager.user": user._id }],
                 tournament: request.params.tournamentId
             });
 
@@ -82,10 +82,17 @@ export async function register(server: FastifyInstance): Promise<void> {
                         user: user._id,
                         username: ""
                     });
+
+                    if (tournament.game?.name?.toLowerCase() === "phasmophobia") {
+                        team.members[team.members.length - 1].phasmophobia = {
+                            rank: "",
+                            level: 0
+                        };
+                    }
                     break;
 
                 case "coach":
-                    if (!tournament.game.team.coachEnabled){
+                    if (!tournament.game.team.coachEnabled) {
                         throw new httpErrors.Forbidden("Les coachs ne sont pas activés pour ce tournoi");
                     }
                     if (team.staff.coach.user) {
@@ -98,7 +105,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     break;
 
                 case "manager":
-                    if (!tournament.game.team.managerEnabled){
+                    if (!tournament.game.team.managerEnabled) {
                         throw new httpErrors.Forbidden("Les managers ne sont pas activés pour ce tournoi");
                     }
                     if (team.staff.manager.user) {
@@ -110,7 +117,8 @@ export async function register(server: FastifyInstance): Promise<void> {
                     };
                     break;
             }
-    
+
+
             await team.save();
 
             reply.send({

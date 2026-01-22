@@ -54,6 +54,21 @@
                     @enter="sendUpdate"
                 />
 
+                <template v-if='false'> <!--tournament.game.name.toLowerCase() === "phasmophobia" -->
+                    <SInput
+                        v-model="team.members[0].phasmophobia.map1"
+                        title="Map 1"
+                    />
+                    <SInput
+                        v-model="team.members[0].phasmophobia.map2"
+                        title="Map 2"
+                    />
+                    <SInput
+                        v-model="team.members[0].phasmophobia.map3"
+                        title="Map 3"
+                    />
+                </template>
+
                 <div class="buttons">
                     <SButton
                         class="button"
@@ -212,7 +227,7 @@
                             </div>
                             <div v-if="tournament.game.name.toLowerCase() === 'phasmophobia'">
                                 <span class="gameinfo">
-                                    Duo pseudo : {{ member.phasmophobia?.duo || 'N/A' }}
+                                    Maps : {{ team.game?.phasmophobia || 'N/A' }}
                                 </span>
                             </div>
                         </td>
@@ -371,7 +386,6 @@ import SCopier from "@/components/design/forms/SCopier.vue";
 import * as UserService from "@/services/user";
 import SAvatarPicker from "@/components/design/forms/SAvatarPicker.vue";
 import i18n from "@/locales";
-import { lockingGames } from "@/modules/tournament/lib";
 
 
 const props = defineProps<{

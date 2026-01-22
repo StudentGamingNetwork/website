@@ -24,3 +24,6 @@ export function makeObject(team: Partial<TTeam>): TTeam {
 
     return merge(basicTeam, team);
 }
+
+
+export const phasmophobiaMaps = [{ label: 'Haunted House', value: 'haunted_house' }, { label: 'Asylum', value: 'asylum' }, { label: 'Prison', value: 'prison' }, { label: 'School', value: 'school' }, { label: 'Farmhouse', value: 'farmhouse' }, { label: 'Cabin', value: 'cabin' }]

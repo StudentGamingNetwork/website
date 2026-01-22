@@ -7,7 +7,6 @@ export type TTeamMember = {
     phasmophobia?: {
         rank: string;
         level: number;
-        duo?: string;
     }
 };
 
@@ -23,8 +22,15 @@ export type TTeam = {
         managerInvitationCode: string;
         tag: string;
     };
-    staff:{
-        coach?:{
+    game?: {
+        phasmophobia?: {
+            map1?: string;
+            map2?: string;
+            map3?: string;
+        }
+    };
+    staff: {
+        coach?: {
             user: TCompleteUser;
             username: string;
         };

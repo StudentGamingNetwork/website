@@ -62,6 +62,7 @@ export async function register(server: FastifyInstance): Promise<void> {
 
                 for (const teamMember of request.body.members) {
                     if (teamMember.kick && teamMember.user._id !== team.owner.toString()) {
+                        console.log("Removing member", teamMember.user.mail);
                         team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
                     }
                 }
@@ -75,6 +76,17 @@ export async function register(server: FastifyInstance): Promise<void> {
                     team.staff.manager = {};
                 }
                 team.state.ready = request.body.state.ready;
+
+                if (tournament.game?.name?.toLowerCase() === "phasmophobia") {
+                    if (!team.game) {
+                        team.game = {};
+                    }
+                    team.game.phasmophobia = {
+                        map1: request.body.game?.phasmophobia?.map1 || "",
+                        map2: request.body.game?.phasmophobia?.map2 || "",
+                        map3: request.body.game?.phasmophobia?.map3 || ""
+                    };
+                }
             }
 
             let currentMember;
@@ -96,7 +108,6 @@ export async function register(server: FastifyInstance): Promise<void> {
                         team.members[memberIndex].phasmophobia = {
                             rank: "Unranked",
                             level: 0,
-                            duo: ""
                         };
                     }
 

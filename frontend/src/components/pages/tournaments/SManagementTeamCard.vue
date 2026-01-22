@@ -122,7 +122,7 @@
                     </div>
                     <div v-if="gameName.toLowerCase() === 'phasmophobia'">
                         <span class="gameinfo">
-                           Duo pseudo : {{ member.phasmophobia?.duo || 'N/A' }}
+                           Maps : {{ team.game?.phasmophobia || 'N/A' }}
                         </span>
                     </div>
                 </td>

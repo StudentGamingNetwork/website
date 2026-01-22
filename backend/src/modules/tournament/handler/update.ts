@@ -95,6 +95,11 @@ export async function register(server: FastifyInstance): Promise<void> {
                             "members.$[elem].phasmophobia": {
                                 rank: "Unranked",
                                 level: 0
+                            },
+                            "game.phasmophobia": {
+                                map1: "",
+                                map2: "",
+                                map3: ""
                             }
                         }
                     },

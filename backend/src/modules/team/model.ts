@@ -8,7 +8,6 @@ export interface ITeam {
         phasmophobia?: {
             rank: string;
             level: number;
-            duo?: string;
         }
     }>;
     owner: Mongo.Schema.Types.ObjectId;
@@ -20,6 +19,13 @@ export interface ITeam {
         managerInvitationCode: string;
         tag: string;
     };
+    game?: {
+        phasmophobia?: {
+            map1?: string;
+            map2?: string;
+            map3?: string;
+        }
+    }
     staff: {
         coach: {
             user: Mongo.Schema.Types.ObjectId;
@@ -54,10 +60,6 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
             type: Object({
                 rank: String,
                 level: Number,
-                duo: {
-                    type: String,
-                    required: false
-                }
             })
         }
     }],
@@ -73,6 +75,28 @@ const teamSchema: Mongo.Schema = new Mongo.Schema({
         logo: String,
         managerInvitationCode: String,
         tag: String
+    },
+    game: {
+        type: Object({
+            phasmophobia: {
+                required: false,
+                type: Object({
+                    map1: {
+                        type: String,
+                        required: false
+                    },
+                    map2: {
+                        type: String,
+                        required: false
+                    },
+                    map3: {
+                        type: String,
+                        required: false
+                    }
+                })
+            }
+        }),
+        required: false
     },
     staff: {
         coach: {
