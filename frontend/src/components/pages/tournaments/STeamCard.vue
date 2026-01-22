@@ -239,12 +239,14 @@
                         <SValidator :valid="!!userStore.student.name">
                             {{ $t("components.pages.tournaments.card.team.checklist.fullname") }}
                         </SValidator>
-                        <SValidator
-                            v-if="!isStaff"
-                            :valid="userStore.student.status === 'validated'"
-                        >
-                            {{ $t("components.pages.tournaments.card.team.checklist.certificate") }}
-                        </SValidator>
+                        <template v-if="tournament.settings.studentOnly">
+                            <SValidator
+                                v-if="!isStaff"
+                                :valid="userStore.student.status === 'validated'"
+                            >
+                                {{ $t("components.pages.tournaments.card.team.checklist.certificate") }}
+                            </SValidator>
+                        </template>
                     </div>
                 </div>
                 <i18n-t
@@ -637,11 +639,11 @@ function isMemberReady(member: TTeamMember, isStaff = false): boolean {
         return false;
     }
 
-    if (!(member.user.student.schoolName || member.user.association) && !isStaff) {
+    if (!(member.user.student.schoolName || member.user.association) && !isStaff && !props.tournament.settings.studentOnly) {
         return false;
     }
 
-    if (member.user.student.status !== "validated" && !isStaff) {
+    if (member.user.student.status !== "validated" && !isStaff && props.tournament.settings.studentOnly) {
         return false;
     }
 

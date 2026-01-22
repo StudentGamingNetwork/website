@@ -38,8 +38,8 @@ export async function register(server: FastifyInstance): Promise<void> {
                 informations: {
 
                 },
-                setting: {
-
+                settings: {
+                    studentOnly: true
                 },
                 state: {
                     archived: false,

@@ -157,6 +157,15 @@
                 type="number"
                 @enter="sendUpdate"
             />
+            <SCheckbox
+                v-model="tournament.settings.studentOnly"
+                :modified="
+                    tournament.settings.studentOnly !==
+                        savedTournament.settings.studentOnly
+                "
+                :title="$t('components.pages.tournaments.admin.settings.studentOnly')"
+                @enter="sendUpdate"
+            />
         </SModalSection>
         <SModalSection class="dates-section">
             <SModalSectionTitle>{{ $t('components.pages.tournaments.admin.dates.title') }}</SModalSectionTitle>

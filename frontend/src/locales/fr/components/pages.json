@@ -209,6 +209,9 @@
             "location": {
                 "title": "Localisation",
                 "isLan": "Tournoi en présentiel"
+            },
+            "settings": {
+                "studentOnly": "Tournoi réservé aux étudiants"
             }
         },
         "dates": {

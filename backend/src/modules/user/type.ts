@@ -5,6 +5,7 @@ const BasicUser = {
     _id: Type.String(),
     association: Type.Optional(Type.String()),
     avatar: Type.Optional(Type.String()),
+    birthdate: Type.Optional(Type.String()),
     roles: Type.Array(Type.String()),
     student: Type.Optional(Type.Object({
         schoolName: Type.Optional(Type.String())

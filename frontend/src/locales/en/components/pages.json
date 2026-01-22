@@ -209,6 +209,9 @@
             "location": {
                 "title": "Location",
                 "isLan": "On-site tournament"
+            },
+            "settings": {
+                "studentOnly": "Student-only tournament"
             }
         },
         "dates": {

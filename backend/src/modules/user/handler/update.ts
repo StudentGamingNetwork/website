@@ -16,7 +16,8 @@ const UserUpdate = Type.Object({
         name: Type.String(),
         schoolName: Type.String()
     })),
-    username: Type.Optional(Type.String({ minLength: 1 }))
+    username: Type.Optional(Type.String()),
+    birthdate: Type.Optional(Type.String())
 });
 
 type TUserUpdate = Static<typeof UserUpdate>;
@@ -73,6 +74,10 @@ async function update(user: IUserDocument, update: TUserUpdate) {
     if (update.student) {
         user.student.name = update.student.name;
         user.student.schoolName = update.student.schoolName;
+    }
+
+    if (update.birthdate) {
+        user.birthdate = update.birthdate;
     }
 
     await user.save();

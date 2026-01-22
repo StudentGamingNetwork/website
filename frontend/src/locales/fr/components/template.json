@@ -82,6 +82,7 @@
             "public": {
                 "title": "Profil",
                 "avatar": "Photo de profil",
+                "birthday": "Date de naissance",
                 "username": "Pseudo",
                 "mail": "Mail",
                 "save": "Sauvegarder les changements",

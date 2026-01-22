@@ -48,7 +48,7 @@ export const useStore = defineStore("user",{
                 }
             }
         },
-        async update(update: { password?: { new: string; old: string }; student?: { name: string; schoolName: string }; username?: string }) {
+        async update(update: { password?: { new: string; old: string }; student?: { name: string; schoolName: string }; username?: string; birthdate?: Date }) {
             const response = await Toast.testRequest(async () => {
                 return await UserService.update(update);
             });
@@ -56,6 +56,7 @@ export const useStore = defineStore("user",{
             if (response?.success && update.username) {
                 this.username = update.username;
                 this.student.name = update.student?.name || "";
+                this.birthdate = update.birthdate || undefined;
             }
         },
         async updatePlatforms(platforms: { discord: string }) {
@@ -87,6 +88,15 @@ export const useStore = defineStore("user",{
         }
     },
     getters: {
+        getAge(): number | null {
+            if (!this.birthdate) {
+                return null;
+            }
+            const birthDate = new Date(this.birthdate);
+            const ageDifMs = Date.now() - birthDate.getTime();
+            const ageDate = new Date(ageDifMs);
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
+        },
         getAvatarUrl(): string {
             return UserService.getAvatarUrl({ id: this._id, avatar: this.avatar });
         },
@@ -125,6 +135,7 @@ export const useStore = defineStore("user",{
         _id: "",
         association: "",
         avatar: "",
+        birthdate: "",
         mail: "",
         platforms: {
             discord: "",

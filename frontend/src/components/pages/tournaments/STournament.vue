@@ -75,6 +75,7 @@
                     >{{ tournament.informations.important.message }}</span>
                 </li>
             </ul>
+            <span class="alert">Vous avez au moins une personne mineure dans votre équipe ! Elle doit avoir envoyé une autorisation parentale.</span>
         </div>
     </SCard>
 </template>
@@ -183,7 +184,8 @@ const subscriptionDateText = computed(() => {
         grid-template-areas:
         "title       title"
         "game        game"
-        "description dates";
+        "description dates"
+        "alert alert";
 
         @media (max-width: 899px) {
             width: 100%;
@@ -196,7 +198,8 @@ const subscriptionDateText = computed(() => {
             "title"
             "game"
             "description"
-            "dates";
+            "dates"
+            "alert";
         }
 
         h2 {
@@ -220,6 +223,14 @@ const subscriptionDateText = computed(() => {
             font-size: 0.8rem;
             font-weight: 200;
             opacity: 0.5;
+            padding-bottom: var(--length-padding-s);
+        }
+
+         .alert {
+            grid-area: alert;
+            color: var(--color-error);
+            text-transform: uppercase;
+            font-weight: 600;
             padding-bottom: var(--length-padding-s);
         }
 
