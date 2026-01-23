@@ -490,11 +490,11 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }): 
         return false;
     }
 
-    if (!(member.user.student.schoolName || member.user.association)) {
+    if (!(member.user.student.schoolName || member.user.association) && !props.tournament?.settings.studentOnly) {
         return false;
     }
 
-    if (member.user.student.status !== "validated") {
+    if (member.user.student.status !== "validated" && props.tournament?.settings.studentOnly) {
         return false;
     }
 

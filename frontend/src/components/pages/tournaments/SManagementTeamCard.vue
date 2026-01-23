@@ -260,7 +260,7 @@
 
 <script lang="ts" setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { Team, Toast, User } from "@/modules";
 import SCard from "@/components/design/SCard.vue";
 import SValidator from "@/components/design/forms/SValidator.vue";
@@ -268,15 +268,20 @@ import SCopier from "@/components/design/forms/SCopier.vue";
 import * as UserService from "@/services/user";
 import * as AdminService from "@/services/admin";
 import * as TeamService from "@/services/team";
+import * as TournamentService from "@/services/tournament";
 import i18n from "@/locales";
+import { TTournament } from "@/modules/tournament";
 
 
-defineProps<{
+const props = defineProps<{
     team: Team.TTeam;
     gameName: string;
+    tournamentSlug: string;
 }>();
 
 const emit = defineEmits(["update"]);
+
+const tournament = ref<TTournament>();
 
 const schoolName = computed(() => (member: User.TCompleteUser) => {
     if (member?.student?.schoolName) {
@@ -299,11 +304,11 @@ function isMemberReady(member: { user: User.TCompleteUser; username: string }, i
         return false;
     }
 
-    if (!(member.user.student.schoolName || member.user.association) && !isStaff) {
+    if (!(member.user.student.schoolName || member.user.association) && !isStaff && !tournament.value?.settings.studentOnly) {
         return false;
     }
 
-    if (member.user.student.status !== "validated" && !isStaff) {
+    if (member.user.student.status !== "validated" && !isStaff && tournament.value?.settings.studentOnly) {
         return false;
     }
 
@@ -325,6 +330,10 @@ async function exportTeam(team: { _id: string }) {
         return await AdminService.teamExport(team);
     });
 }
+
+onMounted(async () => {
+    tournament.value = await TournamentService.get(props.tournamentSlug);
+});
 
 </script>
 

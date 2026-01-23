@@ -65,6 +65,7 @@ const TeamUser = {
         Type.Object({})
     ])),
     avatar: Type.Optional(Type.String()),
+    birthdate: Type.Optional(Type.String()),
     mail: Type.String(),
     platforms: Type.Object({
         discord: Type.String()

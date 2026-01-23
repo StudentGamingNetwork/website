@@ -167,6 +167,7 @@
         "incomplete": "Incomplet",
         "kick": "Expulser",
         "noId": "ID manquant",
+        "minorAlert": "Vous avez au moins une personne mineure dans votre équipe ! Elles doivent avoir envoyé une autorisation parentale aux admins afin de participer.",
         "admin": {
             "title": "Paramètres du tournoi",
             "name": "Nom du tournoi",
@@ -209,6 +210,9 @@
             "location": {
                 "title": "Localisation",
                 "isLan": "Tournoi en présentiel"
+            },
+            "settings": {
+                "studentOnly": "Tournoi réservé aux étudiants"
             }
         },
         "dates": {

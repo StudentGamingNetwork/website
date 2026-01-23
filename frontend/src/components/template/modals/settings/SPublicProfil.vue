@@ -23,6 +23,13 @@
                 :model-value="userStore.mail"
                 :title="$t('components.template.modals.settings.public.mail')"
             />
+            <SInput
+                v-model="birthdate"
+                :modified="birthdate !== userStore.birthdate"
+                :title="$t('components.template.modals.settings.public.birthday')"
+                type="date"
+                @enter="sendUpdate"
+            />
         </SModalSection>
         <SModalSectionTitle>
             Statut étudiant
@@ -143,11 +150,13 @@ const userStore = User.useStore();
 
 const username = ref(userStore.username);
 const student = reactive(cloneDeep(userStore.student));
+const birthdate = ref(userStore.birthdate);
 
 const hasUpdate = computed(() => {
     return username.value !== userStore.username
                 || student.name !== userStore.student.name
-                || student.schoolName !== userStore.student.schoolName;
+                || student.schoolName !== userStore.student.schoolName
+                || birthdate.value !== userStore.birthdate;
 });
 
 const avatarUrl = computed(() => {
@@ -165,7 +174,8 @@ const sendUpdate = async () => {
 
     await userStore.update({
         student,
-        username: username.value
+        username: username.value,
+        birthdate: birthdate.value
     });
 
     await userStore.init();

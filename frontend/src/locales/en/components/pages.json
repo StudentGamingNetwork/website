@@ -167,6 +167,7 @@
         "incomplete": "Incomplete",
         "kick": "Kick",
         "noId": "Missing ID",
+        "minorAlert": "You have at least one minor in your team! They must have sent a parental authorization to the admins in order to participate.",
         "admin": {
             "title": "Tournament settings",
             "name": "Tournament name",
@@ -209,6 +210,9 @@
             "location": {
                 "title": "Location",
                 "isLan": "On-site tournament"
+            },
+            "settings": {
+                "studentOnly": "Student-only tournament"
             }
         },
         "dates": {

@@ -29,14 +29,14 @@ const router = useRouter();
 const userStore = User.useStore();
 const slug = ref(router.currentRoute.value.params.slug as string);
 
-const tournament = reactive(Tournament.makeObject({}));
+const tournament = reactive(Tournament.Lib.makeObject({}));
 
 async function updateTournament() {
     const tournamentApi = await Toast.testRequest(async () => {
         return await TournamentService.get(slug.value);
     }, { onlyError: true });
 
-    assign(tournament, Tournament.makeObject(tournamentApi));
+    assign(tournament, Tournament.Lib.makeObject(tournamentApi));
 }
 
 const isConnected = computed(() => {

@@ -3,6 +3,7 @@ import { ERoles } from "@/services/user";
 export type TUser = {
     _id: string;
     avatar: string;
+    birthdate: string;
     mail: string;
     platforms: {
         discord: string;

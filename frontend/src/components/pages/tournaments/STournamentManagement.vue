@@ -35,6 +35,7 @@
                 <STournamentManagementTeamCard
                     :team="team"
                     :gameName="gameName"
+                    :tournament-slug="tournamentSlug"
                     @click="inspectTeam(team)"
                     @update="updateSearch"
                 />

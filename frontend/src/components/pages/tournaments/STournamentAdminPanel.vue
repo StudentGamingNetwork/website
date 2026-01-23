@@ -157,6 +157,15 @@
                 type="number"
                 @enter="sendUpdate"
             />
+            <SCheckbox
+                v-model="tournament.settings.studentOnly"
+                :modified="
+                    tournament.settings.studentOnly !==
+                        savedTournament.settings.studentOnly
+                "
+                :title="$t('components.pages.tournaments.admin.settings.studentOnly')"
+                @enter="sendUpdate"
+            />
         </SModalSection>
         <SModalSection class="dates-section">
             <SModalSectionTitle>{{ $t('components.pages.tournaments.admin.dates.title') }}</SModalSectionTitle>
@@ -275,7 +284,7 @@ const emit = defineEmits(["update", "update:modelValue"]);
    
 const router = useRouter();
 const userStore = User.useStore();
-const tournament = reactive(Tournament.makeObject({}));
+const tournament = reactive(Tournament.Lib.makeObject({}));
 
 watch(
     () => props.modelValue,

@@ -22,6 +22,7 @@ export enum EStudentStatus {
 export interface IUser {
     association?: PopulatedDoc<IAssociationDocument>;
     avatar?: string;
+    birthdate?: string;
     mail: string;
     password: string;
     passwordLogin: boolean;
@@ -55,6 +56,9 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         type: Mongo.Schema.Types.ObjectId
     },
     avatar: {
+        type: String
+    },
+    birthdate: {
         type: String
     },
     mail: {

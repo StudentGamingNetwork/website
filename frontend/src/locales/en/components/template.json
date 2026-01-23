@@ -21,6 +21,7 @@
             "association": {
                 "title": "Association profile",
                 "name": "Name",
+                "birthday": "Birthdate",
                 "mail": "Email",
                 "tagDescription": " Your association's tag will be visible in front of your members' nicknames participating in tournaments.",
                 "school": "School",

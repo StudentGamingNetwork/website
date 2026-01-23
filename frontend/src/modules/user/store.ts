@@ -4,7 +4,7 @@ import * as UserService from "@/services/user";
 import { Toast, Association } from "@/modules";
 import { ERoles } from "@/services/user";
 
-export const useStore = defineStore("user",{
+export const useStore = defineStore("user", {
     actions: {
         async disconnect() {
             await Toast.testRequest(async () => {
@@ -48,7 +48,7 @@ export const useStore = defineStore("user",{
                 }
             }
         },
-        async update(update: { password?: { new: string; old: string }; student?: { name: string; schoolName: string }; username?: string }) {
+        async update(update: { password?: { new: string; old: string }; student?: { name: string; schoolName: string }; username?: string; birthdate?: string }) {
             const response = await Toast.testRequest(async () => {
                 return await UserService.update(update);
             });
@@ -56,6 +56,10 @@ export const useStore = defineStore("user",{
             if (response?.success && update.username) {
                 this.username = update.username;
                 this.student.name = update.student?.name || "";
+            }
+
+            if (response?.success && update.birthdate) {
+                this.birthdate = update.birthdate;
             }
         },
         async updatePlatforms(platforms: { discord: string }) {
@@ -125,6 +129,7 @@ export const useStore = defineStore("user",{
         _id: "",
         association: "",
         avatar: "",
+        birthdate: "",
         mail: "",
         platforms: {
             discord: "",
