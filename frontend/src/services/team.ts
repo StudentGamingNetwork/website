@@ -2,12 +2,12 @@ import ApiService from "@/services/api";
 import Config from "@/services/config";
 
 export async function addTeamMember(tournamentId: string, teamId: string, mail: string, role: string): Promise<any> {
-    const result = await ApiService.post(`/team/add/member/${ tournamentId }`, { mail, role, teamId });
+    const result = await ApiService.post(`/team/add/member/${tournamentId}`, { mail, role, teamId });
     return result.data;
 }
 
 export async function create(tournamentSlug: string): Promise<any> {
-    const result = await ApiService.post(`/team/create/${ tournamentSlug }`, {});
+    const result = await ApiService.post(`/team/create/${tournamentSlug}`, {});
     return result.data;
 }
 
@@ -17,12 +17,12 @@ export async function update(team: Record<string, any>): Promise<any> {
 }
 
 export async function get(tournamentSlug: string): Promise<any> {
-    const result = await ApiService.get(`/team/get/${ tournamentSlug }`);
+    const result = await ApiService.get(`/team/get/${tournamentSlug}`);
     return result.data;
 }
 
 export function getLogoUrl(team: { id: string; logo: string }): string {
-    return `${ Config.backendUrl }/upload/team/${ team.id }/${ team.logo }`;
+    return `${Config.backendUrl}/upload/team/${team.id}/${team.logo}`;
 }
 
 export async function details(tournamentSlug: string, teamId?: string): Promise<any> {
@@ -31,17 +31,17 @@ export async function details(tournamentSlug: string, teamId?: string): Promise<
 }
 
 export async function join(tournamentSlug: string, invitationCode: string): Promise<any> {
-    const result = await ApiService.post(`/team/join/${ tournamentSlug }`, { invitationCode });
+    const result = await ApiService.post(`/team/join/${tournamentSlug}`, { invitationCode });
     return result.data;
 }
 
 export async function remove(tournamentSlug: string, teamId?: string): Promise<any> {
-    const result = await ApiService.delete(`/team/delete/${ tournamentSlug }/${ teamId }`);
+    const result = await ApiService.delete(`/team/delete/${tournamentSlug}/${teamId}`);
     return result.data;
 }
 
 export async function searchSchools(tournamentSlug: string, searchString: string): Promise<any> {
-    const result = await ApiService.get(`/team/schools/${ tournamentSlug }/all/${ searchString }`);
+    const result = await ApiService.get(`/team/schools/${tournamentSlug}/all/${searchString}`);
     return result.data;
 }
 
@@ -49,7 +49,7 @@ export async function uploadLogo({ file }: { file: File }, id: string): Promise<
     const formData = new FormData();
     formData.append("file", file);
 
-    const result = await ApiService.post(`/team/${ id }/upload/logo`, formData, {
+    const result = await ApiService.post(`/team/${id}/upload/logo`, formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }

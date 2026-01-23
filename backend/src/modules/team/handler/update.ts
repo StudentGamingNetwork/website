@@ -62,7 +62,6 @@ export async function register(server: FastifyInstance): Promise<void> {
 
                 for (const teamMember of request.body.members) {
                     if (teamMember.kick && teamMember.user._id !== team.owner.toString()) {
-                        console.log("Removing member", teamMember.user.mail);
                         team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
                     }
                 }

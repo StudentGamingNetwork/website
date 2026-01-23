@@ -4,7 +4,7 @@ import * as UserService from "@/services/user";
 import { Toast, Association } from "@/modules";
 import { ERoles } from "@/services/user";
 
-export const useStore = defineStore("user",{
+export const useStore = defineStore("user", {
     actions: {
         async disconnect() {
             await Toast.testRequest(async () => {
@@ -48,7 +48,7 @@ export const useStore = defineStore("user",{
                 }
             }
         },
-        async update(update: { password?: { new: string; old: string }; student?: { name: string; schoolName: string }; username?: string; birthdate?: Date }) {
+        async update(update: { password?: { new: string; old: string }; student?: { name: string; schoolName: string }; username?: string; birthdate?: string }) {
             const response = await Toast.testRequest(async () => {
                 return await UserService.update(update);
             });
@@ -56,7 +56,10 @@ export const useStore = defineStore("user",{
             if (response?.success && update.username) {
                 this.username = update.username;
                 this.student.name = update.student?.name || "";
-                this.birthdate = update.birthdate || undefined;
+            }
+
+            if (response?.success && update.birthdate) {
+                this.birthdate = update.birthdate;
             }
         },
         async updatePlatforms(platforms: { discord: string }) {
@@ -88,15 +91,6 @@ export const useStore = defineStore("user",{
         }
     },
     getters: {
-        getAge(): number | null {
-            if (!this.birthdate) {
-                return null;
-            }
-            const birthDate = new Date(this.birthdate);
-            const ageDifMs = Date.now() - birthDate.getTime();
-            const ageDate = new Date(ageDifMs);
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
-        },
         getAvatarUrl(): string {
             return UserService.getAvatarUrl({ id: this._id, avatar: this.avatar });
         },

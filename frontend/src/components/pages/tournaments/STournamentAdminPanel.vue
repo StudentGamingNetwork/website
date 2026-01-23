@@ -284,7 +284,7 @@ const emit = defineEmits(["update", "update:modelValue"]);
    
 const router = useRouter();
 const userStore = User.useStore();
-const tournament = reactive(Tournament.makeObject({}));
+const tournament = reactive(Tournament.Lib.makeObject({}));
 
 watch(
     () => props.modelValue,

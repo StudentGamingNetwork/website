@@ -59,7 +59,6 @@ const userSchema: Mongo.Schema = new Mongo.Schema({
         type: String
     },
     birthdate: {
-        required: false,
         type: String
     },
     mail: {

@@ -53,6 +53,7 @@
             v-else
             class="team"
         >
+            <span v-if="hasMinor" class="alert">{{  $t("components.pages.tournaments.minorAlert") }}</span>
             <SSectionTitle>{{ $t("components.pages.tournaments.card.team.title") }}</SSectionTitle>
             <SModalSection class="settings">
                 <SModalSectionTitle>{{ $t("components.pages.tournaments.card.team.settings") }}</SModalSectionTitle>
@@ -626,6 +627,20 @@ const isCoachingStaffFull = computed(() => team.staff.coach?.user || !props.tour
 
 const isManagingStaffFull = computed(() => team.staff.manager?.user || !props.tournament.game.team.managerEnabled);
 
+const hasMinor = computed(() => {
+    for (const member of team.members) {
+        if (!member.user.birthdate) {
+            return true;
+        }
+
+        const age = User.Lib.getAge(member.user.birthdate);
+        if (age !== null && age < 18) {
+            return true;
+        }
+    }
+    return false;
+})
+
 function isMemberReady(member: TTeamMember, isStaff = false): boolean {
     if (!member.username) {
         return false;
@@ -789,6 +804,7 @@ async function kickMember(memberIndex: number, type: "staff" | "members" = "memb
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
         "title title"
+        "alert alert"
         "settings checklist"
         "actions actions"
         "members members";
@@ -797,10 +813,18 @@ async function kickMember(memberIndex: number, type: "staff" | "members" = "memb
             grid-template-columns: 1fr;
             grid-template-areas:
             "title"
+            "alert"
             "settings"
             "checklist"
             "actions"
             "members";
+        }
+
+        .alert {
+            grid-area: alert;
+            color: var(--color-error-content);
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
         .settings {

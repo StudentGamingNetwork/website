@@ -86,7 +86,7 @@ watch(
         }
     });
 
-const savedTournament = reactive(Tournament.makeObject({}));
+const savedTournament = reactive(Tournament.Lib.makeObject({}));
 const tournament = reactive<Tournament.TTournament>(cloneDeep(savedTournament));
 await updateTournament();
 
@@ -121,7 +121,7 @@ async function updateTournament() {
         await router.push(`/tournament/${ tournamentApi._id }/${ page }`);
     }
 
-    assign(savedTournament, Tournament.makeObject(tournamentApi));
+    assign(savedTournament, Tournament.Lib.makeObject(tournamentApi));
     assign(tournament, cloneDeep(savedTournament));
 }
 
