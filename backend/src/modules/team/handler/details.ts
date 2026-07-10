@@ -19,7 +19,7 @@ type TSchemaRequest = Static<typeof SchemaRequest>;
 const SchemaResponse = Type.Object({
     message: Type.Optional(Type.String()),
     success: Type.Boolean(),
-    team: Type.Optional(Type.Partial(TypeCompleteTeam))
+    team: Type.Optional(Type.Unsafe(Type.Partial(TypeCompleteTeam)))
 });
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
@@ -40,7 +40,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const user = await UserLib.getUser(request);
 
             UserLib.assertRoles(user, [ERoles.Member, ERoles.Tournament]);
-            
+
             const tournament = await TournamentLib.getTournamentFromSlug(request.body.slug);
 
             const response: TSchemaResponse = {
@@ -50,11 +50,11 @@ export async function register(server: FastifyInstance): Promise<void> {
             if (request.body._id) {
                 const team = await TeamModel.findById(request.body._id)
                     .populate([
-                        { 
+                        {
                             path: "members.user",
-                            populate: { path: "association" } 
-                        }, 
-                        { path: "staff.coach.user" }, 
+                            populate: { path: "association" }
+                        },
+                        { path: "staff.coach.user" },
                         { path: "staff.manager.user" }])
                     .exec();
 
@@ -67,14 +67,18 @@ export async function register(server: FastifyInstance): Promise<void> {
             else {
                 const teamCount = await TeamModel.count({
                     $or: [
-                        { $and: [
-                            { "state.ready": false },
-                            { "state.validated": false }
-                        ] },
-                        { $and: [
-                            { "state.ready": true },
-                            { "state.validated": false }
-                        ] }
+                        {
+                            $and: [
+                                { "state.ready": false },
+                                { "state.validated": false }
+                            ]
+                        },
+                        {
+                            $and: [
+                                { "state.ready": true },
+                                { "state.validated": false }
+                            ]
+                        }
                     ],
                     tournament: tournament._id
                 });
@@ -83,22 +87,26 @@ export async function register(server: FastifyInstance): Promise<void> {
                 const teams = await TeamModel
                     .find({
                         $or: [
-                            { $and: [
-                                { "state.ready": false },
-                                { "state.validated": false }
-                            ] },
-                            { $and: [
-                                { "state.ready": true },
-                                { "state.validated": false }
-                            ] }
+                            {
+                                $and: [
+                                    { "state.ready": false },
+                                    { "state.validated": false }
+                                ]
+                            },
+                            {
+                                $and: [
+                                    { "state.ready": true },
+                                    { "state.validated": false }
+                                ]
+                            }
                         ],
                         tournament: tournament._id
                     })
                     .skip(randomCount)
                     .populate([
-                        { 
+                        {
                             path: "members.user",
-                            populate: { path: "association" } 
+                            populate: { path: "association" }
                         }, {
                             path: "staff.coach.user"
                         },

@@ -3,9 +3,8 @@ import httpErrors from "http-errors";
 import { FastifyRequest } from "fastify";
 import { ObjectId } from "mongodb";
 import { pick } from "lodash-es";
-import { LeanDocument } from "mongoose";
 import * as UserLib from "@/modules/user/lib";
-import AssociationModel, { IAssociationDocument } from "@/modules/association/model";
+import AssociationModel, { IAssociation, IAssociationDocument } from "@/modules/association/model";
 import { ERoles, IUserDocument } from "@/modules/user/model";
 
 export async function getOwningAssociation(request: FastifyRequest): Promise<IAssociationDocument> {
@@ -55,7 +54,7 @@ export function generateInvitationCode(): string {
     return code.match(/.{4}/g)?.join("-") as string;
 }
 
-export function sanitize(user: IUserDocument, association: IAssociationDocument): Partial<LeanDocument<IAssociationDocument>> {
+export function sanitize(user: IUserDocument, association: IAssociationDocument): Partial<IAssociation> {
     const allowedKeys = ["_id", "name", "federation", "logo", "networks", "position", "school", "settings.slug", "tag"];
 
     const isUserMember = (association.users.members.includes(user.id.toString()));

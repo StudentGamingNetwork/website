@@ -37,10 +37,10 @@ export async function signup(mail: string, password: string, machine: { host: st
 export async function googleSignin(code: string, machine: { host: string; userAgent: string }): Promise<ISessionDocument> {
     const payload = await googleVerifyCode(code);
 
-    if (await isMailAlreadyRegistered(payload.email) || await isMailAlreadyRegisteredGoogle(payload.email)) {
+    if (!payload.email || (await isMailAlreadyRegistered(payload.email) || await isMailAlreadyRegisteredGoogle(payload.email))) {
         throw new Error("Cette adresse mail est déjà utilisée");
     }
-   
+
     const email = payload.email;
 
     const passwordSalt = Bcrypt.genSaltSync(UserConfig.login.saltRound);
@@ -59,7 +59,7 @@ export async function googleSignin(code: string, machine: { host: string; userAg
     });
 
     return await SessionLib.generate(user.id, machine, !!user.twoFactorAuth?.enabled);
-        
+
 }
 
 export function isPasswordStrong(password: string): boolean {

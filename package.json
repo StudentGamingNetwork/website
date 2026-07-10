@@ -11,5 +11,8 @@
         "ignoredBuiltDependencies": [
             "sharp"
         ]
+    },
+    "engines": {
+        "node": ">=24 <25"
     }
 }

@@ -16,12 +16,15 @@ export async function userSearch({ limit, search, skip }: { limit: number; searc
         ];
     }
 
-    return UserModel.find(findParameters)
-        .sort({ "_id": -1 })
+
+    const users = await UserModel.find(findParameters)
+        .sort({ _id: -1 })
         .skip(skip)
         .limit(limit)
         .populate("association")
         .exec();
+
+    return users as unknown as IUserDocument[];
 }
 
 export async function userSearchTotal({ search }: { search?: string }) {

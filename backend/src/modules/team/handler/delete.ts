@@ -4,7 +4,7 @@ import httpErrors from "http-errors";
 import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import * as TournamentLib from "@/modules/tournament/lib";
-import TeamModel from "@/modules/team/model";
+import TeamModel, { ITeam } from "@/modules/team/model";
 import { ERoles } from "@/modules/user/model";
 
 const SchemaRequest = Type.Object({
@@ -37,7 +37,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             const tournament = await TournamentLib.getTournamentFromSlug(request.params.slug);
 
             const team = request.params.teamId !== "undefined" ? await TeamModel.findById(request.params.teamId) : await TeamModel.findOne({
-                $or: [{ "members.user": user._id },{ "staff.coach.user": user._id },{ "staff.manager.user": user._id }],
+                $or: [{ "members.user": user._id }, { "staff.coach.user": user._id }, { "staff.manager.user": user._id }],
                 tournament: tournament._id
             });
 
@@ -58,8 +58,8 @@ export async function register(server: FastifyInstance): Promise<void> {
                 await TeamModel.findByIdAndDelete(team._id);
             }
             else {
-                team.members = team.members.filter((member) => member.user.toString() !== user._id.toString());
-                
+                team.members = team.members.filter((member: ITeam["members"][number]) => member.user.toString() !== user._id.toString());
+
                 if (team.staff.coach.user?.toString() === user._id.toString()) {
                     team.staff.coach = {};
                 }

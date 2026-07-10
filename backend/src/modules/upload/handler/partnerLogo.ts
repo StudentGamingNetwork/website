@@ -41,23 +41,23 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucun partenaire trouvé.");
             }
 
-            const files = await request.saveRequestFiles({
+            const { files } = await request.saveRequestFiles({
                 limits: {
                     files: 1,
                     fileSize: 8 * 1024 * 1024
                 }
             });
 
-            const fileName = `${ UploadLib.generateName("logo") }.webp`;
+            const fileName = `${UploadLib.generateName("logo")}.webp`;
 
             await UploadLib.processImage(files[0], {
                 fileName,
-                path: `upload/partner/${ partner.id }`,
+                path: `upload/partner/${partner.id}`,
                 size: 512
             });
 
             if (partner.logo) {
-                UploadLib.deleteFile(`upload/partner/${ partner.id }/${ partner.logo }`);
+                UploadLib.deleteFile(`upload/partner/${partner.id}/${partner.logo}`);
             }
 
             partner.logo = fileName;

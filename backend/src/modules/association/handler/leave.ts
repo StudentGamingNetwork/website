@@ -3,6 +3,7 @@ import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import * as UserLib from "@/modules/user/lib";
 import AssociationModel from "@/modules/association/model";
+import { Types } from "mongoose";
 
 const SchemaRequest = Type.Object({
     id: Type.String({ minLength: 1 })
@@ -51,7 +52,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             user.association = undefined;
-            association.users.members = association.users.members.filter((id) => id.toString() !== user._id.toString());
+            association.users.members = association.users.members.filter((id: Types.ObjectId) => id.toString() !== user._id.toString());
 
             await user.save();
             await association.save();

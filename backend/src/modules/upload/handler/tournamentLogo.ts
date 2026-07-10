@@ -41,23 +41,23 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.NotFound("Aucun tournoi trouvé.");
             }
 
-            const files = await request.saveRequestFiles({
+            const { files } = await request.saveRequestFiles({
                 limits: {
                     files: 1,
                     fileSize: 8 * 1024 * 1024
                 }
             });
 
-            const fileName = `${ UploadLib.generateName("logo") }.webp`;
+            const fileName = `${UploadLib.generateName("logo")}.webp`;
 
             await UploadLib.processImage(files[0], {
                 fileName,
-                path: `upload/tournament/${ tournament.id }`,
+                path: `upload/tournament/${tournament.id}`,
                 size: 512
             });
 
             if (tournament.settings.logo) {
-                UploadLib.deleteFile(`upload/tournament/${ tournament.id }/${ tournament.settings.logo }`);
+                UploadLib.deleteFile(`upload/tournament/${tournament.id}/${tournament.settings.logo}`);
             }
 
             tournament.settings.logo = fileName;

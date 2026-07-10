@@ -18,7 +18,8 @@ const SchemaParams = Type.Object({
 
 type TSchemaParams = Static<typeof SchemaParams>;
 
-const SchemaResponse = Type.Array(Type.Partial(TypeTournament));
+const SchemaResponse = Type.Array(Type.Unsafe(
+    Type.Partial(TypeTournament)));
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
 

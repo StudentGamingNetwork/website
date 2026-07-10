@@ -17,7 +17,7 @@ const SchemaParams = Type.Object({
 
 type TSchemaParams = Static<typeof SchemaParams>;
 
-const SchemaResponse = Type.Array(Type.Partial(TypeCompleteTeamAdmin));
+const SchemaResponse = Type.Array(Type.Unsafe(Type.Partial(TypeCompleteTeamAdmin)));
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
 
@@ -43,7 +43,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                 tournament: tournament._id
             } as Record<string, any>;
 
-            switch (request.params.management){
+            switch (request.params.management) {
                 case "forming":
                     findParameters["state.ready"] = false;
                     findParameters["state.validated"] = false;

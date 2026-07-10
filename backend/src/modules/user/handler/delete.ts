@@ -21,7 +21,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         { schema },
         async (request, reply) => {
             const user = await UserLib.getUser(request);
-            await user.delete();
+            await user.deleteOne();
 
             reply.send({
                 message: "Votre compte a bien été supprimé.",

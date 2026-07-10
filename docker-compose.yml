@@ -1,0 +1,55 @@
+name: sgn-website
+
+services:
+  app:
+    container_name: sgn-website-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+      args:
+        VITE_BACKEND_HOST: ${VITE_BACKEND_HOST}
+        VITE_GOOGLE_OAUTH_CLIENT_ID: ${VITE_GOOGLE_OAUTH_CLIENT_ID}
+        VITE_REDIRECT_URI: ${VITE_REDIRECT_URI}
+
+    environment:
+      NODE_ENV: production
+      BACKEND_HOST: 0.0.0.0
+      BACKEND_PORT: 3000
+
+      DB_URI: ${DB_URI}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID}
+      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET}
+      GOOGLE_OAUTH_REDIRECT_URL: ${GOOGLE_OAUTH_REDIRECT_URL}
+
+      MJ_APIKEY_PUBLIC: ${MJ_APIKEY_PUBLIC}
+      MJ_APIKEY_PRIVATE: ${MJ_APIKEY_PRIVATE}
+      NO_REPLY_EMAIL: ${NO_REPLY_EMAIL}
+      NO_REPLY_NAME: ${NO_REPLY_NAME}
+
+      OVERLAY_API: ${OVERLAY_API}
+      TOORNAMENT_API: ${TOORNAMENT_API}
+      TOORNAMENT_ID: ${TOORNAMENT_ID}
+      TOORNAMENT_SECRET: ${TOORNAMENT_SECRET}
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - app_uploads:/app/backend/upload
+      - app_dumps:/app/dumps
+
+    restart: always
+
+    networks:
+      - mongodb_network
+
+volumes:
+  app_uploads:
+  app_dumps:
+
+networks:
+  mongodb_network:
+    external: true
