@@ -29,7 +29,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         "/bind",
         { schema },
         async (request, reply) => {
-            
+
             const user = await UserLib.getUser(request);
 
             let payload;
@@ -38,14 +38,14 @@ export async function register(server: FastifyInstance): Promise<void> {
                 payload = await UserLib.googleVerifyCode(request.body.code);
 
 
-                if (await UserLib.isMailAlreadyRegisteredGoogle(payload.email) || (await UserLib.isMailAlreadyRegistered(payload.email) && user.mail !== payload.email)) {
+                if (!payload.email || await UserLib.isMailAlreadyRegisteredGoogle(payload.email) || (await UserLib.isMailAlreadyRegistered(payload.email) && user.mail !== payload.email)) {
                     throw new Error("Cette adresse mail est déjà utilisée");
                 }
 
                 user.platforms.google = payload.email;
-                
+
                 await user.save();
-            }           
+            }
 
             reply.send({
                 message: "Votre profil a correctement été mis à jour.",

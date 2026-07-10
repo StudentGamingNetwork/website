@@ -1,0 +1,55 @@
+# Git
+.git
+.gitignore
+.github
+
+# IDE / OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules
+**/node_modules
+
+# Build outputs
+dist
+**/dist
+.output
+**/.output
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env files
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+
+# Runtime / uploaded files
+backend/upload
+upload
+dumps
+
+# Overlay inutilisé
+overlay
+
+# Docker local
+docker-compose.override.yml
+
+# Tests / coverage
+coverage
+**/coverage
+
+# Cache
+.cache
+**/.cache
+.turbo
+**/.turbo

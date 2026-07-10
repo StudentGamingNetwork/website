@@ -4,7 +4,7 @@ import httpErrors from "http-errors";
 import startOfDay from "date-fns/startOfDay";
 import * as UserLib from "@/modules/user/lib";
 import { TypeCompleteTeam } from "@/modules/team/type";
-import TeamModel from "@/modules/team/model";
+import TeamModel, { ITeam } from "@/modules/team/model";
 import TournamentModel from "@/modules/tournament/model";
 import { ERoles } from "@/modules/user/model";
 
@@ -62,7 +62,10 @@ export async function register(server: FastifyInstance): Promise<void> {
 
                 for (const teamMember of request.body.members) {
                     if (teamMember.kick && teamMember.user._id !== team.owner.toString()) {
-                        team.members = team.members.filter((member) => member.user.toString() !== teamMember.user._id);
+                        team.members = team.members.filter(
+                            (member: ITeam["members"][number]) =>
+                                member.user.toString() !== teamMember.user._id.toString()
+                        );
                     }
                 }
 

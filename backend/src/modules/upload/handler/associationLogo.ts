@@ -24,23 +24,23 @@ export async function register(server: FastifyInstance): Promise<void> {
         async (request, reply) => {
             const association = await AssociationLib.getOwningAssociation(request);
 
-            const files = await request.saveRequestFiles({
+            const { files } = await request.saveRequestFiles({
                 limits: {
                     files: 1,
                     fileSize: 8 * 1024 * 1024
                 }
             });
 
-            const fileName = `${ UploadLib.generateName("logo") }.webp`;
+            const fileName = `${UploadLib.generateName("logo")}.webp`;
 
             await UploadLib.processImage(files[0], {
                 fileName,
-                path: `upload/association/${ association.id }`,
+                path: `upload/association/${association.id}`,
                 size: 512
             });
 
             if (association.logo) {
-                UploadLib.deleteFile(`upload/association/${ association.id }/${ association.logo }`);
+                UploadLib.deleteFile(`upload/association/${association.id}/${association.logo}`);
             }
 
             association.logo = fileName;

@@ -3,7 +3,6 @@ import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
 import * as UploadLib from "../lib";
 import * as UserLib from "@/modules/user/lib";
-import { ERoles } from "@/modules/user/model";
 import TeamModel from "@/modules/team/model";
 
 const SchemaParams = Type.Object({
@@ -44,23 +43,23 @@ export async function register(server: FastifyInstance): Promise<void> {
                 throw new httpErrors.Forbidden("Vous n'êtes pas autorisé à modifier ce logo.");
             }
 
-            const files = await request.saveRequestFiles({
+            const { files } = await request.saveRequestFiles({
                 limits: {
                     files: 1,
                     fileSize: 8 * 1024 * 1024
                 }
             });
 
-            const fileName = `${ UploadLib.generateName("logo") }.webp`;
+            const fileName = `${UploadLib.generateName("logo")}.webp`;
 
             await UploadLib.processImage(files[0], {
                 fileName,
-                path: `upload/team/${ team.id }`,
+                path: `upload/team/${team.id}`,
                 size: 512
             });
 
             if (team.settings.logo) {
-                UploadLib.deleteFile(`upload/team/${ team.id }/${ team.settings.logo }`);
+                UploadLib.deleteFile(`upload/team/${team.id}/${team.settings.logo}`);
             }
 
             team.settings.logo = fileName;

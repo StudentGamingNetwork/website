@@ -4,6 +4,7 @@ import httpErrors from "http-errors";
 import * as UserLib from "@/modules/user/lib";
 import AssociationModel from "@/modules/association/model";
 import * as AssociationLib from "@/modules/association/lib.js";
+import { Types } from "mongoose";
 
 
 const SchemaRequest = Type.Object({
@@ -51,7 +52,7 @@ export async function register(server: FastifyInstance): Promise<void> {
                     throw new httpErrors.Forbidden("Vous ne pouvez pas rejoindre une association en étant déjà propriétaire d'une.");
                 }
 
-                currentAssociation.users.members = currentAssociation.users.members.filter((id) => id.toString() !== user._id.toString());
+                currentAssociation.users.members = currentAssociation.users.members.filter((id: Types.ObjectId) => id.toString() !== user._id.toString());
                 await currentAssociation.save();
             }
 

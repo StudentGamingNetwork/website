@@ -5,7 +5,7 @@ import { TypePartner } from "@/modules/partner/type";
 import * as UserLib from "@/modules/user/lib";
 import { ERoles } from "@/modules/user/model";
 
-const SchemaResponse = Type.Array(Type.Partial(TypePartner));
+const SchemaResponse = Type.Array(Type.Unsafe(Type.Partial(TypePartner)));
 
 type TSchemaResponse = Static<typeof SchemaResponse>;
 

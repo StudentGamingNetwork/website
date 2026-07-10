@@ -70,7 +70,7 @@ export async function register(server: FastifyInstance): Promise<void> {
             }
 
             if (request.body.role?.modification === "remove") {
-                targetUser.roles = targetUser.roles.filter((role) => role !== request.body.role?.name);
+                targetUser.roles = targetUser.roles.filter((role: string) => role !== request.body.role?.name);
             }
 
             await targetUser.save();

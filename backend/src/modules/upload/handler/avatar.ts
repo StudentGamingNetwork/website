@@ -24,23 +24,23 @@ export async function register(server: FastifyInstance): Promise<void> {
         async (request, reply) => {
             const user = await UserLib.getUser(request);
 
-            const files = await request.saveRequestFiles({
+            const { files } = await request.saveRequestFiles({
                 limits: {
                     files: 1,
                     fileSize: 8 * 1024 * 1024
                 }
             });
 
-            const fileName = `${ UploadLib.generateName("avatar") }.webp`;
+            const fileName = `${UploadLib.generateName("avatar")}.webp`;
 
             await UploadLib.processImage(files[0], {
                 fileName,
-                path: `upload/user/${ user._id }`,
+                path: `upload/user/${user._id}`,
                 size: 128
             });
 
             if (user.avatar) {
-                UploadLib.deleteFile(`upload/user/${ user._id }/${ user.avatar }`);
+                UploadLib.deleteFile(`upload/user/${user._id}/${user.avatar}`);
             }
 
             user.avatar = fileName;

@@ -24,7 +24,7 @@ export async function register(server: FastifyInstance): Promise<void> {
         async (request, reply) => {
             const user = await UserLib.getUser(request);
 
-            const files = await request.saveRequestFiles({
+            const { files } = await request.saveRequestFiles({
                 limits: {
                     files: 1,
                     fileSize: 8 * 1024 * 1024
@@ -34,24 +34,24 @@ export async function register(server: FastifyInstance): Promise<void> {
             let fileName;
 
             if (files[0].mimetype === "application/pdf") {
-                fileName = `${ UploadLib.generateName("certificate") }.pdf`;
+                fileName = `${UploadLib.generateName("certificate")}.pdf`;
                 await UploadLib.moveFile(files[0], {
                     fileName,
-                    path: `upload/user/${ user._id }`
+                    path: `upload/user/${user._id}`
                 });
             }
             else {
-                fileName = `${ UploadLib.generateName("certificate") }.webp`;
+                fileName = `${UploadLib.generateName("certificate")}.webp`;
 
                 await UploadLib.processImage(files[0], {
                     fileName,
-                    path: `upload/user/${ user._id }`,
+                    path: `upload/user/${user._id}`,
                     size: 1280
                 });
             }
 
             if (user.student.certificate) {
-                UploadLib.deleteFile(`upload/user/${ user._id }/${ user.student.certificate }`);
+                UploadLib.deleteFile(`upload/user/${user._id}/${user.student.certificate}`);
             }
 
             user.student.certificate = fileName;
