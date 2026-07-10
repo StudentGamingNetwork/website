@@ -1,4 +1,3 @@
-import "module-alias/register";
 import * as Fastify from "fastify";
 import cors from "cors";
 import fastifyMiddie from "@fastify/middie";
@@ -48,7 +47,7 @@ init().then((server) => {
     });
 });
 
-process.on("SIGINT", async function() {
+process.on("SIGINT", async function () {
     await closeDatabase();
     process.exit(1);
 });
