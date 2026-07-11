@@ -1,14 +1,12 @@
-import { readFile } from "fs/promises";
-import path, { join } from "path";
+
+import path from "path";
 import { fileURLToPath } from "url";
+import passwordForgottenHtml from "./passwordForgotten.html?raw";
+
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-const forgottenPassword = readFile(
-    join(__dirname, "passwordForgotten.html"),
-    "utf-8"
-);
+const forgottenPassword = Promise.resolve(passwordForgottenHtml);
 
 
 export { forgottenPassword };
