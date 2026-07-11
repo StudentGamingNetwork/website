@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development vite-node src/server.ts",
         "typecheck": "tsc --project tsconfig.build.json --noEmit",
-        "build": "vite build && node scripts/copy-html-assets.mjs",
+        "build": "vite build && node src/scripts/copy-html-assets.mjs",
         "start": "node dist/server.js",
         "test": "cross-env NODE_ENV=test vitest",
         "dev:test": "cross-env NODE_ENV=test vitest --ui",
