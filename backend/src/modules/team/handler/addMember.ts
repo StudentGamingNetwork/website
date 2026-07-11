@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 import httpErrors from "http-errors";
-import startOfDay from "date-fns/startOfDay";
+import { startOfDay } from "date-fns";
 import TeamModel from "@/modules/team/model";
 import UserModel from "@/modules/user/model";
 import TournamentModel from "@/modules/tournament/model";

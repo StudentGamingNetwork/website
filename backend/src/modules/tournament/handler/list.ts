@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
-import startOfDay from "date-fns/startOfDay";
+import { startOfDay } from "date-fns";
 import TournamentModel from "../model";
 import { TypeTournament } from "@/modules/tournament/type";
 import * as UserLib from "@/modules/user/lib";
