@@ -4,8 +4,8 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development vite-node src/server.ts",
         "typecheck": "tsc --project tsconfig.build.json --noEmit",
-        "build": "pnpm typecheck && vite build",
-        "start": "cross-env NODE_ENV=production node --enable-source-maps dist/server.js",
+        "build": "vite build && node scripts/copy-html-assets.mjs",
+        "start": "node dist/server.js",
         "test": "cross-env NODE_ENV=test vitest",
         "dev:test": "cross-env NODE_ENV=test vitest --ui",
         "tunnel": "lt --port 3000 --subdomain sgn-next"
