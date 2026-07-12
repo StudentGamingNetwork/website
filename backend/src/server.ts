@@ -34,8 +34,14 @@ async function init() {
     return server;
 }
 
+
+
 init().then((server) => {
-    server.listen({ port: Number(env.BACKEND_PORT) }, (error: Error | null) => {
+    server.listen({
+        host: env.BACKEND_HOST,
+        port: Number(env.BACKEND_PORT)
+    },
+    (error: Error | null) => {
         server.ready(() => {
             console.log(server.printRoutes());
         });
@@ -44,8 +50,8 @@ init().then((server) => {
             server.log.error({ error });
             process.exit(1);
         }
-    });
-});
+    }
+)});
 
 process.on("SIGINT", async function () {
     await closeDatabase();
