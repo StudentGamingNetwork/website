@@ -38,17 +38,18 @@ services:
       - "8089:3000"
 
     volumes:
-      - app_uploads:/app/backend/upload
-      - app_dumps:/app/dumps
+      - type: bind
+        source: ${APP_UPLOADS_PATH:-/opt/website/uploads}
+        target: /app/backend/upload
+
+      - type: bind
+        source: ${APP_DUMPS_PATH:-/opt/website/dumps}
+        target: /app/dumps
 
     restart: always
 
     networks:
       - mongodb_network
-
-volumes:
-  app_uploads:
-  app_dumps:
 
 networks:
   mongodb_network:
