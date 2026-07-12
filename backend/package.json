@@ -4,8 +4,8 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development vite-node src/server.ts",
         "typecheck": "tsc --project tsconfig.build.json --noEmit",
-        "build": "pnpm typecheck && vite build",
-        "start": "cross-env NODE_ENV=production node --enable-source-maps dist/server.js",
+        "build": "vite build",
+        "start": "node dist/server.js",
         "test": "cross-env NODE_ENV=test vitest",
         "dev:test": "cross-env NODE_ENV=test vitest --ui",
         "tunnel": "lt --port 3000 --subdomain sgn-next"
@@ -62,7 +62,6 @@
         "globals": "^16.2.0",
         "happy-dom": "^9.10.9",
         "json-schema-faker": "0.5.0-rcv.46",
-        "module-alias": "^2.2.3",
         "mongodb-memory-server": "^8.12.2",
         "tsx": "^4.23.0",
         "typescript": "^5.0.4",

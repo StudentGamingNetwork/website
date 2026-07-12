@@ -2,6 +2,7 @@ import { config } from "dotenv";
 config();
 
 export const env = {
+    BACKEND_HOST: process.env.BACKEND_HOST ?? "127.0.0.1",
     BACKEND_PORT: process.env.BACKEND_PORT ?? "3000",
     CORS_ORIGIN: process.env.CORS_ORIGIN ?? "http://localhost:8080",
     DB_URI: process.env.DB_URI ?? "mongodb://localhost:27017/sgnw",
