@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 
-ARG NODE_VERSION=24.11.1
+ARG NODE_VERSION=24.22.1
 
 FROM node:${NODE_VERSION}-bookworm-slim AS base
 
@@ -22,12 +22,12 @@ COPY backend/package.json backend/package.json
 COPY frontend/package.json frontend/package.json
 
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-    pnpm fetch --frozen-lockfile
+    pnpm fetch
 
 COPY . .
 
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-    pnpm install --frozen-lockfile --offline
+    pnpm install --offline
 
 ARG VITE_BACKEND_HOST
 ARG VITE_GOOGLE_OAUTH_CLIENT_ID
